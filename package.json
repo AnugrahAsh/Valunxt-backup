@@ -4,12 +4,13 @@
   "private": true,
   "description": "VALUNXT Capital — Next.js + TypeScript edition (migrated from PHP).",
   "scripts": {
-    "predev": "node scripts/fix-prerender-manifest.mjs",
+    "predev": "node scripts/fix-prerender-manifest.mjs && node scripts/build-public-manifest.mjs",
     "dev": "node scripts/dev.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prebuild": "node scripts/build-public-manifest.mjs"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",

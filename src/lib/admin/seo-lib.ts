@@ -21,13 +21,13 @@
  */
 import 'server-only';
 import fs from 'node:fs/promises';
-import fsSync from 'node:fs';
 import path from 'node:path';
 
 import { execute, query } from './db';
 import { SITE_BASE } from './config';
 import rawConfigs from '@/data/page-configs.json';
 import type { PageConfig } from '@/lib/page-config';
+import { publicFilesIn } from '@/lib/public-files';
 
 /* ---------------------------------------------------------------------------
  * Paths & constants
@@ -536,16 +536,12 @@ export function seoPageExists(row: PageRow): boolean {
 
 /** The hero banners a new CMS page can choose from. */
 export function seoHeroImages(): string[] {
-  const dir = path.join(seoRoot(), 'public', 'assets', 'content', 'uploads', 'banners');
-  try {
-    return fsSync
-      .readdirSync(dir)
-      .filter((f) => /\.(webp|jpe?g|png)$/i.test(f))
-      .sort()
-      .map((f) => '/assets/content/uploads/banners/' + f);
-  } catch {
-    return [];
-  }
+  /* Through the build-time manifest, not the disk: /public is not bundled into
+     the server functions (lib/public-files.ts). */
+  return publicFilesIn('assets/content/uploads/banners')
+    .filter((f) => /\.(webp|jpe?g|png)$/i.test(f))
+    .sort()
+    .map((f) => '/' + f);
 }
 
 /**

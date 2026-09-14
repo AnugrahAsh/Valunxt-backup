@@ -20,12 +20,8 @@
  *
  * Server only: existence checks read the filesystem.
  */
-import fs from 'node:fs';
-import path from 'node:path';
-
+import { publicFileExists } from './public-files';
 import { BASE, vxnRegion } from './region';
-
-const UPLOADS = path.join(process.cwd(), 'public', 'assets', 'content', 'uploads');
 
 /** Where the UAE page images live, under uploads/. */
 export const UAE_PAGE_IMAGE_DIR = 'uae/pages';
@@ -35,11 +31,7 @@ function fileFor(id: string): string {
 }
 
 function exists(rel: string): boolean {
-  try {
-    return fs.existsSync(path.join(UPLOADS, rel));
-  } catch {
-    return false;
-  }
+  return publicFileExists(`assets/content/uploads/${rel}`);
 }
 
 /** The page's image for `id` on the UAE edition, or `fallback` everywhere else. */

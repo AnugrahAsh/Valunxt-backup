@@ -28,6 +28,17 @@ const nextConfig: NextConfig = {
   // Trailing slashes everywhere: the PHP site published /services/, /about/,
   // /en-ae/services/ etc. Keeping them means no URL in the wild changes.
   trailingSlash: true,
+  // /public is served statically; it must not be copied into the server
+  // functions. The image helpers check a build-time list of it instead
+  // (scripts/build-public-manifest.mjs, lib/public-files.ts). Tracing it made
+  // every function 237 MB, over Vercel's 250 MB limit, and deploys failed.
+  outputFileTracingExcludes: {
+    '/*': ['public/**/*'],
+  },
+  // The admin sitemap screen reads the published sitemap file from disk.
+  outputFileTracingIncludes: {
+    '/admin/*': ['public/sitemap.xml'],
+  },
   async redirects() {
     // Ported verbatim from .htaccess.
     // 301, not Next's default 308: .htaccess published these as 301s and that

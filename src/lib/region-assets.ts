@@ -5,20 +5,12 @@
  * keeps region.ts importable from anywhere (including a client component)
  * without pulling `node:fs` into a browser bundle.
  */
-import fs from 'node:fs';
-import path from 'node:path';
-
+import { publicFileExists } from './public-files';
 import { BASE, vxnRegionDefault, vxnRegionExists } from './region';
 
-const PUBLIC_DIR = path.join(process.cwd(), 'public');
-
-function fileExists(rel: string): boolean {
-  try {
-    return fs.existsSync(path.join(PUBLIC_DIR, rel.replace(/^\/+/, '')));
-  } catch {
-    return false;
-  }
-}
+/* Existence checks go through the build-time manifest in production, so
+   /public is never bundled into the server functions (lib/public-files.ts). */
+const fileExists = publicFileExists;
 
 /**
  * A region-specific asset with a shared fallback.

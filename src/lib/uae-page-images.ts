@@ -92,6 +92,10 @@ export const UAE_PAGE_BACKGROUNDS: Record<string, { id: string; selector: string
     { id: 'our-group/houzzhunt-mortgage/contact-band', selector: '.elementor-17 .elementor-element.elementor-element-76d6fd8' },
   ],
   '/our-group/valunxt-corporate-services/': [
+    /* The "Find the Right Solution" tab panes (20260914, client instruction). */
+    { id: 'our-group/valunxt-corporate-services/solution-1', selector: '.elementor-17 .elementor-element.elementor-element-aa3aa17' },
+    { id: 'our-group/valunxt-corporate-services/solution-2', selector: '.elementor-17 .elementor-element.elementor-element-b12020e' },
+    { id: 'our-group/valunxt-corporate-services/solution-3', selector: '.elementor-17 .elementor-element.elementor-element-9106445' },
     { id: 'our-group/valunxt-corporate-services/band', selector: '.elementor-17 .elementor-element.elementor-element-79f93d1' },
     { id: 'our-group/valunxt-corporate-services/video-band', selector: '.elementor-248 .elementor-element.elementor-element-c1904cb' },
   ],

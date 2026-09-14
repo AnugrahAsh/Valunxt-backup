@@ -36,7 +36,7 @@
  * every question it answers is one of theirs. India renders nothing of this.
  */
 import { rurl, vxnServiceName, vxnServices } from '@/lib/region';
-import { rimg } from '@/lib/region-assets';
+import { rimgFirst } from '@/lib/region-assets';
 
 import UaeAnswerVisual, { type AnswerScene } from './UaeAnswerVisual';
 
@@ -91,7 +91,10 @@ export default function UaeAnswerBand({ region }: { region: string }) {
         short: plain(sv.short),
         headline: plain(sv.headline) || name,
         href: rurl(region, sv.href),
-        img: rimg(region, file),
+        /* The card's own picture first (20260914): the services accordion
+           above this band shows the registry photograph, so the answer card
+           must not repeat it. */
+        img: rimgFirst(region, [`uae/home/answer-${slug}.webp`, file]),
         alt: name,
       },
     };
@@ -123,7 +126,9 @@ export default function UaeAnswerBand({ region }: { region: string }) {
         </div>
 
         <div className="vxn-answer__media">
-          <UaeAnswerVisual scenes={scenes} texture={rimg(region, TEXTURE)} />
+          {/* The stage's own plate first (20260914); the folds behind it are
+              the fallback. */}
+          <UaeAnswerVisual scenes={scenes} texture={rimgFirst(region, ['uae/home/answer-stage.webp', TEXTURE])} />
         </div>
       </div>
     </section>

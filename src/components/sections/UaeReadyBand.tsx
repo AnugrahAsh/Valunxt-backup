@@ -1,5 +1,6 @@
 /**
- * "Let's begin" — the closing conversion band on /en-ae/.
+ * "Let's begin" — the closing conversion band on /en-ae/ and, since
+ * 20260914, on /en-in/ too.
  *
  * REDESIGNED FROM SCRATCH on client request. It was copy on the left and three
  * floating cards on the right, over a wash of blurred ribbons drifting on long

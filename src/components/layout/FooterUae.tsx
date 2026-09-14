@@ -29,6 +29,7 @@
  * Styles: assets/css/valunxt-landing.css (.vxn-foot).
  */
 import { BASE, rurl, vxnRegion, vxnServiceName, vxnServices } from '@/lib/region';
+import Html from '@/components/Html';
 import { vxnEmail, vxnYear } from '@/lib/site-data';
 import SocialIcons, { type SocialItem } from './SocialIcons';
 
@@ -66,7 +67,8 @@ const LEGAL: readonly (readonly [string, string])[] = [
 export default function FooterUae({ region }: { region: string }) {
   const market = vxnRegion(region);
   const blurb = BLURB[market] ?? BLURB['en-ae'];
-  const services = market === 'en-ae' ? vxnServices(market) : [];
+  /* Both markets list their own services (India added 20260914). */
+  const services = vxnServices(market);
   return (
     <div data-wpr-lazyrender="1" className="footer-wrapper">
       <footer id="main-footer" className="main-footer">
@@ -108,7 +110,8 @@ export default function FooterUae({ region }: { region: string }) {
                 <ul className="vxn-foot__servicesList">
                   {services.map((sv) => (
                     <li key={sv.href}>
-                      <a href={rurl(region, sv.href)}>{vxnServiceName(sv)}</a>
+                      {/* Html, not text: the India titles are authored with entities (&amp;). */}
+                      <Html as="a" href={rurl(region, sv.href)} html={vxnServiceName(sv)} />
                     </li>
                   ))}
                 </ul>

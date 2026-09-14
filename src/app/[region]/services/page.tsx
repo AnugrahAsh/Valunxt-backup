@@ -9,7 +9,6 @@
 import type { Metadata } from 'next';
 
 import PageShell from '@/components/layout/PageShell';
-import SubscribeSection from '@/components/sections/SubscribeSection';
 import ServicesBody from '@/components/pages/ServicesBody';
 import UaeServicesBody from '@/components/pages/UaeServicesBody';
 import { buildMetadata } from '@/lib/seo';
@@ -56,7 +55,6 @@ export default async function ServicesPage({ params }: Params) {
           {/* No PageHeroSection: UaeServicesBody opens on its own banner, the
               same one the six written service pages use. */}
           <UaeServicesBody page={page} region={region} />
-          <SubscribeSection page={page} region={region} />
         </>
       ) : (
         <ServicesBody page={page} region={region} />

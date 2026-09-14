@@ -72,37 +72,7 @@ export const UAE_PAGE_BACKGROUNDS: Record<string, { id: string; selector: string
     { id: 'partnership/panel-2', selector: '.elementor-2281 .elementor-element.elementor-element-302da00' },
     { id: 'partnership/band', selector: '.elementor-2281 .elementor-element.elementor-element-d279756' },
   ],
-  '/our-group/reliant-surveyors/': [
-    { id: 'our-group/reliant-surveyors/contact-band', selector: '.elementor-17 .elementor-element.elementor-element-76d6fd8' },
-  ],
-  '/our-group/houzzhunt/': [
-    { id: 'our-group/houzzhunt/video-band', selector: '.elementor-248 .elementor-element.elementor-element-c1904cb' },
-  ],
-  '/our-group/houzzhunt-mortgage/': [
-    { id: 'our-group/houzzhunt-mortgage/panel', selector: '.elementor-252 .elementor-element.elementor-element-1a75c5fa' },
-    { id: 'our-group/houzzhunt-mortgage/band', selector: '.elementor-17 .elementor-element.elementor-element-611b40a' },
-    { id: 'our-group/houzzhunt-mortgage/contact-band', selector: '.elementor-17 .elementor-element.elementor-element-76d6fd8' },
-  ],
-  '/our-group/valunxt-corporate-services/': [
-    /* The "Find the Right Solution" tab panes (20260914, client instruction). */
-    { id: 'our-group/valunxt-corporate-services/solution-1', selector: '.elementor-17 .elementor-element.elementor-element-aa3aa17' },
-    { id: 'our-group/valunxt-corporate-services/solution-2', selector: '.elementor-17 .elementor-element.elementor-element-b12020e' },
-    { id: 'our-group/valunxt-corporate-services/solution-3', selector: '.elementor-17 .elementor-element.elementor-element-9106445' },
-    { id: 'our-group/valunxt-corporate-services/band', selector: '.elementor-17 .elementor-element.elementor-element-79f93d1' },
-    { id: 'our-group/valunxt-corporate-services/video-band', selector: '.elementor-248 .elementor-element.elementor-element-c1904cb' },
-  ],
 };
-
-/**
- * Pages whose hero is a group company's own branded banner. Their hero is
- * never overridden, whatever files exist.
- */
-const BRANDED_HEROES = new Set([
-  '/our-group/reliant-surveyors/',
-  '/our-group/houzzhunt/',
-  '/our-group/houzzhunt-mortgage/',
-  '/our-group/valunxt-corporate-services/',
-]);
 
 /**
  * The page-scoped stylesheet for the UAE edition: the hero variable (on body
@@ -115,7 +85,7 @@ export function uaePageImageCss(region: string, pagePath: string | undefined): s
   if (vxnRegion(region) !== 'en-ae' || !pagePath) return '';
   const rules: string[] = [];
   const key = uaePageKey(pagePath);
-  if (key && !BRANDED_HEROES.has(pagePath)) {
+  if (key) {
     const hero = fileFor(`${key}/hero`);
     if (exists(hero)) {
       const url = `url("${BASE}/assets/content/uploads/${hero}")`;

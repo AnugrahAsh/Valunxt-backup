@@ -17,7 +17,6 @@ import PageShell from '@/components/layout/PageShell';
 import ResearchIntelligenceBody from '@/components/pages/ResearchIntelligenceBody';
 import UaeServiceBody from '@/components/pages/UaeServiceBody';
 import PageHeroSection from '@/components/sections/PageHeroSection';
-import SubscribeSection from '@/components/sections/SubscribeSection';
 import ServicePageBody from '@/components/pages/uae-services/ServicePageBody';
 import {
   uaeServiceBody,
@@ -80,7 +79,6 @@ export default async function ResearchIntelligencePage({ params }: Params) {
         <>
           <PageHeroSection page={page} region={region} tone="brand" />
           <ServicePageBody region={region} content={content} />
-          <SubscribeSection page={page} region={region} />
         </>
       ) : (
         <UaeServiceBody page={page} region={region} />

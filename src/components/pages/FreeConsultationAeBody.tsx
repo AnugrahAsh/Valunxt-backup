@@ -27,8 +27,8 @@
  * elementor-form class, the field-group wrappers and the ids that script reads
  * (…_full_name, …_email, …_company). What it does NOT get is Elementor Pro's
  * AJAX handler: that binds per widget, to data-widget_type="form.default", and
- * never reaches hand-written markup (see UaeSubscribeForm for the day that
- * was learnt). So the submit is the subscribe form's fifteen lines of fetch,
+ * never reaches hand-written markup (learnt on the UAE subscribe form, since
+ * removed with the band). So the submit is that form's fifteen lines of fetch,
  * in a ClientScript rather than a client component: the dial-code selector
  * wraps the input in its own markup as soon as the DOM is ready, and a
  * hydrated form would see a tree it did not render. The form_id is the

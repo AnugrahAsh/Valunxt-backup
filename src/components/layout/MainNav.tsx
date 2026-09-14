@@ -68,11 +68,6 @@ function AboutItem({
             Who We Are
           </a>
         </li>
-        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-9001">
-          <a href={rurl(region, '/location/')} className="elementor-sub-item" {...tab}>
-            Location
-          </a>
-        </li>
         <li
           className={`menu-item menu-item-type-post_type menu-item-object-page menu-item-${ids.aboutCareers}`}
         >
@@ -139,8 +134,7 @@ export default function MainNav({
         <MegaMenu region={region} presetKey="services" tabIndex={megaTab} />
       )}
       <AboutItem region={region} ids={ids} hidden={hidden} />
-      {/* "Our Group" was removed from the bar; the group companies are still
-          reachable from the footer and from /our-group/ itself. */}
+      {/* "Our Group" and its pages were removed from the site (20260914). */}
       <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-industries">
         <a href={rurl(region, '/industries/')} className="elementor-item" {...tab}>
           Industries

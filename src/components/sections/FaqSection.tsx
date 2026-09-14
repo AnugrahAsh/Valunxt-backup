@@ -32,7 +32,7 @@ function faqData(region: string): FaqGroup[] {
         },
         {
           q: 'How is VALUNXT different from a broker or an estate agent?',
-          a: `<p>A broker is paid to complete a transaction. We are engaged to reach a decision, which sometimes means advising against one. Our valuation and research work is delivered independently of whether a deal proceeds.</p><p>Where a transaction is the right answer, execution can be handled inside the group by <a href="${u('/our-group/houzzhunt/')}">HouzzHunt</a> — but that is a separate engagement with its own scope, not a condition of the advice.</p>`,
+          a: `<p>A broker is paid to complete a transaction. We are engaged to reach a decision, which sometimes means advising against one. Our valuation and research work is delivered independently of whether a deal proceeds.</p><p>Where a transaction is the right answer, execution can be handled inside the group by HouzzHunt — but that is a separate engagement with its own scope, not a condition of the advice.</p>`,
         },
         {
           q: 'What size of mandate do you take on?',
@@ -49,7 +49,7 @@ function faqData(region: string): FaqGroup[] {
       items: [
         {
           q: 'Are your valuations accepted by banks and lenders?',
-          a: `<p>Valuation is delivered through <a href="${u('/our-group/reliant-surveyors/')}">Reliant Surveyors</a>, our valuation and advisory company, working to internationally recognised valuation standards. Acceptance is ultimately each lender's decision and depends on their own panel arrangements, so confirm the requirement with your lender before instructing — we will tell you plainly if we are not on the relevant panel.</p>`,
+          a: `<p>Valuation is delivered through Reliant Surveyors, our valuation and advisory company, working to internationally recognised valuation standards. Acceptance is ultimately each lender's decision and depends on their own panel arrangements, so confirm the requirement with your lender before instructing — we will tell you plainly if we are not on the relevant panel.</p>`,
         },
         {
           q: 'Do you use automated valuation models (AVMs)?',
@@ -70,7 +70,7 @@ function faqData(region: string): FaqGroup[] {
       items: [
         {
           q: 'Which markets do you cover?',
-          a: `<p>${vxnMarkets('long')}. Our offices are in ${vxnMarkets('cities')}, and a large share of our work is cross-border between India and the UAE.</p><p>Full office details are on the <a href="${u('/location/')}">Location</a> page.</p>`,
+          a: `<p>${vxnMarkets('long')}. Our offices are in ${vxnMarkets('cities')}, and a large share of our work is cross-border between India and the UAE.</p><p>Full office details are on the <a href="${u('/contact/')}">Contact</a> page.</p>`,
         },
         {
           q: 'I am an NRI. Can you advise on buying in India from abroad?',
@@ -78,7 +78,7 @@ function faqData(region: string): FaqGroup[] {
         },
         {
           q: 'Why are there four companies rather than one?',
-          a: `<p>Because valuation, brokerage, mortgage advice and corporate services carry different regulatory obligations and different conflicts. Keeping them in separate entities — <a href="${u('/our-group/')}">the four companies of the group</a> — is what allows the valuation work to stay independent of the transaction work.</p><p>You deal with one team; the entity structure sits behind that.</p>`,
+          a: `<p>Because valuation, brokerage, mortgage advice and corporate services carry different regulatory obligations and different conflicts. Keeping them in separate entities — the four companies of the group — is what allows the valuation work to stay independent of the transaction work.</p><p>You deal with one team; the entity structure sits behind that.</p>`,
         },
         {
           q: 'How are you paid?',

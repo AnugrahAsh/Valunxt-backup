@@ -62,7 +62,7 @@ const CONTENT: Record<string, TrioContent> = {
     brand: {
       tag: 'The Group',
       title: 'RICS-Compliant Valuations Through Group Firm Reliant Surveyors',
-      href: '/our-group/reliant-surveyors/',
+      href: '/about/',
       img: 'homepage/research-and-intellegance.webp',
     },
     right: {
@@ -87,7 +87,7 @@ const CONTENT: Record<string, TrioContent> = {
     brand: {
       tag: 'The Group',
       title: 'RICS-Compliant Valuations Through Group Firm Reliant Surveyors',
-      href: '/our-group/reliant-surveyors/',
+      href: '/services/valuation-and-advisory/',
       /* Unused while `texture` is set; kept so removing the texture restores
          the x window without hunting for a photograph. */
       img: 'services/valuation-and-advisory.webp',

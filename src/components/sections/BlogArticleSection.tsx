@@ -10,7 +10,6 @@ import { BASE, rurl } from '@/lib/region';
 import { uaePageImage } from '@/lib/uae-page-images';
 import { vxnRequestOrigin } from '@/lib/seo';
 import BLOG_CATALOG from '@/data/blog-catalog';
-import SubscribeSection from './SubscribeSection';
 import Html from '@/components/Html';
 import type { PageConfig } from '@/lib/page-config';
 
@@ -243,7 +242,6 @@ export default async function BlogArticleSection({
             </div>
           </article>
 
-          <SubscribeSection page={page} region={region} />
         </div>
         {/* #main */}
       </div>

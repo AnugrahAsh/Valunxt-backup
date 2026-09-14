@@ -11,7 +11,6 @@ import { notFound } from 'next/navigation';
 import { definePage } from '@/lib/page-factory';
 import PageHeroSection from '@/components/sections/PageHeroSection';
 import LeadershipSection from '@/components/sections/LeadershipSection';
-import SubscribeSection from '@/components/sections/SubscribeSection';
 import LEADERSHIP from '@/data/leadership';
 
 const { generateMetadata, Page } = definePage('/about/leadership/', ({ page, region }) => {
@@ -20,7 +19,6 @@ const { generateMetadata, Page } = definePage('/about/leadership/', ({ page, reg
     <>
       <PageHeroSection page={page} region={region} />
       <LeadershipSection />
-      <SubscribeSection page={page} region={region} />
     </>
   );
 });

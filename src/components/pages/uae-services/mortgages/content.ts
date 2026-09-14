@@ -24,7 +24,7 @@ export const MORTGAGES_TEMPLATE: ServiceTemplateContent = {
     sub: 'Navigate your financing journey with expert guidance from eligibility and lender comparison through to approval.',
     /* about-us-banner is the plate the old template used for this desk's
        banner: wide, and quiet enough on the left for the copy. */
-    image: ['services/mortgages-hero.webp', 'new-folder/about-us-banner.webp'],
+    image: ['banners/services-banner.webp', 'services/mortgages-hero.webp', 'new-folder/about-us-banner.webp'],
     alt: 'The Valunxt office reception',
   },
   intro: {

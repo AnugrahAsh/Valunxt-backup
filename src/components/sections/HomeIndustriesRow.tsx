@@ -30,25 +30,33 @@ export interface Industry {
 }
 
 /**
- * Stand-ins, and how good they are:
- *   industry-1  concourse of people        — reads as retail footfall
- *   industry-2  atrium architecture        — reads as real estate
- *   industry-3  rows of server racks       — approximate for logistics
- *   industry-4  workstation and code       — reads as technology
- *   industry-5  advisers and a world map   — reads as professional services
- *   abstract-1  neutral blue abstract      — deliberately says nothing
+ * Stand-ins, re-picked 20260914 so each card shows its own sector:
+ *   client-success-1           hard hat on a high floor over the city — real
+ *                              estate and construction
+ *   industry-2                 mall atrium — retail
+ *   plant-machinery hero       factory floor — manufacturing and logistics
+ *   industry-4                 workstation and code — technology
+ *   industry-5                 advisers and a world map — professional services
  *
- * Healthcare and Manufacturing & Logistics have no photography in the library;
- * they take the two least-wrong stand-ins until real images are supplied.
+ * Healthcare has no photography in the shared library; it keeps the neutral
+ * abstract until a real image is supplied (drop it in as
+ * industry-healthcare.webp).
+ *
+ * INDIA HAS ITS OWN SET (20260914): six Unsplash-licensed photographs under
+ * uploads/regions/en-in/homepage/, named exactly as the first candidate of
+ * each entry, so rimgFirst() prefers them on /en-in/ and the shared list above
+ * still serves the UAE. Credits, in list order: Josh Olalde, krisna azie,
+ * Hush Naidoo Jade Photography, Adrian Sulyok, Annie Spratt, Campaign
+ * Creators — all free to use under the Unsplash License.
  */
 const INDUSTRIES: Industry[] = [
   {
     name: 'Real Estate & Construction',
-    img: ['homepage/industry-real-estate-construction.webp', 'homepage/industry-2.webp'],
+    img: ['homepage/industry-real-estate-construction.webp', 'new-folder/client-success-1.webp'],
   },
   {
     name: 'Retail & F&B',
-    img: ['homepage/industry-retail-fnb.webp', 'homepage/industry-1.webp'],
+    img: ['homepage/industry-retail-fnb.webp', 'homepage/industry-2.webp'],
   },
   {
     name: 'Healthcare',
@@ -56,7 +64,7 @@ const INDUSTRIES: Industry[] = [
   },
   {
     name: 'Manufacturing & Logistics',
-    img: ['homepage/industry-manufacturing-logistics.webp', 'homepage/industry-3.webp'],
+    img: ['homepage/industry-manufacturing-logistics.webp', 'services/sub/valuation-and-advisory/plant-machinery-valuation-hero.webp'],
   },
   {
     name: 'Technology & Startups',

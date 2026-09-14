@@ -20,7 +20,6 @@ import type { Metadata } from 'next';
 
 import PageShell from '@/components/layout/PageShell';
 import PageHeroSection from '@/components/sections/PageHeroSection';
-import SubscribeSection from '@/components/sections/SubscribeSection';
 import UaeServiceBody from '@/components/pages/UaeServiceBody';
 import ServicePageBody from '@/components/pages/uae-services/ServicePageBody';
 import {
@@ -84,9 +83,8 @@ export default async function UaeServicePage({ params }: Params) {
      4557; removed by request. A written page closes on its own terms — this
      one ends on "Talk to an Expert" and then the footer.
 
-     The template-driven and coming-soon branches below still carry it, so the
-     five services that have not been written keep the pre-footer they share
-     with the rest of the site. 4557 stays in POST_CSS for them. */
+     The band is gone site-wide now (20260914): every page ends on its own last
+     section and then the footer. 4557 stays in POST_CSS as a harmless no-op. */
   if (Body) {
     return (
       <PageShell page={page} region={hit.region}>
@@ -99,7 +97,6 @@ export default async function UaeServicePage({ params }: Params) {
     <PageShell page={page} region={hit.region}>
       <PageHeroSection page={page} region={hit.region} tone="brand" />
       <ServicePageBody region={hit.region} content={content!} />
-      <SubscribeSection page={page} region={hit.region} />
     </PageShell>
   );
 }

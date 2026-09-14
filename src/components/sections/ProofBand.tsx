@@ -15,8 +15,8 @@
  * data/testimonials.ts, which is empty for exactly this reason.
  *
  * So the band renders the same composition from claims the site already makes
- * and already qualifies: the group's cumulative valuation figures, published on
- * /our-group/ with their basis attached. `basis` is rendered, not decorative —
+ * and already qualifies: the group's cumulative valuation figures, carried here
+ * with their basis attached. `basis` is rendered, not decorative —
  * a figure without one is the thing that qualifier exists to prevent.
  *
  * The frosted panel takes the first entry from data/testimonials.ts as soon as
@@ -61,7 +61,7 @@ const CONTENT: Record<string, ProofContent> = {
         stat: '10,000+',
         label: 'Valuation instructions completed by group firm Reliant Surveyors.',
         basis: 'Cumulative to date. Counts completed instructions.',
-        href: '/our-group/reliant-surveyors/',
+        href: '/about/',
       },
       {
         tag: 'Network',
@@ -84,14 +84,14 @@ const CONTENT: Record<string, ProofContent> = {
         stat: '10,000+',
         label: 'Valuation instructions completed by group firm Reliant Surveyors.',
         basis: 'Cumulative to date. Counts completed instructions.',
-        href: '/our-group/reliant-surveyors/',
+        href: '/services/valuation-and-advisory/',
       },
       {
         tag: 'Assets',
         stat: 'USD 150bn+',
         label: 'Asset value covered by those valuation instructions.',
         basis: 'Cumulative to date, across all instruction types.',
-        href: '/our-group/',
+        href: '/about/',
       },
     ],
   },

@@ -18,7 +18,7 @@ export const TECHNOLOGY_TEMPLATE: ServiceTemplateContent = {
   hero: {
     head: 'Technology That Turns Complexity Into Capability.',
     sub: 'Technology, data and AI solutions that connect systems, automate processes and turn business information into measurable performance.',
-    image: ['services/technology-hero.webp', 'homepage/technology-and-ai.webp'],
+    image: ['banners/services-banner.webp', 'services/technology-hero.webp', 'homepage/technology-and-ai.webp'],
     alt: 'Two engineers with a laptop in a server room',
   },
   intro: {

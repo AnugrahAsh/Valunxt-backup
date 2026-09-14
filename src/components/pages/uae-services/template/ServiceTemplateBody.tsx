@@ -386,6 +386,10 @@ export const CSS = `
     linear-gradient(100deg,rgba(4,14,36,.82) 0%,rgba(4,14,36,.58) 36%,rgba(4,14,36,.2) 66%,rgba(4,14,36,0) 92%),
     linear-gradient(to top,rgba(4,14,36,.42) 0%,rgba(4,14,36,0) 42%);
 }
+/* The blur stack and the wash are no longer rendered by the six main
+   service heroes (client, 20260914) — the rules stay because the UAE services
+   index and the UAE free-consultation page import this sheet and still emit
+   both layers. On the six services they are simply unused. */
 .at-hero__blur{
   position:absolute;right:0;bottom:0;left:0;z-index:2;
   height:clamp(150px,24%,230px);pointer-events:none;
@@ -1396,16 +1400,9 @@ export default function ServiceTemplateBody({
               <img className="at-zoom" src={rimgFirst(region, hero.image)} alt={hero.alt} fetchPriority="high" />
             </div>
             <div className="at-hero__scrim" aria-hidden="true" />
-            {/* Four layers, not one. Each adds its own blur on top of the ones
-                before it, so the strength ramps from nothing to 22px down the
-                band — which a single masked backdrop-filter cannot do. */}
-            <div className="at-hero__blur" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-              <i />
-            </div>
-            <div className="at-hero__wash" aria-hidden="true" />
+            {/* No blur stack and no white wash under the copy (client, 20260914):
+                the photograph runs clean to the bottom edge of the band, and
+                the scrim above is all that sits between it and the type. */}
 
             <div className="at-hero__inner">
               <div className="at-hero__copy">
@@ -1526,8 +1523,7 @@ export default function ServiceTemplateBody({
           {/* ---- 2c. FIND THE RIGHT SOLUTION ----
               THE HOME PAGE'S SECTION, COPIED. Everything inside the
               <div data-elementor-id="17"> is the captured Elementor markup
-              already running at / and at /our-group/valunxt-corporate-services/
-              — same element ids, same structure, same tab widget — rendered
+              already running at / — same element ids, same structure, same tab widget — rendered
               from SOLUTION_IDS rather than written out three times.
 
               WHY IT IS COPIED AND NOT REBUILT. The tab behaviour is Elementor's

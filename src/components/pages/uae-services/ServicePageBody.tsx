@@ -48,8 +48,8 @@ const COMMITMENTS: Commitment[] = [
   {
     title: "RICS-regulated valuation through group firm Reliant Surveyors",
     icon: "scales",
-    label: "Our Group",
-    href: "/our-group/reliant-surveyors/",
+    label: "Valuation & Advisory",
+    href: "/services/valuation-and-advisory/",
   },
 ];
 

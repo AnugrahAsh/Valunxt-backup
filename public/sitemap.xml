@@ -184,24 +184,6 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://valunxtcapital.com/en-in/location/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/location/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/location/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/location/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-ae/location/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/location/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/location/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/location/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://valunxtcapital.com/en-in/network/</loc>
         <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/network/" />
         <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/network/" />
@@ -215,24 +197,6 @@
         <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/network/" />
         <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/network/" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/network/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-in/our-group/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/our-group/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/our-group/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/our-group/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-ae/our-group/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/our-group/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/our-group/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/our-group/" />
         <lastmod>2026-08-05</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -413,78 +377,6 @@
         <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/blogs/why-market-intelligence-matters-before-every-property-investment/" />
         <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/blogs/why-market-intelligence-matters-before-every-property-investment/" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/blogs/why-market-intelligence-matters-before-every-property-investment/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-in/our-group/houzzhunt-mortgage/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/our-group/houzzhunt-mortgage/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/our-group/houzzhunt-mortgage/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/our-group/houzzhunt-mortgage/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-ae/our-group/houzzhunt-mortgage/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/our-group/houzzhunt-mortgage/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/our-group/houzzhunt-mortgage/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/our-group/houzzhunt-mortgage/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-in/our-group/houzzhunt/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/our-group/houzzhunt/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/our-group/houzzhunt/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/our-group/houzzhunt/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-ae/our-group/houzzhunt/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/our-group/houzzhunt/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/our-group/houzzhunt/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/our-group/houzzhunt/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-in/our-group/reliant-surveyors/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/our-group/reliant-surveyors/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/our-group/reliant-surveyors/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/our-group/reliant-surveyors/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-ae/our-group/reliant-surveyors/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/our-group/reliant-surveyors/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/our-group/reliant-surveyors/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/our-group/reliant-surveyors/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-in/our-group/valunxt-corporate-services/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/our-group/valunxt-corporate-services/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/our-group/valunxt-corporate-services/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/our-group/valunxt-corporate-services/" />
-        <lastmod>2026-08-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxtcapital.com/en-ae/our-group/valunxt-corporate-services/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxtcapital.com/en-in/our-group/valunxt-corporate-services/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxtcapital.com/en-ae/our-group/valunxt-corporate-services/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxtcapital.com/our-group/valunxt-corporate-services/" />
         <lastmod>2026-08-05</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>

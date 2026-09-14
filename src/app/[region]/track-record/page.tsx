@@ -11,7 +11,6 @@ import { notFound } from 'next/navigation';
 import { definePage } from '@/lib/page-factory';
 import PageHeroSection from '@/components/sections/PageHeroSection';
 import TrackRecordSection from '@/components/sections/TrackRecordSection';
-import SubscribeSection from '@/components/sections/SubscribeSection';
 import TRACK_RECORD from '@/data/track-record';
 
 const { generateMetadata, Page } = definePage('/track-record/', ({ page, region }) => {
@@ -20,7 +19,6 @@ const { generateMetadata, Page } = definePage('/track-record/', ({ page, region 
     <>
       <PageHeroSection page={page} region={region} />
       <TrackRecordSection region={region} />
-      <SubscribeSection page={page} region={region} />
     </>
   );
 });

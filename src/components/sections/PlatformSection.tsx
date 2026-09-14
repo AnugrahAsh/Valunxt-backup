@@ -309,11 +309,7 @@ export default function PlatformSection({ region }: { region: string }) {
                 <h3 className="vxn-plat__limitt">It does not replace a valuer</h3>
                 <p className="vxn-plat__limitd">
                   Automated output is an input to a valuation opinion, not the opinion. Formal
-                  valuations are signed by a qualified valuer at{' '}
-                  <a href={rurl(region, '/our-group/reliant-surveyors/')} style={{ color: 'var(--gd)' }}>
-                    Reliant Surveyors
-                  </a>
-                  , who can and does override the model.
+                  valuations are signed by a qualified valuer at{' '}Reliant Surveyors, who can and does override the model.
                 </p>
               </div>
               <div className="vxn-plat__limit">

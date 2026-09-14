@@ -18,7 +18,6 @@ import UaeImpactBands from '@/components/sections/UaeImpactBands';
 import UaePosterTrio from '@/components/sections/UaePosterTrio';
 import UaeBandMotion from '@/components/sections/UaeBandMotion';
 import UaeReadyBand from '@/components/sections/UaeReadyBand';
-import UaeSubscribeBand from '@/components/sections/UaeSubscribeBand';
 
 /** The small entity set the hero's aria-labels and alt text need decoded. */
 function decodeEntities(v: string): string {
@@ -907,10 +906,10 @@ export default function HomeAeBody({ page, region }: { page: PageConfig; region:
       								</div>
       							</div>
       						</div>
-      						{/* Closing bands: the three ways to start, then the newsletter.
-      						    Both are UAE only — India renders neither. */}
+      						{/* Closing band: the three ways to start. India renders the same
+      						    band since 20260914. The newsletter band that followed it was
+      						    removed site-wide the same day. */}
       						<UaeReadyBand region={region} />
-      						<UaeSubscribeBand region={region} />
       					</div>
       				</div>
       			</article>

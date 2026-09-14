@@ -70,7 +70,7 @@ const CMS_BODY_CLASS =
  *
  * Read from the registry rather than restated here. It was restated, and it had
  * already drifted: the declaration lists the 404's own stylesheet (8623) and the
- * subscribe block's (4557, which NotFoundBody renders), and this copy listed
+ * subscribe block's (4557, which NotFoundBody rendered until 20260914), and this copy listed
  * neither — so every 404 rendered the subscribe form unstyled. The literal below
  * is only a floor, so the layout can never throw on a missing registry entry.
  */

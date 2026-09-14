@@ -1,7 +1,7 @@
 /* Industries — the property sectors and client segments VALUNXT covers.
-   This page used to render the same four group-company cards as /our-group/
-   and /network/, so all three answered the same question. The division is now:
-     /our-group/  — WHO we are (the four operating companies)
+   This page used to render the same four group-company cards as /network/
+   (and the since-removed /our-group/), so they answered the same question.
+   The division is now:
      /industries/ — WHAT we cover (asset classes and client segments, below)
      /network/    — WHO we plug you into (banks, investors, accreditations)
 

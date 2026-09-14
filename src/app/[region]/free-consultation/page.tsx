@@ -9,13 +9,11 @@
 import { definePage } from '@/lib/page-factory';
 import FreeConsultationBody from '@/components/pages/FreeConsultationBody';
 import FreeConsultationAeBody from '@/components/pages/FreeConsultationAeBody';
-import SubscribeSection from '@/components/sections/SubscribeSection';
 
 const { generateMetadata, Page } = definePage('/free-consultation/', ({ page, region }) =>
   region === 'en-ae' ? (
     <>
       <FreeConsultationAeBody page={page} region={region} />
-      <SubscribeSection page={page} region={region} />
     </>
   ) : (
     <FreeConsultationBody page={page} region={region} />

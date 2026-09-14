@@ -15,7 +15,6 @@ import type { Metadata } from 'next';
 
 import PageShell from '@/components/layout/PageShell';
 import PageHeroSection from '@/components/sections/PageHeroSection';
-import SubscribeSection from '@/components/sections/SubscribeSection';
 import { buildMetadata } from '@/lib/seo';
 import { vxnRegion } from '@/lib/region';
 import type { PageConfig } from '@/lib/page-config';
@@ -90,7 +89,6 @@ export default async function CmsPage({ params }: Params) {
   return (
     <PageShell page={page} region={region}>
       <PageHeroSection page={page} region={region} />
-      <SubscribeSection page={page} region={region} />
     </PageShell>
   );
 }

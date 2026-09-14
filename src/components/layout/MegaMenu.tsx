@@ -2,7 +2,7 @@
  * Shared editorial mega-menu panel.
  *
  * Attach to a nav item with:
- *   preset    — 'insights' (default) | 'services' | 'group'
+ *   preset    — 'insights' (default) | 'services'
  *   tabIndex  — -1 for the hidden mobile/sticky nav copies
  *   label     — optional override for the parent link text
  *   href      — optional override for the parent target (relative to the region)
@@ -21,12 +21,11 @@
  * Port of includes/partials/more-mega.php.
  */
 import { rurl, vxnServices } from '@/lib/region';
-import { vxnCompanyList } from '@/lib/site-data';
 import Html from '@/components/Html';
 import MegaAccordion, { type MegaAccordionGroup } from './MegaAccordion';
 import { MegaArrow, MegaIcon } from './MegaIcons';
 
-export type MegaPreset = 'insights' | 'services' | 'group';
+export type MegaPreset = 'insights' | 'services';
 
 interface MegaSubLink {
   /** Plain text — SubService.name is documented as such, so no <Html>. */
@@ -104,40 +103,6 @@ function preset(key: MegaPreset, region: string): MegaContent {
       })),
       viewall: '/services/',
       viewall_label: 'View all services',
-    };
-  }
-
-  if (key === 'group') {
-    /* Built from vxnCompanies() rather than a second hand-written list. The
-       menu previously pointed each company at an unrelated audience-type slug
-       (VALUNXT Corporate Services -> /our-group/individuals-and-families/),
-       which is exactly the kind of drift a duplicated list invites. */
-    const companies = vxnCompanyList();
-    return {
-      label: 'Our Group',
-      href: '/our-group/',
-      title: 'Our Group',
-      lede: 'Regulated operating companies, each a specialist in its own right.',
-      sidehead: 'Group companies',
-      /* Line icons, as in the other two menus. The companies' own wordmarks
-         were tried here first and each needed a plate to sit on, which made
-         this one panel read differently from its neighbours; the marks still
-         lead the Our Group page itself, where they have the room. */
-      links: companies.map((c) => ({
-        t: c.name,
-        href: c.url,
-        icon: c.icon ?? 'document',
-        d: c.discipline ?? '',
-      })),
-      cards: companies.slice(0, 2).map((c) => ({
-        eyebrow: 'Group company',
-        title: c.name,
-        href: c.url,
-        img: c.img,
-        cta: 'Discover',
-      })),
-      viewall: '/our-group/',
-      viewall_label: 'View all companies',
     };
   }
 

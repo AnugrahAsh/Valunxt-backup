@@ -49,12 +49,6 @@ const nextConfig: NextConfig = {
       statusCode: 301,
     });
     return [
-      // ---- Group company slugs renamed 2026-08-04 to match the company ----
-      r('/our-group/individuals-and-families/:path*', '/our-group/valunxt-corporate-services/'),
-      r('/our-group/entrepreneurs-and-business-owners/:path*', '/our-group/reliant-surveyors/'),
-      r('/our-group/financial-advisers/:path*', '/our-group/houzzhunt/'),
-      r('/our-group/special-industries/:path*', '/our-group/houzzhunt-mortgage/'),
-
       // ---- Template/demo posts removed 2026-08-04 -------------------------
       r('/2025/:path*', '/blogs/'),
 
@@ -62,7 +56,7 @@ const nextConfig: NextConfig = {
       r('/services/real-estate-wealth-advisory/:path*', '/services/real-estate-investment-advisory/'),
 
       // ---- Content restructure -------------------------------------------
-      r('/accounting-tax-audit-cpa/:path*', '/our-group/'),
+      r('/accounting-tax-audit-cpa/:path*', '/about/'),
       r('/services/business-consulting/:path*', '/services/real-estate-investment-advisory/'),
       r('/services/business-strategy/:path*', '/services/real-estate-investment-advisory/'),
       r('/services/marketing-sales-retention/:path*', '/services/capital-advisory/'),

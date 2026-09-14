@@ -6,8 +6,8 @@
  *
  * The site makes three quantified claims:
  *
- *   • "more than 10,000 valuations delivered"   (/our-group/, Reliant)
- *   • "across USD 150+ billion of assets"       (/our-group/, Reliant)
+ *   • "more than 10,000 valuations delivered"   (ProofBand, Reliant)
+ *   • "across USD 150+ billion of assets"       (ProofBand, Reliant)
  *   • "500+ relationships"                      (/network/, community)
  *
  * A track-record page exists to substantiate those numbers. Substantiation

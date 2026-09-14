@@ -13,7 +13,7 @@
  * The shape is copied from the /community/ entry, which is the other
  * "hero image, coming soon, subscribe" page in the registry: header 3837,
  * footer 2094, and the 3752 (single page) + 4557 (subscribe) stylesheets that
- * PageHeroSection and SubscribeSection need.
+ * PageHeroSection needs (4557 is a no-op now the subscribe band is gone).
  */
 import type { PageConfig } from './page-config';
 import { vxnServiceName, type Service, type SubService } from './region';
@@ -106,8 +106,7 @@ function config({
  * The service template carries the "Find the Right Solution" tab block, which
  * is the home page's section reused verbatim — so it needs the home page's
  * own captured stylesheet (17) and the blur-background template inside it
- * (7162), exactly as /our-group/valunxt-corporate-services/ does for the same
- * block. Both are scoped under .elementor-17 / .elementor-7162, so they reach
+ * (7162), exactly as the home page does for the same block. Both are scoped under .elementor-17 / .elementor-7162, so they reach
  * nothing outside the markup that asks for them.
  *
  * This was keyed by slug while only Accounting & Tax rendered the block —

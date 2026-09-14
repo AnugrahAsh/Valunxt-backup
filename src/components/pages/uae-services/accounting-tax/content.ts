@@ -353,7 +353,7 @@ export const ACCOUNTING_TAX_TEMPLATE: ServiceTemplateContent = {
   hero: {
     head: AT_HERO.head,
     sub: AT_HERO.sub,
-    image: ['services/accounting-tax-hero.webp', 'banners/service-main.webp'],
+    image: ['banners/services-banner.webp', 'services/accounting-tax-hero.webp', 'banners/service-main.webp'],
     alt: 'A meeting at dusk against a city skyline',
   },
   intro: {

@@ -9,11 +9,9 @@ import { rimg } from '@/lib/region-assets';
 import { BASE, rurl } from '@/lib/region';
 import { vxnMarkets, vxnOffice } from '@/lib/site-data';
 import type { PageConfig } from '@/lib/page-config';
-import { LogoXClipDefs, LogoXGlyph } from '@/components/brand/LogoX';
-import WhoWeAreTrio from '@/components/sections/WhoWeAreTrio';
-import WhyUsBanner from '@/components/sections/WhyUsBanner';
-import ProofBand from '@/components/sections/ProofBand';
+import { LogoXClipDefs } from '@/components/brand/LogoX';
 import HomeIndustriesRow from '@/components/sections/HomeIndustriesRow';
+import UaeReadyBand from '@/components/sections/UaeReadyBand';
 
 export default function HomeInBody({ page, region }: { page: PageConfig; region: string }) {
   return (
@@ -181,6 +179,32 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       		}
       	}
 
+      	/* ---- Hero (home page only) ----
+      	   The full viewport, by request (20260914). The container sizes itself by
+      	   min-height, so the copy keeps its own vertical centring inside it and
+      	   the video behind it (which is inset: 0) simply fills the taller band.
+      	   Desktop only: on a phone 100vh of hero pushes the first content a
+      	   whole screen away, so the band keeps its content height there. */
+      	@media (min-width: 1025px) {
+      		.elementor-17 .elementor-element.elementor-element-926da5a {
+      			--min-height: 100vh;
+      			min-height: 100vh;
+      		}
+      	}
+
+      	/* ---- Services accordion (home page only) ----
+      	   Taller than the shared .vxn-klay rule in valunxt-brand.css, and with the
+      	   panel numbers and the X glyph removed from the markup below
+      	   (20260914): the closed panels carry only their vertical label. The
+      	   shared rule stays as it is because the UAE home renders the same
+      	   accordion and keeps its own height. Desktop only, for the same reason
+      	   as the hero: below 1024px the panels stack to auto height. */
+      	@media (min-width: 1025px) {
+      		.elementor-17 .vxn-klay {
+      			height: clamp(760px, 100vh, 1040px);
+      		}
+      	}
+
       	/* Stack order follows the new 1-2-3-4 sequence. */
       	.elementor-17 .elementor-element.elementor-element-e988fa2 {
       		--z-index: 1;
@@ -321,61 +345,6 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       								</div>
       							</div>
       						</div>
-      						<div className="elementor-element elementor-element-06c1139 e-flex e-con-boxed e-con e-parent" data-id="06c1139" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"gradient\"}"}>
-      							<div className="e-con-inner">
-      								<div className="elementor-element elementor-element-f842de0 elementor-widget elementor-widget-heading" data-id="f842de0" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
-      									<div className="elementor-widget-container">
-      										<h6 className="elementor-heading-title elementor-size-default">What Sets Us Apart</h6>
-      									</div>
-      								</div>
-      								<div className="elementor-element elementor-element-03d8cb6 e-con-full e-flex e-con e-child" data-id="03d8cb6" data-element_type="container" data-e-type="container">
-      									<div className="elementor-element elementor-element-15e2a23 elementor-icon-list--layout-inline elementor-list-item-link-inline elementor-tablet-align-left elementor-widget elementor-widget-icon-list" data-id="15e2a23" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
-      										<div className="elementor-widget-container">
-      											<ul className="elementor-icon-list-items elementor-inline-items">
-      												<li className="elementor-icon-list-item elementor-inline-item">
-      													<span className="elementor-icon-list-icon">
-      														<i aria-hidden="true" className="vamtamtheme- vamtam-theme-chack-circle"></i> </span>
-      													<span className="elementor-icon-list-text">Advisory Led Approach</span>
-      												</li>
-      											</ul>
-      										</div>
-      									</div>
-      									<div className="elementor-element elementor-element-86c68d2 elementor-icon-list--layout-inline elementor-list-item-link-inline elementor-tablet-align-left elementor-widget elementor-widget-icon-list" data-id="86c68d2" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
-      										<div className="elementor-widget-container">
-      											<ul className="elementor-icon-list-items elementor-inline-items">
-      												<li className="elementor-icon-list-item elementor-inline-item">
-      													<span className="elementor-icon-list-icon">
-      														<i aria-hidden="true" className="vamtamtheme- vamtam-theme-chack-circle"></i> </span>
-      													<span className="elementor-icon-list-text">Independent Research</span>
-      												</li>
-      											</ul>
-      										</div>
-      									</div>
-      									<div className="elementor-element elementor-element-6a31a18 elementor-icon-list--layout-inline elementor-list-item-link-inline elementor-tablet-align-left elementor-widget elementor-widget-icon-list" data-id="6a31a18" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
-      										<div className="elementor-widget-container">
-      											<ul className="elementor-icon-list-items elementor-inline-items">
-      												<li className="elementor-icon-list-item elementor-inline-item">
-      													<span className="elementor-icon-list-icon">
-      														<i aria-hidden="true" className="vamtamtheme- vamtam-theme-chack-circle"></i> </span>
-      													<span className="elementor-icon-list-text">India &amp; UAE Access</span>
-      												</li>
-      											</ul>
-      										</div>
-      									</div>
-      									<div className="elementor-element elementor-element-e7cdd1d elementor-icon-list--layout-inline elementor-list-item-link-inline elementor-tablet-align-left elementor-widget elementor-widget-icon-list" data-id="e7cdd1d" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
-      										<div className="elementor-widget-container">
-      											<ul className="elementor-icon-list-items elementor-inline-items">
-      												<li className="elementor-icon-list-item elementor-inline-item">
-      													<span className="elementor-icon-list-icon">
-      														<i aria-hidden="true" className="vamtamtheme- vamtam-theme-chack-circle"></i> </span>
-      													<span className="elementor-icon-list-text">Intelligent Technology</span>
-      												</li>
-      											</ul>
-      										</div>
-      									</div>
-      								</div>
-      							</div>
-      						</div>
       						{/* "Who We Are — An Integrated Platform of Expertise" section (from page
       						    2190). Wrapped in .elementor-2190 so post-2190.css (listed in this
       						    page's post_css) styles it. */}
@@ -413,9 +382,6 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       												</div>
       											</div>
       										</div>
-      										{/* Three feature cards close the section; the intro and the
-      										    four-icon grid above are unchanged. */}
-      										<WhoWeAreTrio region={region} />
       								</div>
       							</div>
       						</div>
@@ -444,8 +410,6 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       							<nav className="vxn-klay" aria-label="Our services">
       								<a className="vxn-klay__panel is-active" href={rurl(region, '/services/real-estate-investment-advisory/')}>
       									<div className="vxn-klay__bg"><img src={rimg(region, 'homepage/research-and-investment-advisory.webp')} alt="Real Estate Investment Advisory" loading="lazy" /></div>
-      									<span className="vxn-klay__num" aria-hidden="true">01</span>
-      									<span className="vxn-klay__x" aria-hidden="true"><LogoXGlyph /></span>
       									<span className="vxn-klay__label" aria-hidden="true">Real Estate Advisory</span>
       									<div className="vxn-klay__content">
       										<h3 className="vxn-klay__title">Real Estate Investment Advisory</h3>
@@ -455,8 +419,6 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       								</a>
       								<a className="vxn-klay__panel" href={rurl(region, '/services/capital-advisory/')}>
       									<div className="vxn-klay__bg"><img src={rimg(region, 'homepage/capital-advisory.webp')} alt="Capital Advisory" loading="lazy" /></div>
-      									<span className="vxn-klay__num" aria-hidden="true">02</span>
-      									<span className="vxn-klay__x" aria-hidden="true"><LogoXGlyph /></span>
       									<span className="vxn-klay__label" aria-hidden="true">Capital Advisory</span>
       									<div className="vxn-klay__content">
       										<h3 className="vxn-klay__title">Capital Advisory</h3>
@@ -466,8 +428,6 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       								</a>
       								<a className="vxn-klay__panel" href={rurl(region, '/services/research-intelligence/')}>
       									<div className="vxn-klay__bg"><img src={rimg(region, 'homepage/research-and-intellegance.webp')} alt="Research &amp; Intelligence" loading="lazy" /></div>
-      									<span className="vxn-klay__num" aria-hidden="true">03</span>
-      									<span className="vxn-klay__x" aria-hidden="true"><LogoXGlyph /></span>
       									<span className="vxn-klay__label" aria-hidden="true">Research &amp; Intelligence</span>
       									<div className="vxn-klay__content">
       										<h3 className="vxn-klay__title">Research &amp; Intelligence</h3>
@@ -477,8 +437,6 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       								</a>
       								<a className="vxn-klay__panel" href={rurl(region, '/services/technology-ai/')}>
       									<div className="vxn-klay__bg"><img src={rimg(region, 'homepage/technology-and-ai.webp')} alt="Technology &amp; AI" loading="lazy" /></div>
-      									<span className="vxn-klay__num" aria-hidden="true">04</span>
-      									<span className="vxn-klay__x" aria-hidden="true"><LogoXGlyph /></span>
       									<span className="vxn-klay__label" aria-hidden="true">Technology &amp; AI</span>
       									<div className="vxn-klay__content">
       										<h3 className="vxn-klay__title">Technology &amp; AI</h3>
@@ -488,8 +446,6 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       								</a>
       							</nav>
       						</div>
-      						{/* Proof band — follows the services section. */}
-      						<ProofBand region={region} />
       						<div className="elementor-element elementor-element-ffe4657 e-flex e-con-boxed e-con e-parent" data-id="ffe4657" data-element_type="container" data-e-type="container">
       							<div className="e-con-inner">
       								<div className="elementor-element elementor-element-54101de e-con-full e-flex e-con e-child" data-id="54101de" data-element_type="container" data-e-type="container">
@@ -747,8 +703,6 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       								</div>
       							</div>
       						</div>
-      						{/* Runs with the band above, not instead of it. */}
-      						<WhyUsBanner region={region} />
       						<div className="elementor-element elementor-element-8098fc0 e-flex e-con-boxed e-con e-parent" data-id="8098fc0" data-element_type="container" data-e-type="container">
       							<div className="e-con-inner">
       								<div className="elementor-element elementor-element-9e6338e e-con-full e-flex e-con e-child" data-id="9e6338e" data-element_type="container" data-e-type="container">
@@ -1186,19 +1140,6 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       														</div>
       													</div>
       												</div>
-      											</div>
-      										</div>
-      									</div>
-      									<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-ed9049b vamtam-icon-pos-row-reverse elementor-align-justify vamtam-content-align-space-between elementor-widget__width-initial elementor-widget elementor-widget-button" data-id="ed9049b" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
-      										<div className="elementor-widget-container">
-      											<div className="elementor-button-wrapper">
-      												<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/about/')}>
-      													<span className="elementor-button-content-wrapper">
-      														<span className="elementor-button-icon">
-      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
-      														<span className="elementor-button-text">Learn More</span>
-      													</span>
-      												</a>
       											</div>
       										</div>
       									</div>
@@ -1832,81 +1773,9 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       							</div>
       						</div>
       						<HomeIndustriesRow region={region} />
-      						<div className="elementor-element elementor-element-befd5d0 e-con-full e-flex e-con e-parent" data-id="befd5d0" data-element_type="container" data-e-type="container">
-      							<div className="elementor-element elementor-element-9356354 elementor-widget elementor-widget-template" data-id="9356354" data-element_type="widget" data-e-type="widget" data-widget_type="template.default">
-      								<div className="elementor-widget-container">
-      									<div className="elementor-template">
-      										<div data-elementor-type="container" data-elementor-id="4557" className="elementor elementor-4557" data-elementor-post-type="elementor_library">
-      											<div className="elementor-element elementor-element-9296635 e-flex e-con-boxed e-con e-parent" data-id="9296635" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\"}"}>
-      												<div className="e-con-inner">
-      													<div className="elementor-element elementor-element-3300848 elementor-widget elementor-widget-spacer" data-id="3300848" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
-      														<div className="elementor-widget-container">
-      															<div className="elementor-spacer">
-      																<div className="elementor-spacer-inner"></div>
-      															</div>
-      														</div>
-      													</div>
-      													<div className="elementor-element elementor-element-4b7d49d e-con-full e-flex e-con e-child" data-id="4b7d49d" data-element_type="container" data-e-type="container">
-      														<div className="elementor-element elementor-element-f0def51 elementor-invisible animated-fast elementor-widget elementor-widget-heading" data-id="f0def51" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\"}"} data-widget_type="heading.default">
-      															<div className="elementor-widget-container">
-      																<h3 className="elementor-heading-title elementor-size-default">Stay Ahead.</h3>
-      															</div>
-      														</div>
-      														<div className="elementor-element elementor-element-06eccf7 elementor-invisible animated-fast elementor-widget elementor-widget-heading" data-id="06eccf7" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":100}"} data-widget_type="heading.default">
-      															<div className="elementor-widget-container">
-      																<h3 className="elementor-heading-title elementor-size-default">Subscribe for Market Intelligence.</h3>
-      															</div>
-      														</div>
-      													</div>
-      													<div className="elementor-element elementor-element-c96c2e7 elementor-invisible e-con-full animated-fast e-flex e-con e-child" data-id="c96c2e7" data-element_type="container" data-e-type="container" data-settings={"{\"animation\":\"fadeIn\",\"animation_delay\":150}"}>
-      														<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-3b33bfe elementor-widget-tablet__width-inherit elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="3b33bfe" data-element_type="widget" data-e-type="widget" data-settings={"{\"button_width\":\"25\",\"step_next_label\":\"Next\",\"step_previous_label\":\"Previous\",\"button_width_tablet\":\"25\",\"step_type\":\"number_text\",\"step_icon_shape\":\"circle\"}"} data-widget_type="form.default">
-      															<div className="elementor-widget-container">
-      																<form className="elementor-form" method="post" name="Subscribe" aria-label="Subscribe">
-      																	<input type="hidden" name="post_id" value="4557" />
-      																	<input type="hidden" name="form_id" value="3b33bfe" />
-      																	<input type="hidden" name="referer_title" value="VALUNXT" />
-
-      																	<input type="hidden" name="queried_id" value="17" />
-
-      																	<div className="elementor-form-fields-wrapper elementor-labels-">
-      																		<div className="elementor-field-type-email elementor-field-group elementor-column elementor-field-group-email elementor-col-70 elementor-md-70 elementor-field-required">
-      																			<label htmlFor="form-field-email" className="elementor-field-label elementor-screen-only">
-      																				Email </label>
-      																			<input size={1} type="email" name="form_fields[email]" id="form-field-email" className="elementor-field elementor-size-sm  elementor-field-textual" placeholder="Email" required />
-      																		</div>
-      																		<div className="elementor-field-group elementor-column elementor-field-type-submit elementor-col-25 e-form__buttons elementor-md-25">
-      																			<button className="elementor-button elementor-size-sm" type="submit">
-      																				<span className="elementor-button-content-wrapper">
-      																					<span className="elementor-button-icon">
-      																						<i aria-hidden="true" className="vamtamtheme- vamtam-theme-send"></i> </span>
-      																					<span className="elementor-button-text">Subscribe</span>
-      																				</span>
-      																			</button>
-      																		</div>
-      																	</div>
-      																</form>
-      															</div>
-      														</div>
-      														<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-82aa64e elementor-widget__width-initial elementor-widget-tablet__width-inherit elementor-widget elementor-widget-text-editor" data-id="82aa64e" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
-      															<div className="elementor-widget-container">
-      																<p>You can unsubscribe at any time using the link in the footer of our emails. View our <a href={rurl(region, '/privacy-policy/')}>Privacy Policy</a>.</p>
-      															</div>
-      														</div>
-      													</div>
-      													<div className="elementor-element elementor-element-3d5fc70 elementor-widget elementor-widget-spacer" data-id="3d5fc70" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
-      														<div className="elementor-widget-container">
-      															<div className="elementor-spacer">
-      																<div className="elementor-spacer-inner"></div>
-      															</div>
-      														</div>
-      													</div>
-      												</div>
-      											</div>
-      										</div>
-      									</div>
-      								</div>
-      							</div>
-      						</div>
+      						{/* Closing band: the three ways to start, shared with the UAE home
+      						    (client, 20260914). It sits last, straight above the footer. */}
+      						<UaeReadyBand region={region} />
       					</div>
       				</div>
       			</article>

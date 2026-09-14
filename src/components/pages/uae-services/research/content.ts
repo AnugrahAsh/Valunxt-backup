@@ -21,7 +21,7 @@ export const RESEARCH_TEMPLATE: ServiceTemplateContent = {
   hero: {
     head: 'Research That Turns Market Signals Into Direction.',
     sub: 'Research & intelligence that turns market data, trends and opportunities into actionable insight for better-informed decisions.',
-    image: ['services/research-hero.webp', 'homepage/research-and-intellegance.webp'],
+    image: ['banners/services-banner.webp', 'services/research-hero.webp', 'homepage/research-and-intellegance.webp'],
     alt: 'A research team reviewing figures on a laptop',
   },
   intro: {

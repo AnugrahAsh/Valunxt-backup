@@ -21,8 +21,8 @@ const SOCIAL: readonly SocialItem[] = [
 
 /* The footer lists three of the four offices — Dubai, Mumbai and Noida. Abu
    Dhabi trades from the same UAE entity and the same line as Dubai, so
-   repeating it here only lengthens the column; the full list still lives on
-   /location/.
+   repeating it here only lengthens the column; the full list still lives in
+   vxnOffices().
 
    Each office carries its own line, so the India offices show the India number
    and the UAE offices the UAE number — no office is ever listed under another
@@ -140,7 +140,6 @@ export default function Footer2094({ region }: { region: string }) {
                         {[
                           ['/about/', 'About Us'],
                           ['/services/', 'Services'],
-                          ['/our-group/', 'Our Group'],
                           ['/blogs/', 'Insights'],
                           ['/faq/', 'FAQ'],
                           ['/contact/', 'Contact'],

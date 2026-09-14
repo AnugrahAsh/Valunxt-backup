@@ -27,7 +27,7 @@ export const VALUATION_TEMPLATE: ServiceTemplateContent = {
     sub: 'Independent valuation and advisory backed by rigorous analysis, professional judgement and 48+ years of expertise.',
     /* Reliant Surveyors is the group's valuation firm, so its photograph is
        the one that belongs on this banner. */
-    image: ['services/valuation-hero.webp', 'new-folder/reliant-surveyors-1.webp'],
+    image: ['banners/services-banner.webp', 'services/valuation-hero.webp', 'new-folder/reliant-surveyors-1.webp'],
     alt: 'A meeting under the Reliant Surveyors sign',
   },
   intro: {

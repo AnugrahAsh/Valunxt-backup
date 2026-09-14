@@ -10,7 +10,6 @@ import { notFound } from 'next/navigation';
 
 import PageShell from '@/components/layout/PageShell';
 import ResearchDetailSection from '@/components/sections/ResearchDetailSection';
-import SubscribeSection from '@/components/sections/SubscribeSection';
 import { buildMetadata } from '@/lib/seo';
 import { pageConfig, type ReportPageConfig } from '@/lib/pages';
 import { vxnRegion, vxnRegionList } from '@/lib/region';
@@ -48,7 +47,6 @@ export default async function ResearchReportPage({ params }: Params) {
   return (
     <PageShell page={page} region={region}>
       <ResearchDetailSection page={page} region={region} />
-      <SubscribeSection page={page} region={region} />
     </PageShell>
   );
 }

@@ -8,7 +8,6 @@
  */
 import PageHeroSection from '@/components/sections/PageHeroSection';
 import ComingSoonBandSection from '@/components/sections/ComingSoonBandSection';
-import SubscribeSection from '@/components/sections/SubscribeSection';
 import type { PageConfig } from '@/lib/page-config';
 
 export default function UaeServiceBody({
@@ -22,7 +21,6 @@ export default function UaeServiceBody({
     <>
       <PageHeroSection page={page} region={region} tone="brand" />
       <ComingSoonBandSection page={page} region={region} />
-      <SubscribeSection page={page} region={region} />
     </>
   );
 }

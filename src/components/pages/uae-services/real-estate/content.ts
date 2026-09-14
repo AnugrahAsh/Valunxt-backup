@@ -29,7 +29,7 @@ export const REAL_ESTATE_TEMPLATE: ServiceTemplateContent = {
     /* building-real-esate is the plate the old template used for this
        practice's banner. Despite the name it is an adviser at a laptop, not a
        building; near square, so the band takes its middle. */
-    image: ['services/real-estate-hero.webp', 'homepage/building-real-esate.webp'],
+    image: ['banners/services-banner.webp', 'services/real-estate-hero.webp', 'homepage/building-real-esate.webp'],
     alt: 'An adviser at a laptop in an office',
   },
   intro: {

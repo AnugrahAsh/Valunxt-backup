@@ -35,7 +35,7 @@ const TABS = [
     title: 'One integrated ecosystem.',
     text: 'VALUNXT is backed by a trusted group of companies spanning surveying, property, mortgage, and corporate services. Our partners plug into a single network — sharing intelligence, referrals, and on-the-ground reach across India and the UAE so clients move faster with fewer intermediaries.',
     links: [
-      { t: 'Meet the Group', h: '/our-group/' },
+      { t: 'Meet the Group', h: '/about/' },
       { t: 'Partner With Us', h: '/partnership/' },
     ],
   },

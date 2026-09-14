@@ -7,7 +7,6 @@
  * visitor's market.
  */
 import { rurl } from '@/lib/region';
-import SubscribeSection from '@/components/sections/SubscribeSection';
 import type { PageConfig } from '@/lib/page-config';
 
 export default function NotFoundBody({ page, region }: { page: PageConfig; region: string }) {
@@ -58,7 +57,6 @@ export default function NotFoundBody({ page, region }: { page: PageConfig; regio
 
 
 
-      		<SubscribeSection page={page} region={region} />
 
       	</div>{/* #main */}
 

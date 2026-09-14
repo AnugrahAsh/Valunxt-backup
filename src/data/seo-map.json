@@ -134,15 +134,6 @@
     "og_title": "Industries | VALUNXT",
     "og_description": "Property sectors VALUNXT covers — residential, office, retail, logistics, land and hospitality — and the client segments we act for across India and the UAE."
   },
-  "location": {
-    "title": "Location | VALUNXT",
-    "description": "Connect with VALUNXT in Dubai, Abu Dhabi and across India. Find the office nearest to you and start a conversation with our advisory team.",
-    "canonical": "",
-    "robots": "index, follow",
-    "keywords": "",
-    "og_title": "Location | VALUNXT",
-    "og_description": "Connect with VALUNXT in Dubai, Abu Dhabi and across India. Find the office nearest to you and start a conversation with our advisory team."
-  },
   "network": {
     "title": "Network | VALUNXT",
     "description": "The relationships a VALUNXT engagement opens up — lending panels, investor community, accredited valuers and research — across India and the UAE.",
@@ -151,51 +142,6 @@
     "keywords": "",
     "og_title": "Network | VALUNXT",
     "og_description": "The relationships a VALUNXT engagement opens up — lending panels, investor community, accredited valuers and research — across India and the UAE."
-  },
-  "our-group": {
-    "title": "Our Group | VALUNXT",
-    "description": "The VALUNXT group of companies — VALUNXT Corporate Services, Reliant Surveyors, HouzzHunt, and HouzzHunt Mortgage.",
-    "canonical": "",
-    "robots": "index, follow",
-    "keywords": "",
-    "og_title": "Our Group | VALUNXT",
-    "og_description": "The VALUNXT group of companies — VALUNXT Corporate Services, Reliant Surveyors, HouzzHunt, and HouzzHunt Mortgage."
-  },
-  "our-group/houzzhunt": {
-    "title": "HouzzHunt | VALUNXT",
-    "description": "HouzzHunt — part of the VALUNXT group of companies.",
-    "canonical": "",
-    "robots": "index, follow",
-    "keywords": "",
-    "og_title": "HouzzHunt | VALUNXT",
-    "og_description": "HouzzHunt — part of the VALUNXT group of companies."
-  },
-  "our-group/houzzhunt-mortgage": {
-    "title": "HouzzHunt Mortgage | VALUNXT",
-    "description": "HouzzHunt Mortgage — part of the VALUNXT group of companies.",
-    "canonical": "",
-    "robots": "index, follow",
-    "keywords": "",
-    "og_title": "HouzzHunt Mortgage | VALUNXT",
-    "og_description": "HouzzHunt Mortgage — part of the VALUNXT group of companies."
-  },
-  "our-group/reliant-surveyors": {
-    "title": "Reliant Surveyors | VALUNXT",
-    "description": "Reliant Surveyors — part of the VALUNXT group of companies.",
-    "canonical": "",
-    "robots": "index, follow",
-    "keywords": "",
-    "og_title": "Reliant Surveyors | VALUNXT",
-    "og_description": "Reliant Surveyors — part of the VALUNXT group of companies."
-  },
-  "our-group/valunxt-corporate-services": {
-    "title": "VALUNXT Corporate Services | VALUNXT",
-    "description": "VALUNXT Corporate Services — part of the VALUNXT group of companies.",
-    "canonical": "",
-    "robots": "index, follow",
-    "keywords": "",
-    "og_title": "VALUNXT Corporate Services | VALUNXT",
-    "og_description": "VALUNXT Corporate Services — part of the VALUNXT group of companies."
   },
   "partnership": {
     "title": "Partnership | VALUNXT",

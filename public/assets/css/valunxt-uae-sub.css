@@ -379,7 +379,7 @@
   height: 6px;
   border-radius: 50%;
   /* The one blue dot the service pages use (20260911); was the navy. */
-  background: #0053B7;
+  background: #0B2DBE;
 }
 
 .abk-root .abk-brief__list b {
@@ -669,22 +669,13 @@
   text-decoration: none !important;
   box-shadow: 0 12px 28px rgba(11, 45, 190, 0.3);
   --vxn-cta-sweep: var(--vxn-cta-sweep-dark, #08248F);
-  transition:
-    gap 0.4s ease,
-    box-shadow 0.4s ease;
+  transition: box-shadow 0.4s ease;
 }
 
-/* The glyph travels because the link's own gap opens; the site's wedge does
-   the fill. */
+/* The site's wedge does the fill and the one arrow does the nudge. */
 .abk-root .abk-why__btn:hover {
-  gap: 16px;
   color: #fff !important;
   box-shadow: 0 16px 34px rgba(11, 45, 190, 0.4);
-}
-
-.abk-root .abk-why__btn svg {
-  width: 13px;
-  height: 13px;
 }
 
 /* =============================================================================
@@ -714,6 +705,13 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(28px, 4vw, 58px);
+}
+
+/* Four steps where a document gives four (20260914: the Residential and
+   Commercial mortgage journeys). The tablet rule below already makes it 2 x 2. */
+.abk-root .abk-appr__grid[data-cols='4'] {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(22px, 3vw, 44px);
 }
 
 .abk-root .abk-appr__h {
@@ -795,7 +793,7 @@
   --close: 300ms;
   --curve: cubic-bezier(0.15, 0.2, 0.85, 1);
 
-  /* The reference's button is a lime `#95f775`. This page is the VALUNXT blue,
+  /* The reference's button is a lime `#95f775`. This page is the Valunxt blue,
      and a lime pill in the middle of it would be the only thing on the screen
      not from the palette — so the ramp is used instead. Swap this one line
      back to `#95f775` (with `color:#0d1b2a`) to match the capture exactly. */
@@ -1647,11 +1645,11 @@
    are restated, with the parent's TOKENS RESOLVED rather than referenced:
 
      var(--tint)  -> #f4f8fd   (this page has the same token, but see below)
-     var(--ny2)   -> #0053b7   button — this page has NO equivalent
+     var(--ny2)   -> #0B2DBE   button — this page has NO equivalent
      var(--ny)    -> #0e355f   button hover
      var(--gap)   -> 20px      at the stacked width, so the gap is 30px
 
-   THE BUTTON IS NOT THIS PAGE'S BLUE, deliberately. #0053b7 is the parent's
+   THE BUTTON IS NOT THIS PAGE'S BLUE, deliberately. #0B2DBE is the parent's
    --ny2; this page's --blue is #0b2dbe. The brief was to duplicate the band
    without changing its UI, so the parent's colour is used verbatim. Swap the
    two declarations below to var(--brand) if it should join the rest of the

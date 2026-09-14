@@ -8,8 +8,8 @@ import { BASE } from '@/lib/region';
 import LEADERSHIP from '@/data/leadership';
 
 const CSS = `
-/* ===== VALUNXT leadership ================================================= */
-.vxn-team{--ny:#0E355F;--ny2:#0053B7;--gd:#0053B7;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 72px;}
+/* ===== Valunxt leadership ================================================= */
+.vxn-team{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 72px;}
 .vxn-team *{box-sizing:border-box;}
 .vxn-team__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-team__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}
@@ -21,7 +21,7 @@ const CSS = `
 .vxn-team__card{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:box-shadow .25s,transform .25s;}
 .vxn-team__card:hover{box-shadow:0 24px 56px -34px rgba(14,53,95,.42);transform:translateY(-3px);}
 .vxn-team__photo{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--paper);}
-.vxn-team__initials{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/5;background:linear-gradient(150deg,#0053B7,#0E355F);}
+.vxn-team__initials{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/5;background:linear-gradient(150deg,#0B2DBE,#0E355F);}
 .vxn-team__initials span{font-family:"Forum",serif;font-size:52px;color:var(--gd);line-height:1;}
 .vxn-team__body{padding:26px 26px 24px;display:flex;flex-direction:column;flex:1;}
 .vxn-team h3.vxn-team__name{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;font-size:23px;line-height:1.2;margin:0 0 6px;}
@@ -50,7 +50,7 @@ export default function LeadershipSection() {
       '@type': 'Person',
       name: p.name,
       jobTitle: p.role,
-      worksFor: { '@type': 'Organization', name: p.company ?? 'VALUNXT' },
+      worksFor: { '@type': 'Organization', name: p.company ?? 'Valunxt' },
     };
     if (p.credentials?.length) entry.hasCredential = p.credentials;
     if (p.linkedin) entry.sameAs = [p.linkedin];

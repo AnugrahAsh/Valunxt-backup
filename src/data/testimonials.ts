@@ -7,7 +7,7 @@
  * A testimonial is a statement attributed to a real person about a real
  * engagement. Writing one would be fabricating a client endorsement, which is
  * both dishonest and, for a regulated advisory firm, a genuine liability. So
- * the section is built and ready, and the quotes are left to VALUNXT.
+ * the section is built and ready, and the quotes are left to Valunxt.
  *
  * While this array is empty the testimonials section does not render at all —
  * /clients/ simply shows what it shows today. Add one entry and the section
@@ -19,7 +19,7 @@
  *
  * The companion question — client logos — has the same constraint: a logo is a
  * claim of a commercial relationship and needs the client's permission to
- * display. The four logos already on /clients/ and /services/ are VALUNXT's
+ * display. The four logos already on /clients/ and /services/ are Valunxt's
  * own group companies, correctly labelled as such, not client logos.
  * ---------------------------------------------------------------------------
  */

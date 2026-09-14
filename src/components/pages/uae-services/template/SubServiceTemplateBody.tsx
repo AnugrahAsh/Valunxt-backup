@@ -60,6 +60,8 @@ import type React from 'react';
 
 import HomeIndustriesRow from '@/components/sections/HomeIndustriesRow';
 import { rurl } from '@/lib/region';
+import { brandCase } from '@/components/ui/BrandName';
+import CtaArrow from '@/components/ui/CtaArrow';
 import { rimg, rimgFirst } from '@/lib/region-assets';
 
 import SubServiceTemplateMotion from './SubMotion';
@@ -68,14 +70,6 @@ import { subImageList, type SubPoint, type SubServiceTemplateContent } from './s
 /* -------------------------------------------------------------------------
    Small pieces
    ------------------------------------------------------------------------- */
-
-function ArrowRight() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
-      <path d="M1 8h13M9.5 3.5 14 8l-4.5 4.5" stroke="currentColor" strokeWidth="1.4" />
-    </svg>
-  );
-}
 
 function Plus() {
   return (
@@ -185,7 +179,7 @@ export default function SubServiceTemplateBody({
                     <span aria-hidden="true"> /</span>
                   </span>
                 ))}
-                <span>{hero.title}</span>
+                <span>{hero.crumb ?? hero.title}</span>
               </nav>
 
               <h1 className="abk-hero__title">{hero.title}</h1>
@@ -230,7 +224,7 @@ export default function SubServiceTemplateBody({
                   in the reference; removed by request — it read as a control
                   that opens nothing. */}
               <div className="abk-panel__top">
-                <span className="abk-panel__mark">{brief.panel.mark}</span>
+                <span className="abk-panel__mark">{brandCase(brief.panel.mark)}</span>
               </div>
 
               <figcaption className="abk-panel__foot">
@@ -252,7 +246,7 @@ export default function SubServiceTemplateBody({
             <div className="abk-why__tint" aria-hidden="true" />
 
             <div className="abk-why__card">
-              <span className="abk-why__pill">{why.pill}</span>
+              <span className="abk-why__pill">{brandCase(why.pill)}</span>
 
               {/* A link to the same place the button goes, not a <button> that
                   does nothing. The reference shows a round "+" in the corner;
@@ -274,7 +268,7 @@ export default function SubServiceTemplateBody({
 
               <a className="abk-why__btn" href={rurl(region, why.cta.href)}>
                 {why.cta.label}
-                <ArrowRight />
+                <CtaArrow />
               </a>
             </div>
           </div>
@@ -287,7 +281,10 @@ export default function SubServiceTemplateBody({
           <div className="abk-appr__rule" aria-hidden="true" />
           <p className="abk-appr__eyebrow">{approach.eyebrow}</p>
 
-          <div className="abk-appr__grid">
+          {/* data-cols lets the stylesheet run four across when a document
+              gives four steps (20260914, the mortgage journeys); three is the
+              default and every other page. */}
+          <div className="abk-appr__grid" data-cols={approach.columns.length}>
             {approach.columns.map((c) => (
               <div className="abk-appr__col" key={c.title}>
                 <h3 className="abk-appr__h">{c.title}</h3>
@@ -343,11 +340,11 @@ export default function SubServiceTemplateBody({
 
                     <span className="abk-card__title">{c.title}</span>
 
-                    <span className="abk-card__excerpt">{c.excerpt}</span>
+                    {c.excerpt && <span className="abk-card__excerpt">{c.excerpt}</span>}
 
                     <span className="abk-card__btn">
                       {insights.all.label}
-                      <ArrowRight />
+                      <CtaArrow />
                     </span>
                   </span>
                 </a>
@@ -405,12 +402,15 @@ export default function SubServiceTemplateBody({
                   they are one row rather than two stacked blocks. */}
               <div className="abk-case__foot">
                 <div className="abk-case__result">
-                  <p className="abk-case__stat">{story.stat}</p>
+                  {story.stat && <p className="abk-case__stat">{story.stat}</p>}
                   <p className="abk-case__note">{story.note}</p>
                 </div>
-                <a className="abk-case__cta" href={rurl(region, story.cta.href)}>
-                  {story.cta.label}
-                </a>
+                {story.cta && (
+                  <a className="abk-case__cta" href={rurl(region, story.cta.href)}>
+                    {story.cta.label}
+                    <CtaArrow />
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -430,9 +430,12 @@ export default function SubServiceTemplateBody({
               <h2 className="abk-band__h">{band.title}</h2>
               <div className="abk-band__side">
                 <p className="abk-band__p">{band.body}</p>
-                <a className="abk-band__cta" href={rurl(region, band.cta.href)}>
-                  {band.cta.label}
-                </a>
+                {band.cta && (
+                  <a className="abk-band__cta" href={rurl(region, band.cta.href)}>
+                    {band.cta.label}
+                    <CtaArrow />
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -499,6 +502,7 @@ export default function SubServiceTemplateBody({
               <p className="abk-talk__lede">{talk.lede}</p>
               <a className="abk-talk__cta" href={rurl(region, talk.cta.href)}>
                 {talk.cta.label}
+                <CtaArrow />
               </a>
             </div>
           </div>

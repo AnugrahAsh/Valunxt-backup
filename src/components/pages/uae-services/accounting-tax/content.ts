@@ -1,7 +1,7 @@
 /**
  * What /en-ae/services/accounting-tax-services/ says.
  *
- * SOURCE — "VALUNXT ACCOUNTING & TAX SERVICES — FINAL DEVELOPMENT-READY PARENT
+ * SOURCE — "Valunxt ACCOUNTING & TAX SERVICES — FINAL DEVELOPMENT-READY PARENT
  * SERVICE PAGE" (20260905). The copy below is that document; nothing here is
  * written or embellished. Where the document gave both a long form and a short
  * card form of the same service, both are kept — the long form is the decision

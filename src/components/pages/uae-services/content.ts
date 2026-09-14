@@ -109,7 +109,7 @@ export const UAE_SERVICE_CONTENT: Record<string, ServicePageContent> = {
       { name: 'VAT Advisory', img: ['services/vat-advisory.webp', 'new-folder/who-we-are-3.webp'] },
     ],
     glass: {
-      eyebrow: 'Why VALUNXT',
+      eyebrow: 'Why Valunxt',
       head: 'You’ll Always Know Where You Stand',
       text: 'We are transparent like that. Fixed fees, no gimmicks.',
       img: ['services/accounting-tax-banner.webp', 'homepage/abstract-1.webp'],
@@ -144,13 +144,13 @@ export const UAE_SERVICE_CONTENT: Record<string, ServicePageContent> = {
     capabilities: [
       { name: 'Buy Property', img: ['services/buy-property.webp', 'homepage/industry-2.webp'] },
       { name: 'Sell & Rent/Lease Property', img: ['services/sell-rent-lease.webp', 'new-folder/who-we-are-2.webp'] },
-      { name: 'Off Plan Properties', img: ['services/off-plan.webp', 'new-folder/client-success-1.webp'] },
+      { name: 'Off-Plan Properties', img: ['services/off-plan.webp', 'new-folder/client-success-1.webp'] },
       { name: 'Transaction Advisory', img: ['services/transaction-advisory.webp', 'new-folder/services-1.webp'] },
       { name: 'Leasing Advisory', img: ['services/leasing-advisory.webp', 'new-folder/who-we-are-1.webp'] },
       { name: 'Property Valuation', img: ['services/property-valuation.webp', 'new-folder/who-we-are-3.webp'] },
     ],
     glass: {
-      eyebrow: 'Why VALUNXT',
+      eyebrow: 'Why Valunxt',
       head: 'One Interest Represented: Yours',
       text: 'No inventory behind the advice, and no side of the table but yours.',
       img: ['services/real-estate-banner.webp', 'homepage/building-real-esate.webp', 'homepage/industry-2.webp'],
@@ -181,13 +181,13 @@ export const UAE_SERVICE_CONTENT: Record<string, ServicePageContent> = {
     capabilities: [
       { name: 'Residential Mortgages', img: ['services/residential-mortgages.webp', 'homepage/industry-2.webp'] },
       { name: 'Commercial Mortgages', img: ['services/commercial-mortgages.webp', 'new-folder/who-we-are-3.webp'] },
-      { name: 'Mortgage Pre Approval', img: ['services/mortgage-pre-approval.webp', 'new-folder/services-1.webp'] },
+      { name: 'Mortgage Pre-Approval', img: ['services/mortgage-pre-approval.webp', 'new-folder/services-1.webp'] },
       { name: 'Refinancing', img: ['services/refinancing.webp', 'new-folder/research-intelligence-1.webp'] },
-      { name: 'Non Resident Mortgages', img: ['services/non-resident-mortgages.webp', 'new-folder/who-we-are-1.webp'] },
+      { name: 'Non-Resident Mortgages', img: ['services/non-resident-mortgages.webp', 'new-folder/who-we-are-1.webp'] },
       { name: 'Islamic Finance', img: ['services/islamic-finance.webp', 'new-folder/who-we-are-2.webp'] },
     ],
     glass: {
-      eyebrow: 'Why VALUNXT',
+      eyebrow: 'Why Valunxt',
       head: 'Terms Negotiated on the Evidence',
       text: 'Property finance structured, packaged and negotiated with UAE lenders.',
       img: ['services/mortgages-banner.webp', 'new-folder/about-us-banner.webp'],
@@ -227,7 +227,7 @@ export const UAE_SERVICE_CONTENT: Record<string, ServicePageContent> = {
       { name: 'Property Valuation', img: ['services/property-valuation.webp', 'homepage/industry-2.webp'] },
     ],
     glass: {
-      eyebrow: 'Why VALUNXT',
+      eyebrow: 'Why Valunxt',
       head: 'Founded on the Standard That Every Number Must Hold Up.',
       text: 'Built to withstand scrutiny from banks, auditors and investors.',
       img: ['services/valuation-banner.webp', 'new-folder/who-we-are-3.webp'],
@@ -264,7 +264,7 @@ export const UAE_SERVICE_CONTENT: Record<string, ServicePageContent> = {
       { name: 'Research Reports', img: ['services/research-reports.webp', 'new-folder/services-1.webp'] },
     ],
     glass: {
-      eyebrow: 'Why VALUNXT',
+      eyebrow: 'Why Valunxt',
       head: 'The Questions Deserve Real Answers',
       text: 'Tested, compared and quantified — before capital is committed.',
       img: ['services/research-banner.webp', 'homepage/research-and-intellegance.webp'],
@@ -301,7 +301,7 @@ export const UAE_SERVICE_CONTENT: Record<string, ServicePageContent> = {
       { name: 'Cloud Transformation', img: ['services/cloud-transformation.webp', 'new-folder/technology-ai-1.webp'] },
     ],
     glass: {
-      eyebrow: 'Why VALUNXT',
+      eyebrow: 'Why Valunxt',
       head: 'Technology in Service of the Business Case',
       text: 'Measured on pipeline and outcomes, not impressions and activity.',
       img: ['services/technology-banner.webp', 'homepage/technology-and-ai.webp'],

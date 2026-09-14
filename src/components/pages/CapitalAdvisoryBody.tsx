@@ -267,19 +267,6 @@ export default function CapitalAdvisoryBody({ page, region }: { page: PageConfig
       															<p>Our advisory led approach combines capital structuring expertise, independent valuation and research capabilities, and India and the UAE market access. Through our group company HouzzHunt Mortgage, clients can also draw on mortgage advisory and investment finance capabilities within one integrated group.</p>
       														</div>
       													</div>
-      													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-6af41b6b elementor-invisible vamtam-icon-pos-row-reverse animated-fast elementor-widget elementor-widget-button" data-id="6af41b6b" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":100}"} data-widget_type="button.default">
-      														<div className="elementor-widget-container">
-      															<div className="elementor-button-wrapper">
-      																<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/about/')}>
-      																	<span className="elementor-button-content-wrapper">
-      																		<span className="elementor-button-icon">
-      																			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
-      																		<span className="elementor-button-text">Learn More</span>
-      																	</span>
-      																</a>
-      															</div>
-      														</div>
-      													</div>
       												</div>
       											</div>
       										</div>
@@ -302,7 +289,7 @@ export default function CapitalAdvisoryBody({ page, region }: { page: PageConfig
       													</div>
       													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-58b662f8 elementor-invisible animated-fast elementor-widget elementor-widget-text-editor" data-id="58b662f8" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":100}"} data-widget_type="text-editor.default">
       														<div className="elementor-widget-container">
-      															<p>Capital Advisory is one of four connected verticals. Explore how VALUNXT supports real estate wealth, research, and technology decisions.</p>
+      															<p>Capital Advisory is one of four connected verticals. Explore how Valunxt supports real estate wealth, research, and technology decisions.</p>
       														</div>
       													</div>
       												</div>
@@ -312,7 +299,7 @@ export default function CapitalAdvisoryBody({ page, region }: { page: PageConfig
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/free-consultation/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Book a Consultation</span>
       																</span>
       															</a>
@@ -327,7 +314,7 @@ export default function CapitalAdvisoryBody({ page, region }: { page: PageConfig
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/real-estate-investment-advisory/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Real Estate Investment Advisory</span>
       																</span>
       															</a>
@@ -348,7 +335,7 @@ export default function CapitalAdvisoryBody({ page, region }: { page: PageConfig
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/research-intelligence/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Research &amp; Intelligence</span>
       																</span>
       															</a>
@@ -369,7 +356,7 @@ export default function CapitalAdvisoryBody({ page, region }: { page: PageConfig
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/technology-ai/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Technology &amp; AI</span>
       																</span>
       															</a>

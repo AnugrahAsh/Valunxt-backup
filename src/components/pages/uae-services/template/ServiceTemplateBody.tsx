@@ -59,6 +59,7 @@
  * for that reason.
  */
 import type { ComponentType } from "react";
+import CtaArrow from '@/components/ui/CtaArrow';
 import type React from "react";
 
 import Html from "@/components/Html";
@@ -208,8 +209,8 @@ export const CSS = `
 .at-root{
   /* Palette */
   --ny:#0E355F;
-  --ny2:#0053B7;
-  --ny3:#00408C;
+  --ny2:#0B2DBE;
+  --ny3:#08248F;
   --body:#4d5863;
   --muted:#6A7590;
   --gold:#F5B301;
@@ -322,9 +323,8 @@ export const CSS = `
   font-size:var(--vxn-cta-fs,14px);font-weight:var(--vxn-cta-fw,400);letter-spacing:var(--vxn-cta-ls,.01em);
   line-height:1;text-decoration:none!important;
   transition:background-color .25s ease,color .25s ease,border-color .25s ease,
-             box-shadow .3s ease,gap .3s cubic-bezier(.22,.61,.36,1);
+             box-shadow .3s ease;
 }
-.at-btn:hover{gap:16px;}
 .at-btn--solid{
   background-image:var(--vxn-cta-grad);background-color:var(--vxn-cta-ink,#0B2DBE);
   color:#fff!important;border:1px solid transparent;
@@ -692,22 +692,16 @@ export const CSS = `
    wedge is the site's, in the pale value an inverse pill takes. */
 .at-prob__cta{
   align-self:flex-start;margin-top:auto;
-  display:inline-flex;align-items:center;gap:14px;
-  min-height:var(--vxn-cta-h,46px);padding:7px 7px 7px 26px;border-radius:var(--vxn-cta-r,999px);
+  display:inline-flex;align-items:center;gap:10px;
+  min-height:var(--vxn-cta-h,46px);padding:0 var(--vxn-cta-px,28px);border-radius:var(--vxn-cta-r,999px);
   background:#fff;color:var(--vxn-cta-ink,#0B2DBE)!important;
   font-size:var(--vxn-cta-fs,14px);font-weight:var(--vxn-cta-fw,400);letter-spacing:var(--vxn-cta-ls,.01em);line-height:1;
   text-decoration:none!important;white-space:nowrap;
   box-shadow:0 16px 36px -20px rgba(3,14,58,.7);
   --vxn-cta-sweep:var(--vxn-cta-sweep-light,#EAF0FF);
-  transition:background-color .3s ease,box-shadow .3s ease,gap .3s cubic-bezier(.22,.61,.36,1);
+  transition:background-color .3s ease,box-shadow .3s ease;
 }
-.at-prob__cta i{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:32px;height:32px;border-radius:50%;flex:0 0 auto;
-  background-image:var(--vxn-cta-grad);background-color:var(--vxn-cta-ink,#0B2DBE);color:#fff;
-  transition:background-color .3s ease;
-}
-.at-prob__cta:hover{gap:20px;box-shadow:0 20px 40px -20px rgba(3,14,58,.8);color:var(--vxn-cta-ink,#0B2DBE)!important;}
+.at-prob__cta:hover{box-shadow:0 20px 40px -20px rgba(3,14,58,.8);color:var(--vxn-cta-ink,#0B2DBE)!important;}
 
 /* ==========================================================================
    THE SERVICE STRIP — the sub-services, one open.
@@ -899,9 +893,8 @@ export const CSS = `
   background-image:var(--vxn-cta-grad,var(--brand));background-color:#0B2DBE;
   color:#fff;font-size:var(--vxn-cta-fs,14px);font-weight:var(--vxn-cta-fw,400);letter-spacing:var(--vxn-cta-ls,.01em);
   line-height:1;
-  opacity:0;transition:opacity .28s ease,gap .3s cubic-bezier(.22,.61,.36,1);
+  opacity:0;transition:opacity .28s ease;
 }
-.at-acc__panel:hover .at-acc__more{gap:16px;}
 /* The number, a frosted disc in the top corner in both states. */
 .at-acc__num{
   position:absolute;right:16px;top:16px;
@@ -1036,10 +1029,7 @@ export const CSS = `
 .at-rel__more{
   display:inline-flex;align-items:center;gap:8px;margin-top:auto;
   color:var(--ny2);font-size:13px;font-weight:600;line-height:1;
-  transition:gap .3s cubic-bezier(.22,.61,.36,1);
 }
-.at-rel__more svg{width:14px;height:14px;}
-.at-rel__card:hover .at-rel__more{gap:13px;}
 .at-rel__shot{position:relative;display:block;overflow:hidden;}
 .at-rel__shot img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
@@ -1202,7 +1192,7 @@ export const CSS = `
   /* Full width, the label at one end and the disc at the other, because a
      pill hanging off the left of a full-width paragraph reads as an orphan at
      this measure. */
-  .at-prob__cta{align-self:stretch;justify-content:space-between;margin-top:24px;}
+  .at-prob__cta{align-self:stretch;justify-content:center;margin-top:24px;}
   .at-prob__art{aspect-ratio:16/8;}
   .at-intro__figure{aspect-ratio:4/3;}
   .at-intro__point{padding:18px 0 20px 22px;}
@@ -1241,7 +1231,6 @@ export const CSS = `
   .at-acc__panel,.at-acc__img,.at-acc__title,.at-acc__card,.at-acc__more,
   .at-acc__more i,.at-acc__inner::after{transition:none!important;}
   .at-btn{transition:background-color .25s ease,color .25s ease;}
-  .at-btn:hover{gap:inherit;}
 }
 `;
 
@@ -1270,26 +1259,6 @@ function Swash({ text }: { text: string }) {
 }
 
 /** The arrow that ends every CTA on the page. */
-function Arrow() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width="16"
-      height="16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path d="M4 12h15" />
-      <path d="m13 6 6 6-6 6" />
-    </svg>
-  );
-}
-
 /** A captured Elementor container: the class list the theme keys off, and nothing else. */
 function Con({
   id,
@@ -1484,7 +1453,7 @@ export default function ServiceTemplateBody({
                   <p className="at-lede at-services__lede">{strip.lede}</p>
                   <a className="at-btn at-btn--solid at-services__cta" href={rurl(region, intro.primary.href)}>
                     {strip.cta}
-                    <Arrow />
+                    <CtaArrow />
                   </a>
                 </div>
               </div>
@@ -1507,7 +1476,7 @@ export default function ServiceTemplateBody({
                         <span className="at-acc__text">{sv.cardText}</span>
                         <span className="at-acc__more">
                           Explore More
-                          <Arrow />
+                          <CtaArrow />
                         </span>
                       </span>
                       <span className="at-acc__num" aria-hidden="true">
@@ -1679,7 +1648,7 @@ export default function ServiceTemplateBody({
                                             <a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, g.cta.href)}>
                                               <span className="elementor-button-content-wrapper">
                                                 <span className="elementor-button-icon">
-                                                  <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>{" "}
+                                                  <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>{" "}
                                                 </span>
                                                 <span className="elementor-button-text">{g.cta.label}</span>
                                               </span>
@@ -1713,9 +1682,7 @@ export default function ServiceTemplateBody({
                   <p className="at-prob__body">{banner.body}</p>
                   <a className="at-prob__cta" href={rurl(region, banner.cta.href)}>
                     {banner.cta.label}
-                    <i aria-hidden="true">
-                      <Arrow />
-                    </i>
+                    <CtaArrow />
                   </a>
                 </div>
 
@@ -1749,7 +1716,7 @@ export default function ServiceTemplateBody({
                       <Html as="span" className="at-rel__desc" html={sv.desc} />
                       <span className="at-rel__more">
                         Explore service
-                        <Arrow />
+                        <CtaArrow />
                       </span>
                     </span>
                     {/* Decorative: the name beside it is the link's label. */}
@@ -1792,6 +1759,7 @@ export default function ServiceTemplateBody({
                   <p className="at-talk__lede">{close.lede}</p>
                   <a className="at-talk__cta" href={rurl(region, close.primary.href)}>
                     {close.primary.label}
+                    <CtaArrow />
                   </a>
                 </div>
               </div>

@@ -61,8 +61,9 @@ export type SubInsight = {
   date?: string;
   /** Clamped to three lines at rest; shown whole on hover. */
   title: string;
-  /** Revealed on hover only. Four lines at the card's width. */
-  excerpt: string;
+  /** Revealed on hover only. Four lines at the card's width. Optional since
+   *  20260914: the technology documents give a card a category and a title. */
+  excerpt?: string;
   href: string;
   /** Passed through rimg(), so it is a path under uploads/. */
   image: string;
@@ -116,10 +117,14 @@ export interface SubStory {
   /** Optional for the same reason: a panel the document does not label gets no pill. */
   pill?: string;
   title: string;
-  /** The whole point of the panel. Everything else on it is caption. */
-  stat: string;
+  /** The whole point of the panel. Everything else on it is caption. Optional
+   *  since 20260914: the research documents give the panel a headline and a
+   *  sentence and no figure, and the sentence takes the caption's place. */
+  stat?: string;
   note: string;
-  cta: SubLink;
+  /** Optional since 20260914, for the two research panels the document
+   *  writes without a button. */
+  cta?: SubLink;
   arrow: SubLink;
 }
 
@@ -128,7 +133,9 @@ export interface SubBand {
   alt: string;
   title: string;
   body: string;
-  cta: SubLink;
+  /** Optional since 20260914: the Accounting & Tax documents write the band
+   *  with a heading and a paragraph and no button. */
+  cta?: SubLink;
 }
 
 export interface SubVision {
@@ -172,6 +179,10 @@ export interface SubServiceTemplateContent {
   crumbs: SubLink[];
   hero: {
     title: string;
+    /** The breadcrumb's last step, when the document writes it differently
+     *  from the title (20260912: "Sell & Rent/Lease Property" over a page
+     *  titled "Sell & Lease Property"). The title otherwise. */
+    crumb?: string;
     lede: string;
     /** Candidates, first-that-exists. */
     image: string[];
@@ -210,8 +221,11 @@ export interface SubParent {
 /** The page-level layer: what one sub-service says for itself. */
 export interface SubSpec {
   slug: string;
-  /** The hero title. Matches the registry's SubService.name. */
+  /** The hero title. Matches the registry's SubService.name unless the
+   *  document says otherwise, in which case `crumb` carries the registry's. */
   title: string;
+  /** See SubServiceTemplateContent.hero.crumb. */
+  crumb?: string;
   /** The hero paragraph — about 50 words. */
   lede: string;
   /** A photograph of its own, if it has one; otherwise the parent's. */
@@ -248,6 +262,7 @@ export function buildSubs(parent: SubParent, specs: SubSpec[]): Record<string, S
       ],
       hero: {
         title: s.title,
+        crumb: s.crumb,
         lede: s.lede,
         image: parent.hero.image,
         alt: s.hero?.alt ?? parent.hero.alt,

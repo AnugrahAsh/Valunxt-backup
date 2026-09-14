@@ -119,7 +119,7 @@ export default function DisclaimerBody({ page, region }: { page: PageConfig; reg
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-8d72be2 elementor-widget elementor-widget-text-editor" data-id="8d72be2" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
-      									<p>References to VALUNXT Corporate Services, Reliant Surveyors, HouzzHunt and HouzzHunt Mortgage describe companies within the Valunxt group. Each provides its own services under its own terms.</p>								</div>
+      									<p>References to Valunxt Corporate Services, Reliant Surveyors, HouzzHunt and HouzzHunt Mortgage describe companies within the Valunxt group. Each provides its own services under its own terms.</p>								</div>
       				</div>
       				</div>
       					</div>

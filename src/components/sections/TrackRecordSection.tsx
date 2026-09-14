@@ -11,8 +11,8 @@ import { rurl } from '@/lib/region';
 import TRACK_RECORD from '@/data/track-record';
 
 const CSS = `
-/* ===== VALUNXT track record =============================================== */
-.vxn-tr{--ny:#0E355F;--ny2:#0053B7;--gd:#0053B7;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;}
+/* ===== Valunxt track record =============================================== */
+.vxn-tr{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;}
 .vxn-tr *{box-sizing:border-box;}
 .vxn-tr__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-tr__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}

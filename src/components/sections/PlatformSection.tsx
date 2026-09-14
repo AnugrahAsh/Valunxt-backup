@@ -1,4 +1,4 @@
-/* VALUNXT Intelligence Platform — the concrete product page behind the
+/* Valunxt Intelligence Platform — the concrete product page behind the
    Technology & AI service line.
 
    The service page listed six capability phrases and repeated them; a reader
@@ -14,6 +14,7 @@
 
    Port of includes/partials/platform-content.php. */
 import { rurl } from '@/lib/region';
+import CtaArrow from '@/components/ui/CtaArrow';
 import Html from '@/components/Html';
 
 const MODULES = [
@@ -70,8 +71,8 @@ const DEMO_ROWS: Array<[string, string, string, string, string, string, number]>
 ];
 
 const CSS = `
-/* ===== VALUNXT Intelligence Platform ====================================== */
-.vxn-plat{--ny:#0E355F;--ny2:#0053B7;--gd:#0053B7;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;}
+/* ===== Valunxt Intelligence Platform ====================================== */
+.vxn-plat{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;}
 .vxn-plat *{box-sizing:border-box;}
 .vxn-plat__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-plat__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}
@@ -85,7 +86,7 @@ const CSS = `
 .vxn-plat__ui{padding:52px 0 60px;}
 .vxn-plat__figure{margin:34px 0 0;}
 .vxn-plat__chrome{border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 30px 70px -46px rgba(14,53,95,.5);background:#fff;}
-.vxn-plat__bar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(90deg,#0053B7 0%,#0E355F 100%);}
+.vxn-plat__bar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(90deg,#0B2DBE 0%,#0E355F 100%);}
 .vxn-plat__dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.28);}
 .vxn-plat__barname{margin-left:8px;color:#fff;font-size:12.5px;letter-spacing:.08em;}
 .vxn-plat__barpill{margin-left:auto;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ny);background:var(--gd);padding:4px 10px;border-radius:3px;font-weight:600;}
@@ -123,7 +124,7 @@ const CSS = `
 .vxn-plat__modnote{margin:18px 0 0;padding:14px 16px;background:var(--paper);border-left:2px solid var(--gd);font-size:13.5px;line-height:1.7;color:var(--body);}
 
 /* ---- Honest limits ------------------------------------------------------- */
-.vxn-plat__limits{background:linear-gradient(90deg,#0053B7 0%,#0E355F 100%);color:#fff;padding:60px 0;}
+.vxn-plat__limits{background:linear-gradient(90deg,#0B2DBE 0%,#0E355F 100%);color:#fff;padding:60px 0;}
 .vxn-plat__limits h2.vxn-plat__h{color:#fff!important;}
 .vxn-plat__limits .vxn-plat__eyebrow{color:var(--gd);}
 .vxn-plat__limits .vxn-plat__lead{color:rgba(255,255,255,.84);}
@@ -162,7 +163,7 @@ export default function PlatformSection({ region }: { region: string }) {
             <p className="vxn-plat__eyebrow">The platform</p>
             <h2 className="vxn-plat__h">What our technology actually does</h2>
             <p className="vxn-plat__lead">
-              The VALUNXT Intelligence Platform is the software our own valuers, researchers and
+              The Valunxt Intelligence Platform is the software our own valuers, researchers and
               advisers work in. It is not a separate product line sold on claims about AI &mdash; it is
               the system that produces the valuations, market views and portfolio reporting behind our
               advisory work, opened up to clients who want the same view of their own holdings.
@@ -189,7 +190,7 @@ export default function PlatformSection({ region }: { region: string }) {
                   <span className="vxn-plat__dot" aria-hidden="true" />
                   <span className="vxn-plat__dot" aria-hidden="true" />
                   <span className="vxn-plat__dot" aria-hidden="true" />
-                  <span className="vxn-plat__barname">VALUNXT Intelligence &mdash; Portfolio</span>
+                  <span className="vxn-plat__barname">Valunxt Intelligence &mdash; Portfolio</span>
                   <span className="vxn-plat__barpill">Illustration</span>
                 </div>
                 <div className="vxn-plat__screen">
@@ -345,6 +346,7 @@ export default function PlatformSection({ region }: { region: string }) {
             </p>
             <a className="vxn-plat__btn" href={rurl(region, '/contact/')}>
               Request a walkthrough
+              <CtaArrow />
             </a>
           </div>
         </section>

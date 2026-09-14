@@ -54,7 +54,7 @@ export default function PartnershipBody({ page, region }: { page: PageConfig; re
                       </div>
                       <div className="elementor-element elementor-element-564ba7d elementor-invisible animated-fast elementor-widget__width-initial elementor-widget elementor-widget-theme-post-excerpt" data-id="564ba7d" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":50}"} data-widget_type="theme-post-excerpt.default">
                         <div className="elementor-widget-container">
-                          Partner with VALUNXT to connect capital, real estate, research, and technology into opportunities that build lasting wealth. </div>
+                          Partner with Valunxt to connect capital, real estate, research, and technology into opportunities that build lasting wealth. </div>
                       </div>
                     </div>
                   </div>
@@ -105,7 +105,7 @@ export default function PartnershipBody({ page, region }: { page: PageConfig; re
                             </div>
                             <div className="vamtam-has-theme-widget-styles elementor-element elementor-element-5740e2bb elementor-invisible elementor-widget__width-initial elementor-widget-tablet__width-inherit animated-fast elementor-widget elementor-widget-text-editor" data-id="5740e2bb" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":200}"} data-widget_type="text-editor.default">
                               <div className="elementor-widget-container">
-                                <p>At VALUNXT, partnerships are built on shared ambition and mutual value. We collaborate with developers, institutions, financial advisers, and businesses to connect capital, real estate, research, and technology into opportunities that grow wealth. We take the time to understand each partner’s objectives, aligning our expertise with your goals rather than applying a one-size-fits-all approach.</p>
+                                <p>At Valunxt, partnerships are built on shared ambition and mutual value. We collaborate with developers, institutions, financial advisers, and businesses to connect capital, real estate, research, and technology into opportunities that grow wealth. We take the time to understand each partner’s objectives, aligning our expertise with your goals rather than applying a one-size-fits-all approach.</p>
                                 <p>Whether you are structuring capital, launching a development, expanding across borders, or building intelligence-led products, our integrated group provides the network, insight, and execution to move from strategy to results. Every partnership is tailored and designed for long-term, sustainable growth.</p>
                               </div>
                             </div>
@@ -123,7 +123,7 @@ export default function PartnershipBody({ page, region }: { page: PageConfig; re
                             <div className="elementor-element elementor-element-56cf508f e-con-full e-flex e-con e-child" data-id="56cf508f" data-element_type="container" data-e-type="container">
                               <div className="elementor-element elementor-element-221c09c1 elementor-invisible elementor-widget__width-initial elementor-widget-tablet__width-inherit animated-fast elementor-widget elementor-widget-heading" data-id="221c09c1" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":50}"} data-widget_type="heading.default">
                                 <div className="elementor-widget-container">
-                                  <h2 className="elementor-heading-title elementor-size-default">Ways to Partner With VALUNXT</h2>
+                                  <h2 className="elementor-heading-title elementor-size-default">Ways to Partner With Valunxt</h2>
                                 </div>
                               </div>
                             </div>
@@ -293,7 +293,7 @@ export default function PartnershipBody({ page, region }: { page: PageConfig; re
                                   <a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/free-consultation/')}>
                                     <span className="elementor-button-content-wrapper">
                                       <span className="elementor-button-icon">
-                                        <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+                                        <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
                                       <span className="elementor-button-text">Start a Partnership Conversation</span>
                                     </span>
                                   </a>
@@ -417,20 +417,7 @@ export default function PartnershipBody({ page, region }: { page: PageConfig; re
                                     <p>Our team brings deep, cross-disciplinary experience across real estate, capital markets, research, and technology. With expertise spanning valuation, investment, and advisory, we give partners the insight and strategic guidance needed to succeed across India, the UAE, and international markets.</p>
                                   </div>
                                 </div>
-                                <div className="vamtam-has-theme-widget-styles elementor-element elementor-element-7899b575 elementor-invisible vamtam-icon-pos-row-reverse animated-fast elementor-widget elementor-widget-button" data-id="7899b575" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":100}"} data-widget_type="button.default">
-                                  <div className="elementor-widget-container">
-                                    <div className="elementor-button-wrapper">
-                                      <a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/about/')}>
-                                        <span className="elementor-button-content-wrapper">
-                                          <span className="elementor-button-icon">
-                                            <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
-                                          <span className="elementor-button-text">Learn More About Us</span>
-                                        </span>
-                                      </a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                            	</div>
                             </div>
                           </div>
                         </div>
@@ -462,7 +449,7 @@ export default function PartnershipBody({ page, region }: { page: PageConfig; re
                                     <a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/free-consultation/')}>
                                       <span className="elementor-button-content-wrapper">
                                         <span className="elementor-button-icon">
-                                          <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+                                          <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
                                         <span className="elementor-button-text">Start a Partnership Conversation</span>
                                       </span>
                                     </a>
@@ -477,7 +464,7 @@ export default function PartnershipBody({ page, region }: { page: PageConfig; re
                                     <a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/real-estate-investment-advisory/')}>
                                       <span className="elementor-button-content-wrapper">
                                         <span className="elementor-button-icon">
-                                          <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+                                          <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
                                         <span className="elementor-button-text">Real Estate Wealth Advisory</span>
                                       </span>
                                     </a>
@@ -498,7 +485,7 @@ export default function PartnershipBody({ page, region }: { page: PageConfig; re
                                     <a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/capital-advisory/')}>
                                       <span className="elementor-button-content-wrapper">
                                         <span className="elementor-button-icon">
-                                          <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+                                          <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
                                         <span className="elementor-button-text">Capital Advisory</span>
                                       </span>
                                     </a>
@@ -519,7 +506,7 @@ export default function PartnershipBody({ page, region }: { page: PageConfig; re
                                     <a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/research-intelligence/')}>
                                       <span className="elementor-button-content-wrapper">
                                         <span className="elementor-button-icon">
-                                          <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+                                          <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
                                         <span className="elementor-button-text">Research &amp; Intelligence</span>
                                       </span>
                                     </a>

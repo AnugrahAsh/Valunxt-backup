@@ -4,6 +4,18 @@
  * Practice-level sections once, page-level copy per sub-service; the names
  * and slugs are the registry's. See ../template/subTypes.ts for the shape,
  * the length rules and the note on the success story being a placeholder.
+ *
+ * ALL SIX PAGES ARE THE CLIENT'S page documents (20260914), word for word,
+ * under the same two rules as the rest of the UAE pages: nothing added to the
+ * documents or dropped from them, and no em dashes. Each document writes every
+ * practice-level section for its page, so each page carries them in
+ * `override`; the PARENT below is the shape they override and shows nowhere.
+ * The same slot calls as the other sub-services apply, and the ones particular
+ * to a page are marked at the line.
+ *
+ * THE STORY PANEL ON THESE PAGES has a headline and a sentence and no figure,
+ * so the sentence stands where the figure's caption would, and two of the
+ * panels have no button (Feasibility Studies, Investment Research).
  */
 import { buildSubs, type SubParent, type SubSpec } from '../template/subTypes';
 import {
@@ -19,7 +31,8 @@ import { RESEARCH_TEMPLATE } from './content';
 
 const PARENT: SubParent = {
   service: 'research-intelligence',
-  crumb: 'Research',
+  /* The documents write the breadcrumb out in full. */
+  crumb: 'Research & Intelligence',
   hero: { image: RESEARCH_TEMPLATE.hero.image, alt: RESEARCH_TEMPLATE.hero.alt },
   panel: PANEL_PLATE,
   why: {
@@ -69,7 +82,7 @@ const PARENT: SubParent = {
     ...STORY_PHOTO,
     alt: 'A researcher reviewing a feasibility study',
     quote:
-      'We had a site and three ideas for it. VALUNXT’s feasibility study showed which one the ' +
+      'We had a site and three ideas for it. Valunxt’s feasibility study showed which one the ' +
       'market would actually absorb, and the numbers behind it went straight into the lender’s ' +
       'credit paper.',
     initials: 'FA',
@@ -84,9 +97,9 @@ const PARENT: SubParent = {
   },
   band: {
     ...BAND_PHOTO,
-    title: 'VALUNXT Market Intelligence',
+    title: 'Valunxt Market Intelligence',
     body:
-      'Working with the group’s valuers, transaction desk and technology team, VALUNXT turns a ' +
+      'Working with the group’s valuers, transaction desk and technology team, Valunxt turns a ' +
       'market question into evidence you can act on — gathered, tested and quantified before ' +
       'capital is committed.',
     cta: { label: "Discover what's next", href: '/services/technology-data-ai/' },
@@ -112,151 +125,565 @@ const SPECS: SubSpec[] = [
   {
     slug: 'real-estate-research',
     title: 'Real Estate Research',
-    lede:
-      'We gather, test and quantify the evidence behind UAE property decisions: supply, demand, absorption, pricing and rents across residential, commercial, hospitality and industrial markets. Whether you are choosing a submarket, timing an acquisition or sizing a scheme, we bring data that has been checked, comparables that have been verified and analysis written for the decision in front of you.',
+    lede: 'Independent research into property markets, sectors and locations to reveal the forces shaping performance, demand and opportunity.',
     brief: {
-      lede:
-        'We partner with investors, developers and occupiers to replace market opinion with market evidence. The approach is built on research delivered across the emirates, which has shown that the useful questions — what is being built, what is selling, at what price and to whom — have answers in the data, and that the data has to be cleaned before it can be trusted.',
-      whatIntro: 'The what sets out what real estate research has to deliver, including:',
+      lede: [
+        'Real estate markets rarely move as one. Performance can differ significantly between locations, asset classes and price segments as supply, demand, transactions, occupier behaviour and development activity change.',
+        'ValuNxt examines these market dynamics together, turning property data into a more complete understanding of where the market stands, what is influencing its direction and where meaningful shifts may be emerging.',
+      ],
+      whatIntro: 'What We Examine',
       what: [
-        { lead: 'Supply', text: 'existing stock, the pipeline by delivery year and the projects that will actually complete, tracked at building level.', stress: 'the projects that will actually complete' },
-        { lead: 'Demand and absorption', text: 'transactions, lettings and take-up by submarket and segment, so a forecast rests on how the market has behaved.' },
-        { lead: 'Pricing and rents', text: 'verified comparables, trend and yield, with the outliers explained rather than averaged away.' },
-        { lead: 'The submarket view', text: 'what distinguishes one community, one tower or one industrial zone from the next, and what that is worth.' },
+        { lead: 'Transactions & Pricing.', text: 'Track transaction activity, sales values and pricing movements to understand how market behaviour is changing.' },
+        { lead: 'Supply & Pipeline.', text: 'Assess existing inventory, upcoming developments and future supply that could influence market balance.' },
+        { lead: 'Demand & Absorption.', text: 'Examine demand patterns and market absorption to understand where activity is strengthening, stabilising or changing.' },
+        { lead: 'Rents & Yields.', text: 'Analyse rental performance and relevant yield movements to provide perspective on income and market conditions.' },
       ],
-      howIntro: 'The how keeps the research usable and current:',
+      howIntro: 'Research Across the Market',
       how: [
-        { lead: 'Verified sources.', text: 'Transaction registries, developer disclosures, listings and the group’s own valuation evidence, cross-checked before use.', stress: 'cross-checked before use' },
-        { lead: 'Written for the decision.', text: 'Each report opens with the question asked and the answer found, with the method and the data behind it.' },
-        { lead: 'Refreshed on a schedule.', text: 'Standing coverage updated quarterly, so a view taken in March is not stale by June.' },
-        { lead: 'Valuation alongside.', text: 'The group’s RICS-regulated valuers test the pricing conclusions, so research and value agree.' },
+        { lead: 'Residential.', text: 'Examine sales, rentals, supply, demand and location-level performance across residential markets.' },
+        { lead: 'Office.', text: 'Assess occupier demand, rental movements, availability, new supply and changing workplace requirements.' },
+        { lead: 'Retail & Hospitality.', text: 'Study market performance, demand patterns, supply dynamics and sector-specific indicators.' },
+        { lead: 'Industrial & Logistics.', text: 'Analyse occupier activity, supply, rents, location dynamics and the forces influencing industrial and logistics markets.' },
       ],
-      panel: { title: 'Property Evidence', sub: 'Supply, demand, absorption and pricing across UAE property markets, gathered and verified.' },
+      panel: {
+        title: 'See the Market Beneath the Headlines.',
+        sub: 'Look beyond market-wide averages to understand the locations, sectors and signals shaping real estate performance.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: 'Research',
+        titleMid: 'Grounded in',
+        titleMark: 'Real Estate.',
+        note: 'Property expertise, market evidence and analytical thinking come together to provide a more informed perspective on changing real estate markets.',
+        cta: { label: 'Explore Our Expertise', href: '/services/research-intelligence/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our research approach',
+        columns: [
+          { title: 'Define the Market', body: 'We establish the geography, property sector, market segment and decision context to focus the research on what is genuinely relevant.' },
+          { title: 'Analyse the Evidence', body: 'Transactions, pricing, rents, supply, demand and other relevant indicators are examined to identify patterns, relationships and changes within the market.' },
+          { title: 'Interpret the Direction', body: 'We connect the evidence to the wider market context, highlighting the forces influencing current performance and the developments that may shape what comes next.' },
+        ],
+      },
+      insights: {
+        title: 'Markets Move Differently. Research Shows Where.',
+        lede: 'Explore the trends, locations and property sectors shaping the next phase of the real estate market.',
+        all: { label: 'Explore Research Insights', href: '/blogs/' },
+        cards: [
+          { title: 'Is Headline Growth Hiding a Different Story?', excerpt: 'Why market-wide performance can look very different when examined by location, segment and property type.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'What Happens When Supply Catches Up?', excerpt: 'How development pipelines and future completions can reshape market balance.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'Where Is Rental Demand Moving?', excerpt: 'What changing occupier and tenant behaviour can reveal about emerging market dynamics.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'Which Signals Matter Before Prices Move?', excerpt: 'Looking beyond headline values to the indicators that can reveal changes developing beneath the market.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A researcher reviewing a market report',
+        quote: 'We needed a clearer view of how different locations and property segments were actually performing. ValuNxt helped us look beyond headline market figures and understand the dynamics influencing the areas relevant to our strategy.',
+        pill: 'Market Perspective',
+        title: 'From Market Data to Market Direction.',
+        note: 'Research that brings transactions, supply, demand, pricing and sector performance together to reveal a more complete picture of the property market.',
+        cta: { label: 'Explore Our Research', href: '/research/' },
+        arrow: { href: '/services/research-intelligence/', label: 'More about Research & Intelligence' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Real Estate Intelligence',
+        /* The comma after "interact" stands where the document's dash was. */
+        body: 'What Is Moving the Market? Understanding real estate requires more than tracking prices. It means recognising how supply, demand, activity and location interact, and how those relationships are changing.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        steps: [
+          { title: 'Activity', body: 'Follow where the market moves. Examine transactions, leasing activity and other indicators to understand where momentum is building or changing.' },
+          { title: 'Balance', body: 'Read supply against demand. Assess existing and future supply alongside demand to understand the forces influencing market conditions.' },
+          { title: 'Location', body: 'Look beneath the average. Compare areas and submarkets to identify differences that broader market figures may not reveal.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To make property markets more understandable through research that reveals what the headline numbers cannot.',
+      },
+      /* "Research Across" heads the strip in the document; hidden slot. */
+      strip: stripOf('research-intelligence', ['Residential', 'Office', 'Retail', 'Hospitality', 'Industrial & Logistics', 'Mixed-Use']),
+      talk: {
+        head: 'The Market Is Moving. Know What Is Driving It.',
+        lede: 'Get a research-led view of the property markets, sectors and locations relevant to your next decision.',
+        cta: { label: 'Speak to Our Research Team', href: '/free-consultation/' },
+        image: RESEARCH_TEMPLATE.close.image,
+      },
     },
   },
   {
     slug: 'market-research',
     title: 'Market Research',
-    lede:
-      'We size markets and describe them: who is buying, renting, spending and paying what, across sectors and locations in the UAE. Whether you are entering a market, launching a product or choosing where to build, we bring primary research, verified secondary data and analysis that turns a market into a set of numbers a plan can be built on.',
+    lede: 'Structured market research into demand, customers, competition and commercial dynamics to uncover where opportunity exists.',
     brief: {
-      lede:
-        'We partner with businesses and investors to know a market before committing to it. The approach is built on studies delivered across property, retail, hospitality and services in the UAE, which has shown that the right study answers a specific question with evidence gathered for it — not a generic report with the client’s name on the cover.',
-      whatIntro: 'The what sets out what a market study has to establish, including:',
+      /* The commas after "angles" and around "or could sit" stand where the
+         document's dashes were. */
+      lede: [
+        'A market can look attractive at headline level while telling a very different story beneath the surface. Demand may vary by customer segment, competitive intensity can change quickly, and pricing or positioning can determine whether an opportunity is commercially compelling.',
+        'ValuNxt examines the market from multiple angles, bringing together demand, customer behaviour, competitive activity and commercial evidence to help businesses understand how a market works and where meaningful opportunities may exist.',
+      ],
+      whatIntro: 'What We Examine',
       what: [
-        { lead: 'Market size and growth', text: 'from verified data, with the method of estimation stated and the range it carries.', stress: 'the method of estimation stated' },
-        { lead: 'Customers and demand', text: 'who buys, why, how often and at what price, from surveys, interviews and transaction evidence.' },
-        { lead: 'Competition', text: 'the operators, projects or products already there, their positioning and where the gaps are.' },
-        { lead: 'Location', text: 'catchments, footfall, access and the pipeline that will change them, mapped and quantified.' },
+        { lead: 'Market Size & Demand.', text: 'Assess the scale of the market, demand characteristics and the factors influencing current and future activity.' },
+        { lead: 'Customers & Segments.', text: 'Understand target audiences, customer needs, behaviours and the segments most relevant to the opportunity.' },
+        { lead: 'Competition & Positioning.', text: 'Examine competitors, propositions and market positioning to understand where a business sits, or could sit, within the landscape.' },
+        { lead: 'Pricing & Market Dynamics.', text: 'Analyse pricing structures, market movements and commercial factors that can influence competitiveness and demand.' },
       ],
-      howIntro: 'The how delivers research a decision can rest on:',
+      howIntro: 'Research Built Around the Decision',
       how: [
-        { lead: 'The question first.', text: 'The decision the research serves is written down with the client before a survey is designed.', stress: 'written down with the client' },
-        { lead: 'Primary where it matters.', text: 'Surveys, interviews and site work commissioned where secondary data cannot answer the question.' },
-        { lead: 'Evidence over opinion.', text: 'Every conclusion traces to a source, a sample or a dataset named in the report.' },
-        { lead: 'Presented, not just delivered.', text: 'Findings walked through with the team who will act on them, and the model handed over.' },
+        { lead: 'Market Entry.', text: 'Understand the opportunity, competitive environment and market conditions before entering a new geography or sector.' },
+        { lead: 'Expansion.', text: 'Assess demand and market potential when considering new locations, customer segments or areas of growth.' },
+        { lead: 'Product & Service Positioning.', text: 'Explore customer expectations, competitive propositions and pricing to inform how an offering enters or evolves within the market.' },
+        { lead: 'Strategic Planning.', text: 'Bring external market evidence into business planning, growth priorities and longer-term commercial decisions.' },
       ],
-      panel: { title: 'Market Studies', sub: 'Markets sized and described — customers, competition, location — from evidence gathered for the question.' },
+      panel: {
+        title: 'Know What Shapes the Market.',
+        sub: 'Look deeper into demand, customer behaviour and competition to understand the forces influencing commercial potential.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: 'Market Understanding.',
+        titleMid: 'Built Over',
+        titleMark: 'Decades.',
+        note: 'Deep market experience brings context to the data, helping us interpret what is changing, what matters and what it could mean for your business.',
+        cta: { label: 'Speak With an Expert', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our research approach',
+        columns: [
+          { title: 'Frame the Question', body: 'We define the market, audience and commercial objective so the research begins with the decision that needs to be informed.' },
+          { title: 'Build the Evidence', body: 'Relevant market, customer, competitor and pricing information is gathered and analysed to establish a credible view of the landscape.' },
+          { title: 'Find What Matters', body: 'We interpret the evidence to identify patterns, gaps, risks and opportunities with the greatest relevance to the business question.' },
+        ],
+      },
+      insights: {
+        title: 'Beyond the Headline Numbers.',
+        lede: 'Explore the customer, competitive and commercial forces that can change how a market opportunity is understood.',
+        all: { label: 'Explore Market Insights', href: '/blogs/' },
+        cards: [
+          { title: 'A Large Market Is Not Always a Large Opportunity', excerpt: 'Why addressable demand matters more than the headline size of a market.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'What Are Your Competitors Really Competing On?', excerpt: 'Looking beyond price to understand positioning, proposition and differentiation.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'When Customer Behaviour Changes the Strategy', excerpt: 'How shifts in expectations and purchasing behaviour can reshape commercial opportunity.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'Is the Market Ready for Another Player?', excerpt: 'What demand, competition and market structure can reveal before entry.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A researcher reviewing a market report',
+        quote: 'We were evaluating a new market and needed more than high-level industry data. ValuNxt helped us understand the customer landscape, competitive environment and commercial factors that mattered to our decision.',
+        pill: 'From Research to Strategy',
+        title: 'Evidence That Moves Strategy Forward.',
+        note: 'Research that brings customers, competitors, demand and commercial conditions together to reveal where a business can realistically compete and grow.',
+        cta: { label: 'Explore Our Research', href: '/research/' },
+        arrow: { href: '/services/research-intelligence/', label: 'More about Research & Intelligence' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Market Perspective',
+        body: 'The Forces Behind Market Opportunity. Its real potential becomes clearer when demand, customers, competition and commercial conditions are examined together.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        steps: [
+          { title: 'Demand', body: 'Understand who wants what. Examine where demand exists, how it differs across segments and what may influence its direction.' },
+          { title: 'Competition', body: 'See where others stand. Understand the competitive landscape, existing propositions and the areas where differentiation may be possible.' },
+          { title: 'Opportunity', body: 'Find where the gap is. Connect market and customer evidence to identify areas with stronger commercial potential.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To reveal the market realities behind meaningful commercial opportunity.',
+      },
+      /* "Research For" heads the strip in the document; hidden slot. */
+      strip: stripOf('research-intelligence', ['Market Entry', 'Business Expansion', 'Customer Segmentation', 'Competitive Analysis', 'Product Positioning', 'Growth Strategy']),
+      talk: {
+        head: 'Before You Enter the Market, Understand It.',
+        lede: 'Build your next commercial move on a deeper understanding of demand, customers, competition and opportunity.',
+        cta: { label: 'Speak to Our Research Team', href: '/free-consultation/' },
+        image: RESEARCH_TEMPLATE.close.image,
+      },
     },
   },
   {
     slug: 'investment-research',
     title: 'Investment Research',
-    lede:
-      'We test an investment before capital is committed: returns, risks and comparables for a property, a portfolio or a fund. Whether you are assessing an acquisition, weighing a sector or reviewing a manager, we bring cash-flow modelling on evidence, sensitivities on the assumptions that matter and an independent view with no stake in the answer.',
+    lede: 'Independent research into markets, sectors and opportunities to understand the fundamentals, risks and forces that can shape investment performance.',
     brief: {
-      lede:
-        'We partner with investors, family offices and funds to turn conviction into evidence. The approach is built on investment analysis delivered across UAE real estate and related assets, which has shown that most bad investments were made on a return that was never stress-tested and a comparable that was never checked.',
-      whatIntro: 'The what sets out what investment research has to test, including:',
+      lede: [
+        'An investment case is rarely defined by a single return measure. Market fundamentals, income potential, capital flows, economic conditions, sector dynamics and risk can all influence how an opportunity performs over time.',
+        'ValuNxt brings these factors into one research framework, helping investors understand what supports an opportunity, where the uncertainties lie and how it compares within the wider market.',
+      ],
+      whatIntro: 'What We Examine',
       what: [
-        { lead: 'The cash flows', text: 'rent, occupancy, costs, capex and exit modelled from evidence, not from the vendor’s brochure.', stress: 'not from the vendor’s brochure' },
-        { lead: 'The returns', text: 'yield, IRR and equity multiple over the hold, with and without leverage, on the same model.' },
-        { lead: 'The risks', text: 'sensitivities on rent, exit yield, void and rate, so you know which assumption the case depends on.' },
-        { lead: 'The comparables', text: 'what similar assets have traded and let for, verified by the group’s valuers.' },
+        { lead: 'Market Fundamentals.', text: 'Assess the economic, sector and demand conditions supporting the investment environment.' },
+        { lead: 'Performance Drivers.', text: 'Examine the income, growth and market factors that could influence investment performance.' },
+        { lead: 'Capital & Market Activity.', text: 'Consider transaction activity, investor behaviour, liquidity and capital movements relevant to the opportunity.' },
+        { lead: 'Risk & Outlook.', text: 'Evaluate market risks, changing conditions and forward-looking factors that could affect the investment case.' },
       ],
-      howIntro: 'The how gives you a view you can act on:',
+      howIntro: 'Research Around the Investment',
       how: [
-        { lead: 'Independent.', text: 'No transaction interest and a fixed fee, so the recommendation is not shaped by whether the deal proceeds.', stress: 'No transaction interest' },
-        { lead: 'The model handed over.', text: 'A working model with inputs on one sheet, so your team can run its own scenarios after we leave.' },
-        { lead: 'Written as a recommendation.', text: 'Proceed, proceed on terms, or decline — with the reasons and the conditions stated.' },
-        { lead: 'Reviewed with you.', text: 'The findings presented to the investment committee, with the analyst there to answer the challenge.' },
+        { lead: 'Opportunity Assessment.', text: 'Examine the fundamentals and market conditions surrounding a potential investment opportunity.' },
+        { lead: 'Sector Analysis.', text: 'Compare sectors to understand differences in performance drivers, market maturity and investment dynamics.' },
+        { lead: 'Location Analysis.', text: 'Assess the economic, demographic and market characteristics influencing investment potential across locations.' },
+        { lead: 'Comparative Research.', text: 'Place opportunities alongside relevant alternatives to understand their relative strengths, risks and market positioning.' },
       ],
-      panel: { title: 'Investment Cases', sub: 'Returns, risks and comparables tested before capital is committed, with no stake in the answer.' },
+      panel: {
+        title: 'Look Beyond the Opportunity.',
+        sub: 'Understand the market forces, performance drivers and risks that determine whether an investment case deserves a closer look.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: 'Evidence Behind',
+        titleMid: 'Investment',
+        titleMark: 'Decisions.',
+        note: 'Research brings market evidence, commercial understanding and analytical perspective together to examine opportunities in the context that matters to investors.',
+        cta: { label: 'Speak With an Expert', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our research approach',
+        columns: [
+          { title: 'Define the Investment Case', body: 'We establish the opportunity, investment objectives and market context to determine the questions the research needs to answer.' },
+          { title: 'Test the Fundamentals', body: 'We examine market conditions, demand, performance drivers, capital activity and risk to understand the strength of the underlying investment case.' },
+          { title: 'Assess the Opportunity', body: 'We bring the evidence together, compare relevant alternatives and identify the factors that could strengthen or challenge future investment performance.' },
+        ],
+      },
+      insights: {
+        title: 'What’s Changing the Investment Landscape?',
+        lede: 'Perspectives on the forces, risks and opportunities reshaping markets and investment thinking.',
+        all: { label: 'Explore Investment Insights', href: '/blogs/' },
+        cards: [
+          { title: 'Strong Market. Strong Investment?', excerpt: 'Why favourable market conditions do not automatically make every opportunity equally compelling.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'Where Will Returns Really Come From?', excerpt: 'Understanding the role of income, growth and changing market conditions in investment performance.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'When Does Risk Change the Investment Case?', excerpt: 'Why the same opportunity can look different when uncertainty, timing and market exposure are considered.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'What Is Capital Telling the Market?', excerpt: 'How investor activity, transaction volumes and liquidity can reveal changing market conviction.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A researcher reviewing a market report',
+        quote: 'We needed to understand how an opportunity stood against the wider market before taking it further. ValuNxt helped us examine the fundamentals, risks and market factors behind the investment case.',
+        pill: 'Investment Perspective',
+        title: 'Research the Market. Read the Opportunity.',
+        /* No button in the document. */
+        note: 'Understand how market conditions, capital dynamics and performance drivers come together to shape investment potential.',
+        arrow: { href: '/services/research-intelligence/', label: 'More about Research & Intelligence' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Investment Perspective',
+        body: 'See What Supports the Investment Case. Bring market fundamentals, performance potential and risk into one view of the opportunity.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        steps: [
+          { title: 'Fundamentals', body: 'Understand the foundation. Examine the market, demand and economic conditions supporting the opportunity.' },
+          { title: 'Performance', body: 'Understand what could drive returns. Consider the income, growth and market factors that may influence investment performance.' },
+          { title: 'Risk', body: 'Understand what could change. Assess uncertainty and market exposure alongside the factors that could challenge expected performance.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To bring deeper intelligence to the decisions that shape investment outcomes.',
+      },
+      /* "Research For" heads the strip in the document; hidden slot. */
+      strip: stripOf('research-intelligence', ['Investment Opportunities', 'Market & Sector Selection', 'Location Assessment', 'Comparative Analysis', 'Portfolio Strategy', 'Investment Planning']),
+      talk: {
+        head: 'Better Investment Decisions Start With Research.',
+        lede: 'Bring deeper research, market evidence and investment perspective to your next capital decision.',
+        cta: { label: 'Start a Conversation', href: '/free-consultation/' },
+        image: RESEARCH_TEMPLATE.close.image,
+      },
     },
   },
   {
     slug: 'feasibility-studies',
     title: 'Feasibility Studies',
-    lede:
-      'We prepare feasibility studies for land and development that lenders and boards can act on: highest-and-best-use analysis, market absorption, development cost and financial feasibility on one defended model. Whether you own a plot and want to know what to build, or have a scheme and need to know whether it works, we bring evidence before the commitment.',
+    lede: 'Independent feasibility analysis that tests market demand, commercial assumptions and financial viability before a project moves forward.',
     brief: {
-      lede:
-        'We partner with landowners, developers and lenders to answer the question a site asks before the capital is spent. The approach is built on feasibility studies delivered across the emirates, which has shown that a bankable study has to test the use, the market, the cost and the finance together — and be honest when the answer is not the one the client hoped for.',
-      whatIntro: 'The what sets out what a feasibility study has to establish, including:',
+      lede: [
+        'The viability of a project depends on how effectively its market potential, commercial structure and financial assumptions align. A feasibility study provides an objective assessment of these factors, examining demand, positioning, pricing, costs and other critical variables before significant commitments are made.',
+        'ValuNxt combines market intelligence with commercial and financial analysis to assess the strength of the underlying proposition, test key assumptions and provide a clear basis for determining whether and under what conditions a project is commercially viable.',
+      ],
+      whatIntro: 'What We Assess',
       what: [
-        { lead: 'Highest and best use', text: 'the uses the site can legally, physically and financially support, tested and ranked rather than assumed from the neighbours.', stress: 'tested and ranked' },
-        { lead: 'Market absorption', text: 'how much of the proposed product the market will take, at what price and over what period, from supply and demand evidence.' },
-        { lead: 'Development cost', text: 'land, construction, fees, finance and contingency, benchmarked to current UAE tender evidence.' },
-        { lead: 'Financial feasibility', text: 'residual land value, profit on cost, IRR and the sensitivities a lender will run, on one model.' },
+        { lead: 'Market Demand.', text: 'Examine the depth and characteristics of demand to understand whether the market can support the proposed concept.' },
+        { lead: 'Competitive Landscape.', text: 'Assess existing and planned competition to understand market positioning, differentiation and potential pressure points.' },
+        { lead: 'Concept & Positioning.', text: 'Evaluate whether the proposed offering, scale, customer proposition and positioning align with identified market requirements.' },
+        { lead: 'Commercial Assumptions.', text: 'Test relevant pricing, revenue, cost and operating assumptions to understand the commercial foundations of the project.' },
       ],
-      howIntro: 'The how produces a study that survives its readers:',
+      howIntro: 'Where Feasibility Matters',
       how: [
-        { lead: 'Written for the lender.', text: 'Structured the way a bank’s credit team reads a development case, with the assumptions they test made explicit.', stress: 'the way a bank’s credit team reads' },
-        { lead: 'Valuers and researchers together.', text: 'The group’s RICS-regulated valuers and market researchers work on one study, so value and demand agree.' },
-        { lead: 'Scenarios, not a single answer.', text: 'Base, downside and upside cases, with the trigger points named.' },
-        { lead: 'Independent of the outcome.', text: 'A fixed fee and no development interest, so the study says what the evidence says.' },
+        { lead: 'New Developments.', text: 'Assess market support and commercial viability before progressing a proposed development.' },
+        { lead: 'New Business Concepts.', text: 'Test demand, positioning and underlying assumptions before bringing a new concept to market.' },
+        { lead: 'Expansion Plans.', text: 'Evaluate the case for entering a new location, increasing capacity or extending an existing operation.' },
+        { lead: 'Project Repositioning.', text: 'Reassess the market proposition when changing conditions or performance require a different commercial direction.' },
       ],
-      panel: { title: 'Feasibility', sub: 'Highest-and-best-use and financial feasibility for land and development, written for lenders and boards.' },
+      panel: {
+        title: 'Clarity Before Commitment.',
+        sub: 'Understand the commercial foundations of a project before taking it from concept to execution.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: 'Evidence Behind',
+        titleMid: 'Every',
+        titleMark: 'Assumption.',
+        note: 'We examine market demand, commercial fundamentals and project economics together, testing the assumptions that ultimately determine viability.',
+        cta: { label: 'Discuss Your Project', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our feasibility approach',
+        columns: [
+          { title: 'Establish the Proposition', body: 'We define the project, target market, proposed positioning and commercial objectives to establish what needs to be tested.' },
+          { title: 'Test the Assumptions', body: 'Demand, competition, pricing, costs, revenues and other relevant variables are examined to determine whether the underlying assumptions stand up to analysis.' },
+          { title: 'Assess the Viability', body: 'Market findings and commercial analysis are brought together to identify key sensitivities, potential constraints and the overall feasibility of the proposition.' },
+        ],
+      },
+      insights: {
+        title: 'From Market Potential to Project Reality.',
+        lede: 'Explore the trends, assumptions and commercial considerations influencing whether projects move forward.',
+        all: { label: 'Explore Feasibility Insights', href: '/blogs/' },
+        cards: [
+          { title: 'Strong Demand. Wrong Concept?', excerpt: 'Why an attractive market does not guarantee that every proposition will succeed within it.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'How Much Demand Is Enough?', excerpt: 'Why market size needs to be considered alongside realistic capture, competition and project scale.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'When Pricing Changes the Entire Feasibility', excerpt: 'How seemingly small changes in pricing assumptions can influence the commercial case for a project.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'What Happens When the Assumptions Move?', excerpt: 'Why sensitivity and scenario analysis matter when testing the resilience of a proposed project.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A researcher reviewing a market report',
+        quote: 'We needed to know whether the opportunity was commercially sound before progressing further. ValuNxt challenged the key assumptions and helped us understand where the project was strong and where it needed reconsideration.',
+        pill: 'Before Capital Is Committed',
+        title: 'Evidence Before Execution.',
+        /* No button in the document. */
+        note: 'Test the commercial foundations of a project against the market conditions that will ultimately shape its performance.',
+        arrow: { href: '/services/research-intelligence/', label: 'More about Research & Intelligence' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Feasibility Perspective',
+        body: 'Three Dimensions of Viability. A robust feasibility assessment considers whether the market can support the proposition, whether its economics are sustainable and how resilient the case remains as conditions change.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        /* The document's step leads are title-case lines without a full stop;
+           one closes each so the sentence after it can follow on. */
+        steps: [
+          { title: 'Demand', body: 'Market Support. Assess the depth, characteristics and direction of demand relevant to the proposed project.' },
+          { title: 'Economics', body: 'Commercial Fundamentals. Test the assumptions behind revenues, costs, pricing and expected project performance.' },
+          { title: 'Resilience', body: 'Sensitivity to Change. Examine how movements in critical assumptions and market conditions could affect overall viability.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To bring evidence, perspective and commercial rigour to decisions that shape new projects.',
+      },
+      /* "Feasibility Studies For" heads the strip in the document; hidden slot. */
+      strip: stripOf('research-intelligence', ['Real Estate Developments', 'New Business Concepts', 'Market Entry', 'Business Expansion', 'Project Repositioning', 'Product & Concept Assessment']),
+      talk: {
+        head: 'Before You Build the Opportunity, Test It.',
+        lede: 'Understand whether the market, concept and commercial assumptions support the project before moving forward.',
+        cta: { label: 'Discuss Your Project', href: '/free-consultation/' },
+        image: RESEARCH_TEMPLATE.close.image,
+      },
     },
   },
   {
     slug: 'market-intelligence',
     title: 'Market Intelligence',
-    lede:
-      'We track the UAE property market as it moves — prices, rents, launches, yields, supply and transactions — and deliver it to you on a schedule, in a format built for the decisions you make. Whether you need a monthly dashboard, quarterly briefings or an alert when a submarket turns, we bring standing coverage that keeps your view current between the big decisions.',
+    lede: 'Ongoing intelligence that identifies meaningful market shifts, interprets their implications and keeps decision-makers ahead of changing commercial conditions.',
     brief: {
-      lede:
-        'We partner with investors, developers and corporate occupiers who need to know what the market is doing this month, not what it did last year. The approach is built on intelligence programmes run for UAE clients, which has shown that timely, verified and consistently defined data is worth more than a thick annual report nobody opens.',
-      whatIntro: 'The what sets out what a market intelligence programme covers, including:',
+      /* The comma after "movements" stands where the document's dash was. */
+      lede: [
+        'Markets rarely announce a turning point. Change often begins with smaller movements, shifts in demand, competitor activity, pricing behaviour, investment patterns or wider economic and regulatory developments.',
+        'ValuNxt brings these developments into a continuous intelligence framework, separating meaningful change from market noise and providing decision-makers with a sharper view of the forces influencing their commercial environment.',
+      ],
+      whatIntro: 'What We Monitor',
       what: [
-        { lead: 'Prices and rents', text: 'tracked by submarket and segment on a consistent definition, so a move month to month is real rather than a change of method.', stress: 'on a consistent definition' },
-        { lead: 'Launches and supply', text: 'new releases, construction progress and deliveries monitored, with the pipeline restated as it changes.' },
-        { lead: 'Transactions and yields', text: 'volumes, values and investment yields by sector, from registry and market evidence.' },
-        { lead: 'Your watchlist', text: 'the communities, towers, sectors or competitors you care about, followed specifically.' },
+        { lead: 'Market Dynamics.', text: 'Follow changes in demand, activity, pricing and wider conditions to identify movements that could influence market direction.' },
+        { lead: 'Competitive Landscape.', text: 'Examine competitor activity, new entrants, positioning and strategic developments that may alter the competitive environment.' },
+        { lead: 'Customer & Demand Signals.', text: 'Track evolving behaviours, preferences and demand patterns that can indicate where commercial momentum is building or weakening.' },
+        { lead: 'External Drivers.', text: 'Consider economic, regulatory, technological and sector developments that could reshape market conditions.' },
       ],
-      howIntro: 'The how keeps the intelligence useful:',
+      howIntro: 'Intelligence Around Your Priorities',
       how: [
-        { lead: 'On a schedule.', text: 'Monthly data, quarterly briefings and ad hoc alerts, delivered on dates agreed with you.', stress: 'On a schedule' },
-        { lead: 'Built for your decisions.', text: 'Dashboards and briefs shaped around the questions your team actually asks, refined as they change.' },
-        { lead: 'Verified before it reaches you.', text: 'Every figure cross-checked against a second source before it is published.' },
-        { lead: 'An analyst you can call.', text: 'A named researcher who knows your portfolio and can answer the question the dashboard raises.' },
+        { lead: 'Competitive Position.', text: 'Understand how the competitive landscape is evolving and where relative positioning may be changing.' },
+        { lead: 'Growth Markets.', text: 'Identify markets, segments and areas where emerging activity warrants closer attention.' },
+        { lead: 'Pricing Environment.', text: 'Follow movements in pricing and commercial behaviour that may influence positioning and performance.' },
+        { lead: 'Strategic Exposure.', text: 'Recognise developments that could create new pressures, risks or implications for existing plans.' },
       ],
-      panel: { title: 'Standing Coverage', sub: 'Prices, rents, launches and yields tracked as they move, delivered on your schedule.' },
+      panel: {
+        title: 'The Market Beneath the Market.',
+        sub: 'See beyond visible activity to the underlying movements shaping demand, competition and direction.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: 'Experience',
+        titleMid: 'Behind the',
+        titleMark: 'Insight.',
+        note: 'Decades of market experience bring context to emerging developments, helping us recognise which movements deserve attention and what they could mean for the decisions ahead.',
+        cta: { label: 'Speak With an Expert', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our intelligence approach',
+        columns: [
+          { title: 'Focus on What Matters', body: 'We establish the markets, competitors, indicators and external developments most relevant to your commercial priorities.' },
+          { title: 'Connect the Evidence', body: 'Market activity, demand behaviour, competitive movements and wider developments are examined together rather than as isolated information.' },
+          { title: 'Interpret What Is Emerging', body: 'We identify meaningful patterns, assess their implications and bring attention to developments that could influence the decisions ahead.' },
+        ],
+      },
+      insights: {
+        title: 'Markets Change Before Headlines Do.',
+        lede: 'Explore the early movements, competitive shifts and wider forces that can signal where markets are heading.',
+        all: { label: 'Explore Insights', href: '/blogs/' },
+        cards: [
+          { title: 'Where Is Market Momentum Building?', excerpt: 'The indicators that can reveal strengthening or weakening activity before the wider direction becomes obvious.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'What Is the Competition Seeing?', excerpt: 'How competitor movements can provide a different perspective on changing market expectations.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'When Does Pricing Signal Something Bigger?', excerpt: 'What changes in pricing behaviour can reveal about demand, competition and market direction.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'Which Changes Deserve Attention?', excerpt: 'Why the significance of a market development depends on its context, persistence and commercial relevance.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A researcher reviewing a market report',
+        quote: 'We had access to plenty of market information, but needed a clearer understanding of which developments genuinely mattered to our business. ValuNxt helped us connect the changes across our market and focus attention on the issues most relevant to our strategy.',
+        pill: 'From Information to Foresight',
+        title: 'Know What Matters as It Changes.',
+        note: 'Bring market developments into context and understand their potential implications before they become established market realities.',
+        cta: { label: 'Explore Our Expertise', href: '/services/research-intelligence/' },
+        arrow: { href: '/services/research-intelligence/', label: 'More about Research & Intelligence' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Intelligence Perspective',
+        body: 'The Forces Reshaping Markets. Examine how movements across demand, competition and market conditions can reshape the commercial landscape.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        /* Step leads as on Feasibility Studies: a full stop closes each. */
+        steps: [
+          { title: 'Signals', body: 'Detect the Movement. Identify developments across markets, customers and competitors that indicate conditions may be shifting.' },
+          { title: 'Meaning', body: 'Understand the Implication. Examine how emerging developments could affect market structure, competitive position and commercial priorities.' },
+          { title: 'Foresight', body: 'Consider What Follows. Connect current movements with wider patterns to develop a more forward-looking perspective on the market.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To turn market change into foresight for the decisions ahead.',
+      },
+      /* "Intelligence Across" heads the strip in the document; hidden slot. */
+      strip: stripOf('research-intelligence', ['Markets & Sectors', 'Customers & Demand', 'Competitors', 'Pricing & Positioning', 'Economic & Regulatory Change', 'Emerging Trends']),
+      talk: {
+        head: 'The Market Will Change. Your Perspective Should Move With It.',
+        lede: 'Stay connected to the developments shaping your market and the implications they may hold for your business.',
+        cta: { label: 'Speak to Our Research Team', href: '/free-consultation/' },
+        image: RESEARCH_TEMPLATE.close.image,
+      },
     },
   },
   {
     slug: 'research-reports',
     title: 'Research Reports',
-    lede:
-      'We publish research reports and bespoke briefs on UAE property and investment — market reviews, sector studies and thematic papers — with the sources and the method behind every figure. Whether you need a published report to support a strategy, a brief for a board or an independent paper for investors, we bring analysis written to be read and evidence that can be checked.',
+    lede: 'In-depth research reports that examine markets, sectors and emerging developments through evidence, analysis and informed interpretation.',
     brief: {
-      lede:
-        'We partner with boards, investors and institutions who need research they can put their name beside. The approach is built on reports published and briefs commissioned across the UAE market, which has shown that a report is only as credible as its sourcing, and only as useful as the clarity of its conclusions.',
-      whatIntro: 'The what covers what a research report has to deliver, including:',
+      lede: [
+        'A strong research report should do more than document what has happened. It should establish the market context, examine the forces behind performance and provide a considered view of the developments likely to matter next.',
+        'ValuNxt develops market, sector and bespoke research reports that bring together relevant data, comparative analysis and commercial interpretation. Each report is structured around a defined subject and audience, creating a credible reference point for investors, businesses and decision-makers.',
+      ],
+      whatIntro: 'What Our Reports Examine',
       what: [
-        { lead: 'A clear question', text: 'the market, sector or theme the report addresses stated up front, with the scope and the date of the evidence.', stress: 'the date of the evidence' },
-        { lead: 'Sourced evidence', text: 'every chart and figure traceable to a named source, dataset or survey, with the method of any estimate shown.' },
-        { lead: 'Independent analysis', text: 'conclusions drawn from the evidence rather than from the sponsor’s position, and stated as such.' },
-        { lead: 'A brief for the reader', text: 'an executive summary a board can read in ten minutes, with the detail behind it for those who need it.' },
+        { lead: 'Market Performance.', text: 'Analyse activity, demand, pricing, performance indicators and other measures relevant to the market being studied.' },
+        { lead: 'Supply & Demand.', text: 'Examine the balance between current demand, existing supply and future pipeline to understand evolving market conditions.' },
+        { lead: 'Sector Dynamics.', text: 'Assess the structural, economic and commercial factors influencing individual sectors and their performance.' },
+        { lead: 'Outlook & Emerging Themes.', text: 'Consider developing trends, changing conditions and wider forces that could influence the direction of the market.' },
       ],
-      howIntro: 'The how produces a report that holds up in public:',
+      howIntro: 'Research Across Different Perspectives',
       how: [
-        { lead: 'Peer reviewed.', text: 'A second researcher and, where value is discussed, a RICS-regulated valuer review the draft before issue.', stress: 'review the draft before issue' },
-        { lead: 'Designed to be read.', text: 'Charts, maps and tables built to carry the argument, in the group’s house style or yours.' },
-        { lead: 'Bespoke or published.', text: 'Confidential briefs for one reader, or reports published under our name or co-branded with you.' },
-        { lead: 'Presented on request.', text: 'Findings presented to your board, investors or clients by the analyst who wrote them.' },
+        { lead: 'Market Reports.', text: 'Detailed studies of market conditions, performance and direction across defined geographies.' },
+        { lead: 'Sector Reports.', text: 'Focused analysis of individual industries, asset classes and their underlying dynamics.' },
+        { lead: 'Thematic Research.', text: 'Research centred on a specific trend, structural change or issue with wider market implications.' },
+        { lead: 'Bespoke Reports.', text: 'Commissioned research developed around a particular market, commercial or strategic requirement.' },
       ],
-      panel: { title: 'Reports & Briefs', sub: 'Published research and bespoke briefs, with the sources and method behind every figure.' },
+      panel: {
+        title: 'Where Research Gains Perspective.',
+        sub: 'Bring evidence, context and interpretation together to understand markets beyond individual findings.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: 'Research Built',
+        titleMid: 'on Market',
+        titleMark: 'Understanding.',
+        note: 'Our research combines analytical depth with commercial and sector perspective, bringing greater context to the evidence and greater substance to the conclusions drawn from it.',
+        cta: { label: 'Speak With an Expert', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our research approach',
+        columns: [
+          { title: 'Establish the Scope', body: 'We define the subject, geography, timeframe and research objectives to establish a clear framework for the report.' },
+          { title: 'Examine the Market', body: 'Relevant data, market activity, comparative evidence and wider influences are analysed to understand performance and identify significant patterns.' },
+          { title: 'Develop the Perspective', body: 'The findings are brought together into a structured narrative that explains what is happening, what is driving it and what deserves attention next.' },
+        ],
+      },
+      insights: {
+        /* "Latest research" is the document's kicker here; no slot. The four
+           cards are report categories, not published reports (the document
+           says so in a note to the client), so they and the button lead to
+           the research index. */
+        title: 'Markets in Focus.',
+        lede: 'Explore our latest perspectives on the markets, sectors and developments shaping the commercial landscape.',
+        all: { label: 'View All Reports', href: '/research/' },
+        cards: [
+          { title: 'UAE Real Estate Market Outlook', excerpt: 'A broader view of the market forces influencing performance, demand and future direction across the Emirates.', href: '/research/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'Dubai Residential Market Review', excerpt: 'An examination of transactions, pricing, supply and demand across Dubai’s evolving residential market.', href: '/research/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'Office Market Perspective', excerpt: 'Research into occupier demand, rental performance, availability and the pipeline shaping the office sector.', href: '/research/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'Hospitality Market Outlook', excerpt: 'Analysis of demand, performance and development activity influencing the hospitality landscape.', href: '/research/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A researcher reviewing a market report',
+        quote: 'We needed a detailed view of the market that could be shared across our investment and leadership teams. ValuNxt brought the evidence together in a structured report that gave us a much stronger understanding of the market and the factors shaping its direction.',
+        pill: 'Research With Longer Relevance',
+        title: 'Understand the Market Behind the Moment.',
+        note: 'Look beyond current performance to the underlying dynamics influencing how markets and sectors are evolving.',
+        cta: { label: 'Explore Our Research', href: '/research/' },
+        arrow: { href: '/services/research-intelligence/', label: 'More about Research & Intelligence' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Research Perspective',
+        body: 'From Evidence to Understanding. Research becomes more valuable when individual findings are connected to the wider market forces that give them meaning.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        /* Step leads as on Feasibility Studies: a full stop closes each. */
+        steps: [
+          { title: 'Evidence', body: 'Establish the Picture. Bring together the market information and comparative evidence required to understand current conditions.' },
+          { title: 'Interpretation', body: 'Explain the Movement. Examine the relationships and underlying factors influencing changes in market and sector performance.' },
+          { title: 'Outlook', body: 'Consider the Direction. Assess emerging developments and wider influences to provide perspective on how conditions may evolve.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To create research that becomes a reference point for understanding markets as they evolve.',
+      },
+      /* "Research Reports Across" heads the strip in the document; hidden slot. */
+      strip: stripOf('research-intelligence', ['Real Estate Markets', 'Residential', 'Office & Commercial', 'Retail', 'Hospitality', 'Industrial & Logistics']),
+      talk: {
+        head: 'Start With the Right Question.',
+        lede: 'Speak with our research team about the market, sector or strategic question you need to explore.',
+        cta: { label: 'Start a Conversation', href: '/free-consultation/' },
+        image: RESEARCH_TEMPLATE.close.image,
+      },
     },
   },
 ];

@@ -7,6 +7,7 @@
  */
 import { rimg, rimgFirst } from '@/lib/region-assets';
 import { BASE, rurl, vxnServices, type Service } from '@/lib/region';
+import CtaArrow from '@/components/ui/CtaArrow';
 import Html from '@/components/Html';
 import ClientScript from '@/components/ClientScript';
 import type { PageConfig } from '@/lib/page-config';
@@ -371,7 +372,7 @@ export default function HomeAeBody({ page, region }: { page: PageConfig; region:
       	}
       ` }} />
 
-      <section className="vxae-hero" data-vxae-hero="" aria-label="VALUNXT in the United Arab Emirates">
+      <section className="vxae-hero" data-vxae-hero="" aria-label="Valunxt in the United Arab Emirates">
       	<div className="vxae-hero__stage" aria-hidden="true">
       		{hero.map((s, i) => (
       			<div className={`vxae-hero__slide${i === 0 ? ' is-active' : ''}`} data-vxae-slide={String(i)} key={s.title}>
@@ -402,7 +403,7 @@ export default function HomeAeBody({ page, region }: { page: PageConfig; region:
       					<Html as="h1" className="vxae-hero__title" html={s.headline ?? ''} />
       					<Html as="p" className="vxae-hero__lede" html={s.lede ?? ''} />
       					<div className="vxae-hero__actions">
-      						<a className="vxae-hero__cta" href={rurl(region, heroPill(s).href)}>{heroPill(s).label}</a>
+      						<a className="vxae-hero__cta" href={rurl(region, heroPill(s).href)}>{heroPill(s).label}<CtaArrow /></a>
       						<a className="vxae-hero__go" href={rurl(region, heroRing(s).href)} aria-label={heroRing(s).label}>
       							<svg viewBox="0 0 18 18" width={18} height={18} aria-hidden="true" focusable="false">
       								<path d="M4.5 13.5L13.5 4.5M6 4.5h7.5V12" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
@@ -542,23 +543,22 @@ export default function HomeAeBody({ page, region }: { page: PageConfig; region:
       										<div className="vxn-klay__content">
       											<Html as="h3" className="vxn-klay__title" html={sv.title} />
       											<Html as="p" className="vxn-klay__desc" html={sv.desc} />
-      											<span className="vxn-klay__btn">Learn more <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i></span>
+      											<span className="vxn-klay__btn">Learn more <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i></span>
       										</div>
       									</a>
       								))}
       							</nav>
       						</div>
-      						{/* Valunxt Answer, the ask-and-answer band modelled on bcg.com's
-      						    "BCG Answer" promo (20260911). It follows the six services because
-      						    every question it answers is one of theirs. UAE only. */}
+      						{/* The question band (20260911; rebuilt light and static 20260914).
+      						    It follows the six services because every question it answers is
+      						    one of theirs. UAE only. */}
       						<UaeAnswerBand region={region} />
       						{/* The feature bands (impact, mosaic, careers; the spotlight came off on
       						    20260911), between the Answer band and the insights carousel. UAE only —
       						    India does not render them. */}
       						<UaeImpactBands region={region} />
-      						{/* The poster trio (20260912), the second of that day's two
-      						    references. It closes the middle of the page, before the
-      						    insights carousel. UAE only. */}
+      						{/* The bento (20260912; rebuilt light 20260914). It closes the
+      						    middle of the page, before the insights carousel. UAE only. */}
       						<UaePosterTrio region={region} />
       						{/* One motion layer for both of the day's bands: the figure roll
       						    and the staggered arrival. Renders nothing. */}

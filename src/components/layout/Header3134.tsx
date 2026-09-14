@@ -57,7 +57,7 @@ export default function Header3134({ region }: { region: string }) {
                     height={35}
                     src={`${BASE}/assets/content/uploads/logo/valunxt-dark.svg`}
                     className="attachment-full size-full vxn-logo"
-                    alt="VALUNXT"
+                    alt="Valunxt"
                   />{' '}
                 </a>
               </div>
@@ -143,7 +143,7 @@ export default function Header3134({ region }: { region: string }) {
                   >
                     <span className="elementor-button-content-wrapper">
                       <span className="elementor-button-icon">
-                        <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right" />{' '}
+                        <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow" />{' '}
                       </span>
                       <span className="elementor-button-text">Book a Consultation</span>
                     </span>

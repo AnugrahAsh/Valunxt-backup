@@ -1,5 +1,5 @@
 /**
- * VALUNXT — canonical site facts.
+ * Valunxt — canonical site facts.
  *
  * Single source of truth for the details that used to be retyped page by page
  * and drifted apart: the markets statement, the office list, the group company
@@ -50,7 +50,7 @@ export interface Office {
 export type OfficeKey = 'dubai' | 'abudhabi' | 'mumbai' | 'noida';
 
 /**
- * Every VALUNXT office, in canonical order: Dubai first — it is the UAE base
+ * Every Valunxt office, in canonical order: Dubai first — it is the UAE base
  * and the office that answers the published telephone line — then the other
  * Emirates office in Abu Dhabi, then the India practices. Anything that lists
  * offices (Location page, footer) iterates this record, so this order is the

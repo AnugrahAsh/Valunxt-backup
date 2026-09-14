@@ -29,7 +29,7 @@ import {
 } from '@/lib/admin/seo-lib';
 
 export const metadata: Metadata = {
-  title: 'Sitemap Settings — VALUNXT Admin',
+  title: 'Sitemap Settings — Valunxt Admin',
   robots: 'noindex, nofollow',
 };
 

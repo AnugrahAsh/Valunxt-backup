@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------
-   Fonts — self-hosted, so the module carries VALUNXT's type wherever it lands
+   Fonts — self-hosted, so the module carries Valunxt's type wherever it lands
 
    Forum for display and DM Sans for text are the group's faces. The module
    previously named them in a stack but never loaded them: on this host they
@@ -53,7 +53,7 @@
      2. No framework, no build step, no preprocessor. Plain CSS with custom
         properties — drop the file in and it works.
 
-   Colour is the VALUNXT blue, not the green of the old site. One accent, used
+   Colour is the Valunxt blue, not the green of the old site. One accent, used
    consistently: --re-blue for anything actionable, --re-navy for dark ground.
 
    Fonts degrade rather than depend: if the host loads Forum and DM Sans the
@@ -78,7 +78,7 @@
   --re-line-inv: rgba(255, 255, 255, .18);
 
   /* The accent. One blue, used for everything actionable — the group's blue,
-     so the practice reads as part of VALUNXT rather than beside it. */
+     so the practice reads as part of Valunxt rather than beside it. */
   --re-accent: #0053B7;
   --re-accent-deep: #0E355F;
   --re-accent-wash: rgba(0, 83, 183, .07);

@@ -1,0 +1,494 @@
+/* =============================================================================
+   Valunxt — the burger drawer (the mobile and tablet menu)
+
+   20260914, on client report: on a phone the drawer came up as a 54px-wide
+   column down the right edge, with "Services", its blue panel and every link
+   in it broken letter by letter, and the page scrolling on behind it.
+
+   Everything the drawer looks like and where it sits lives here. The markup is
+   the hidden second copy of the menu in every header (MainNav with `hidden`),
+   in which Services and Insights are nested lists (MegaDrawerItem) like About,
+   so SmartMenus folds all three. The behaviour that CSS cannot carry (the
+   accordion, the page lock flag, tap-outside and Escape) is MOBILE_DRAWER in
+   SiteScripts.tsx.
+
+   ---------------------------------------------------------------------------
+   WHERE IT APPLIES
+
+   Every rule is inside `max-width: 1399px`, the width below which the brand
+   sheet hides the desktop bar and shows the burger (valunxt-brand.css, "Below
+   1400 the eight items..."). Desktop never reads this file.
+
+     up to 767      a full-width sheet under the bar, to the foot of the screen
+     768 to 1399    a 440px panel on the right, with the page dimmed beside it
+
+   ---------------------------------------------------------------------------
+   WHY IT WAS 54px WIDE, and why the sheet is positioned the way it is
+
+   Elementor sizes this drawer by stretching it to the page with JavaScript
+   (the widget's `full_width` setting). The flag is empty in all three headers,
+   because the stretch threw on every load (see Header3837.tsx), so the drawer
+   stayed an absolute box inside the 39px nav widget and shrank to fit its
+   longest unbreakable word. 54px.
+
+   It is not stretched here with 100vw or position: fixed either. The pinned bar
+   carries `will-change: transform`, which makes it the containing block for
+   any fixed descendant (the same trap valunxt-uae-mega.css documents), and it
+   is the box the drawer should hang from anyway. So the nav widget goes back
+   to position: static and the drawer is absolute against the bar itself:
+   top: 100% is the bar's foot, left and right are the screen's edges, and
+   `100dvh - 100%` is exactly the height left under the bar, pinned or not
+   (78px at rest on a phone, 74 pinned, 94 on the wider steps). No height is
+   hard-coded, so the bar can change and the drawer follows it.
+
+   ---------------------------------------------------------------------------
+   SPECIFICITY
+
+   The per-header Elementor sheets (post-139.css, post-3837.css, post-3134.css)
+   style this drawer at up to (0,5,2), and set its top margin at (0,5,0) with
+   !important. Every selector below starts from a (0,6,1) prefix, and the
+   properties those sheets or the theme set are asserted with !important.
+   ============================================================================= */
+
+.elementor-location-header {
+  --vxn-mm-ink: var(--vxn-ink, #16233B);
+  --vxn-mm-text: var(--vxn-text, #35415A);
+  --vxn-mm-blue: var(--vxn-blue, #0B2DBE);
+  --vxn-mm-line: rgba(14, 53, 95, 0.1);
+  --vxn-mm-tray: #F4F7FD;
+  --vxn-mm-press: rgba(11, 45, 190, 0.07);
+  --vxn-mm-rule: rgba(11, 45, 190, 0.16);
+  /* The bar's own content inset on every page (body.vxn-uae-face in
+     valunxt-brand.css), so the rows start on the logo's line. */
+  --vxn-mm-gutter: clamp(16px, 4vw, 48px);
+  --vxn-mm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 1399px) {
+
+  /* ===========================================================================
+     1. THE SHEET
+     =========================================================================== */
+
+  /* The containing block: see WHY IT WAS 54px WIDE. */
+  .elementor-location-header .vamtam-sticky-header .elementor-element.elementor-widget-nav-menu {
+    position: static !important;
+  }
+
+  /* ...which costs the burger the stacking a positioned box gets. The bar
+     paints its fill through an absolutely positioned ::before (Elementor's
+     background layer), and with the widget static that layer drew over the
+     burger: measured, every real tap at its centre landed on the bar, and a
+     scripted click() still passed. The burger keeps a position of its own. */
+  .elementor-location-header .vamtam-sticky-header .elementor-element.elementor-widget-nav-menu .elementor-menu-toggle {
+    position: relative;
+    z-index: 2;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown.elementor-nav-menu__container {
+    display: block !important;
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    z-index: 9997 !important;
+    box-sizing: border-box;
+    width: auto !important;
+    height: calc(100vh - 100%);
+    height: calc(100dvh - 100%);
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 6px max(var(--vxn-mm-gutter), env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(var(--vxn-mm-gutter), env(safe-area-inset-left)) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    /* A flick that reaches the end of the list stops there instead of
+       carrying on into the page behind. */
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    background: #FFFFFF !important;
+    border: 0 !important;
+    border-top: 1px solid var(--vxn-mm-line) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    text-align: left;
+    /* Elementor opens the drawer by animating max-height and scaleY, which
+       squashes the type while it runs and cannot close smoothly from a
+       height it does not know. Replaced by a fade and a short slide. */
+    animation: none !important;
+
+    /* Shut. Laid out at all times so the close can fade: display is not
+       animatable. visibility takes it out of the tab order and the
+       accessibility tree, and flips only when the fade has finished. */
+    visibility: hidden !important;
+    opacity: 0 !important;
+    transform: translate3d(0, -8px, 0) !important;
+    pointer-events: none !important;
+    transition:
+      opacity 0.2s ease,
+      transform 0.32s var(--vxn-mm-ease),
+      visibility 0s linear 0.32s !important;
+  }
+
+  /* The spacer copy of the bar (it only holds the page down under the pinned
+     bar, at visibility: hidden) carries a drawer too. The spacer is static, so
+     that drawer resolved against the page instead of a bar and, shifted 24px
+     for its entrance, reached past the right edge: measured, a 792px-wide
+     document at 768, a sideways scroll on every tablet. It never opens, so it
+     is not laid out at all. */
+  .elementor-location-header .vamtam-sticky-header--spacer .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown.elementor-nav-menu__container {
+    display: none !important;
+  }
+
+  /* Open: Elementor marks the burger .elementor-active, and the drawer is its
+     next sibling. (0,8,1) against the shut rule's (0,6,1). */
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > .elementor-menu-toggle.elementor-active + nav.elementor-nav-menu--dropdown.elementor-nav-menu__container {
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    transition:
+      opacity 0.2s ease,
+      transform 0.32s var(--vxn-mm-ease),
+      visibility 0s linear 0s !important;
+  }
+
+  /* ===========================================================================
+     2. THE BAR AND THE PAGE WHILE IT IS OPEN
+
+     html.vxn-drawer-open is set by MOBILE_DRAWER for as long as a drawer is
+     open. Kept inside the width query, so a window widened past 1399 with
+     the drawer open is never left locked.
+     =========================================================================== */
+
+  /* The page does not scroll under the menu. The gutter is kept so a laptop
+     with a classic scrollbar does not shift sideways when the bar goes. */
+  html.vxn-drawer-open,
+  html.vxn-drawer-open body {
+    overflow: hidden !important;
+  }
+
+  html.vxn-drawer-open {
+    scrollbar-gutter: stable;
+  }
+
+  /* The bar and the sheet read as one white surface. The pinned bar's drop
+     shadow would draw a line through the join. */
+  html.vxn-drawer-open .elementor-location-header .vamtam-sticky-header:not(.vamtam-sticky-header--spacer) {
+    background-color: #FFFFFF !important;
+    box-shadow: none !important;
+  }
+
+  /* The home bar (139) is transparent over the hero at the top of the page,
+     and paints its fill through a ::before overlay (see the .vxn-nav-open
+     block in valunxt-brand.css, which this mirrors for the drawer). */
+  html.vxn-drawer-open .elementor-location-header .vamtam-sticky-header--transparent-header:not(.vamtam-sticky-header--spacer)::before {
+    opacity: 1 !important;
+    background-color: #FFFFFF !important;
+  }
+
+  html.vxn-drawer-open .elementor-139 .vxn-logo--light {
+    display: none !important;
+  }
+
+  html.vxn-drawer-open .elementor-139 .vxn-logo--dark {
+    display: block !important;
+  }
+
+  html.vxn-drawer-open .elementor-139 .vxn-region .vxn-region__toggle {
+    color: var(--vxn-mm-ink) !important;
+    border-color: rgba(18, 40, 54, 0.18) !important;
+  }
+
+  html.vxn-drawer-open .elementor-139 .elementor-menu-toggle,
+  html.vxn-drawer-open .elementor-139 .elementor-menu-toggle i {
+    color: var(--vxn-mm-ink) !important;
+    fill: var(--vxn-mm-ink) !important;
+  }
+
+  /* The country switcher stays usable with the menu open: its card opens
+     over the drawer rather than behind it (both sit in the bar's stacking
+     context, where the drawer is 9997 and the switcher 100). */
+  html.vxn-drawer-open .elementor-location-header .vxn-region {
+    z-index: 9998;
+  }
+
+  /* The back-to-top button floats over everything; over an open menu it only
+     covers a row. */
+  html.vxn-drawer-open #scroll-to-top,
+  html.vxn-drawer-open #scroll-to-top.vxn-visible {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* ===========================================================================
+     3. THE ROWS
+
+     Services, About, Industries, Network, Insights, Contact: one hairline
+     between each, the label at the gutter, a chevron on the rows that open.
+     =========================================================================== */
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu > li {
+    margin: 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--vxn-mm-line) !important;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu > li:last-child {
+    border-bottom: 0 !important;
+  }
+
+  /* Every link in the drawer, whatever its level. This clears what the theme
+     and the header sheets hang on dropdown links: 15px of padding, a dark
+     hover fill, 6px corners on the first and last, transparent left borders
+     that indent each level, nowrap, and .85em sub-item type. */
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown a.elementor-item,
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown a.elementor-sub-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: left;
+    text-decoration: none !important;
+    white-space: normal !important;
+    overflow-wrap: normal;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu > li > a.elementor-item {
+    min-height: 56px;
+    padding: 14px 0 !important;
+    font-size: 17px !important;
+    font-weight: 500 !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.005em !important;
+    color: var(--vxn-mm-ink) !important;
+  }
+
+  /* Open, and the page you are on: the brand blue. SmartMenus marks an open
+     row .highlighted; the active-page script marks the current one (and the
+     row above it) .elementor-item-active. */
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu > li > a.elementor-item.highlighted,
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu > li > a.elementor-item.elementor-item-active {
+    color: var(--vxn-mm-blue) !important;
+  }
+
+  /* ---- The chevron ---------------------------------------------------------
+     SmartMenus appends a span.sub-arrow to every link that owns a sub-menu.
+     Elementor fills it with the widget's submenu icon, which is blank in these
+     headers, and the theme pads it. It is drawn here as a chevron that turns
+     over when the row opens. The span itself is the hit target SmartMenus
+     recognises, so the glyph is a pseudo-element: a tap on it lands on the
+     span, not on a child. */
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown .sub-arrow {
+    display: flex !important;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin: -6px -9px -6px 0 !important;
+    padding: 0 !important;
+    color: inherit;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown .sub-arrow > * {
+    display: none !important;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown .sub-arrow::before {
+    content: "";
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-right: 1.6px solid currentColor;
+    border-bottom: 1.6px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 0.3s var(--vxn-mm-ease);
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown a.highlighted > .sub-arrow::before {
+    transform: translateY(2px) rotate(-135deg);
+  }
+
+  /* ===========================================================================
+     4. THE SUB-MENUS
+
+     Level two opens as a pale tray under its row: About's three pages,
+     India's four services, the Insights pages, the UAE's six services. Level
+     three (a UAE service's own pages) hangs inside the tray on a blue rule.
+     SmartMenus slides them open and shut itself, with inline styles.
+     =========================================================================== */
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.sub-menu {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.sub-menu > li {
+    margin: 0 !important;
+    border: 0 !important;
+  }
+
+  /* Level two: the tray. */
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu > li > ul.sub-menu {
+    margin: -4px 0 14px !important;
+    padding: 6px 0 !important;
+    border-radius: 14px !important;
+    background: var(--vxn-mm-tray) !important;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu > li > ul.sub-menu > li > a.elementor-sub-item {
+    min-height: 46px;
+    padding: 11px 16px !important;
+    font-size: 15.5px !important;
+    font-weight: 400 !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0 !important;
+    color: var(--vxn-mm-text) !important;
+  }
+
+  /* A row in the tray that opens further (a UAE service) reads as a heading
+     over its pages. */
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu > li > ul.sub-menu > li.menu-item-has-children > a.elementor-sub-item {
+    font-weight: 500 !important;
+    color: var(--vxn-mm-ink) !important;
+  }
+
+  /* Level three: a UAE service's pages. */
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.sub-menu ul.sub-menu {
+    margin: 0 16px 8px !important;
+    padding: 0 0 0 14px !important;
+    border-left: 2px solid var(--vxn-mm-rule) !important;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.sub-menu ul.sub-menu > li > a.elementor-sub-item {
+    min-height: 44px;
+    padding: 10px 0 !important;
+    font-size: 15px !important;
+    font-weight: 400 !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0 !important;
+    color: var(--vxn-mm-text) !important;
+  }
+
+  /* Open service rows, and the page you are on, in the brand blue. (0,11,6)
+     and (0,12,6): these have to clear the two weight-and-colour rules above. */
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu ul.sub-menu > li > a.elementor-sub-item.highlighted,
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu ul.sub-menu > li > a.elementor-sub-item.elementor-item-active,
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu > li > ul.sub-menu > li.menu-item-has-children > a.elementor-sub-item.highlighted {
+    color: var(--vxn-mm-blue) !important;
+  }
+
+  /* "View all ...": the section's own page, set apart by colour and the one
+     arrow rather than by another rule or box. (0,10,5), over the tray links'
+     (0,9,6). */
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu ul.sub-menu > li.vxn-mdrawer__all > a.elementor-sub-item {
+    justify-content: flex-start !important;
+    gap: 10px;
+    font-weight: 500 !important;
+    color: var(--vxn-mm-blue) !important;
+  }
+
+  /* ===========================================================================
+     5. PRESS, HOVER AND FOCUS
+     =========================================================================== */
+
+  /* A touch has no hover, and a hover that sticks after a tap would leave a
+     closed row blue. So the pointer tint is for pointers that hover, and a
+     touch gets a press tint while the finger is down. */
+  @media (hover: hover) {
+    .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu a.elementor-item:hover,
+    .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu a.elementor-sub-item:hover,
+    .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu > li > ul.sub-menu > li.menu-item-has-children > a.elementor-sub-item:hover {
+      color: var(--vxn-mm-blue) !important;
+    }
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu a.elementor-item:active,
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu a.elementor-sub-item:active {
+    background-color: var(--vxn-mm-press) !important;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu a.elementor-item:focus-visible,
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown ul.elementor-nav-menu a.elementor-sub-item:focus-visible {
+    outline: 2px solid var(--vxn-mm-blue) !important;
+    outline-offset: -2px;
+    border-radius: 8px !important;
+    color: var(--vxn-mm-blue) !important;
+  }
+}
+
+/* =============================================================================
+   6. TABLETS AND SMALL LAPTOPS: THE SIDE PANEL (768 to 1399)
+
+   A full-screen sheet at 1024 or 1366 is a wall of white with a short list in
+   its corner. From 768 the drawer is a 440px panel under the burger instead,
+   and the page beside it is dimmed, which says "menu over page" and gives the
+   eye somewhere to go back to. A tap on the dimmed page closes the menu
+   (MOBILE_DRAWER).
+
+   The tint is the panel's own shadow, spread to cover the screen and clipped
+   at the panel's top edge so the bar above stays bright. It is not a separate
+   element because a fixed scrim inside the bar would resolve against the bar
+   (see WHY IT WAS 54px WIDE) and come out 0px tall. It fades with the panel
+   because it is the panel.
+   ============================================================================= */
+
+@media (min-width: 768px) and (max-width: 1399px) {
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown.elementor-nav-menu__container {
+    left: auto !important;
+    width: min(440px, 100%) !important;
+    padding-right: max(28px, env(safe-area-inset-right)) !important;
+    padding-left: 28px !important;
+    border-left: 1px solid var(--vxn-mm-line) !important;
+    box-shadow:
+      0 0 0 100vmax rgba(6, 18, 44, 0.42),
+      -18px 0 40px rgba(6, 18, 44, 0.12) !important;
+    clip-path: inset(0 0 -100vmax -100vmax);
+    transform: translate3d(24px, 0, 0) !important;
+  }
+}
+
+/* =============================================================================
+   7. REDUCED MOTION
+   ============================================================================= */
+
+@media (max-width: 1399px) and (prefers-reduced-motion: reduce) {
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown.elementor-nav-menu__container,
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > .elementor-menu-toggle.elementor-active + nav.elementor-nav-menu--dropdown.elementor-nav-menu__container {
+    transform: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+
+  .elementor-location-header .elementor-element.elementor-widget-nav-menu .elementor-widget-container > nav.elementor-nav-menu--dropdown .sub-arrow::before {
+    transition: none;
+  }
+}

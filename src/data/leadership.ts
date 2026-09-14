@@ -8,7 +8,7 @@
  * only thing missing is the people, and those are facts about real individuals
  * — names, job titles, professional credentials and regulatory registrations.
  * Inventing them would put fabricated professional qualifications on a
- * regulated advisory firm's website, so they have been left for VALUNXT to
+ * regulated advisory firm's website, so they have been left for Valunxt to
  * supply.
  *
  * While this array is empty, /about/leadership/ returns 404 and is absent from

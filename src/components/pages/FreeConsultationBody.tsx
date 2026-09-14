@@ -75,7 +75,7 @@ export default function FreeConsultationBody({ page, region }: { page: PageConfi
       					<div className="e-con-inner">
       				<div className="elementor-element elementor-element-838157a elementor-widget elementor-widget-heading" data-id="838157a" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">
-      					<h6 className="elementor-heading-title elementor-size-default">Part of the VALUNXT group ecosystem:</h6>				</div>
+      					<h6 className="elementor-heading-title elementor-size-default">Part of the Valunxt group ecosystem:</h6>				</div>
       				</div>
       		<div className="elementor-element elementor-element-8457be8 e-con-full e-flex e-con e-child" data-id="8457be8" data-element_type="container" data-e-type="container">
       				<div className="elementor-element elementor-element-d4f717c elementor-icon-list--layout-inline elementor-list-item-link-inline elementor-tablet-align-left elementor-widget elementor-widget-icon-list" data-id="d4f717c" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
@@ -84,7 +84,7 @@ export default function FreeConsultationBody({ page, region }: { page: PageConfi
       							<li className="elementor-icon-list-item elementor-inline-item">
       											<span className="elementor-icon-list-icon">
       							<i aria-hidden="true" className="vamtamtheme- vamtam-theme-chack-circle"></i>						</span>
-      										<span className="elementor-icon-list-text">VALUNXT Corporate Services</span>
+      										<span className="elementor-icon-list-text">Valunxt Corporate Services</span>
       									</li>
       						</ul>
       						</div>
@@ -170,7 +170,7 @@ export default function FreeConsultationBody({ page, region }: { page: PageConfi
       				<div className="elementor-widget-container">
       							<div className="elementor-icon-wrapper">
       			<div className="elementor-icon">
-      			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>			</div>
+      			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>			</div>
       		</div>
       						</div>
       				</div>
@@ -204,7 +204,7 @@ export default function FreeConsultationBody({ page, region }: { page: PageConfi
       				<div className="elementor-widget-container">
       							<div className="elementor-icon-wrapper">
       			<div className="elementor-icon">
-      			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>			</div>
+      			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>			</div>
       		</div>
       						</div>
       				</div>
@@ -232,7 +232,7 @@ export default function FreeConsultationBody({ page, region }: { page: PageConfi
       							<form className="elementor-form" method="post" name="Free Consultation" aria-label="Free Consultation">
       			<input type="hidden" name="post_id" value="296" />
       			<input type="hidden" name="form_id" value="e67e0ee" />
-      			<input type="hidden" name="referer_title" value="VALUNXT" />
+      			<input type="hidden" name="referer_title" value="Valunxt" />
 
       							<input type="hidden" name="queried_id" value="296" />
 
@@ -257,7 +257,7 @@ export default function FreeConsultationBody({ page, region }: { page: PageConfi
       					<button className="elementor-button elementor-size-sm" type="submit">
       						<span className="elementor-button-content-wrapper">
       															<span className="elementor-button-icon">
-      									<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>																	</span>
+      									<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>																	</span>
       																						<span className="elementor-button-text">Submit</span>
       													</span>
       					</button>
@@ -276,7 +276,7 @@ export default function FreeConsultationBody({ page, region }: { page: PageConfi
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-b547480 elementor-widget__width-initial elementor-widget-mobile__width-inherit elementor-widget elementor-widget-text-editor" data-id="b547480" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
-      									<p>By submitting this form you agree to our <a href={rurl(region, '/privacy-policy/')}>Privacy Policy</a>. VALUNXT may contact you via email or phone regarding your enquiry and scheduling.</p>								</div>
+      									<p>By submitting this form you agree to our <a href={rurl(region, '/privacy-policy/')}>Privacy Policy</a>. Valunxt may contact you via email or phone regarding your enquiry and scheduling.</p>								</div>
       				</div>
       				</div>
       				</div>
@@ -314,7 +314,7 @@ export default function FreeConsultationBody({ page, region }: { page: PageConfi
       													<div className="vxn-logo-slider__slide"><a href="https://reliantsurveyors.com" target="_blank" rel="noopener"><img decoding="async" width={114} height={56} src={`${BASE}/LOGO/reliant-surveyors.svg`} alt="Reliant Surveyors" /></a></div>
       													<div className="vxn-logo-slider__slide"><a href="https://houzzhunt.com" target="_blank" rel="noopener"><img decoding="async" width={56} height={56} src={`${BASE}/LOGO/houzzhunt.svg`} alt="HouzzHunt" /></a></div>
       													<div className="vxn-logo-slider__slide"><a href="https://houzzhuntmortgage.com" target="_blank" rel="noopener"><img decoding="async" width={218} height={56} src={`${BASE}/LOGO/houzzhunt-mortgage.svg`} alt="HouzzHunt Mortgage" /></a></div>
-      													<div className="vxn-logo-slider__slide"><a href="https://valunxt.com" target="_blank" rel="noopener"><img decoding="async" width={187} height={56} src={`${BASE}/LOGO/valunxt-corporate.svg`} alt="VALUNXT Corporate Services" /></a></div>
+      													<div className="vxn-logo-slider__slide"><a href="https://valunxt.com" target="_blank" rel="noopener"><img decoding="async" width={187} height={56} src={`${BASE}/LOGO/valunxt-corporate.svg`} alt="Valunxt Corporate Services" /></a></div>
       												</div>
       											</div>
       											<div className="vxn-logo-slider__dots" role="tablist" aria-label="Group companies"></div>

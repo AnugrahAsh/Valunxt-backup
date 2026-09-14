@@ -86,7 +86,7 @@ export default function PrivacyPolicyBody({ page, region }: { page: PageConfig; 
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-66cdd8e elementor-widget elementor-widget-text-editor" data-id="66cdd8e" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
-      									<p>We will not be responsible for the privacy of data collected by websites not owned or managed by VALUNXT, including those linked through our website.</p>								</div>
+      									<p>We will not be responsible for the privacy of data collected by websites not owned or managed by Valunxt, including those linked through our website.</p>								</div>
       				</div>
       				<div className="elementor-element elementor-element-6710d3c elementor-widget elementor-widget-heading" data-id="6710d3c" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">

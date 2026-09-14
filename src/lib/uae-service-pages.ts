@@ -65,7 +65,7 @@ function config({
   siteCss?: string[];
 }): PageConfig {
   const id = postId(path);
-  const title = `${name} | VALUNXT`;
+  const title = `${name} | Valunxt`;
   /* NOTE: the UAE type system is NOT applied here. It is applied once, in
      resolveRequest — the only resolution the root layout actually renders from.
      See the note on uaeType() in lib/pages.ts. */
@@ -125,8 +125,8 @@ export function uaeServiceConfig(service: Service, written = false): PageConfig 
     heroImage: service.img,
     extraCss: SERVICE_EXTRA_CSS,
     desc: written
-      ? `${name} in the UAE from VALUNXT.`
-      : `${name} in the UAE from VALUNXT — coming soon.`,
+      ? `${name} in the UAE from Valunxt.`
+      : `${name} in the UAE from Valunxt — coming soon.`,
     written,
   });
 }
@@ -157,8 +157,8 @@ export function uaeSubServiceConfig(
        written page sets its own artwork in its body and never reads this. */
     heroImage: service.img,
     desc: written
-      ? `${sub.name} — part of ${vxnServiceName(service)} at VALUNXT.`
-      : `${sub.name} — part of ${vxnServiceName(service)} at VALUNXT. Coming soon.`,
+      ? `${sub.name} — part of ${vxnServiceName(service)} at Valunxt.`
+      : `${sub.name} — part of ${vxnServiceName(service)} at Valunxt. Coming soon.`,
     written,
     siteCss: SUB_SITE_CSS,
   });

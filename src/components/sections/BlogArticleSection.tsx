@@ -7,6 +7,7 @@
  * Port of includes/partials/blog-article.php.
  */
 import { BASE, rurl } from '@/lib/region';
+import CtaArrow from '@/components/ui/CtaArrow';
 import { uaePageImage } from '@/lib/uae-page-images';
 import { vxnRequestOrigin } from '@/lib/seo';
 import BLOG_CATALOG from '@/data/blog-catalog';
@@ -29,49 +30,49 @@ export interface Article {
 }
 
 const CSS = `
-/* ===== VALUNXT blog article (editorial) ===== */
+/* ===== Valunxt blog article (editorial) ===== */
 .vxn-article{background:#fff;color:#1a2733;font-family:"DM Sans",sans-serif;}
 .vxn-art-hero{display:flex;background:#0E355F;color:#fff;overflow:hidden;}
 .vxn-art-hero__inner{flex:0 0 50%;max-width:50%;box-sizing:border-box;min-height:440px;padding:72px 48px 72px max(32px,calc((100vw - 1200px) / 2));display:flex;flex-direction:column;justify-content:center;}
 .vxn-art-hero__media{flex:0 0 50%;max-width:50%;align-self:stretch;min-height:440px;background-size:cover;background-position:center;}
 .vxn-art-hero__text{max-width:560px;}
 .vxn-art-hero__meta{display:flex;align-items:center;gap:16px;margin-bottom:22px;}
-.vxn-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(0,83,183,.16);color:#0053B7;border:1px solid rgba(0,83,183,.45);padding:5px 12px;border-radius:3px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;}
+.vxn-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(0,83,183,.16);color:#0B2DBE;border:1px solid rgba(0,83,183,.45);padding:5px 12px;border-radius:3px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;}
 .vxn-badge svg{width:12px;height:12px;fill:currentColor;}
 .vxn-readtime{color:#c7d0d8;font-size:13px;}
 .vxn-article .vxn-art-hero__title{font-family:"Forum",serif!important;font-weight:400!important;font-size:clamp(30px,4.4vw,50px);line-height:1.08;margin:0;color:#fff!important;}
-.vxn-art-hero__eyebrow{margin-top:22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#0053B7;}
-.vxn-art-hero__eyebrow a{color:#0053B7;text-decoration:none;}
+.vxn-art-hero__eyebrow{margin-top:22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#0B2DBE;}
+.vxn-art-hero__eyebrow a{color:#0B2DBE;text-decoration:none;}
 .vxn-art-hero__eyebrow a:hover{text-decoration:underline;}
 
 .vxn-art-wrap{max-width:1200px;margin:0 auto;padding:58px 32px 76px;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:60px;}
 .vxn-side-date{padding-bottom:20px;margin-bottom:22px;border-bottom:1px solid #e7e2d9;}
-.vxn-side-date__val{color:#0053B7;font-weight:600;font-size:15px;margin-top:4px;}
+.vxn-side-date__val{color:#0B2DBE;font-weight:600;font-size:15px;margin-top:4px;}
 .vxn-art-content{color:#3d4a56;font-size:17px;line-height:1.8;}
 .vxn-art-content p{margin:0 0 22px;}
 .vxn-art-content>p:first-child{font-size:19.5px;line-height:1.7;color:#26313b;}
 .vxn-art-content h3{font-family:"Forum",serif;font-weight:400;color:#0E355F;font-size:26px;line-height:1.2;margin:40px 0 14px;}
 .vxn-art-content h2{font-family:"Forum",serif;font-weight:400;color:#0E355F;font-size:30px;line-height:1.2;margin:44px 0 16px;}
-.vxn-art-content a{color:#0053B7;text-decoration:underline;text-underline-offset:2px;}
+.vxn-art-content a{color:#0B2DBE;text-decoration:underline;text-underline-offset:2px;}
 .vxn-art-content img{max-width:100%;height:auto;border-radius:6px;margin:8px 0 26px;}
 .vxn-art-content ul,.vxn-art-content ol{margin:0 0 22px;padding-left:22px;}
 .vxn-art-content li{margin:0 0 8px;}
 
 .vxn-art-side{align-self:start;position:sticky;top:110px;}
 .vxn-side-author{display:flex;gap:14px;align-items:center;padding-bottom:24px;border-bottom:1px solid #e7e2d9;}
-.vxn-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#0053B7,#0E355F);display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:inset 0 0 0 2px #0053B7;}
-.vxn-avatar span{font-family:"Forum",serif;color:#0053B7;font-size:26px;line-height:1;}
+.vxn-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#0B2DBE,#0E355F);display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:inset 0 0 0 2px #0B2DBE;}
+.vxn-avatar span{font-family:"Forum",serif;color:#0B2DBE;font-size:26px;line-height:1;}
 .vxn-side-author__name{font-weight:600;color:#0E355F;font-size:15px;line-height:1.25;}
 .vxn-side-author__role{font-size:13px;color:#77808a;margin-top:3px;}
 .vxn-side-block{padding:22px 0;border-bottom:1px solid #e7e2d9;}
 .vxn-side-label{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#9aa1a9;margin-bottom:14px;}
 .vxn-side-share{display:flex;gap:10px;}
-.vxn-side-share a{width:38px;height:38px;border-radius:50%;border:1px solid #d9d3c8;display:flex;align-items:center;justify-content:center;color:#0053B7;transition:.2s;}
+.vxn-side-share a{width:38px;height:38px;border-radius:50%;border:1px solid #d9d3c8;display:flex;align-items:center;justify-content:center;color:#0B2DBE;transition:.2s;}
 .vxn-side-share a:hover{background:#0E355F;border-color:#0E355F;color:#fff;}
 .vxn-side-share svg{width:16px;height:16px;fill:currentColor;}
 .vxn-side-topics{display:flex;flex-wrap:wrap;gap:8px 14px;}
-.vxn-side-topics a{color:#0053B7;font-size:14px;text-decoration:none;border-bottom:1px solid transparent;}
-.vxn-side-topics a:hover{border-color:#0053B7;}
+.vxn-side-topics a{color:#0B2DBE;font-size:14px;text-decoration:none;border-bottom:1px solid transparent;}
+.vxn-side-topics a:hover{border-color:#0B2DBE;}
 /* Fills by wedge on hover — mechanism in valunxt-brand.css, this only names
    the colour it sweeps. */
 /* The one CTA (20260911): the site's pill and gradient, at the sidebar's full width; was a 2px-radius uppercase block. */
@@ -83,7 +84,7 @@ const CSS = `
 .vxn-rel:hover .vxn-rel__thumb img{transform:scale(1.05);}
 .vxn-rel__badge{position:absolute;top:10px;left:10px;background:rgba(14,53,95,.85);color:#fff;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:2px;}
 .vxn-rel__title{font-family:"Forum",serif;font-size:16px;line-height:1.3;color:#0E355F;margin-top:10px;transition:color .2s;}
-.vxn-rel:hover .vxn-rel__title{color:#0053B7;}
+.vxn-rel:hover .vxn-rel__title{color:#0B2DBE;}
 
 @media(max-width:960px){
   .vxn-art-wrap{grid-template-columns:1fr;gap:44px;}
@@ -108,7 +109,7 @@ export default async function BlogArticleSection({
 }) {
   const cat = article.category ?? 'Insights';
   const topics = article.topics ?? [cat];
-  const author = article.author ?? 'VALUNXT Research Team';
+  const author = article.author ?? 'Valunxt Research Team';
   const arole = article.author_role ?? 'Insights & Analysis Desk';
   const initial = author.trim().slice(0, 1).toUpperCase() || 'V';
   /* The UAE edition's own picture for this article (lib/uae-page-images.ts), shared with its index card and related thumbs. */
@@ -219,6 +220,7 @@ export default async function BlogArticleSection({
 
                 <a className="vxn-side-cta" href={rurl(region, '/contact/')}>
                   Talk to us
+                  <CtaArrow />
                 </a>
 
                 {related.length ? (

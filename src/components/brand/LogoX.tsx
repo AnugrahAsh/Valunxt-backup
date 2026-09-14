@@ -1,5 +1,5 @@
 /**
- * The "x" of the VALUNXT wordmark, as a reusable shape.
+ * The "x" of the Valunxt wordmark, as a reusable shape.
  *
  * The four paths below are lifted verbatim from the wordmark outline already
  * shipped in the intro preloader (see LOGO_PATHS in

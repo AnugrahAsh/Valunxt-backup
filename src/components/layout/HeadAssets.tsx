@@ -74,7 +74,7 @@ const VAMTAM_THEME_OPTIONS = `
             --vamtam-input-border-color: #0000001A;
             --vamtam-btn-text-color: #0E355F;
             --vamtam-btn-hover-text-color: #F6F4EF;
-            --vamtam-btn-bg-color: #0053B7;
+            --vamtam-btn-bg-color: #0B2DBE;
             --vamtam-btn-hover-bg-color: #0E355F;
             --vamtam-btn-border-radius: 6px 6px 6px 6px;
             --vamtam-site-max-width: 1280px;
@@ -612,7 +612,7 @@ export function SiteFavicons() {
         type="image/png"
       />
       <link rel="apple-touch-icon" href={`${BASE}/assets/content/uploads/logo/apple-touch-icon.png`} />
-      <meta name="theme-color" content="#0053B7" />
+      <meta name="theme-color" content="#0B2DBE" />
     </>
   );
 }
@@ -639,7 +639,7 @@ export default function HeadAssets({ page }: { page: PageConfig }) {
           this head — has been parsed and matched. Font requests are CORS
           requests even from the same origin, so the preload has to say so or
           the browser fetches the file twice. Only on pages that carry the face
-          sheet; India never asks for the family. */}
+          sheet — every page in both markets since 20260914. */}
       {(page.site_css ?? []).includes(UAE_FACE_CSS)
         ? UAE_FACE_PRELOAD.map((href) => (
             <link key={href} rel="preload" as="font" type="font/otf" href={`${BASE}${href}`} crossOrigin="anonymous" />
@@ -672,15 +672,20 @@ export default function HeadAssets({ page }: { page: PageConfig }) {
 
       <InlineCss css={page.inline_css} />
 
-      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-brand.css?v=159`} media="all" />
+      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-brand.css?v=162`} media="all" />
       {/* Landing-page feature blocks. Purely additive — after the brand sheet so
           it can build on its tokens without overriding any of its rules. */}
-      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-landing.css?v=50`} media="all" />
+      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-landing.css?v=54`} media="all" />
       {/* The UAE services mega panel. Listed globally rather than per page
           because the header renders on every page in that market — and it is
           entirely under `.vxn-umega`, a class only that component emits, so it
           is inert everywhere else. */}
-      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-uae-mega.css?v=15`} media="all" />
+      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-uae-mega.css?v=16`} media="all" />
+      {/* The burger drawer, the menu on phones, tablets and small laptops
+          (20260914). Global for the same reason: every page has the header.
+          Every rule in it sits inside a max-width: 1399px query, so the
+          desktop bar never reads it. */}
+      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-mobile-menu.css?v=4`} media="all" />
       {/* Stylesheets a single page wrote for itself. Last in the block on
           purpose: a page sheet is scoped to one root class and has to be able
           to beat the theme's rules at equal specificity, which is what loading

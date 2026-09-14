@@ -1,7 +1,7 @@
 /**
  * Chrome-level content: brand, regions, navigation, footer, contact details.
  *
- * This is VALUNXT. The real estate practice is part of the group, not a
+ * This is Valunxt. The real estate practice is part of the group, not a
  * separate company, so the wordmark, the palette and the type are the group's —
  * what changes is the composition, not the identity.
  *
@@ -28,8 +28,8 @@ import type { Link, Locale, Partner } from '../lib/types';
 const DUBAI = vxnOffice('dubai')!;
 
 export const BRAND = {
-  name: 'VALUNXT',
-  full: 'VALUNXT',
+  name: 'Valunxt',
+  full: 'Valunxt',
   /** The practice, shown as a lockup beside the wordmark. */
   practice: 'Real Estate',
   phone: DUBAI.phone,
@@ -108,7 +108,7 @@ export const FOOTER_COLUMNS: { title: string; links: Link[] }[] = [
   {
     title: 'The Group',
     links: [
-      { label: 'About VALUNXT', href: '/#about' },
+      { label: 'About Valunxt', href: '/#about' },
       { label: 'Our Process', href: '/#process' },
       { label: 'Client Reviews', href: '/#reviews' },
       { label: 'Market Insights', href: '/#insights' },

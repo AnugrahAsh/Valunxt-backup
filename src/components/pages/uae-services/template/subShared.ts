@@ -136,4 +136,4 @@ export const STORY_PHOTO = { photo: '2025/03/GettyImages-2188611296.jpg', alt: '
 export const BAND_PHOTO = { image: 'banners/technology-and-ai.webp', alt: '' };
 
 /** The brand ramp over an abstract plate that the brief's panel carries. */
-export const PANEL_PLATE = { mark: 'VALUNXT', image: 'homepage/abstract-2.webp', alt: '' };
+export const PANEL_PLATE = { mark: 'Valunxt', image: 'homepage/abstract-2.webp', alt: '' };

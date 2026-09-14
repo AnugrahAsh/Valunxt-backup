@@ -90,7 +90,7 @@ const CSS = `
     .vxn-adv__bars span {
         width: 17px;
         border-radius: 3px 3px 0 0;
-        background: linear-gradient(180deg, rgba(0, 83, 183, .85) 0%, #0053B7 100%);
+        background: linear-gradient(180deg, rgba(0, 83, 183, .85) 0%, #0B2DBE 100%);
         opacity: .9;
         box-shadow: 0 6px 18px rgba(14, 53, 95, .18);
     }
@@ -155,7 +155,7 @@ const CSS = `
         width: 26px;
         height: 26px;
         flex: 0 0 auto;
-        color: #0053B7;
+        color: #0B2DBE;
     }
 
     @media(max-width:900px) {

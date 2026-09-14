@@ -69,7 +69,7 @@ export default function WhyUsBanner({ region }: { region: string }) {
           <p className="vxn-whyus__copy">{c.copy}</p>
           <a className="vxn-whyus__cta" href={rurl(region, '/free-consultation/')}>
             Schedule a Call
-            <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right" />
+            <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow" />
           </a>
         </div>
       </div>

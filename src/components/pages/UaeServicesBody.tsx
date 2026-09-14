@@ -66,6 +66,7 @@
 import BLOG_CATALOG from '@/data/blog-catalog';
 import Html from '@/components/Html';
 import { rurl, vxnRegionData, vxnServiceName, vxnServices } from '@/lib/region';
+import CtaArrow from '@/components/ui/CtaArrow';
 import { rimgFirst } from '@/lib/region-assets';
 import type { PageConfig } from '@/lib/page-config';
 import ServiceTemplateMotion, { type MotionGroup } from './uae-services/template/Motion';
@@ -189,7 +190,6 @@ const CSS = `
 /* The button, pinned to the foot as the reference pins its own. It is the
    site's pill, drawn on a span inside the card's link. */
 .sx-card__more{margin-top:auto;}
-.sx-card__more svg{width:15px;height:15px;flex:0 0 auto;}
 
 .sx-card:hover .sx-card__body,
 .sx-card:focus-visible .sx-card__body{top:0;}
@@ -222,7 +222,6 @@ const CSS = `
   transition:gap .3s cubic-bezier(.22,.61,.36,1);
 }
 .sx-ins__all:hover{gap:13px;}
-.sx-ins__all svg{width:14px;height:14px;}
 .sx-rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);}
 .sx-post{
   position:relative;display:block;aspect-ratio:3/4;overflow:hidden;
@@ -286,7 +285,6 @@ const CSS = `
 /* The arrow inside the pill is sized here as well as on the glyph: an SVG
    with no size of its own is 300 by 150 to the browser, and the pill grew to
    fit it. */
-.sx-promo .at-btn svg{width:15px;height:15px;flex:0 0 auto;}
 /* The pill on a photograph takes the site's white finish. */
 .sx-promo .at-btn--solid{
   background-image:none;background-color:#fff;color:var(--vxn-cta-ink,#0B2DBE)!important;border-color:#fff;
@@ -321,16 +319,6 @@ const CSS = `
 }
 `;
 
-/** The arrow every link on the page ends with, the template's 14px stroke. */
-function Arrow() {
-  return (
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
-      <path d="M5 12h14" />
-      <path d="m13 6 6 6-6 6" />
-    </svg>
-  );
-}
-
 /** The four newest posts, in the catalog's order. */
 const POSTS = Object.entries(BLOG_CATALOG).slice(0, 4);
 
@@ -358,7 +346,7 @@ export default function UaeServicesBody({
           <section className="at-hero" aria-labelledby="at-hero-head">
             <div className="at-hero__media">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="at-zoom" src={rimgFirst(region, PLATE.hero)} alt={`VALUNXT advisers in ${market.cities}`} fetchPriority="high" />
+              <img className="at-zoom" src={rimgFirst(region, PLATE.hero)} alt={`Valunxt advisers in ${market.cities}`} fetchPriority="high" />
             </div>
             <div className="at-hero__scrim" aria-hidden="true" />
             <div className="at-hero__blur" aria-hidden="true">
@@ -454,7 +442,7 @@ export default function UaeServicesBody({
                           ) : null}
                           <span className="sx-card__more at-btn at-btn--solid">
                             Learn more
-                            <Arrow />
+                            <CtaArrow />
                           </span>
                         </span>
                       </span>
@@ -477,7 +465,7 @@ export default function UaeServicesBody({
                 </div>
                 <a className="sx-ins__all" href={rurl(region, '/blogs/')}>
                   View all insights
-                  <Arrow />
+                  <CtaArrow />
                 </a>
               </div>
 
@@ -519,7 +507,7 @@ export default function UaeServicesBody({
                   </p>
                   <a className="at-btn at-btn--solid" href={rurl(region, '/free-consultation/')}>
                     Book a Free Consultation
-                    <Arrow />
+                    <CtaArrow />
                   </a>
                 </div>
 
@@ -536,7 +524,7 @@ export default function UaeServicesBody({
                   </p>
                   <a className="at-btn at-btn--solid" href={rurl(region, '/industries/')}>
                     Explore Industries
-                    <Arrow />
+                    <CtaArrow />
                   </a>
                 </div>
               </div>

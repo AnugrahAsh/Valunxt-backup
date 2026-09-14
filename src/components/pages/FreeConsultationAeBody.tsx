@@ -40,6 +40,7 @@
  */
 import ClientScript from '@/components/ClientScript';
 import { BASE, rurl } from '@/lib/region';
+import CtaArrow from '@/components/ui/CtaArrow';
 import { rimgFirst } from '@/lib/region-assets';
 import { vxnOffice } from '@/lib/site-data';
 import type { PageConfig } from '@/lib/page-config';
@@ -59,11 +60,11 @@ const GROUP = [
   { name: 'Reliant Surveyors', href: 'https://reliantsurveyors.com', logo: 'reliant-surveyors.svg', w: 114 },
   { name: 'HouzzHunt', href: 'https://houzzhunt.com', logo: 'houzzhunt.svg', w: 56 },
   { name: 'HouzzHunt Mortgage', href: 'https://houzzhuntmortgage.com', logo: 'houzzhunt-mortgage.svg', w: 218 },
-  { name: 'VALUNXT Corporate Services', href: 'https://valunxt.com', logo: 'valunxt-corporate.svg', w: 187 },
+  { name: 'Valunxt Corporate Services', href: 'https://valunxt.com', logo: 'valunxt-corporate.svg', w: 187 },
 ];
 
 /** The ecosystem line's four names, in the captured order. */
-const ECOSYSTEM = ['VALUNXT Corporate Services', 'Reliant Surveyors', 'HouzzHunt', 'HouzzHunt Mortgage'];
+const ECOSYSTEM = ['Valunxt Corporate Services', 'Reliant Surveyors', 'HouzzHunt', 'HouzzHunt Mortgage'];
 
 /** What reveals on this page beyond the template's own table. */
 const MOTION: MotionGroup[] = [
@@ -174,7 +175,6 @@ const CSS = `
   width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,83,183,.22);color:var(--ny2);
   transition:background-color .25s ease,color .25s ease,border-color .25s ease;
 }
-.fc-way__go svg{width:15px;height:15px;}
 .fc-way__link:hover .fc-way__go{background:var(--ny2);border-color:var(--ny2);color:#fff;}
 .fc-way__link:hover .fc-way__value{color:var(--ny2);}
 
@@ -227,7 +227,6 @@ const CSS = `
 .fc-form .iti__selected-flag{padding:0 8px 0 14px;border-radius:10px 0 0 10px;}
 .fc-form__actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:24px 0 0;}
 .fc-form__submit{border:1px solid transparent;cursor:pointer;font-family:inherit;}
-.fc-form__submit svg{width:14px;height:14px;flex:0 0 auto;}
 .fc-form__submit[disabled]{opacity:.7;cursor:progress;}
 .fc-form__status{
   margin:0!important;color:var(--body)!important;font-size:14px!important;line-height:1.5!important;
@@ -277,20 +276,6 @@ const CSS = `
 }
 `;
 
-function Arrow() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" width="14" height="14">
-      <path
-        d="M3 8h10M9 4l4 4-4 4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export default function FreeConsultationAeBody({ page, region }: { page: PageConfig; region: string }) {
   const office = vxnOffice('dubai')!;
   const sub =
@@ -337,9 +322,9 @@ export default function FreeConsultationAeBody({ page, region }: { page: PageCon
           </section>
 
           {/* ---- 2. THE ECOSYSTEM LINE ---- */}
-          <section className="fc-eco" aria-label="The VALUNXT group">
+          <section className="fc-eco" aria-label="The Valunxt group">
             <div className="at-in fc-eco__in">
-              <p className="fc-eco__label">Part of the VALUNXT group ecosystem:</p>
+              <p className="fc-eco__label">Part of the Valunxt group ecosystem:</p>
               <ul className="fc-eco__list">
                 {ECOSYSTEM.map((name) => (
                   <li className="fc-eco__chip" key={name}>
@@ -372,7 +357,7 @@ export default function FreeConsultationAeBody({ page, region }: { page: PageCon
                           <span className="fc-way__value">{office.email}</span>
                         </span>
                         <span className="fc-way__go" aria-hidden="true">
-                          <Arrow />
+                          <CtaArrow />
                         </span>
                       </a>
                     </li>
@@ -383,7 +368,7 @@ export default function FreeConsultationAeBody({ page, region }: { page: PageCon
                           <span className="fc-way__value">{office.phone}</span>
                         </span>
                         <span className="fc-way__go" aria-hidden="true">
-                          <Arrow />
+                          <CtaArrow />
                         </span>
                       </a>
                     </li>
@@ -416,7 +401,7 @@ export default function FreeConsultationAeBody({ page, region }: { page: PageCon
                   >
                     <input type="hidden" name="post_id" value="296" />
                     <input type="hidden" name="form_id" value="e67e0ee" />
-                    <input type="hidden" name="referer_title" value="VALUNXT" />
+                    <input type="hidden" name="referer_title" value="Valunxt" />
                     <input type="hidden" name="queried_id" value="296" />
 
                     <div className="elementor-form-fields-wrapper">
@@ -481,7 +466,7 @@ export default function FreeConsultationAeBody({ page, region }: { page: PageCon
                     <div className="fc-form__actions">
                       <button className="at-btn at-btn--solid fc-form__submit" type="submit">
                         <span className="fc-form__submit-label">Submit</span>
-                        <Arrow />
+                        <CtaArrow />
                       </button>
                       {/* aria-live so the outcome is announced, not just drawn. */}
                       <p className="fc-form__status" role="status" aria-live="polite" />
@@ -489,7 +474,7 @@ export default function FreeConsultationAeBody({ page, region }: { page: PageCon
 
                     <p className="fc-form__legal">
                       By submitting this form you agree to our{' '}
-                      <a href={rurl(region, '/privacy-policy/')}>Privacy Policy</a>. VALUNXT may contact you via
+                      <a href={rurl(region, '/privacy-policy/')}>Privacy Policy</a>. Valunxt may contact you via
                       email or phone regarding your enquiry and scheduling.
                     </p>
                   </form>

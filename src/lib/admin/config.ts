@@ -6,7 +6,7 @@
  */
 
 /** Seeded once, on the first connection to an empty `users` table. */
-export const DEFAULT_ADMIN_NAME = process.env.ADMIN_DEFAULT_NAME ?? 'VALUNXT Admin';
+export const DEFAULT_ADMIN_NAME = process.env.ADMIN_DEFAULT_NAME ?? 'Valunxt Admin';
 export const DEFAULT_ADMIN_EMAIL = process.env.ADMIN_DEFAULT_EMAIL ?? 'admin@valunxtcapital.com';
 export const DEFAULT_ADMIN_PASS = process.env.ADMIN_DEFAULT_PASS ?? 'Admin@123';
 

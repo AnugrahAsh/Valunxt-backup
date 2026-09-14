@@ -53,7 +53,7 @@ function Bar({
                 height={35}
                 src={`${BASE}/assets/content/uploads/logo/valunxt-white.svg`}
                 className="attachment-full size-full vxn-logo vxn-logo--light"
-                alt="VALUNXT"
+                alt="Valunxt"
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -104,7 +104,7 @@ function Bar({
               >
                 <span className="elementor-button-content-wrapper">
                   <span className="elementor-button-icon">
-                    <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right" />{' '}
+                    <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow" />{' '}
                   </span>
                   <span className="elementor-button-text">Free Consultation</span>
                 </span>

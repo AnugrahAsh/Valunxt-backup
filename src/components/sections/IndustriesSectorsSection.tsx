@@ -1,4 +1,4 @@
-/* Industries — the property sectors and client segments VALUNXT covers.
+/* Industries — the property sectors and client segments Valunxt covers.
    This page used to render the same four group-company cards as /network/
    (and the since-removed /our-group/), so they answered the same question.
    The division is now:
@@ -83,8 +83,8 @@ const SEGMENTS = [
 ];
 
 const CSS = `
-/* ===== VALUNXT Industries — sectors & segments ============================= */
-.vxn-sec{--ny:#0E355F;--ny2:#0053B7;--gd:#0053B7;--gd2:#9C00DD;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 8px;}
+/* ===== Valunxt Industries — sectors & segments ============================= */
+.vxn-sec{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 8px;}
 .vxn-sec *{box-sizing:border-box;}
 .vxn-sec__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-sec__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}

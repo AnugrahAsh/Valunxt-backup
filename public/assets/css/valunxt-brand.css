@@ -9,9 +9,12 @@
    ========================================================================== */
 :root {
   /* Their palette, under their names, so the source is traceable. */
-  --vxn-blue: #0053B7;
-  --vxn-blue-dark: #00408C;
-  --vxn-blue-light: #0064DB;
+  /* The #0B2DBE family became the CTA ramp's #0B2DBE family on 20260914,
+     on client instruction, for India and every global page — the UAE sheets
+     already ran it. Dark is the CTA sweep colour, light the ramp's midpoint. */
+  --vxn-blue: #0B2DBE;
+  --vxn-blue-dark: #08248F;
+  --vxn-blue-light: #1436D8;
   --vxn-violet: #9C00DD;
   --vxn-navy-2: #0E355F;
   --vxn-sky: #8FB7FF;
@@ -33,25 +36,25 @@
      — buttons, the feature bands, the panels, every card hover — and a plain
      hex there would paint nothing. Flattening it here changes all of them at
      once; put two stops back and the gradient returns everywhere. */
-  --vxn-grad-gold: linear-gradient(115deg, #0053B7 0%, #0053B7 100%);
+  --vxn-grad-gold: linear-gradient(150deg, #0E3FA8 0%, #1436D8 48%, #0B2DBE 100%);
   /* The same fill one step darker, for the states that need to differ. */
-  --vxn-grad-hover: linear-gradient(115deg, #00408C 0%, #00408C 100%);
-  --vxn-grad-soft: linear-gradient(115deg, #2E7FE0 0%, #B24DE8 100%);
+  --vxn-grad-hover: linear-gradient(150deg, #0B2DBE 0%, #08248F 100%);
+  --vxn-grad-soft: linear-gradient(115deg, #1436D8 0%, #B24DE8 100%);
   /* Dark surfaces keep their blue-to-navy fall — this is a background for
      whole sections, not the accent fill. */
-  --vxn-grad-navy: linear-gradient(115deg, #0053B7 0%, #0E355F 100%);
+  --vxn-grad-navy: linear-gradient(115deg, #0B2DBE 0%, #0E355F 100%);
   /* Their footer panel. */
-  --vxn-grad-footer: linear-gradient(165deg, #0064DB 0%, #0053B7 45%, #003D8C 100%);
+  --vxn-grad-footer: linear-gradient(165deg, #1436D8 0%, #0B2DBE 45%, #08248F 100%);
 
   /* Legacy names, now pointing at the new palette. */
-  --vxn-navy: #0053B7;
+  --vxn-navy: #0B2DBE;
   --vxn-navy-dark: #0E355F;
-  --vxn-gold: #0053B7;
+  --vxn-gold: #0B2DBE;
   /* The secondary accent — ghost-button text, small labels, the cookie link,
      the switcher tick. It was the violet half of the gradient; with the fill
      flat, a violet accent has nothing to belong to, so it is the fill one step
      darker. The violet itself stays defined above for the logo. */
-  --vxn-gold-dark: #00408C;
+  --vxn-gold-dark: #08248F;
 
   /* ---- THE ONE CTA (20260911) --------------------------------------------
      Every pill on the site draws its geometry from these, and the fill from
@@ -1847,7 +1850,7 @@ img.vxn-blog-hero {
 }
 
 .vxn-logo-slider .vxn-logo-slider__dots .vxn-logo-slider__dot.is-active {
-  background-color: #0053B7 !important;
+  background-color: #0B2DBE !important;
   transform: scale(1.4) !important;
 }
 
@@ -2165,7 +2168,7 @@ img.vxn-blog-hero {
 }
 
 .vxn-mega__item:hover .vxn-mega__itemtitle {
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
 }
 
 .vxn-mega__itemdesc {
@@ -2199,7 +2202,7 @@ img.vxn-blog-hero {
 }
 
 .vxn-mega__item:hover .vxn-mega__ico {
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
 }
 
 .vxn-mega__chev {
@@ -2207,7 +2210,7 @@ img.vxn-blog-hero {
   font-style: normal;
   font-size: 17px;
   line-height: 1;
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
   transition: transform .25s ease, opacity .25s ease;
 }
 
@@ -2232,14 +2235,14 @@ img.vxn-blog-hero {
   height: 38px;
   border: 1px solid rgba(0, 83, 183, 0.35);
   border-radius: 999px !important;
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
   transition: background-color .25s ease, border-color .25s ease, color .25s ease;
 }
 
 .vxn-mega__viewall:hover .vxn-mega__circ,
 .vxn-mega__card:hover .vxn-mega__circ {
-  background-color: var(--vxn-blue, #0053B7);
-  border-color: var(--vxn-blue, #0053B7);
+  background-color: var(--vxn-blue, #0B2DBE);
+  border-color: var(--vxn-blue, #0B2DBE);
   color: #ffffff;
 }
 
@@ -2310,7 +2313,7 @@ img.vxn-blog-hero {
 
 .elementor-nav-menu--main .vxn-mega__kicker {
   margin-bottom: 12px;
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
 }
 
 .elementor-nav-menu--main .vxn-mega__head {
@@ -2346,12 +2349,12 @@ img.vxn-blog-hero {
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
-  color: var(--vxn-blue, #0053B7) !important;
+  color: var(--vxn-blue, #0B2DBE) !important;
   transition: color .25s ease;
 }
 
 .elementor-nav-menu--main .vxn-mega__panel .vxn-mega__viewall:hover {
-  color: var(--vxn-blue-dark, #00408C) !important;
+  color: var(--vxn-blue-dark, #08248F) !important;
 }
 
 /* ---- Link index ---- */
@@ -2584,7 +2587,7 @@ img.vxn-blog-hero {
 .vxn-mega__panel .vxn-mega__wrap .vxn-mega__card:hover .vxn-mega__circ {
   background-color: #FFFFFF;
   border-color: #FFFFFF;
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
 }
 
 /* ==========================================================================
@@ -2759,7 +2762,7 @@ nav.elementor-nav-menu--dropdown .vxn-mega__panel .vxn-mega__circ svg {
   width: 58px;
   height: 3px;
   margin: 24px 0 26px;
-  background: var(--vxn-blue, #0053B7);
+  background: var(--vxn-blue, #0B2DBE);
 }
 
 .vxn-plat__text {
@@ -2843,7 +2846,7 @@ nav.elementor-nav-menu--dropdown .vxn-mega__panel .vxn-mega__circ svg {
   height: 54px;
   border-radius: 50%;
   background: #EDF3FB;
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
   transition: background-color .3s ease;
 }
 
@@ -2865,7 +2868,7 @@ nav.elementor-nav-menu--dropdown .vxn-mega__panel .vxn-mega__circ svg {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
 }
 
 @media (max-width: 1024px) {
@@ -2979,7 +2982,7 @@ nav.elementor-nav-menu--dropdown .vxn-mega__panel .vxn-mega__circ svg {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--vxn-blue, #0053B7);
+  background: var(--vxn-blue, #0B2DBE);
 }
 
 .vxn-vision__mark {
@@ -2993,7 +2996,7 @@ nav.elementor-nav-menu--dropdown .vxn-mega__panel .vxn-mega__circ svg {
   height: 35px;
   border-radius: 50%;
   background: #EDF3FB;
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
 }
 
 .vxn-vision__title {
@@ -3551,7 +3554,7 @@ body.vxn-cookie-lock {
 /* It carries role="button" and a tab stop (PageShell), so it needs a focus
    ring of its own — the theme never gave the <div> one. */
 #scroll-to-top:focus-visible {
-  outline: 2px solid #0053b7;
+  outline: 2px solid #0B2DBE;
   outline-offset: 3px;
 }
 
@@ -3956,8 +3959,8 @@ body.vxn-uae-face .elementor-location-header .e-con.e-parent {
 }
 
 /* Header CTA: a pill, as in the reference. The theme ships it as a square
-   button with an arrow chip; the arrow is dropped here so the control reads as
-   one calm shape next to the country switcher. */
+   button; it takes the one arrow like every other CTA (client, 20260914; the
+   arrow had been dropped here so it read as one calm shape). */
 .elementor-location-header .elementor-widget-button .elementor-button {
   /* The one CTA's geometry (20260911), stated here as well as at the foot of
      the file so the header pill and the page pills cannot drift apart. */
@@ -3970,14 +3973,6 @@ body.vxn-uae-face .elementor-location-header .e-con.e-parent {
   line-height: 1;
   white-space: nowrap;
   box-shadow: none !important;
-}
-
-.elementor-location-header .elementor-widget-button .elementor-button .elementor-button-icon {
-  display: none !important;
-}
-
-.elementor-location-header .elementor-widget-button .elementor-button-content-wrapper {
-  gap: 0 !important;
 }
 
 /* Between 1024 and 1280 the eight items are tight — shave the rhythm rather
@@ -4082,7 +4077,7 @@ body.vxn-uae-face .elementor-location-header .e-con.e-parent {
    The old palette had a light accent (gold) on dark navy. The new one puts the
    accent and the dark surfaces in the same blue family, so accent *text* sitting
    on a dark panel came out invisible — the footer's "Dubai (UAE)" labels were
-   #0053B7 on #0053B7. valunxt.com solves the same problem with sky, so
+   #0B2DBE on #0B2DBE. valunxt.com solves the same problem with sky, so
    .color-accent-2 — the theme's accent-text hook, only ever used on dark —
    takes sky here. Colour only: backgrounds are left alone deliberately, since
    re-pointing the kit variable itself would repaint panels as well as type.
@@ -4259,7 +4254,7 @@ h2 .color-accent-2,
    One gradient, used consistently (2026-08-31)
 
    Several panels came out of the palette change as flat or washed-out blues:
-   the footer's offices card was solid #0053B7 on a navy footer, the "Schedule a
+   the footer's offices card was solid #0B2DBE on a navy footer, the "Schedule a
    Consultation" banner ran blue-to-navy, and the About accordion sat in a 24%
    blue tint that read as a pale, unfinished box. They all take the one brand
    gradient now — the same 115deg blue-to-violet the buttons use.
@@ -4361,12 +4356,12 @@ html.vxn-nav-stuck .elementor-139 .elementor-nav-menu--main .elementor-item {
 }
 
 html.vxn-nav-stuck .elementor-139 .elementor-nav-menu--main .elementor-item.elementor-item-active {
-  color: #0053B7 !important;
+  color: #0B2DBE !important;
 }
 
 html.vxn-nav-stuck .elementor-139 .elementor-nav-menu--main:not(.e--pointer-framed) .elementor-item.elementor-item-active:after,
 html.vxn-nav-stuck .elementor-139 .elementor-nav-menu--main:not(.e--pointer-framed) .elementor-item:hover:after {
-  background-color: #0053B7 !important;
+  background-color: #0B2DBE !important;
 }
 
 /* The dropdown chevrons are background images, so they need the dark artwork. */
@@ -4383,7 +4378,7 @@ html.vxn-nav-stuck .elementor-139 .vxn-region .vxn-region__toggle {
 html.vxn-nav-stuck .elementor-139 .vxn-region .vxn-region__toggle:hover,
 html.vxn-nav-stuck .elementor-139 .vxn-region .vxn-region__toggle:focus-visible,
 html.vxn-nav-stuck .elementor-139 .vxn-region.is-open .vxn-region__toggle {
-  border-color: #0053B7 !important;
+  border-color: #0B2DBE !important;
   background-color: rgba(0, 83, 183, .07) !important;
 }
 
@@ -4436,12 +4431,12 @@ html.vxn-nav-open .elementor-139 .elementor-nav-menu--main .elementor-item {
 
 html.vxn-nav-open .elementor-139 .elementor-nav-menu--main .elementor-item.elementor-item-active,
 html.vxn-nav-open .elementor-139 .elementor-nav-menu--main .menu-item:hover>.elementor-item {
-  color: #0053B7 !important;
+  color: #0B2DBE !important;
 }
 
 html.vxn-nav-open .elementor-139 .elementor-nav-menu--main:not(.e--pointer-framed) .elementor-item.elementor-item-active:after,
 html.vxn-nav-open .elementor-139 .elementor-nav-menu--main:not(.e--pointer-framed) .elementor-item:hover:after {
-  background-color: #0053B7 !important;
+  background-color: #0B2DBE !important;
 }
 
 /* The dropdown chevrons are background images, so they need the dark artwork. */
@@ -4464,7 +4459,7 @@ html.vxn-nav-open .elementor-139 .elementor-menu-toggle i {
    own panel is open — otherwise the open sheet has nothing pointing at it. */
 .elementor-location-header nav.elementor-nav-menu--main ul.elementor-nav-menu>li.menu-item-has-children:hover>a.elementor-item,
 .elementor-location-header nav.elementor-nav-menu--main ul.elementor-nav-menu>li.menu-item-has-children:focus-within>a.elementor-item {
-  color: #0053B7 !important;
+  color: #0B2DBE !important;
 }
 
 /* The home header is transparent at rest at *every* width.
@@ -4505,8 +4500,8 @@ body:not(.elementor-editor-active) .vamtam-sticky-header--transparent-header:not
   fill: #fff !important;
 }
 
-/* About — the "Why VALUNXT Capital?" card.
-   Its panel fades to solid #0053B7 behind the content. That fade used to end in
+/* About — the "Why Valunxt Capital?" card.
+   Its panel fades to solid #0B2DBE behind the content. That fade used to end in
    gold, where the black heading and dark list read fine; on blue they do not.
    Same treatment as the other gradient panels. */
 .elementor-element-45cf318 .elementor-heading-title,
@@ -4526,6 +4521,18 @@ body:not(.elementor-editor-active) .vamtam-sticky-header--transparent-header:not
   fill: #fff !important;
 }
 
+/* About — the glass "4 Group Companies" card, without its button (20260914).
+   The capture pulls the card 54px past the foot of the skyline photo
+   (--margin-bottom: -54px in post-258.css) so that its "Contact Us" button
+   straddled the photo's edge. The button came out on client instruction, and
+   the overhang left the lower part of the glass sitting on white. Worse, below
+   1025 the photo is anchored to the section's foot, so the shorter card pulled
+   it 46px up into the paragraph above. With no overhang the card sits on the
+   photo again and the section keeps the height it had. */
+.elementor-258 .elementor-element.elementor-element-1e67f45.e-con {
+  --margin-bottom: 0px;
+}
+
 /* --------------------------------------------------------------------------
    Link hover
 
@@ -4540,7 +4547,7 @@ body:not(.elementor-editor-active) .vamtam-sticky-header--transparent-header:not
    -------------------------------------------------------------------------- */
 :root,
 body {
-  --vamtam-body-link-hover: #0053B7;
+  --vamtam-body-link-hover: #0B2DBE;
 }
 
 .elementor-location-footer a:hover,
@@ -4571,7 +4578,7 @@ body {
 
    The theme fills a card with accent 2 on hover. That worked while accent 2
    was gold — a light fill under the card's own dark type. On the new palette
-   the fill is #0053B7, so the card turned solid blue with dark text sitting
+   the fill is #0B2DBE, so the card turned solid blue with dark text sitting
    unreadably on top of it.
 
    These 96 selectors are every such rule in the generated Elementor CSS,
@@ -4880,7 +4887,7 @@ body {
 
 /* The form-card header bars (Contact, Book a Consultation).
    Deep navy #0E355F panel with the send glyph still coloured with the accent —
-   #0053B7 on #0E355F is a 1.7:1 ratio, so the icon was barely there. The
+   #0B2DBE on #0E355F is a 1.7:1 ratio, so the icon was barely there. The
    heading beside it was already white; the icon joins it. */
 .elementor-element-dfdaf3f .elementor-icon,
 .elementor-element-dfdaf3f .elementor-icon i,
@@ -5063,7 +5070,7 @@ form.elementor-form button[type="submit"]::before,
   left: -50px;
   width: 0;
   height: 100%;
-  background: var(--vxn-cta-sweep, #00408C);
+  background: var(--vxn-cta-sweep, #08248F);
   transform: skewX(45deg);
   transform-origin: top left;
   z-index: -1;
@@ -5204,7 +5211,7 @@ form.elementor-form button[type="submit"]:hover,
 html.vxn-nav-stuck .elementor-location-header nav.elementor-nav-menu--main ul.elementor-nav-menu>li>a.elementor-item.elementor-item-active,
 html.vxn-nav-open .elementor-location-header nav.elementor-nav-menu--main ul.elementor-nav-menu>li>a.elementor-item.elementor-item-active {
   background-color: transparent !important;
-  color: #0053B7 !important;
+  color: #0B2DBE !important;
 }
 
 /* ==========================================================================
@@ -5449,7 +5456,7 @@ img.vxn-blog-hero {
    Selector depth matches the 0-4-0 rules above (the theme tints menu anchors
    at 0-3-1, which is what forced that depth originally). */
 .elementor-nav-menu--main .vxn-mega__panel .vxn-mega__wrap .vxn-mega__card {
-  background-color: #0053B7 !important;
+  background-color: #0B2DBE !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.08' stroke-width='1'%3E%3Cpath d='M0 40 L40 0 M-10 10 L10 -10 M30 50 L50 30'/%3E%3C/g%3E%3Cg fill='%23ffffff' fill-opacity='.06'%3E%3Ccircle cx='10' cy='30' r='1'/%3E%3Ccircle cx='30' cy='10' r='1'/%3E%3C/g%3E%3C/svg%3E") !important;
   background-repeat: repeat !important;
   background-size: 40px 40px !important;
@@ -5669,7 +5676,7 @@ img.vxn-blog-hero {
   display: inline-flex !important;
   align-items: center;
   gap: 10px;
-  color: var(--vxn-blue, #0053B7) !important;
+  color: var(--vxn-blue, #0B2DBE) !important;
 }
 
 .elementor-nav-menu--main .vxn-mega__panel .vxn-mega__kicker::before {
@@ -6061,7 +6068,7 @@ img.vxn-blog-hero {
 }
 
 /* ==========================================================================
-   CAREERS — the "Why Work With VALUNXT?" card (2026-09-05)
+   CAREERS — the "Why Work With Valunxt?" card (2026-09-05)
 
    The card led with assets/content/uploads/2025/04/stats.png, a stock bar
    chart in two greens left over from the theme demo. It illustrated nothing on
@@ -6080,7 +6087,7 @@ img.vxn-blog-hero {
    two layers with nothing to animate, so a second element would buy nothing.
    Scrim first in the list, which paints it over the plate.
 
-   THE TYPE. The heading was #000 and the list rgba(0,0,0,.75), on #0053B7 —
+   THE TYPE. The heading was #000 and the list rgba(0,0,0,.75), on #0B2DBE —
    2.9:1 and below, which fails at any size and was failing before this change
    too. They are white now, which the plate would have forced anyway. The button
    was already white.
@@ -6276,12 +6283,12 @@ img.vxn-blog-hero {
 .vxn-mega__group:hover > .vxn-mega__grouprow .vxn-mega__grouptitle,
 .vxn-mega__group.is-open > .vxn-mega__grouprow .vxn-mega__grouptitle,
 .vxn-mega__grouphead:focus-visible .vxn-mega__grouptitle {
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
 }
 
 .vxn-mega__group:hover > .vxn-mega__grouprow .vxn-mega__ico,
 .vxn-mega__group.is-open > .vxn-mega__grouprow .vxn-mega__ico {
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
 }
 
 /* ---- The disclosure -----------------------------------------------------
@@ -6310,7 +6317,7 @@ img.vxn-blog-hero {
 .vxn-mega__panel .vxn-mega__wrap .vxn-mega__grouptoggle:hover,
 .vxn-mega__group.is-open .vxn-mega__grouptoggle {
   background: transparent;
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
 }
 
 .vxn-mega__group.is-open .vxn-mega__grouptoggle {
@@ -6318,7 +6325,7 @@ img.vxn-blog-hero {
 }
 
 .vxn-mega__panel .vxn-mega__wrap .vxn-mega__grouptoggle:focus-visible {
-  outline: 2px solid var(--vxn-blue, #0053B7);
+  outline: 2px solid var(--vxn-blue, #0B2DBE);
   outline-offset: -4px;
 }
 
@@ -6382,7 +6389,7 @@ img.vxn-blog-hero {
 
 .vxn-mega__panel .vxn-mega__wrap .vxn-mega__sub:hover,
 .vxn-mega__panel .vxn-mega__wrap .vxn-mega__sub:focus-visible {
-  color: var(--vxn-blue, #0053B7);
+  color: var(--vxn-blue, #0B2DBE);
   transform: translateX(3px);
 }
 
@@ -6542,6 +6549,7 @@ form.elementor-form button[type="submit"],
 .vxn-coming__cta,
 .vxn-side-cta {
   box-sizing: border-box;
+  gap: 10px !important;
   min-height: var(--vxn-cta-h) !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -6690,4 +6698,69 @@ form.elementor-form button[type="submit"],
   .svcx-btn:hover {
     transform: none;
   }
+}
+
+/* ---- THE ONE ARROW (client, 20260914) -----------------------------------
+   Every CTA ends in the theme's arrow-right glyph at one size, 10px after its
+   label, nudged 3px to the right while the control is lit. <CtaArrow /> renders
+   it; the Elementor buttons carry the same class on their icon. The nudge keys
+   off the link or button the arrow sits in, so a card that wraps its pill in a
+   larger link lights it too. */
+.vxn-cta__arrow {
+  display: inline-block;
+  flex: 0 0 auto;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  transition: transform .25s var(--vxn-ease, ease);
+}
+
+:is(a, button):hover .vxn-cta__arrow,
+:is(a, button):focus-visible .vxn-cta__arrow {
+  transform: translateX(3px);
+}
+
+/* The Elementor buttons: the same gap, and the icon after the label wherever
+   the widget asks for it (the captured per-element sheets carry this for the
+   buttons that came from WordPress; the ones added since do not). */
+.elementor-button .elementor-button-content-wrapper {
+  gap: 10px !important;
+  align-items: center;
+}
+
+.vamtam-icon-pos-row-reverse .elementor-button-content-wrapper {
+  flex-direction: row-reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vxn-cta__arrow {
+    transition: none;
+  }
+
+  :is(a, button):hover .vxn-cta__arrow,
+  :is(a, button):focus-visible .vxn-cta__arrow {
+    transform: none;
+  }
+}
+
+/* The dropdown items (About: Who We Are, Careers, FAQ) take white type when
+   lit (20260914, client): the header kits paint the highlighted item a blue
+   plate and left the type blue on it. (0,2,1) + !important over the kits'
+   (0,5,1). */
+.elementor-nav-menu--dropdown a.elementor-sub-item:hover,
+.elementor-nav-menu--dropdown a.elementor-sub-item:focus,
+.elementor-nav-menu--dropdown a.elementor-sub-item.highlighted {
+  color: #FFFFFF !important;
+}
+
+/* ---- THE BRAND NAME (client, 20260914) ------------------------------------
+   The name is "Valunxt", never "VALUNXT", anywhere on the site. The copy says
+   so everywhere now; this is for the labels the stylesheets set in capitals
+   (the UAE home's tags and eyebrows, the sub-service pages' panel mark and
+   "Why Valunxt?" pill), which would still draw it as VALUNXT. The label keeps
+   its capitals and the name inside it keeps its own case: brandCase() in
+   components/ui/BrandName.tsx wraps it. Lower case needs less tracking than
+   the capitals around it, so the name sets its own. */
+.vxn-brand {
+  text-transform: none !important;
+  letter-spacing: 0.02em !important;
 }

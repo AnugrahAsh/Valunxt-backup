@@ -24,6 +24,7 @@
 import { rurl } from '@/lib/region';
 import { rimg, rimgFirst } from '@/lib/region-assets';
 import { LogoXWindow } from '@/components/brand/LogoX';
+import { brandCase } from '@/components/ui/BrandName';
 
 /** A path, or candidates in preference order: the first file that exists wins. */
 type ImgSrc = string | readonly string[];
@@ -94,7 +95,7 @@ const CONTENT: Record<string, TrioContent> = {
       texture: ['uae/home/the-group.webp', 'banners/texture-2.webp'],
     },
     right: {
-      tag: 'Why VALUNXT',
+      tag: 'Why Valunxt',
       title: 'Evidence-Led Advice. Built Around Your Goals.',
       href: '/about/',
       img: ['uae/home/why-choose-us.webp', 'banners/uae-slider-3.webp'],
@@ -125,7 +126,7 @@ function PlainCard({ region, card }: { region: string; card: TrioCard }) {
   return (
     <a className="vxn-trio__card" href={rurl(region, card.href)}>
       <div className="vxn-trio__top">
-        <span className="vxn-trio__tag">{card.tag}</span>
+        <span className="vxn-trio__tag">{brandCase(card.tag)}</span>
         <GoArrow />
       </div>
       <h3 className="vxn-trio__title">{card.title}</h3>
@@ -159,7 +160,7 @@ export default function WhoWeAreTrio({ region }: { region: string }) {
         ) : null}
 
         <div className="vxn-trio__top">
-          <span className="vxn-trio__tag">{c.brand.tag}</span>
+          <span className="vxn-trio__tag">{brandCase(c.brand.tag)}</span>
           <GoArrow />
         </div>
 

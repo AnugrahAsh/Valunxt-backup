@@ -1,5 +1,5 @@
 /* =============================================================================
-   VALUNXT — the UAE Services mega menu
+   Valunxt — the UAE Services mega menu
 
    Styles for UaeServicesMega.tsx, built to the supplied reference. Everything
    is under `.vxn-umega`, a class only that component renders, so this file is
@@ -35,7 +35,7 @@
    took went back into the two columns — see the note on .vxn-umega__body.
 
    ---------------------------------------------------------------------------
-   COLOUR is VALUNXT's, not the reference's. The reference is another firm's
+   COLOUR is Valunxt's, not the reference's. The reference is another firm's
    brand; what was asked for is its layout and structure. The blue column takes
    the supplied ramp, the active tab takes a pale tint of it, and the accent
    rule at the foot takes the wordmark's violet.
@@ -327,7 +327,7 @@
 .vxn-umega .vxn-umega__asidelink {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   margin-top: auto;
   padding-top: 20px;
   font-size: 14px;
@@ -682,90 +682,21 @@
 }
 
 /* =============================================================================
-   5b. THE BURGER DRAWER (below 1025)
+   5b. THE BURGER DRAWER — moved out (20260914)
 
-   The desktop bar is replaced by a drawer at this width and the fixed panel is
-   not shown — but it must not simply vanish. The menu it replaces was a
-   `ul.sub-menu`, which the drawer expands on tap; this one is a <div>, which
-   the drawer's script knows nothing about, so hiding it would leave "Services"
-   as a bare link and drop twenty-nine sub-service URLs out of the mobile menu
-   altogether. That would be a regression, not a simplification.
-
-   So it renders INLINE instead: static, stacked, no shadow, one column. The
-   tab row still works — it is the same React state — so the whole tree is
-   reachable by tapping a tab and then a link.
+   This panel used to render inline in the burger drawer, stacked to one
+   column, and on a phone it came out 54px wide with every word broken letter
+   by letter. The drawer's copy of the menu no longer renders this component at
+   all: it renders Services and Insights as nested lists (MegaDrawerItem.tsx),
+   styled by valunxt-mobile-menu.css. Nothing here applies below 1400 any more,
+   where the desktop bar is hidden.
    ============================================================================= */
-
-@media (max-width: 1024px) {
-  .vxn-umega > .vxn-umega__panel {
-    display: block;
-    position: static;
-    padding: 0;
-    max-height: none;
-    overflow: visible;
-    /* Inline in the drawer there is nothing behind to cover. */
-    background: transparent;
-  }
-
-  .vxn-umega .vxn-umega__inner {
-    max-width: none;
-    box-shadow: none;
-  }
-
-  /* Stacked inline, the columns take their content height. The floor is for a
-     sheet hanging off the bar, not for a list in a drawer. */
-  .vxn-umega .vxn-umega__body {
-    grid-template-columns: minmax(0, 1fr);
-    min-height: 0;
-  }
-
-  .vxn-umega .vxn-umega__aside {
-    padding: 22px 20px 20px;
-  }
-
-  .vxn-umega .vxn-umega__asidetitle {
-    font-size: 24px;
-  }
-
-  /* Scrolls sideways rather than wrapping to three lines of tabs above a list
-     that is already long. */
-  .vxn-umega .vxn-umega__tabs {
-    min-height: 46px;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    scrollbar-width: none;
-  }
-
-  .vxn-umega .vxn-umega__tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* One column. Three across a phone leaves each link two words wide. */
-  .vxn-umega .vxn-umega__grid {
-    grid-auto-flow: row;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: none;
-    gap: 14px;
-    margin-bottom: 18px;
-  }
-
-  .vxn-umega .vxn-umega__pane {
-    padding: 20px;
-  }
-
-  /* The close button belongs to a panel that can be dismissed. Inline in the
-     drawer there is nothing to dismiss it back to. */
-  .vxn-umega .vxn-umega__close {
-    display: none;
-  }
-}
 
 /* =============================================================================
    6. NARROWER DESKTOPS
 
-   Below 1025 the bar becomes the burger drawer and this panel is not shown at
-   all — the drawer renders the same <li> as a plain nested list, which the
-   theme styles. So the only breakpoints needed are the two where the panel is
+   Below 1400 the bar becomes the burger drawer and this panel is not shown at
+   all (see 5b). So the only breakpoints needed are the two where the panel is
    still on screen but the reference's proportions stop fitting.
    ============================================================================= */
 

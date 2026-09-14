@@ -5,13 +5,18 @@
  * and slugs are the registry's. See ../template/subTypes.ts for the shape,
  * the length rules and the note on the success story being a placeholder.
  *
- * BUY PROPERTY IS THE CLIENT'S page document (20260912), word for word, under
- * the same two rules as the home and service pages: nothing added to the
- * document or dropped from it, and no em dashes anywhere on the UAE pages.
- * The document writes every one of the eight practice-level sections for this
- * page in its own words, so the page carries them all in `override` and the
- * PARENT below is what the other two pages show until their documents arrive.
- * Where the document and a slot did not meet, the call is marked at the line.
+ * ALL THREE PAGES ARE THE CLIENT'S page documents (20260912), word for word,
+ * under the same two rules as the home and service pages: nothing added to the
+ * documents or dropped from them, and no em dashes anywhere on the UAE pages.
+ * Each document writes every one of the eight practice-level sections for its
+ * page in its own words, so each page carries them all in `override`; the
+ * PARENT below is the shape they override and is no longer shown anywhere.
+ * Where a document and a slot did not meet, the call is marked at the line.
+ *
+ * Two of the documents label the testimonial "Client story" and leave the
+ * attribution as "[Verified ValuNxt client details to be added]": the quote
+ * stands alone until those details arrive, and the label has no slot on the
+ * photograph (the panel's pill is the panel's own label).
  */
 import { buildSubs, type SubParent, type SubSpec } from '../template/subTypes';
 import {
@@ -78,7 +83,7 @@ const PARENT: SubParent = {
     ...STORY_PHOTO,
     alt: 'An adviser reviewing a property file',
     quote:
-      'We had two offers on the table and no way to judge them. VALUNXT priced the asset on ' +
+      'We had two offers on the table and no way to judge them. Valunxt priced the asset on ' +
       'comparables, ran the diligence and handled the negotiation — and the deal closed at the ' +
       'number they said it would.',
     initials: 'AH',
@@ -93,9 +98,9 @@ const PARENT: SubParent = {
   },
   band: {
     ...BAND_PHOTO,
-    title: 'VALUNXT Transaction Intelligence',
+    title: 'Valunxt Transaction Intelligence',
     body:
-      'Working with the group’s RICS-regulated valuers, research team and mortgage desk, VALUNXT ' +
+      'Working with the group’s RICS-regulated valuers, research team and mortgage desk, Valunxt ' +
       'turns a property search into a decision you can defend — priced, checked and negotiated ' +
       'before the money moves.',
     cta: { label: "Discover what's next", href: '/services/technology-data-ai/' },
@@ -218,7 +223,7 @@ const SPECS: SubSpec[] = [
            and one paragraph, so the kicker is the heading and the headline
            opens the paragraph. Its own paragraph was tried first and sat as a
            stray short line in the right-aligned side column. */
-        title: 'VALUNXT Property Intelligence',
+        title: 'Valunxt Property Intelligence',
         body: 'More Clarity Behind Every Property Choice. Go beyond the listing with a clearer view of location, pricing, market movement and investment potential so you understand the opportunity before you make your move.',
         cta: { label: 'Get in Touch', href: '/contact/' },
       },
@@ -263,52 +268,249 @@ const SPECS: SubSpec[] = [
   },
   {
     slug: 'sell-rent-lease-property',
-    title: 'Sell & Rent/Lease Property',
-    lede:
-      'We help owners sell or lease property at a price the market will pay, through a process that reaches the buyers and tenants who will pay it. Whether you are selling an apartment, leasing an office or letting a portfolio, we bring evidence-based pricing, considered marketing and negotiation that protects the value you have built.',
+    title: 'Sell & Lease Property',
+    /* The document's breadcrumb and kicker keep the registry's longer name. */
+    crumb: 'Sell & Rent/Lease Property',
+    lede: 'Take your property to market with the right positioning, the right audience and a strategy built around your goals.',
     brief: {
-      lede:
-        'We partner with owners to run a disposal or a letting as a managed process rather than a listing left to luck. The approach is built on sales and leases handled across residential and commercial assets in the UAE, which has shown that the outcome is decided by the price asked, the market reached and the terms agreed — in that order.',
-      whatIntro: 'The what sets out what an owner needs in place before going to market, including:',
+      lede: [
+        'Putting a property on the market is easy. Positioning it to attract the right buyer or tenant takes a more considered approach.',
+        'Whether you are selling a property, leasing an investment or looking for the right tenant, ValuNxt brings market perspective, property positioning and transaction support together to help you achieve the right outcome.',
+      ],
+      whatIntro: 'Position Your Property to Perform',
       what: [
-        { lead: 'A price on evidence', text: 'from recent transactions, current competing stock and the group’s valuers, so the asking price is a strategy rather than a hope.', stress: 'a strategy rather than a hope' },
-        { lead: 'The asset presented', text: 'with the documents a buyer or tenant will ask for — title, service charges, NOCs, floor plans — ready before the first viewing.' },
-        { lead: 'Marketing that reaches', text: 'the buyers and tenants for this asset, through portals, the group’s network and direct approaches, not a single listing.' },
-        { lead: 'Terms thought through', text: 'for a lease — term, escalation, fit-out, break clauses — or a sale — deposit, timeline, conditions — before an offer arrives.' },
+        { lead: 'Market-Led Pricing.', text: 'Understand where your property sits in the current market and establish a price supported by relevant market context.' },
+        { lead: 'Stronger Positioning.', text: 'Bring forward the features, location and advantages that make your property relevant to prospective buyers or tenants.' },
+        { lead: 'Focused Market Reach.', text: 'Connect your property with relevant demand through a more targeted approach to the market.' },
+        { lead: '100% Transparency.', text: 'Stay informed on enquiries, viewings, offers and progress throughout the process.' },
       ],
-      howIntro: 'The how keeps the process in your control:',
+      howIntro: 'From Market to Move-Out',
       how: [
-        { lead: 'Weekly reporting.', text: 'Enquiries, viewings, feedback and offers reported every week, so a decision to hold or adjust is made on data.', stress: 'reported every week' },
-        { lead: 'Qualified interest only.', text: 'Buyers and tenants are qualified on funding and intent before a viewing is booked.' },
-        { lead: 'Negotiation on your side.', text: 'Every offer is assessed against the plan agreed with you, and countered with the evidence behind the price.' },
-        { lead: 'Completion handled.', text: 'MOU, NOC, transfer or lease registration and handover managed to a published timeline.' },
+        { lead: 'Qualified Enquiries.', text: 'Focus on serious prospective buyers and tenants who match the opportunity.' },
+        { lead: 'Managed Viewings.', text: 'Coordinate property viewings efficiently while keeping the experience organised for everyone involved.' },
+        { lead: 'Confident Negotiation.', text: 'Navigate offers, rental terms and commercial discussions with market context behind every conversation.' },
+        { lead: 'Hassle-Free Closure.', text: 'Move from agreed terms through documentation, coordination and final handover with support at every stage.' },
       ],
-      panel: { title: 'Sell-Side & Leasing', sub: 'Pricing, marketing and negotiation for owners selling or leasing across the UAE.' },
+      panel: {
+        title: 'Your Property. Positioned to Perform.',
+        sub: 'From taking your property to market to negotiating terms and completing the transaction, we help keep every move focused on the right outcome.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why us?',
+        /* Two lines in the document; split so each of the card's three lines
+           holds at 1280, with the highlight on the closing words. */
+        titleTop: 'Your Property',
+        titleMid: 'Deserves More Than',
+        titleMark: 'Market Exposure.',
+        note: 'We combine market insight, strategic positioning and focused execution to connect your property with the right buyers or tenants.',
+        cta: { label: 'List Your Property', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our approach',
+        columns: [
+          {
+            title: 'Understand the Property',
+            body: 'We start with your property, priorities and timeline to understand what you want from the sale or lease before shaping the strategy.',
+          },
+          {
+            title: 'Position for the Market',
+            body: 'We bring pricing, presentation and market context together to position your property around the buyers or tenants you want to reach.',
+          },
+          {
+            title: 'Turn Interest Into Action',
+            body: 'When the right interest comes in, we help move conversations forward with clear guidance through offers, negotiation and the decisions that follow.',
+          },
+        ],
+      },
+      insights: {
+        title: 'Know Your Market. Position With Purpose.',
+        lede: 'Understand the pricing, demand and property trends influencing how buyers and tenants are moving across the UAE market.',
+        all: { label: 'Explore Market Insights', href: '/blogs/' },
+        cards: [
+          { title: 'What Is Your Property Worth?', excerpt: 'The factors influencing sale and rental expectations.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'What Are Buyers Looking For?', excerpt: 'Features and locations attracting market attention.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'Price It Right', excerpt: 'Why market positioning matters from day one.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'Sell or Lease?', excerpt: 'What to consider when deciding your property’s next move.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'An adviser reviewing a property file',
+        quote: 'ValuNxt gave us a clearer view of the market and helped keep the entire process focused, from positioning the property to completing the transaction.',
+        pill: 'Market Reach',
+        title: 'Your Property. More Opportunity to Be Seen.',
+        stat: '30K+',
+        note: 'property listings across the platform, connecting property opportunities with an active UAE market.',
+        cta: { label: 'List Your Property', href: '/free-consultation/' },
+        arrow: { href: '/services/real-estate-transactions/', label: 'More about Real Estate' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Property Intelligence',
+        /* The comma after "strategy" stands where a dash had already been
+           taken out of the document's sentence. "Discover more" leads where
+           the home page's "Discover insights" does. */
+        body: 'Position Better. Move Smarter. Turn property insight into a stronger market strategy, from understanding value and demand to making the right move at the right time.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        steps: [
+          {
+            title: 'Property Positioning',
+            body: 'Make the opportunity clear. Bring together property characteristics, location and market context to create a stronger proposition for prospective buyers or tenants.',
+          },
+          {
+            title: 'Valuation Perspective',
+            body: 'Know where value stands. Access valuation expertise when you need an independent perspective on your property and its value.',
+          },
+          {
+            title: 'Market Intelligence',
+            body: 'Understand the demand. Use wider research and market intelligence to understand the trends influencing property decisions and market activity.',
+          },
+        ],
+        pill: 'Our Vision',
+        quote: 'To make selling and leasing property more transparent, strategic and seamless from market entry to final handover.',
+      },
+      /* "Property Types We Support" heads the strip in the document; the
+         row's heading block is hidden, as on the other pages. */
+      strip: stripOf('real-estate-transactions', [
+        'Apartments',
+        'Villas',
+        'Townhouses',
+        'Waterfront Properties',
+        'Investment Properties',
+        'Commercial Properties',
+      ]),
+      talk: {
+        head: 'Ready to Make Your Property’s Next Move?',
+        lede: 'Whether you are ready to sell, looking for the right tenant or exploring your options, start with a clearer view of the market.',
+        cta: { label: 'List Your Property', href: '/free-consultation/' },
+        image: REAL_ESTATE_TEMPLATE.close.image,
+      },
     },
   },
   {
     slug: 'off-plan-properties',
-    title: 'Off Plan Properties',
-    lede:
-      'We help buyers assess an off-plan purchase before a deposit is paid: the developer, the payment plan, the location and the exit. Whether you are buying to live in, to let or to resell on completion, we bring independent analysis of what a launch offers, what it will cost to completion and what it is likely to be worth when the keys are handed over.',
+    title: 'Off-Plan Properties',
+    lede: 'Discover what’s coming next. Explore new developments and investment opportunities with a clearer view of their potential.',
     brief: {
-      lede:
-        'We partner with buyers to treat an off-plan purchase as an investment decision rather than a launch-day reaction. The approach is built on launches assessed across Dubai and Abu Dhabi, which has shown that the outcome depends less on the brochure than on the developer’s record, the payment plan’s shape and the market the project will complete into.',
-      whatIntro: 'The what sets out what has to be checked before committing, including:',
+      lede: [
+        'Buying off-plan is about more than choosing a property before it is built. The developer, location, payment plan, project timeline and future market potential can all shape the opportunity.',
+        'ValuNxt helps you navigate these considerations, compare projects and explore off-plan opportunities aligned with how you want to live, invest or build your property portfolio.',
+      ],
+      whatIntro: 'Explore What’s Coming Next',
       what: [
-        { lead: 'The developer', text: 'track record on delivery, escrow compliance, RERA registration and how earlier phases have traded since handover.', stress: 'how earlier phases have traded' },
-        { lead: 'The payment plan', text: 'modelled to completion, including post-handover instalments, DLD fees and the cash needed at each milestone.' },
-        { lead: 'The location and the pipeline', text: 'what is planned around the project and what supply will complete alongside it.' },
-        { lead: 'The exit', text: 'expected value at completion against the total cost, tested with the group’s valuers and research team, whether you plan to let, hold or resell.' },
+        { lead: 'Curated Developments.', text: 'Explore selected projects across emerging and established communities based on your requirements and investment goals.' },
+        { lead: 'Developer Perspective.', text: 'Look beyond the project itself with greater context around the developer, development and proposition.' },
+        { lead: 'Payment Plan Comparison.', text: 'Understand payment structures, milestones and financial commitments before deciding which opportunity fits.' },
+        { lead: 'Market Potential.', text: 'Consider location, surrounding development, demand and wider market dynamics when evaluating an off-plan opportunity.' },
       ],
-      howIntro: 'The how keeps you in a strong position through the build:',
+      howIntro: 'From Launch to Handover',
       how: [
-        { lead: 'Launch access.', text: 'Early sight of releases from developers across the emirates, and a view on which are worth the queue.', stress: 'which are worth the queue' },
-        { lead: 'Negotiated terms.', text: 'Unit choice, payment plan and incentives negotiated where the developer allows it, before the SPA is signed.' },
-        { lead: 'Milestone tracking.', text: 'Construction progress, escrow reporting and instalment dates monitored and reported to you through the build.' },
-        { lead: 'Handover and beyond.', text: 'Snagging, handover, registration and — if you plan to let — the letting managed by the same team.' },
+        { lead: 'Project Comparison.', text: 'Compare developments, unit options and propositions before narrowing down your preferred opportunity.' },
+        { lead: 'Unit Selection.', text: 'Explore available configurations, layouts and positioning to identify options aligned with your priorities.' },
+        { lead: 'Booking & Documentation.', text: 'Navigate reservation, documentation and transaction requirements with support through the process.' },
+        { lead: 'Handover Support.', text: 'Stay supported as the project progresses towards completion and your property moves closer to handover.' },
       ],
-      panel: { title: 'Off-Plan Advisory', sub: 'Developer, payment plan, location and exit assessed before a deposit is paid.' },
+      panel: {
+        title: 'Invest in Off-Plan Property.',
+        sub: 'Explore off-plan developments with the market perspective and transaction support to look beyond the launch and understand the opportunity.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why us?',
+        titleTop: 'Don’t Just Choose',
+        titleMid: 'a Project. Choose',
+        titleMark: 'Potential.',
+        note: 'We help you look beyond brochures and launches to the location, developer, payment structure and market factors behind the opportunity.',
+        cta: { label: 'Explore Off-Plan', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our approach',
+        columns: [
+          {
+            title: 'Start With Your Objective',
+            /* The comma after "achieve" stands where a dash had already been
+               taken out of the document's sentence. */
+            body: 'We begin with what you want the property to achieve, from future living to investment potential, before exploring relevant developments.',
+          },
+          {
+            title: 'Compare Beyond the Brochure',
+            body: 'We bring projects, locations, developers and payment structures into perspective so you can compare opportunities on what matters.',
+          },
+          {
+            title: 'Move From Interest to Ownership',
+            body: 'Once an opportunity stands out, we help you navigate unit selection, booking and the decisions that take you towards ownership.',
+          },
+        ],
+      },
+      insights: {
+        title: 'See Beyond the Launch. Read What Comes Next.',
+        lede: 'Explore the developments, locations and market shifts shaping Dubai’s evolving off-plan landscape.',
+        all: { label: 'Explore Market Insights', href: '/blogs/' },
+        cards: [
+          { title: 'Emerging Communities', excerpt: 'Where is Dubai’s next wave of development taking shape?', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'Developer & Project Insights', excerpt: 'What should you know before choosing a development?', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'Location Potential', excerpt: 'What can infrastructure and surrounding development mean for an area?', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'Off-Plan Market Trends', excerpt: 'What are buyer demand, launches and supply telling us about the market?', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'An adviser reviewing a property file',
+        quote: 'ValuNxt helped us compare projects beyond the launch offers. We had a much clearer understanding of the location, payment plan and opportunity before making our decision.',
+        pill: 'Off-Plan Access',
+        title: 'More Projects. More Possibilities. One Focused Search.',
+        stat: '100%',
+        note: 'seamless support from project discovery and unit selection to booking, documentation and final handover.',
+        cta: { label: 'Explore Projects', href: '/free-consultation/' },
+        arrow: { href: '/services/real-estate-transactions/', label: 'More about Real Estate' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Property Intelligence',
+        body: 'Look Beyond the Launch. Bring project, location and market intelligence together to understand what could shape an off-plan opportunity over the years ahead.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        steps: [
+          {
+            title: 'Developer Perspective',
+            body: 'Know who is behind the project. Understand the developer, project proposition and relevant considerations before making a commitment.',
+          },
+          {
+            title: 'Location Potential',
+            body: 'Look at what is developing around it. Consider connectivity, infrastructure, surrounding development and community dynamics when assessing a location.',
+          },
+          {
+            title: 'Investment Perspective',
+            body: 'Think beyond the entry price. Look at payment structures, market dynamics and longer-term considerations when comparing opportunities.',
+          },
+        ],
+        pill: 'Our Vision',
+        /* The comma after "informed" stands where the document's dash was. */
+        quote: 'To make off-plan decisions more informed, connecting today’s opportunities with a clearer view of what they could become.',
+      },
+      /* "Explore Off-Plan" heads the strip in the document; hidden, as above. */
+      strip: stripOf('real-estate-transactions', [
+        'New Launches',
+        'Waterfront Developments',
+        'Branded Residences',
+        'Apartments',
+        'Villas & Townhouses',
+        'Investment Opportunities',
+      ]),
+      talk: {
+        head: 'Your Next Property Move Starts Here.',
+        lede: 'Ready to turn your property plans into your next address? Start the conversation with ValuNxt.',
+        cta: { label: 'Get in Touch', href: '/contact/' },
+        image: REAL_ESTATE_TEMPLATE.close.image,
+      },
     },
   },
 ];

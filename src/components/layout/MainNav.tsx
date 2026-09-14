@@ -11,8 +11,9 @@
  * captured per-post stylesheets target them.
  */
 import { rurl } from '@/lib/region';
-import MegaMenu from './MegaMenu';
+import MegaDrawerItem from './MegaDrawerItem';
 import UaeServicesMega from './UaeServicesMega';
+import { insightsPreset, servicesPreset, type MegaPreset } from './mega-presets';
 
 export interface NavIds {
   /** menu-item-<n> on the About parent. */
@@ -103,7 +104,6 @@ export default function MainNav({
   className?: string;
 }) {
   const tab = hidden ? { tabIndex: -1 } : {};
-  const megaTab = hidden ? -1 : undefined;
 
   const contact = (
     <li
@@ -115,9 +115,17 @@ export default function MainNav({
       </a>
     </li>
   );
-  const insights = (
-    <MegaMenu key="insights" region={region} tabIndex={megaTab} label="Insights" href="/blogs/" />
-  );
+  /* Both mega menus are the tabbed panel built to the client's UAE reference
+     (20260914) — see mega-presets.ts for the words each one carries. The
+     hidden burger-drawer copy renders them as nested lists instead, which is
+     what a drawer can fold (MegaDrawerItem, valunxt-mobile-menu.css). */
+  const mega = (key: string, preset: MegaPreset) =>
+    hidden ? (
+      <MegaDrawerItem key={key} region={region} preset={preset} />
+    ) : (
+      <UaeServicesMega key={key} region={region} preset={preset} />
+    );
+  const insights = mega('insights', insightsPreset());
 
   return (
     <ul id={id} className={className}>
@@ -125,14 +133,7 @@ export default function MainNav({
           home on every header, and both markets already land on their own home
           page by default — /en-in/ and /en-ae/ — so the item only repeated an
           affordance the bar already had. The route is untouched. */}
-      {/* The UAE takes the tabbed panel built to the client's reference; India
-          keeps the shared preset. Region rather than header template, because
-          all three headers share this list and only one market was specified. */}
-      {region === 'en-ae' ? (
-        <UaeServicesMega region={region} tabIndex={megaTab} />
-      ) : (
-        <MegaMenu region={region} presetKey="services" tabIndex={megaTab} />
-      )}
+      {mega('services', servicesPreset(region))}
       <AboutItem region={region} ids={ids} hidden={hidden} />
       {/* "Our Group" and its pages were removed from the site (20260914). */}
       <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-industries">

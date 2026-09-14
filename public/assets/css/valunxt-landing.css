@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VALUNXT Capital — landing-page feature blocks (2026-09)
+   Valunxt Capital — landing-page feature blocks (2026-09)
 
    Four additions to the home page, all additive: nothing here overrides a
    selector that valunxt-brand.css or the Elementor cascade already owns, so
@@ -1266,7 +1266,7 @@
 
 .vxn-mosaic__card--grad::after {
   background: linear-gradient(to top, rgba(8, 25, 48, .34) 0%, rgba(8, 25, 48, 0) 62%);
-  /* background: #0053b7; */
+  /* background: #0B2DBE; */
 }
 
 /* The lead card's photograph is now the client's uae/home/about-valunxt.webp
@@ -2866,47 +2866,25 @@
 }
 
 /* --------------------------------------------------------------------------
-   17. .vxn-answer / .vxn-ans — "Valunxt Answer", the ask-and-answer band
+   17. .vxn-answer — "Your Questions, Answered", the question band
+   components/sections/UaeAnswerBand.tsx
 
-   Built 20260911 as a restaging of bcg.com's "BCG Answer" promo (light tint,
-   copy left, a 16:9 render of a question typed into a glass pill over pastel
-   spheres on the right, a grey square pause control in its corner, an arrow
-   that swept through the CTA) and restaged 20260912 after Rehman flagged it
-   as too close to the source. What is kept from the first build: the page's
-   inset, the copy's type ramp, the visual's 16:9 and its radius, the CTA at
-   the foot of the copy column ending on the visual's bottom edge, the
-   stacking below the split with the visual first. Everything the eye reads
-   is new:
+   REBUILT 20260914, twice. The first rebuild that day was six light cards;
+   the client then asked for texture, the left-and-right split, and no cards.
+   So: the copy in the left five columns, and in the right seven a panel on
+   the brand's deep blue silk with the six questions as one ruled list. Each
+   row is its link: question, the practice that answers it, an arrow. The
+   hairlines between rows are the only drawing on the panel; no card, no box,
+   no scrim over the texture.
 
-     band     the stage on the LEFT, seven columns of twelve from 1440, and
-              the copy on the right; six and six from 1280; one column below
-              that with the stage first
-     stage    the brand's dark pleated-blue artwork (homepage/abstract-1,
-              breathing slowly under a wash) instead of spheres; a rail of
-              the six questions down its left, each a button, the lit one
-              white with a blue progress bar timed to its scene; an ask field
-              across the top right with the brand's x, the typed question and
-              a send button that lights; the answer card under it, white,
-              sliding up: picture, chip, headline, the answer and the service
-              link. (The three page links with thumbnails, the "Where to
-              start" label and the rail's counter went on client feedback the
-              same day: the stage was cluttered. The gaps and paddings below
-              were opened up at the same time.)
-     control  a round glass button in the row with the field, not a square
-              in the corner
-     CTA      the house pill exactly as everywhere else; no arrow sweep
-
-   THE UNIT. Every length inside the stage is --u, one hundredth of the
-   stage's width (1cqw, the stage is a container) with a floor of 6.4px so
-   the type never falls below about 7px on the narrowest split (1280). On
-   the phone the stage leaves the 16:9 and flows: the field, the rail as a
-   row that scrolls sideways, the card; --u is 11px there so it reads.
+   SPECIFICITY. The market scale sizes h2 at (0,1,2) with !important, so the
+   title is sized through two classes. `.elementor-kit-5 a` paints anchors
+   white, which is what the rows want anyway, but the colour is asserted so
+   the hover can change it. The theme's list reset is cleared on the <ul>.
    -------------------------------------------------------------------------- */
-
-/* ---- The band ------------------------------------------------------------ */
 .vxn-answer {
-  padding: clamp(32px, 3.9vw, 72px) 0;
-  background: var(--vxn-band-tint);
+  padding: clamp(40px, 4.4vw, 80px) 0;
+  background: #FFFFFF;
 }
 
 /* The page's inset (section 15): 1520 wide with the gutter off each side. */
@@ -2915,862 +2893,188 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: auto minmax(0, 1fr);
-  column-gap: 40px;
-  row-gap: 0;
+  align-items: stretch;
+  column-gap: clamp(24px, 3vw, 56px);
+  row-gap: 32px;
 }
 
+/* ---- The copy ------------------------------------------------------------ */
 .vxn-answer__copy {
-  grid-column: 8 / span 5;
-  grid-row: 1;
-}
-
-/* The CTA's own cell, under the copy and pushed to its foot, so the button
-   ends on the stage's bottom edge whatever the copy's height. align-items,
-   because a flex column would otherwise stretch the pill to the column. */
-.vxn-answer__foot {
-  grid-column: 8 / span 5;
-  grid-row: 2;
+  grid-column: 1 / span 5;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   align-items: flex-start;
-}
-
-.vxn-answer__media {
-  grid-column: 1 / span 7;
-  grid-row: 1 / span 2;
-  align-self: start;
-  position: relative;
-  aspect-ratio: 16 / 9;
-  border-radius: 20px;
-  overflow: hidden;
-  isolation: isolate;
-  /* The stage measures itself in cqw; this is what it measures. */
-  container-type: inline-size;
-  background: #061A45;
+  justify-content: center;
 }
 
 .vxn-answer .vxn-band__eyebrow {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
-/* (0,2,0): clears the market scale's (0,1,2) h2 rule. 56 at 1440 and up
-   down to 40 at 390; line-height 1.04 at the top of the ramp, 1.2 at the
-   foot. */
 .vxn-ae-home .vxn-answer__title {
-  margin: 0 0 24px;
+  margin: 0 0 22px;
   color: var(--vxn-ink) !important;
   font-weight: 400 !important;
-  font-size: clamp(40px, 4.2vw, 56px) !important;
-  line-height: 1.04 !important;
+  font-size: clamp(34px, 3.6vw, 52px) !important;
+  line-height: 1.06 !important;
   letter-spacing: -.01em;
 }
 
-/* (0,2,0) again, over the scale sheet's paragraph line-height. The
-   line-height is asserted as well: the brand sheet's phone block sets
-   `article p { line-height: 1.6 !important }`, and this band, like the rest
-   of the page, is inside the post's <article>. */
 .vxn-ae-home .vxn-answer__lede {
-  margin: 0;
-  max-width: 34ch;
+  margin: 0 0 30px;
+  max-width: 40ch;
   color: var(--vxn-text);
-  font-size: clamp(16px, 1.3vw, 20px);
-  line-height: 1.4 !important;
+  font-size: clamp(16px, 1.2vw, 19px);
+  line-height: 1.5 !important;
 }
 
-/* ---- The stage ----------------------------------------------------------- */
-.vxn-ans {
-  --u: max(1cqw, 6.4px);
-  position: absolute;
-  inset: 0;
+/* ---- The panel ----------------------------------------------------------- */
+.vxn-answer__panel {
+  grid-column: 6 / span 7;
+  position: relative;
+  border-radius: 24px;
   overflow: hidden;
-  display: grid;
-  grid-template-columns: 32cqw minmax(0, 1fr);
-  grid-template-rows: auto minmax(0, 1fr);
-  column-gap: 3cqw;
-  row-gap: 2cqw;
-  padding: 3.2cqw;
-  box-sizing: border-box;
-  background: #061A45;
-  color: #FFFFFF;
+  isolation: isolate;
+  background: #071B4F;
 }
 
-/* The ground. The artwork breathes (a slow scale, 36s there and back) and
-   the wash darkens the rail's side and lifts a little blue under the card.
-   `height` is asserted throughout the stage: `.elementor img { height: auto }`
-   outranks a lone class. */
-.vxn-ans__bg {
+.vxn-answer .vxn-answer__texture {
   position: absolute;
   inset: 0;
   z-index: 0;
-  overflow: hidden;
-}
-
-.vxn-ans .vxn-ans__weave {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100% !important;
   object-fit: cover;
-  transform-origin: 50% 60%;
-  animation: vxn-ans-breathe 36s ease-in-out infinite alternate;
+  object-position: 50% 50%;
 }
 
-.vxn-ans__wash {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(60% 70% at 72% 78%, rgba(0, 100, 219, .28) 0%, rgba(0, 100, 219, 0) 70%),
-    linear-gradient(90deg, rgba(4, 16, 44, .82) 0%, rgba(4, 16, 44, .55) 38%, rgba(4, 16, 44, .22) 100%);
-}
-
-@keyframes vxn-ans-breathe {
-  from { transform: scale(1); }
-  to { transform: scale(1.07); }
-}
-
-/* ---- The rail ------------------------------------------------------------ */
-.vxn-ans__rail {
-  grid-column: 1;
-  grid-row: 1 / span 2;
+.vxn-answer__panelin {
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+  padding: clamp(28px, 2.6vw, 44px) clamp(24px, 2.6vw, 44px);
 }
 
-.vxn-ans__railhead {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: calc(var(--u) * 1);
-  margin-bottom: calc(var(--u) * 1.3);
-  font-size: calc(var(--u) * .84);
-  line-height: 1.2;
+.vxn-answer__label {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, .72);
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: .12em;
+  letter-spacing: .14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .64);
+  line-height: 1.2;
 }
 
-/* (0,2,0) over the kit's list rules. */
-.vxn-ans .vxn-ans__qs {
+/* The list. The theme pads and bullets every <ul> in the post body. */
+.vxn-answer .vxn-answer__list {
   margin: 0;
   padding: 0;
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--u) * .9);
 }
 
-.vxn-ans .vxn-ans__qi {
+.vxn-answer .vxn-answer__item {
   margin: 0;
   padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, .16);
 }
 
-/* The question buttons. The fill and the colour are asserted in every state:
-   the theme paints a focused <button> navy, and a button keeps focus after
-   a press. The font is reset from the theme's button styling. */
-.vxn-ans .vxn-ans__q,
-.vxn-ans .vxn-ans__q:focus,
-.vxn-ans .vxn-ans__q:active {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: calc(var(--u) * .85);
-  width: 100%;
-  margin: 0;
-  /* padding: calc(var(--u) * 1) calc(var(--u) * 1.2); */
-  box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, .16);
-  border-radius: calc(var(--u) * 1);
-  background: rgba(255, 255, 255, .08) !important;
-  color: rgba(255, 255, 255, .88) !important;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  font-family: inherit;
-  font-size: calc(var(--u) * 1.4);
-  line-height: 1.3;
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-  text-align: left;
-  box-shadow: none;
-  transform: none;
-  overflow: hidden;
-  cursor: pointer;
-  transition: background-color .25s ease, border-color .25s ease, color .25s ease;
+.vxn-answer .vxn-answer__item:first-child {
+  border-top: 0;
 }
 
-.vxn-ans .vxn-ans__q:hover {
-  background: rgba(255, 255, 255, .17) !important;
-  border-color: rgba(255, 255, 255, .3);
+.vxn-answer .vxn-answer__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  column-gap: clamp(14px, 1.6vw, 28px);
+  padding: clamp(14px, 1.3vw, 20px) 0;
   color: #FFFFFF !important;
+  text-decoration: none !important;
+  transition: padding-left .35s var(--vxn-ease);
 }
 
-.vxn-ans .vxn-ans__q.is-active,
-.vxn-ans .vxn-ans__q.is-active:hover,
-.vxn-ans .vxn-ans__q.is-active:focus {
-  background: #FFFFFF !important;
+.vxn-answer .vxn-answer__row:hover,
+.vxn-answer .vxn-answer__row:focus-visible {
+  padding-left: 10px;
+  outline: none;
+}
+
+.vxn-answer .vxn-answer__q {
+  display: block;
+  color: #FFFFFF;
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.3;
+  transition: color .3s var(--vxn-ease);
+}
+
+.vxn-answer .vxn-answer__row:hover .vxn-answer__q,
+.vxn-answer .vxn-answer__row:focus-visible .vxn-answer__q {
+  color: #BFD3FF;
+}
+
+.vxn-answer .vxn-answer__svc {
+  display: block;
+  color: rgba(255, 255, 255, .72);
+  font-size: 13px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.vxn-answer .vxn-answer__go {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .28);
+  color: #FFFFFF;
+  transition: background-color .3s var(--vxn-ease), border-color .3s var(--vxn-ease), color .3s var(--vxn-ease);
+}
+
+.vxn-answer .vxn-answer__row:hover .vxn-answer__go,
+.vxn-answer .vxn-answer__row:focus-visible .vxn-answer__go {
+  background: #FFFFFF;
   border-color: #FFFFFF;
-  color: var(--vxn-ink) !important;
-}
-
-.vxn-ans .vxn-ans__q:focus-visible {
-  outline: 2px solid #FFFFFF;
-  outline-offset: 2px;
-}
-
-.vxn-ans__num {
-  flex: none;
-  min-width: calc(var(--u) * 1.5);
-  font-size: calc(var(--u) * .8);
-  line-height: calc(var(--u) * 1.4 * 1.3);
-  font-weight: 700;
-  letter-spacing: .08em;
-  color: #5AA9FF;
-}
-
-.vxn-ans .vxn-ans__q.is-active .vxn-ans__num {
   color: var(--vxn-blue);
 }
 
-.vxn-ans__qtext {
-  min-width: 0;
-}
+@media (max-width: 1100px) {
 
-/* The progress bar along the foot of the lit question: the scene's length
-   is on the button as --vxn-ans-dur, and a press that skips the typing
-   starts it that far along with --vxn-ans-skip. */
-.vxn-ans__q::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: calc(var(--u) * .32);
-  background: var(--vxn-blue);
-  transform-origin: 0 50%;
-  transform: scaleX(0);
-}
-
-.vxn-ans .vxn-ans__q.is-active::after {
-  animation: vxn-ans-prog var(--vxn-ans-dur, 9s) linear var(--vxn-ans-skip, 0ms) forwards;
-}
-
-.vxn-ans.is-paused .vxn-ans__q::after {
-  animation-play-state: paused;
-}
-
-@keyframes vxn-ans-prog {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-/* ---- The field and the control ------------------------------------------- */
-.vxn-ans__top {
-  grid-column: 2;
-  grid-row: 1;
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: calc(var(--u) * .9);
-}
-
-.vxn-ans__field {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: calc(var(--u) * 1);
-  height: calc(var(--u) * 4.6);
-  padding: 0 calc(var(--u) * .7) 0 calc(var(--u) * 1.4);
-  box-sizing: border-box;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .1);
-  border: 1px solid rgba(255, 255, 255, .22);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-}
-
-.vxn-ans__mark {
-  flex: none;
-  display: block;
-  width: calc(var(--u) * 1.7);
-  color: #FFFFFF;
-}
-
-.vxn-ans__mark svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.vxn-ans__typed {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  overflow: hidden;
-  font-size: calc(var(--u) * 1.5);
-  line-height: 1;
-  color: #FFFFFF;
-}
-
-.vxn-ans__caret {
-  flex: none;
-  display: inline-block;
-  width: max(2px, calc(var(--u) * .16));
-  height: calc(var(--u) * 1.7);
-  margin-left: .15em;
-  background: #FFFFFF;
-  opacity: 0;
-}
-
-.vxn-ans[data-phase="typing"] .vxn-ans__caret {
-  opacity: 1;
-  animation: vxn-ans-blink 1s steps(1) infinite;
-}
-
-@keyframes vxn-ans-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
-.vxn-ans__send {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: calc(var(--u) * 3.2);
-  height: calc(var(--u) * 3.2);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .14);
-  color: rgba(255, 255, 255, .8);
-  transition: background-color .25s ease, color .25s ease, transform .25s var(--vxn-ease);
-}
-
-.vxn-ans__send svg {
-  display: block;
-  width: 50%;
-  height: 50%;
-}
-
-.vxn-ans[data-phase="sent"] .vxn-ans__send,
-.vxn-ans[data-phase="answer"] .vxn-ans__send,
-.vxn-ans[data-phase="exit"] .vxn-ans__send {
-  background: var(--vxn-blue-light);
-  color: #FFFFFF;
-  transform: scale(1.06);
-}
-
-/* The control: round, glass, in the row with the field, as tall as it. The
-   fill is asserted in every state: the theme paints a focused button navy. */
-.vxn-ans .vxn-ans__ctrl,
-.vxn-ans .vxn-ans__ctrl:focus,
-.vxn-ans .vxn-ans__ctrl:active {
-  flex: none;
-  width: calc(var(--u) * 4.6);
-  height: calc(var(--u) * 4.6);
-  margin: 0;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, .3);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .12) !important;
-  color: #FFFFFF !important;
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: none;
-  transform: none;
-  transition: background-color .2s ease;
-}
-
-.vxn-ans .vxn-ans__ctrl:hover {
-  background: rgba(255, 255, 255, .26) !important;
-  color: #FFFFFF !important;
-}
-
-.vxn-ans .vxn-ans__ctrl:focus-visible {
-  outline: 2px solid #FFFFFF;
-  outline-offset: 2px;
-}
-
-.vxn-ans__ico {
-  display: block;
-  width: calc(var(--u) * 1.5);
-  height: calc(var(--u) * 1.5);
-}
-
-.vxn-ans__ico--play,
-.vxn-ans.is-manual .vxn-ans__ico--pause {
-  display: none;
-}
-
-.vxn-ans.is-manual .vxn-ans__ico--play {
-  display: block;
-}
-
-/* ---- The answer card ----------------------------------------------------- */
-.vxn-ans__view {
-  grid-column: 2;
-  grid-row: 2;
-  position: relative;
-  z-index: 1;
-  min-height: 0;
-}
-
-.vxn-ans .vxn-ans__card {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  border-radius: calc(var(--u) * 1.4);
-  background: #FFFFFF;
-  color: var(--vxn-ink);
-  overflow: hidden;
-  box-shadow: 0 calc(var(--u) * 1.2) calc(var(--u) * 3) rgba(0, 10, 40, .38);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(calc(var(--u) * 2.6));
-  transition: opacity .35s ease, transform .45s var(--vxn-ease), visibility 0s linear .45s;
-}
-
-.vxn-ans[data-phase="answer"] .vxn-ans__card.is-active {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-  transition: opacity .4s ease, transform .55s var(--vxn-ease), visibility 0s;
-}
-
-.vxn-ans[data-phase="exit"] .vxn-ans__card.is-active {
-  opacity: 0;
-  visibility: visible;
-  transform: translateY(calc(var(--u) * -1.6));
-  transition: opacity .3s ease, transform .35s ease-in, visibility 0s linear .35s;
-}
-
-/* The picture takes whatever height the text leaves, so the card is always
-   full: a tall photograph over a short answer, a shorter one over a long. */
-.vxn-ans .vxn-ans__art {
-  flex: 1 1 auto;
-  width: 100%;
-  min-height: calc(var(--u) * 9.6);
-  height: auto !important;
-  object-fit: cover;
-}
-
-.vxn-ans__body {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: calc(var(--u) * 1.8) calc(var(--u) * 2.1) calc(var(--u) * 1.9);
-}
-
-/* The card's parts arrive one after another once it is up. */
-.vxn-ans__body > * {
-  opacity: 0;
-  transform: translateY(calc(var(--u) * .7));
-  transition: opacity .35s ease, transform .4s var(--vxn-ease);
-}
-
-.vxn-ans[data-phase="answer"] .vxn-ans__card.is-active .vxn-ans__body > * {
-  opacity: 1;
-  transform: none;
-}
-
-.vxn-ans[data-phase="answer"] .vxn-ans__card.is-active .vxn-ans__body > :nth-child(1) { transition-delay: .18s; }
-.vxn-ans[data-phase="answer"] .vxn-ans__card.is-active .vxn-ans__body > :nth-child(2) { transition-delay: .26s; }
-.vxn-ans[data-phase="answer"] .vxn-ans__card.is-active .vxn-ans__body > :nth-child(3) { transition-delay: .34s; }
-.vxn-ans[data-phase="answer"] .vxn-ans__card.is-active .vxn-ans__body > :nth-child(4) { transition-delay: .46s; }
-
-.vxn-ans[data-phase="exit"] .vxn-ans__card.is-active .vxn-ans__body > * {
-  opacity: 1;
-  transform: none;
-}
-
-.vxn-ans__chip {
-  display: inline-block;
-  box-sizing: border-box;
-  height: calc(var(--u) * 1.9);
-  margin-bottom: calc(var(--u) * 1);
-  padding: 0 calc(var(--u) * .9);
-  border-radius: 999px;
-  background: var(--vxn-blue);
-  font-size: calc(var(--u) * .74);
-  line-height: calc(var(--u) * 1.9);
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: #FFFFFF;
-}
-
-/* (0,2,0) over the market scale's h3. */
-.vxn-ans .vxn-ans__title {
-  margin: 0 0 calc(var(--u) * .8);
-  max-width: 100%;
-  color: var(--vxn-ink) !important;
-  font-size: calc(var(--u) * 2.05) !important;
-  line-height: 1.18 !important;
-  font-weight: 400 !important;
-  letter-spacing: 0;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-}
-
-/* (0,2,0) over the scale sheet's `p`; the line-height asserted over the
-   brand sheet's phone block (`article p`, 1.6 !important). */
-.vxn-ans .vxn-ans__text {
-  margin: 0 0 calc(var(--u) * 1.3);
-  max-width: 52ch;
-  font-size: calc(var(--u) * 1.24);
-  line-height: 1.5 !important;
-  color: var(--vxn-text);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-}
-
-/* The one link. The colour is asserted: the kit's `.elementor-kit-5 a` is
-   white. */
-.vxn-ans .vxn-ans__more {
-  display: inline-flex;
-  align-items: center;
-  gap: calc(var(--u) * .5);
-  margin: 0;
-  padding: 0;
-  font-size: calc(var(--u) * 1.08);
-  line-height: 1.2;
-  font-weight: 700;
-  color: var(--vxn-blue) !important;
-  text-decoration: none !important;
-}
-
-.vxn-ans .vxn-ans__more i {
-  font-size: calc(var(--u) * .9);
-  line-height: 1;
-  transition: transform .25s var(--vxn-ease);
-}
-
-.vxn-ans .vxn-ans__more:hover i,
-.vxn-ans .vxn-ans__more:focus-visible i {
-  transform: translateX(3px);
-}
-
-/* Paused, by the control, by a resting pointer or by leaving the viewport:
-   the clock stops in the script and the looping animations hold here. */
-.vxn-ans.is-paused .vxn-ans__weave,
-.vxn-ans.is-paused .vxn-ans__caret {
-  animation-play-state: paused;
-}
-
-/* ---- Breakpoints --------------------------------------------------------- */
-@media (max-width: 1439px) {
   .vxn-answer__copy,
-  .vxn-answer__foot {
-    grid-column: 7 / span 6;
-  }
-
-  .vxn-answer__media {
-    grid-column: 1 / span 6;
-  }
-}
-
-@media (max-width: 1279px) {
-  .vxn-answer__inner {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: none;
-  }
-
-  /* The stage first. */
-  .vxn-answer__media {
-    grid-column: 1;
-    grid-row: 1;
-    margin-bottom: 40px;
+  .vxn-answer__panel {
+    grid-column: 1 / -1;
   }
 
   .vxn-answer__copy {
-    grid-column: 1;
-    grid-row: 2;
-  }
-
-  .vxn-answer__foot {
-    grid-column: 1;
-    grid-row: 3;
-    margin-top: 24px;
+    justify-content: flex-start;
   }
 }
 
-@media (max-width: 767px) {
-  .vxn-answer__media {
-    aspect-ratio: auto;
-    margin-bottom: 24px;
+@media (max-width: 640px) {
+
+  .vxn-answer .vxn-answer__row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 4px;
   }
 
-  /* The stage flows: the field, then the rail as a row that scrolls
-     sideways, then the card, with a fixed unit so it reads. */
-  .vxn-ans {
-    --u: 11px;
-    position: relative;
-    inset: auto;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto auto;
-    column-gap: 0;
-    row-gap: 14px;
-    padding: 16px;
-  }
-
-  .vxn-ans__top {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .vxn-ans__rail {
+  .vxn-answer .vxn-answer__svc {
     grid-column: 1;
     grid-row: 2;
-  }
-
-  .vxn-ans__railhead {
-    margin-bottom: 10px;
-  }
-
-  .vxn-ans .vxn-ans__qs {
-    flex-direction: row;
-    gap: 8px;
-    margin: 0 -16px;
-    padding: 0 16px 4px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-
-  .vxn-ans .vxn-ans__qs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .vxn-ans .vxn-ans__qi {
-    flex: 0 0 min(76%, 270px);
-    scroll-snap-align: start;
-  }
-
-  .vxn-ans .vxn-ans__q,
-  .vxn-ans .vxn-ans__q:focus,
-  .vxn-ans .vxn-ans__q:active {
-    height: 100%;
-  }
-
-  /* The field wraps to a second line on the phone; the whole question shows. */
-  .vxn-ans__field {
-    height: auto;
-    min-height: 44px;
-    padding: 6px 6px 6px 14px;
-    border-radius: 24px;
-  }
-
-  .vxn-ans__typed {
     white-space: normal;
-    font-size: 13px;
-    line-height: 1.25;
   }
 
-  .vxn-ans__caret {
-    height: 14px;
-  }
-
-  /* The cards share one grid cell, so the view is as tall as the tallest
-     and the slide between them still plays. */
-  .vxn-ans__view {
-    grid-column: 1;
-    grid-row: 3;
-    display: grid;
-  }
-
-  .vxn-ans .vxn-ans__card {
-    position: relative;
-    inset: auto;
-    grid-area: 1 / 1;
-  }
-
-  .vxn-ans .vxn-ans__art {
-    flex: none;
-    height: 130px !important;
-  }
-
-  .vxn-answer .vxn-band__eyebrow {
-    margin-bottom: 16px;
-  }
-
-  .vxn-ae-home .vxn-answer__title {
-    margin-bottom: 16px;
-    line-height: 1.2 !important;
-  }
-
-  .vxn-answer__foot {
-    margin-top: 16px;
+  .vxn-answer .vxn-answer__go {
+    grid-column: 2;
+    grid-row: 1 / span 2;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vxn-ans .vxn-ans__weave,
-  .vxn-ans__caret,
-  .vxn-ans .vxn-ans__q.is-active::after {
-    animation: none !important;
-  }
 
-  .vxn-ans .vxn-ans__card,
-  .vxn-ans__body > *,
-  .vxn-ans__send {
-    transition: none !important;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   18. /en-ae/ — one container, every band (20260911)
-
-   On client instruction: every section of the home page sits on the same
-   measure at every width, min(1520px, 100% - 2 gutters) with the gutter
-   clamp(16px, 4vw, 48px), which section 15 already gives the trio, the
-   Answer, the impact card, the spotlight, the mosaic, the insights and the
-   ready band. Measured before this block, at 1920 those ran 200 -> 1720 and
-   four bands did not: the header (180, its own 1560 measure), the hero (214,
-   1560 with 34px inside), the careers band (86, its own column padding) and
-   the subscribe band (70, likewise), with the services strip full-bleed. The
-   header and the hero are fixed where they are declared (valunxt-brand.css
-   and HomeAeBody); the three below are fixed here.
-
-   THE TWO SPLIT BANDS keep their bleed. Careers is a 60/40 split whose plate
-   runs off the right edge, and the subscribe band is two halves with a bar
-   across the join; what changes is that their copy now starts on the
-   container's line. Both are laid out on a breakout grid: an outer track
-   either side that is never narrower than the gutter, and the container's
-   width between them, so the copy is placed in the container's tracks and
-   the plate spans from the split to the edge. No vw arithmetic, so a
-   scrollbar cannot put the copy a few pixels off the other bands.
-
-   THE SERVICES STRIP is boxed to the container too, with the impact card's
-   radius, so its first label sits on the same line as every heading. It was
-   the one full-bleed band; one rule (max-width: none; border-radius: 0) puts
-   it back.
-   -------------------------------------------------------------------------- */
-.vxn-ae-home .vxn-home-svc-section .vxn-klay {
-  max-width: min(1520px, calc(100% - var(--vxn-gutter) * 2));
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 24px;
-  overflow: hidden;
-}
-
-/* Careers: ten container columns of 152px (1520 at full width, shrinking
-   together below it), the copy in the first six, the plate from the seventh
-   to the edge. Lines: 1 the left edge, 2 the container's start, 12 its end,
-   13 the right edge. */
-.vxn-ae-home .vxn-careers {
-  grid-template-columns:
-    minmax(var(--vxn-gutter), 1fr)
-    repeat(10, minmax(0, 152px))
-    minmax(var(--vxn-gutter), 1fr);
-}
-
-.vxn-ae-home .vxn-careers__copy {
-  grid-column: 2 / 8;
-  padding-left: 0;
-  padding-right: clamp(24px, 4vw, 64px);
-}
-
-.vxn-ae-home .vxn-careers__media {
-  grid-column: 8 / 14;
-}
-
-/* The lede ran the full width of the copy column: one line of 150 characters
-   at 1920. Capped at a measure. */
-.vxn-ae-home .vxn-careers__lede {
-  max-width: 62ch;
-}
-
-/* Subscribe: the gradient half spans from the left edge to the join and is a
-   subgrid of the band's columns, so its label and headline sit in the
-   container's first half while the gradient still runs to the edge. The
-   photograph takes the other half to the right edge. */
-.vxn-ae-home .vxn-sub {
-  grid-template-columns:
-    minmax(var(--vxn-gutter), 1fr)
-    repeat(2, minmax(0, 760px))
-    minmax(var(--vxn-gutter), 1fr);
-}
-
-.vxn-ae-home .vxn-sub__panel {
-  grid-column: 1 / 3;
-  display: grid;
-  grid-template-columns: subgrid;
-  align-content: center;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.vxn-ae-home .vxn-sub__panel > * {
-  grid-column: 2;
-  padding-right: clamp(24px, 4vw, 70px);
-}
-
-.vxn-ae-home .vxn-sub__shot {
-  grid-column: 3 / 5;
-}
-
-/* The bar sits on the container's own edges. */
-.vxn-ae-home .vxn-sub__bar {
-  left: max(var(--vxn-gutter), calc((100% - 1520px) / 2));
-  right: max(var(--vxn-gutter), calc((100% - 1520px) / 2));
-}
-
-@media (max-width: 1024px) {
-
-  /* Stacked: one container track between the gutters. The plates bleed to
-     both edges; the copy and the bar sit on the container. */
-  .vxn-ae-home .vxn-careers,
-  .vxn-ae-home .vxn-sub {
-    grid-template-columns:
-      minmax(var(--vxn-gutter), 1fr)
-      minmax(0, 1520px)
-      minmax(var(--vxn-gutter), 1fr);
-  }
-
-  .vxn-ae-home .vxn-careers__copy {
-    grid-column: 2;
-    padding: 40px 0;
-  }
-
-  .vxn-ae-home .vxn-careers__media {
-    grid-column: 1 / -1;
-  }
-
-  .vxn-ae-home .vxn-sub__panel {
-    grid-column: 1 / -1;
-  }
-
-  .vxn-ae-home .vxn-sub__panel > * {
-    padding-right: 0;
-  }
-
-  .vxn-ae-home .vxn-sub__shot,
-  .vxn-ae-home .vxn-sub__bar {
-    grid-column: 1 / -1;
-  }
-
-  .vxn-ae-home .vxn-sub__bar {
-    padding-left: var(--vxn-gutter);
-    padding-right: var(--vxn-gutter);
+  .vxn-answer .vxn-answer__row,
+  .vxn-answer .vxn-answer__q,
+  .vxn-answer .vxn-answer__go {
+    transition: none;
   }
 }
 
@@ -4050,310 +3354,246 @@
 }
 
 /* --------------------------------------------------------------------------
-   20. .vxn-post — the bento (20260912, rebuilt from the poster trio the same
-   day, to the reference supplied that afternoon)
+   20. .vxn-post — the bento
    components/sections/UaePosterTrio.tsx
 
-   Measured off the reference: a three-column track of roughly 1 : 1.08 : 1,
-   two rows, the top row taller than the bottom, a 14px gap and a small
-   radius. The story card spans the first two columns of the top row; the
-   pale card spans the last two of the bottom row. The two narrow cards fill
-   what is left. Each card is one of the reference's four shapes with this
-   brand's content: the blue is the CTA ramp, the pale card is the site's
-   cream, the type is the market's one face (Sanomat Sans, valunxt-uae-face.css).
+   REBUILT 20260914 on client instruction: no dark cards, no scrims, no words
+   over photographs. Four light cards on a twelve-column track: the story
+   card (8 of 12) splits into a words column and a photograph column; the
+   figure card (4) is the brand's pale tint with the figure in the brand
+   blue; the About card (5) keeps its photograph as a strip along the foot,
+   under the words; the services card (7) carries the house pills. The
+   ground is a cool tint so the white cards read as cards.
 
-   NOTHING IS GLASS ANY MORE. The trio's frosted plates and sheen came off
-   with the trio; the reference has flat cards, and the hover is the
-   photograph drifting, the disc filling and the shadow deepening.
-
-   The grid takes the page's own inset (section 15), like every other band on
-   /en-ae/: it was held to 1180 for a while and the client asked for the one
-   width. The rows are shorter than the reference's proportion for the same
-   reason: at 1520 wide the reference's ratios made the band 750px tall.
+   Headings are sized through two classes, (0,2,0) with !important, over the
+   market scale's (0,1,2) — see section 17. The reveal (UaeBandMotion.tsx)
+   is unchanged: a card is visible by default and hidden only while it is
+   marked pending, so a blocked or broken script never leaves a blank band.
    -------------------------------------------------------------------------- */
 .vxn-post {
-  background: #fff;
+  background: #F3F6FB;
 }
 
 .vxn-ae-home .vxn-post__grid,
 .vxn-post__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr) minmax(0, 1fr);
-  grid-template-rows: clamp(240px, 19vw, 300px) clamp(200px, 16vw, 250px);
-  gap: 14px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  gap: clamp(14px, 1.4vw, 22px);
   max-width: min(1520px, calc(100% - var(--vxn-gutter, clamp(16px, 4vw, 48px)) * 2));
   margin-left: auto;
   margin-right: auto;
 }
 
-.vxn-post__card {
+.vxn-post .vxn-post__card {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 16px;
   min-height: 0;
-  padding: clamp(20px, 2.2vw, 30px);
-  border-radius: 10px;
-  overflow: hidden;
-  isolation: isolate;
-  color: #FFFFFF;
+  padding: clamp(24px, 2.2vw, 36px);
+  border-radius: 24px;
+  background: #FFFFFF;
+  border: 1px solid rgba(14, 53, 95, .08);
+  color: var(--vxn-ink) !important;
   text-decoration: none !important;
-  box-shadow: 0 8px 24px rgba(6, 20, 54, .06);
-  transition: box-shadow .5s var(--vxn-ease);
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(6, 20, 54, .05);
+  transition:
+    transform .5s var(--vxn-ease),
+    box-shadow .5s var(--vxn-ease),
+    border-color .5s var(--vxn-ease);
 }
 
-.vxn-post__card:hover {
-  box-shadow: 0 22px 48px rgba(6, 20, 54, .18);
+.vxn-post a.vxn-post__card:hover,
+.vxn-post a.vxn-post__card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(11, 45, 190, .25);
+  box-shadow: 0 24px 48px rgba(6, 20, 54, .12);
+  outline: none;
 }
 
-.vxn-post__card--story {
-  grid-column: 1 / span 2;
-  grid-row: 1;
-  background: #0B1B3A;
-}
-
-.vxn-post__card--fact {
-  grid-column: 3;
-  grid-row: 1;
-  background-image: var(--vxn-cta-grad, linear-gradient(150deg, #0E3FA8 0%, #1436D8 48%, #0B2DBE 100%));
-}
-
-.vxn-post__card--dark {
-  grid-column: 1;
-  grid-row: 2;
-  justify-content: flex-start;
-  background: #0F1626;
-}
-
-.vxn-post__card--review {
-  grid-column: 2 / span 2;
-  grid-row: 2;
-  background: var(--vxn-cream, #F6F4EF);
-  color: var(--vxn-ink, #16233B);
-}
-
-/* ---- The label at the top of every card ---- */
 .vxn-post__eyebrow {
-  position: relative;
-  z-index: 2;
   display: block;
-  font-size: 10.5px;
-  font-weight: 600;
+  color: var(--vxn-blue);
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: .14em;
-  line-height: 1.2;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .82);
+  line-height: 1.2;
 }
 
-.vxn-post__card--review .vxn-post__eyebrow {
-  color: rgba(22, 35, 59, .62);
+.vxn-post__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  min-width: 0;
 }
 
 .vxn-post__body {
-  position: relative;
-  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-/* ---- The photograph, on the story card and along the dark card's foot ---- */
-.vxn-post__media {
+/* ---- 1. The story: words | photograph -------------------------------------- */
+.vxn-post .vxn-post__card--story {
+  grid-column: 1 / span 8;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(20px, 2.4vw, 40px);
+  align-items: stretch;
+}
+
+.vxn-ae-home .vxn-post__quote {
+  margin: 0;
+  color: var(--vxn-ink) !important;
+  font-weight: 400 !important;
+  font-size: clamp(23px, 2vw, 31px) !important;
+  line-height: 1.14 !important;
+  letter-spacing: -.01em;
+}
+
+.vxn-post .vxn-post__by {
+  display: block;
+  color: var(--vxn-text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Texture, not a photograph (20260914): the brand blue abstract, cover
+   fit, nothing over it. */
+.vxn-post__figure {
+  position: relative;
+  display: block;
+  min-height: 240px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #1436D8;
+}
+
+.vxn-post__figure .vxn-post__media {
   position: absolute;
   inset: 0;
-  z-index: -2;
   width: 100%;
   height: 100% !important;
   object-fit: cover;
-  transition: transform 1.2s var(--vxn-ease);
+  object-position: 50% 30%;
+  transition: transform .8s var(--vxn-ease);
 }
 
-.vxn-post__card--story:hover .vxn-post__media {
-  transform: scale(1.05);
+.vxn-post .vxn-post__card--story:hover .vxn-post__figure .vxn-post__media {
+  transform: scale(1.04);
 }
 
-.vxn-post__scrim {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(180deg,
-      rgba(5, 16, 40, .30) 0%,
-      rgba(5, 16, 40, .06) 30%,
-      rgba(5, 16, 40, .62) 68%,
-      rgba(5, 16, 40, .86) 100%);
+/* ---- 2. The figure ----------------------------------------------------------- */
+.vxn-post .vxn-post__card--fact {
+  grid-column: 9 / span 4;
+  justify-content: space-between;
+  background: #EEF3FF;
+  border-color: rgba(11, 45, 190, .12);
 }
 
-/* The statement lines. The reference sets them in a serif; the UAE market
-   runs one face, Sanomat Sans, on client instruction (20260910,
-   valunxt-uae-face.css), so they take the size and the light weight instead.
-   Two classes, for the reason given at .vxn-figs__leadTitle: the market's
-   type scale sets h3 at (0,1,2) !important. */
-.vxn-post .vxn-post__quote,
-.vxn-post .vxn-post__say {
-  margin: 0;
-  font-weight: 400 !important;
-  line-height: 1.16 !important;
-  letter-spacing: 0;
-}
-
-.vxn-post .vxn-post__quote {
-  max-width: 19ch;
-  color: #FFFFFF !important;
-  font-size: clamp(22px, 2.1vw, 32px) !important;
-}
-
-.vxn-post__by {
-  margin: 12px 0 0;
-  color: rgba(255, 255, 255, .8);
-  font-size: 13px;
-  line-height: 1.45;
-  max-width: 34ch;
-}
-
-/* The disc in the story card's corner, where the reference has its play
-   button. */
-.vxn-post__disc {
-  position: absolute;
-  right: 22px;
-  bottom: 22px;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, .42);
-  background: rgba(255, 255, 255, .16);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  color: #FFFFFF;
-  transition: background-color .3s ease, color .3s ease, border-color .3s ease;
-}
-
-.vxn-post__disc svg {
+.vxn-post .vxn-post__big {
   display: block;
-  width: 18px;
-  height: 18px;
-}
-
-.vxn-post__card--story:hover .vxn-post__disc {
-  background: #FFFFFF;
-  border-color: #FFFFFF;
-  color: #0B2DBE;
-}
-
-/* ---- The figure ---- */
-.vxn-post__big {
-  display: block;
-  color: #FFFFFF;
-  font-size: clamp(48px, 4.6vw, 72px);
-  font-weight: 400;
+  color: var(--vxn-blue);
+  font-weight: 300;
+  font-size: clamp(56px, 5.6vw, 88px);
   line-height: .95;
   letter-spacing: -.02em;
 }
 
-.vxn-post__fact {
-  margin: 12px 0 0;
-  max-width: 16ch;
-  color: rgba(255, 255, 255, .92);
-  font-size: clamp(16px, 1.4vw, 20px);
-  line-height: 1.3;
+.vxn-ae-home .vxn-post__fact {
+  margin: 0;
+  max-width: 24ch;
+  color: var(--vxn-ink);
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.4 !important;
 }
 
-/* ---- The dark card ---- */
-.vxn-post .vxn-post__title {
-  margin: 14px 0 20px;
-  max-width: 17ch;
-  color: #FFFFFF !important;
+/* ---- 3. About: words, then the texture strip ----------------------------------- */
+.vxn-post .vxn-post__card--dark {
+  grid-column: 1 / span 5;
+  justify-content: space-between;
+}
+
+.vxn-ae-home .vxn-post__title {
+  margin: 0;
+  color: var(--vxn-ink) !important;
   font-weight: 400 !important;
-  font-size: clamp(20px, 1.8vw, 26px) !important;
-  line-height: 1.24 !important;
-  letter-spacing: -.005em;
+  font-size: clamp(21px, 1.75vw, 28px) !important;
+  line-height: 1.16 !important;
+  letter-spacing: -.01em;
 }
 
-/* The photograph along the foot, as the reference sets it: the top edge fades
-   into the card so the title sits on a plain ground. */
 .vxn-post__band {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-  height: 44%;
+  position: relative;
+  display: block;
+  margin-top: auto;
+  aspect-ratio: 16 / 6;
+  border-radius: 16px;
   overflow: hidden;
+  background: #071B4F;
 }
 
 .vxn-post__band .vxn-post__media {
-  z-index: 0;
-}
-
-.vxn-post__band::after {
-  content: "";
   position: absolute;
   inset: 0;
-  z-index: 1;
-  background: linear-gradient(180deg, #0F1626 0%, rgba(15, 22, 38, .2) 42%, rgba(15, 22, 38, 0) 100%);
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: 50% 60%;
+  transition: transform .8s var(--vxn-ease);
 }
 
-/* ---- The pale card ---- */
-.vxn-post .vxn-post__say {
-  max-width: 22ch;
-  color: var(--vxn-ink, #16233B) !important;
-  font-size: clamp(22px, 2.2vw, 32px) !important;
+.vxn-post .vxn-post__card--dark:hover .vxn-post__band .vxn-post__media {
+  transform: scale(1.04);
+}
+
+/* ---- 4. The services card ------------------------------------------------------ */
+.vxn-post .vxn-post__card--review {
+  grid-column: 6 / span 7;
+  justify-content: flex-start;
+}
+
+/* The line and the pills sit in the middle of what is left under the label,
+   not pinned to the foot with the label alone at the top. */
+.vxn-post .vxn-post__card--review .vxn-post__body {
+  margin: auto 0;
+}
+
+.vxn-ae-home .vxn-post__say {
+  margin: 0;
+  max-width: 18ch;
+  color: var(--vxn-ink) !important;
+  font-weight: 400 !important;
+  font-size: clamp(23px, 2vw, 31px) !important;
+  line-height: 1.14 !important;
+  letter-spacing: -.01em;
+}
+
+/* The description (20260914), between the line and the pills. (0,2,0) over
+   the scale sheet's paragraph rule and the brand sheet's phone line-height. */
+.vxn-ae-home .vxn-post__desc {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--vxn-text);
+  font-size: clamp(14px, 1vw, 16px);
+  line-height: 1.55 !important;
 }
 
 .vxn-post__ctas {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
+  gap: 12px;
+  margin-top: 8px;
 }
 
-/* The two buttons: the site's pill geometry (valunxt-brand.css tokens), one
-   filled with the ramp and one outlined. Colours asserted over the kit's
-   anchor rule. */
-.vxn-post .vxn-post__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: var(--vxn-cta-h, 46px);
-  padding: 0 var(--vxn-cta-px, 26px);
-  border-radius: 999px;
-  font-size: var(--vxn-cta-fs, 14px);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: .01em;
-  text-decoration: none !important;
-  transition: background-color .25s ease, color .25s ease, border-color .25s ease;
-}
-
-.vxn-post .vxn-post__btn--solid {
-  background-image: var(--vxn-cta-grad, linear-gradient(150deg, #0E3FA8 0%, #1436D8 48%, #0B2DBE 100%));
-  background-color: #0B2DBE;
-  color: #FFFFFF !important;
-  border: 1px solid transparent;
-}
-
-.vxn-post .vxn-post__btn--solid:hover {
-  background-image: none;
-  background-color: #08248F;
-}
-
-.vxn-post .vxn-post__btn--line {
-  background: transparent;
-  color: var(--vxn-ink, #16233B) !important;
-  border: 1px solid rgba(22, 35, 59, .34);
-}
-
-.vxn-post .vxn-post__btn--line:hover {
-  background: #FFFFFF;
-  border-color: rgba(22, 35, 59, .6);
-}
-
-/* ---- Arrival ----
-   Same safety rule as section 19: visible unless the script says pending. The
-   box-shadow is restated without the stagger delay so the hover shadow does
-   not wait for it. */
+/* ---- Arrival --------------------------------------------------------------- */
 .vxn-post__card[data-anim='pending'] {
   opacity: 0;
-  transform: translateY(26px);
+  transform: translateY(16px);
 }
 
 .vxn-post__card[data-anim='in'] {
@@ -4362,84 +3602,61 @@
   transition:
     opacity .8s var(--vxn-ease) var(--vxn-anim-d, 0ms),
     transform .8s var(--vxn-ease) var(--vxn-anim-d, 0ms),
-    box-shadow .5s var(--vxn-ease);
+    box-shadow .5s var(--vxn-ease),
+    border-color .5s var(--vxn-ease);
 }
 
-/* Two columns: the story across the top, the figure and the dark card side
-   by side, the pale card across the foot. */
-@media (max-width: 980px) {
+/* ---- Widths ------------------------------------------------------------------ */
+@media (max-width: 1100px) {
 
-  .vxn-ae-home .vxn-post__grid,
-  .vxn-post__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: none;
+  .vxn-post .vxn-post__card--story {
+    grid-column: 1 / -1;
   }
 
-  .vxn-post__card--story {
-    grid-column: 1 / span 2;
-    grid-row: 1;
-    min-height: clamp(320px, 46vw, 420px);
+  .vxn-post .vxn-post__card--fact {
+    grid-column: 1 / span 6;
   }
 
-  .vxn-post__card--fact {
-    grid-column: 1;
-    grid-row: 2;
-    min-height: 280px;
+  .vxn-post .vxn-post__card--dark {
+    grid-column: 7 / span 6;
   }
 
-  .vxn-post__card--dark {
-    grid-column: 2;
-    grid-row: 2;
-    min-height: 280px;
-  }
-
-  .vxn-post__card--review {
-    grid-column: 1 / span 2;
-    grid-row: 3;
-    min-height: 240px;
+  .vxn-post .vxn-post__card--review {
+    grid-column: 1 / -1;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 720px) {
 
-  .vxn-ae-home .vxn-post__grid,
-  .vxn-post__grid {
+  .vxn-post .vxn-post__card--story,
+  .vxn-post .vxn-post__card--fact,
+  .vxn-post .vxn-post__card--dark,
+  .vxn-post .vxn-post__card--review {
+    grid-column: 1 / -1;
+  }
+
+  .vxn-post .vxn-post__card--story {
     grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
   }
 
-  .vxn-post__card--story,
-  .vxn-post__card--fact,
-  .vxn-post__card--dark,
-  .vxn-post__card--review {
-    grid-column: 1;
-    grid-row: auto;
-  }
-
-  .vxn-post__card--story {
-    min-height: clamp(300px, 90vw, 380px);
-  }
-
-  .vxn-post__card--fact {
-    min-height: 240px;
-  }
-
-  .vxn-post__card--dark {
-    min-height: 300px;
-  }
-
-  .vxn-post__card--review {
+  .vxn-post__figure {
     min-height: 0;
+    aspect-ratio: 16 / 7;
   }
 
   .vxn-post__ctas {
     flex-direction: column;
     align-items: stretch;
   }
+
+  .vxn-post__ctas .vxn-band__pill {
+    justify-content: center;
+  }
 }
 
 /* Nothing here is load bearing, so with motion reduced every card is simply
-   where it lands: no stagger, no drift. */
+   where it lands: no stagger, no drift. The figures band's rules live here
+   too because the two bands share one reveal. */
 @media (prefers-reduced-motion: reduce) {
 
   .vxn-figs__lead[data-anim='pending'],
@@ -4449,7 +3666,9 @@
     transform: none;
   }
 
-  .vxn-post__card--story:hover .vxn-post__media {
+  .vxn-post a.vxn-post__card:hover,
+  .vxn-post .vxn-post__card--story:hover .vxn-post__figure .vxn-post__media,
+  .vxn-post .vxn-post__card--dark:hover .vxn-post__band .vxn-post__media {
     transform: none;
   }
 }

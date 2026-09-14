@@ -8,6 +8,7 @@
 
    Port of includes/partials/coming-soon-band.php. */
 import { rurl } from '@/lib/region';
+import CtaArrow from '@/components/ui/CtaArrow';
 import type { PageConfig } from '@/lib/page-config';
 
 const CSS = `
@@ -44,6 +45,7 @@ export default function ComingSoonBandSection({
           </p>
           <a className="vxn-coming__cta" href={rurl(region, '/contact/')}>
             Talk to us
+            <CtaArrow />
           </a>
         </div>
       </section>

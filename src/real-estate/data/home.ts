@@ -57,9 +57,9 @@ export const PILLARS_NOTE =
 export const ABOUT = {
   eyebrow: 'About Us',
   title:
-    "VALUNXT is your trusted partner in Dubai's luxury real estate journey, delivering curated properties, expert advisory, and seamless experiences from first search to final handover.",
-  body: "VALUNXT is your trusted partner in Dubai's luxury real estate market, combining curated opportunities, strategic market insight, and personalised advisory to create exceptional property experiences.",
-  cta: 'Discover VALUNXT',
+    "Valunxt is your trusted partner in Dubai's luxury real estate journey, delivering curated properties, expert advisory, and seamless experiences from first search to final handover.",
+  body: "Valunxt is your trusted partner in Dubai's luxury real estate market, combining curated opportunities, strategic market insight, and personalised advisory to create exceptional property experiences.",
+  cta: 'Discover Valunxt',
   href: '/#services',
   img: '/real-estate/img/about.webp',
   stat: {
@@ -238,7 +238,7 @@ export const CONTACT = {
   title: 'Your Next Property Journey Starts Here',
   lede: "Whether you're buying, investing, or seeking expert advice, our team is ready to guide you every step of the way.",
   img: '/real-estate/img/cta.webp',
-  whyTitle: 'Why Choose VALUNXT?',
+  whyTitle: 'Why Choose Valunxt?',
   why: [
     'Verified Luxury Listings',
     'Strategic Investment Advisory',
@@ -274,7 +274,7 @@ export const REVIEWS: Review[] = [
     when: '2 months ago',
     rating: 5,
     /* TODO: replace with the full published review — source text was truncated. */
-    body: 'Leasing my apartment through VALUNXT was straightforward. The paperwork was handled end to end, and the unit was rented within days of listing.',
+    body: 'Leasing my apartment through Valunxt was straightforward. The paperwork was handled end to end, and the unit was rented within days of listing.',
     accent: '#0053B7',
   },
   {
@@ -296,7 +296,7 @@ export const REVIEWS: Review[] = [
     when: '2 months ago',
     rating: 5,
     /* TODO: replace with the full published review — source text was truncated. */
-    body: 'VALUNXT made our property search genuinely easy. Their market knowledge and transparency gave us confidence throughout, and we ended up with an investment that matches our long-term goals.',
+    body: 'Valunxt made our property search genuinely easy. Their market knowledge and transparency gave us confidence throughout, and we ended up with an investment that matches our long-term goals.',
     accent: '#7B2FF7',
   },
 ];
@@ -306,7 +306,7 @@ export const REVIEWS: Review[] = [
 
 export const FAQ_HEAD = {
   eyebrow: 'FAQ',
-  title: 'Have Questions About VALUNXT Real Estate?',
+  title: 'Have Questions About Valunxt Real Estate?',
   lede: 'Everything you need to know about buying, selling, renting and investing in Dubai — answered by our experts.',
   footNote: 'Still have questions?',
   footCta: 'Talk to our advisors',
@@ -315,15 +315,15 @@ export const FAQ_HEAD = {
 
 export const FAQS: Faq[] = [
   {
-    q: 'How can I buy a property in Dubai through VALUNXT?',
-    a: 'VALUNXT simplifies the home buying process in Dubai with expert guidance, curated property options, mortgage assistance, and end-to-end transaction support. We make your purchase smooth and hassle-free.',
+    q: 'How can I buy a property in Dubai through Valunxt?',
+    a: 'Valunxt simplifies the home buying process in Dubai with expert guidance, curated property options, mortgage assistance, and end-to-end transaction support. We make your purchase smooth and hassle-free.',
   },
   {
     q: "What's the process for selling my home in Dubai?",
     a: 'We start with an evidence-based valuation, agree an asking strategy with you, then market the property to qualified buyers. We manage viewings, negotiation, the MOU and the DLD transfer through to completion.',
   },
   {
-    q: 'How does VALUNXT help with renting out my residential property?',
+    q: 'How does Valunxt help with renting out my residential property?',
     a: 'We price the unit against current market evidence, market it to vetted tenants, handle Ejari registration and the tenancy contract, and can coordinate maintenance and renewals on your behalf.',
   },
   {

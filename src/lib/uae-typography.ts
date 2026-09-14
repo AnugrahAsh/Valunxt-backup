@@ -77,14 +77,21 @@ function decorate(page: PageConfig, sheet: string, cls: string): PageConfig {
   };
 }
 
-/** The page in the UAE face, or the page untouched outside en-ae. */
+/**
+ * The page in the face. THE FACE IS SITE-WIDE since 20260914, on client
+ * instruction: Sanomat Sans on every page in both markets, the services and
+ * sub-services included. The region argument stays so every caller reads as
+ * before; it no longer gates anything here. The SCALE below is still the
+ * UAE's alone.
+ */
 export function withUaeFace(page: PageConfig, region: string): PageConfig {
-  if (region !== 'en-ae') return page;
+  void region;
   return decorate(page, UAE_FACE_CSS, UAE_FACE_CLASS);
 }
 
-/** The page on the UAE type scale — face included — or untouched outside en-ae. */
+/** The page on the UAE type scale — face included — or, outside en-ae, the face alone. */
 export function withUaeType(page: PageConfig, region: string): PageConfig {
-  if (region !== 'en-ae') return page;
-  return decorate(withUaeFace(page, region), UAE_TYPE_CSS, UAE_TYPE_CLASS);
+  const faced = withUaeFace(page, region);
+  if (region !== 'en-ae') return faced;
+  return decorate(faced, UAE_TYPE_CSS, UAE_TYPE_CLASS);
 }

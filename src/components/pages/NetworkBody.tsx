@@ -103,7 +103,7 @@ export default function NetworkBody({ page, region }: { page: PageConfig; region
       						</div>
       						<div className="elementor-element elementor-element-33a5164 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="33a5164" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
       							<div className="elementor-widget-container">
-      								<h5 className="elementor-heading-title elementor-size-default"><a href={rurl(region, '/about/')}>One integrated ecosystem &mdash; Reliant Surveyors, HouzzHunt, HouzzHunt Mortgage &amp; VALUNXT</a></h5>
+      								<h5 className="elementor-heading-title elementor-size-default"><a href={rurl(region, '/about/')}>One integrated ecosystem &mdash; Reliant Surveyors, HouzzHunt, HouzzHunt Mortgage &amp; Valunxt</a></h5>
       							</div>
       						</div>
       					</div>
@@ -114,7 +114,7 @@ export default function NetworkBody({ page, region }: { page: PageConfig; region
       									<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/about/')}>
       										<span className="elementor-button-content-wrapper">
       											<span className="elementor-button-icon">
-      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       											</span>
       										</span>
       									</a>
@@ -168,7 +168,7 @@ export default function NetworkBody({ page, region }: { page: PageConfig; region
       									<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/')}>
       										<span className="elementor-button-content-wrapper">
       											<span className="elementor-button-icon">
-      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       											</span>
       										</span>
       									</a>
@@ -222,7 +222,7 @@ export default function NetworkBody({ page, region }: { page: PageConfig; region
       									<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/community/')}>
       										<span className="elementor-button-content-wrapper">
       											<span className="elementor-button-icon">
-      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       											</span>
       										</span>
       									</a>
@@ -276,7 +276,7 @@ export default function NetworkBody({ page, region }: { page: PageConfig; region
       									<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/contact/')}>
       										<span className="elementor-button-content-wrapper">
       											<span className="elementor-button-icon">
-      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       											</span>
       										</span>
       									</a>
@@ -330,7 +330,7 @@ export default function NetworkBody({ page, region }: { page: PageConfig; region
       									<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/about/')}>
       										<span className="elementor-button-content-wrapper">
       											<span className="elementor-button-icon">
-      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       											</span>
       										</span>
       									</a>
@@ -384,7 +384,7 @@ export default function NetworkBody({ page, region }: { page: PageConfig; region
       									<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/research/')}>
       										<span className="elementor-button-content-wrapper">
       											<span className="elementor-button-icon">
-      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      												<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       											</span>
       										</span>
       									</a>

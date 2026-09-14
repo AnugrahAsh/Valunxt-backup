@@ -70,7 +70,7 @@ export default function TermsConditionsBody({ page, region }: { page: PageConfig
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-4bb6ad0 elementor-widget elementor-widget-text-editor" data-id="4bb6ad0" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
-      									<p>When visitors submit comments or enquiries through the VALUNXT website, we collect the information provided in the form, along with the visitor’s IP address and browser user agent string, to help with spam detection and security. The details you submit are used to respond to your request and to maintain an accurate record of correspondence. After review, any comment you choose to make public may be visible to other visitors in the context in which it was submitted.</p>								</div>
+      									<p>When visitors submit comments or enquiries through the Valunxt website, we collect the information provided in the form, along with the visitor’s IP address and browser user agent string, to help with spam detection and security. The details you submit are used to respond to your request and to maintain an accurate record of correspondence. After review, any comment you choose to make public may be visible to other visitors in the context in which it was submitted.</p>								</div>
       				</div>
       				<div className="elementor-element elementor-element-3650319 elementor-widget elementor-widget-heading" data-id="3650319" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">
@@ -78,7 +78,7 @@ export default function TermsConditionsBody({ page, region }: { page: PageConfig
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-d4493f5 elementor-widget elementor-widget-text-editor" data-id="d4493f5" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
-      									<p>If you upload images to the VALUNXT website, you should avoid uploading images that contain embedded location data (EXIF GPS). Visitors to the website may be able to download and extract any location data contained in images published on the site.</p>								</div>
+      									<p>If you upload images to the Valunxt website, you should avoid uploading images that contain embedded location data (EXIF GPS). Visitors to the website may be able to download and extract any location data contained in images published on the site.</p>								</div>
       				</div>
       				<div className="elementor-element elementor-element-02c08bc elementor-widget elementor-widget-heading" data-id="02c08bc" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">
@@ -86,7 +86,7 @@ export default function TermsConditionsBody({ page, region }: { page: PageConfig
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-d0e2120 elementor-widget elementor-widget-text-editor" data-id="d0e2120" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
-      									<p>If you submit an enquiry on the VALUNXT website you may opt in to saving your name and email address in cookies. These are provided for your convenience so that you do not have to enter your details again when you make another enquiry. These cookies last for one year.</p><p>If you visit a login page, we may set a temporary cookie to determine whether your browser accepts cookies. This cookie contains no personal data and is discarded when you close your browser. When you log in, we may also set several cookies to save your login information and your screen display choices. Login cookies last for two days, and screen options cookies last for a year. If you select “Remember Me”, your login will persist for two weeks.</p><p>If you log out of your account, the login cookies will be removed.</p><p>If you edit or publish content, an additional cookie will be saved in your browser. This cookie includes no personal data and simply indicates the ID of the content you just edited. It expires after one day.</p>								</div>
+      									<p>If you submit an enquiry on the Valunxt website you may opt in to saving your name and email address in cookies. These are provided for your convenience so that you do not have to enter your details again when you make another enquiry. These cookies last for one year.</p><p>If you visit a login page, we may set a temporary cookie to determine whether your browser accepts cookies. This cookie contains no personal data and is discarded when you close your browser. When you log in, we may also set several cookies to save your login information and your screen display choices. Login cookies last for two days, and screen options cookies last for a year. If you select “Remember Me”, your login will persist for two weeks.</p><p>If you log out of your account, the login cookies will be removed.</p><p>If you edit or publish content, an additional cookie will be saved in your browser. This cookie includes no personal data and simply indicates the ID of the content you just edited. It expires after one day.</p>								</div>
       				</div>
       				<div className="elementor-element elementor-element-7300f14 elementor-widget elementor-widget-heading" data-id="7300f14" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">
@@ -94,7 +94,7 @@ export default function TermsConditionsBody({ page, region }: { page: PageConfig
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-4a66ebf elementor-widget elementor-widget-text-editor" data-id="4a66ebf" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
-      									<p>Articles and pages on the VALUNXT website may include embedded content (for example videos, images, or documents). Embedded content from other websites behaves in exactly the same way as if the visitor had visited the other website.</p><p>These third-party websites may collect data about you, use cookies, embed additional tracking, and monitor your interaction with that embedded content, including tracking your interaction with it if you have an account and are logged in to that website.</p>								</div>
+      									<p>Articles and pages on the Valunxt website may include embedded content (for example videos, images, or documents). Embedded content from other websites behaves in exactly the same way as if the visitor had visited the other website.</p><p>These third-party websites may collect data about you, use cookies, embed additional tracking, and monitor your interaction with that embedded content, including tracking your interaction with it if you have an account and are logged in to that website.</p>								</div>
       				</div>
       				<div className="elementor-element elementor-element-ff8f8a1 elementor-widget elementor-widget-heading" data-id="ff8f8a1" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">
@@ -102,7 +102,7 @@ export default function TermsConditionsBody({ page, region }: { page: PageConfig
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-84acdc6 elementor-widget elementor-widget-text-editor" data-id="84acdc6" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
-      									<p>If you request a password reset, your IP address will be included in the reset email. VALUNXT shares personal information only where necessary to respond to your enquiry or to meet legal and regulatory requirements.</p>								</div>
+      									<p>If you request a password reset, your IP address will be included in the reset email. Valunxt shares personal information only where necessary to respond to your enquiry or to meet legal and regulatory requirements.</p>								</div>
       				</div>
       				<div className="elementor-element elementor-element-071b6af elementor-widget elementor-widget-heading" data-id="071b6af" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">
@@ -110,7 +110,7 @@ export default function TermsConditionsBody({ page, region }: { page: PageConfig
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-ae90ec5 elementor-widget elementor-widget-text-editor" data-id="ae90ec5" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
-      									<p>If you submit an enquiry or comment, the enquiry and its metadata may be retained so that we can recognise and respond to any follow-up correspondence and maintain an accurate record of our communications with you.</p><p>For users who register on the VALUNXT website (if any), we also store the personal information they provide in their user profile. Registered users can see, edit, or delete their personal information at any time (except that they cannot change their username). Website administrators can also see and edit that information.</p>								</div>
+      									<p>If you submit an enquiry or comment, the enquiry and its metadata may be retained so that we can recognise and respond to any follow-up correspondence and maintain an accurate record of our communications with you.</p><p>For users who register on the Valunxt website (if any), we also store the personal information they provide in their user profile. Registered users can see, edit, or delete their personal information at any time (except that they cannot change their username). Website administrators can also see and edit that information.</p>								</div>
       				</div>
       				<div className="elementor-element elementor-element-d01906f elementor-widget elementor-widget-heading" data-id="d01906f" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">
@@ -118,7 +118,7 @@ export default function TermsConditionsBody({ page, region }: { page: PageConfig
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-1f714cc elementor-widget elementor-widget-text-editor" data-id="1f714cc" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
-      									<p>If you have an account on the VALUNXT website, or have submitted an enquiry, you can request to receive an exported file of the personal data we hold about you, including any data you have provided to us. You can also request that we erase any personal data we hold about you. This does not include any data we are required to keep for administrative, legal, or security purposes.</p>								</div>
+      									<p>If you have an account on the Valunxt website, or have submitted an enquiry, you can request to receive an exported file of the personal data we hold about you, including any data you have provided to us. You can also request that we erase any personal data we hold about you. This does not include any data we are required to keep for administrative, legal, or security purposes.</p>								</div>
       				</div>
       				<div className="elementor-element elementor-element-7389697 elementor-widget elementor-widget-heading" data-id="7389697" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">

@@ -55,7 +55,7 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       								</div>
       								<div className="elementor-element elementor-element-44a2511 elementor-invisible animated-fast elementor-widget__width-initial elementor-widget-mobile__width-inherit elementor-widget elementor-widget-theme-post-excerpt" data-id="44a2511" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":50}"} data-widget_type="theme-post-excerpt.default">
       									<div className="elementor-widget-container">
-      										VALUNXT supports investors, developers, and institutions through an integrated platform of strategic advisory, research, capital solutions, and intelligent technology. </div>
+      										Valunxt supports investors, developers, and institutions through an integrated platform of strategic advisory, research, capital solutions, and intelligent technology. </div>
       								</div>
       							</div>
       						</div>
@@ -79,9 +79,9 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       																			<g fill="none" fillRule="evenodd">
       																				<path d="m0 0h76v76h-76z" />
       																				<g fillRule="nonzero">
-      																					<path d="m35.97 33.05-2.12 2.12-1.06-1.05-21.16-21.06-1.07-1.05 2.12-2.13 1.06 1.06 21.16 21.05zm29.86 30.3-2.12 2.13-1.06-1.06-21.15-21.05-1.07-1.06 2.12-2.13 1.06 1.06 21.16 21.05z" fill="#0053B7" />
-      																					<path d="m66 12.16-1.06 1.07-21.06 21.16-1.05 1.06-2.13-2.12 1.06-1.06 21.05-21.16 1.06-1.06z" fill="#0053B7" />
-      																					<path d="m35.7 42.02-1.07 1.07-21.05 21.16-1.06 1.06-2.12-2.12 1.05-1.06 21.05-21.16 1.06-1.06z" fill="#0053B7" />
+      																					<path d="m35.97 33.05-2.12 2.12-1.06-1.05-21.16-21.06-1.07-1.05 2.12-2.13 1.06 1.06 21.16 21.05zm29.86 30.3-2.12 2.13-1.06-1.06-21.15-21.05-1.07-1.06 2.12-2.13 1.06 1.06 21.16 21.05z" fill="#0B2DBE" />
+      																					<path d="m66 12.16-1.06 1.07-21.06 21.16-1.05 1.06-2.13-2.12 1.06-1.06 21.05-21.16 1.06-1.06z" fill="#0B2DBE" />
+      																					<path d="m35.7 42.02-1.07 1.07-21.05 21.16-1.06 1.06-2.12-2.12 1.05-1.06 21.05-21.16 1.06-1.06z" fill="#0B2DBE" />
       																				</g>
       																			</g>
       																		</svg> </span>
@@ -99,9 +99,9 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       																	<span className="elementor-button-icon">
       																		<svg xmlns="http://www.w3.org/2000/svg" height={76} viewBox="0 0 68 76" width={68}>
       																			<g fill="none">
-      																				<path d="m29.35 39.15 1.51 2.59-1.3.76-25.81 14.99-1.29.75-1.51-2.59 1.3-.76 25.81-14.99z" fill="#0053B7" />
-      																				<path d="m66.35 18.15 1.51 2.59-1.3.76-25.81 14.99-1.29.75-1.51-2.59 1.3-.76 25.81-14.99z" fill="#0053B7" />
-      																				<path d="m2.56 17.95 1.3.74 25.89 14.86 1.3.75-1.49 2.6-1.3-.75-25.89-14.85-1.3-.75zm36.69 21.54 1.3.75 25.89 14.86 1.3.74-1.49 2.6-1.3-.74-25.89-14.86-1.3-.75zm-3.23-38.99v1.5l.08 29.84v1.5l-3 .01v-1.5l-.08-29.85v-1.5zm-.31 42.54v1.5l.08 29.85v1.5l-3 .01v-1.5l-.08-29.85v-1.5z" fill="#0053B7" />
+      																				<path d="m29.35 39.15 1.51 2.59-1.3.76-25.81 14.99-1.29.75-1.51-2.59 1.3-.76 25.81-14.99z" fill="#0B2DBE" />
+      																				<path d="m66.35 18.15 1.51 2.59-1.3.76-25.81 14.99-1.29.75-1.51-2.59 1.3-.76 25.81-14.99z" fill="#0B2DBE" />
+      																				<path d="m2.56 17.95 1.3.74 25.89 14.86 1.3.75-1.49 2.6-1.3-.75-25.89-14.85-1.3-.75zm36.69 21.54 1.3.75 25.89 14.86 1.3.74-1.49 2.6-1.3-.74-25.89-14.86-1.3-.75zm-3.23-38.99v1.5l.08 29.84v1.5l-3 .01v-1.5l-.08-29.85v-1.5zm-.31 42.54v1.5l.08 29.85v1.5l-3 .01v-1.5l-.08-29.85v-1.5z" fill="#0B2DBE" />
       																			</g>
       																		</svg> </span>
       																	<span className="elementor-button-text">Capital Advisory</span>
@@ -118,9 +118,9 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       																	<span className="elementor-button-icon">
       																		<svg xmlns="http://www.w3.org/2000/svg" height={76} viewBox="0 0 76 76" width={76}>
       																			<g fill="none">
-      																				<path d="m33.35 36.5v3h-1.5l-29.84.08h-1.51v-3h1.5l29.84-.08z" fill="#0053B7" />
-      																				<path d="m75.9 36.81v3h-1.5l-29.84.08h-1.5l-.01-3h1.5l29.85-.08z" fill="#0053B7" />
-      																				<path d="m39.76.5v1.5l.08 29.84v1.5l-3 .01v-1.5l-.08-29.85v-1.5zm-.26 42.54v1.5l.09 29.85v1.5l-3 .01v-1.5l-.08-29.85v-1.5z" fill="#0053B7" />
+      																				<path d="m33.35 36.5v3h-1.5l-29.84.08h-1.51v-3h1.5l29.84-.08z" fill="#0B2DBE" />
+      																				<path d="m75.9 36.81v3h-1.5l-29.84.08h-1.5l-.01-3h1.5l29.85-.08z" fill="#0B2DBE" />
+      																				<path d="m39.76.5v1.5l.08 29.84v1.5l-3 .01v-1.5l-.08-29.85v-1.5zm-.26 42.54v1.5l.09 29.85v1.5l-3 .01v-1.5l-.08-29.85v-1.5z" fill="#0B2DBE" />
       																			</g>
       																		</svg> </span>
       																	<span className="elementor-button-text">Research &amp; Intelligence</span>
@@ -137,9 +137,9 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       																	<span className="elementor-button-icon">
       																		<svg xmlns="http://www.w3.org/2000/svg" height={76} viewBox="0 0 68 76" width={68}>
       																			<g fill="none">
-      																				<path d="m29.35 39.15 1.51 2.59-1.3.76-25.81 14.99-1.29.75-1.51-2.59 1.3-.76 25.81-14.99z" fill="#0053B7" />
-      																				<path d="m53.59 24.94 1.57 2.55-1.27.79-13.1 8.06-1.28.78-1.57-2.55 1.27-.79 13.1-8.06z" fill="#0053B7" />
-      																				<path d="m14.78 25.47 1.32.72 13.51 7.35 1.31.72-1.43 2.63-1.32-.71-13.51-7.36-1.31-.72zm24.47 14.02 1.3.75 25.89 14.86 1.3.74-1.49 2.6-1.3-.74-25.89-14.86-1.3-.75zm-3.23-38.99v1.5l.08 29.84v1.5l-3 .01v-1.5l-.08-29.85v-1.5zm-.31 42.54v1.5l.08 29.85v1.5l-3 .01v-1.5l-.08-29.85v-1.5z" fill="#0053B7" />
+      																				<path d="m29.35 39.15 1.51 2.59-1.3.76-25.81 14.99-1.29.75-1.51-2.59 1.3-.76 25.81-14.99z" fill="#0B2DBE" />
+      																				<path d="m53.59 24.94 1.57 2.55-1.27.79-13.1 8.06-1.28.78-1.57-2.55 1.27-.79 13.1-8.06z" fill="#0B2DBE" />
+      																				<path d="m14.78 25.47 1.32.72 13.51 7.35 1.31.72-1.43 2.63-1.32-.71-13.51-7.36-1.31-.72zm24.47 14.02 1.3.75 25.89 14.86 1.3.74-1.49 2.6-1.3-.74-25.89-14.86-1.3-.75zm-3.23-38.99v1.5l.08 29.84v1.5l-3 .01v-1.5l-.08-29.85v-1.5zm-.31 42.54v1.5l.08 29.85v1.5l-3 .01v-1.5l-.08-29.85v-1.5z" fill="#0B2DBE" />
       																			</g>
       																		</svg> </span>
       																	<span className="elementor-button-text">Technology &amp; AI</span>
@@ -227,7 +227,7 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/real-estate-investment-advisory/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Learn More</span>
       																</span>
       															</a>
@@ -287,7 +287,7 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/capital-advisory/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Learn More</span>
       																</span>
       															</a>
@@ -399,7 +399,7 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/research-intelligence/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Learn More</span>
       																</span>
       															</a>
@@ -459,7 +459,7 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/technology-ai/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Learn More</span>
       																</span>
       															</a>
@@ -624,7 +624,7 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/contact/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Contact Us</span>
       																</span>
       															</a>
@@ -879,7 +879,7 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-left"></i>
       														</div>
       														<div className="elementor-swiper-button elementor-swiper-button-next" role="button" tabIndex={0} aria-label="Next">
-      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       														</div>
       													</div>
       												</div>
@@ -934,7 +934,7 @@ export default function ServicesBody({ page, region }: { page: PageConfig; regio
       													<div className="vxn-logo-slider__slide"><a href="https://reliantsurveyors.com" target="_blank" rel="noopener"><img decoding="async" width={114} height={56} src={`${BASE}/LOGO/reliant-surveyors.svg`} alt="Reliant Surveyors" /></a></div>
       													<div className="vxn-logo-slider__slide"><a href="https://houzzhunt.com" target="_blank" rel="noopener"><img decoding="async" width={56} height={56} src={`${BASE}/LOGO/houzzhunt.svg`} alt="HouzzHunt" /></a></div>
       													<div className="vxn-logo-slider__slide"><a href="https://houzzhuntmortgage.com" target="_blank" rel="noopener"><img decoding="async" width={218} height={56} src={`${BASE}/LOGO/houzzhunt-mortgage.svg`} alt="HouzzHunt Mortgage" /></a></div>
-      													<div className="vxn-logo-slider__slide"><a href="https://valunxt.com" target="_blank" rel="noopener"><img decoding="async" width={187} height={56} src={`${BASE}/LOGO/valunxt-corporate.svg`} alt="VALUNXT Corporate Services" /></a></div>
+      													<div className="vxn-logo-slider__slide"><a href="https://valunxt.com" target="_blank" rel="noopener"><img decoding="async" width={187} height={56} src={`${BASE}/LOGO/valunxt-corporate.svg`} alt="Valunxt Corporate Services" /></a></div>
       												</div>
       											</div>
       											<div className="vxn-logo-slider__dots" role="group" aria-label="Group company logos"></div>

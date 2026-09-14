@@ -1,5 +1,5 @@
 /**
- * VALUNXT — multi-region (country edition) support.
+ * Valunxt — multi-region (country edition) support.
  *
  * The site is published as one edition per market, each mounted on its own URL
  * prefix:
@@ -298,7 +298,7 @@ export function vxnServices(slug?: string | null): Service[] {
         subs: [
           { name: 'Buy Property', slug: 'buy-property' },
           { name: 'Sell & Rent/Lease Property', slug: 'sell-rent-lease-property' },
-          { name: 'Off Plan Properties', slug: 'off-plan-properties' },
+          { name: 'Off-Plan Properties', slug: 'off-plan-properties' },
         ],
       },
       {
@@ -317,9 +317,9 @@ export function vxnServices(slug?: string | null): Service[] {
         subs: [
           { name: 'Residential Mortgages', slug: 'residential-mortgages' },
           { name: 'Commercial Mortgages', slug: 'commercial-mortgages' },
-          { name: 'Mortgage Pre Approval', slug: 'mortgage-pre-approval' },
+          { name: 'Mortgage Pre-Approval', slug: 'mortgage-pre-approval' },
           { name: 'Refinancing', slug: 'refinancing' },
-          { name: 'Non Resident Mortgages', slug: 'non-resident-mortgages' },
+          { name: 'Non-Resident Mortgages', slug: 'non-resident-mortgages' },
           { name: 'Islamic Finance', slug: 'islamic-finance' },
         ],
       },

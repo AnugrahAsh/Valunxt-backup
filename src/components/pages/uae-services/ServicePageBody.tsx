@@ -55,7 +55,7 @@ const COMMITMENTS: Commitment[] = [
 
 const CSS = `
 .vxn-svcintro{
-  --ny:#0E355F; --ny2:#0053B7; --body:#4d5863;
+  --ny:#0E355F; --ny2:#0B2DBE; --body:#4d5863;
   background:#fff;
   /* UAE services house rule: every section is padded 40px 0. The horizontal
      gutter lives on the inner wrapper, so 0 here cannot let copy touch the
@@ -202,7 +202,7 @@ const CSS = `
 /* ---- Commitments --------------------------------------------------------- */
 
 .vxn-comm{
-  --ny:#0E355F; --ny2:#0053B7;
+  --ny:#0E355F; --ny2:#0B2DBE;
   background:#fff;
   padding:40px 0;
 }
@@ -344,7 +344,7 @@ const CSS = `
 /* ---- Highlights ---------------------------------------------------------- */
 
 .vxn-hl{
-  --ny:#0E355F; --ny2:#0053B7; --body:#4d5863;
+  --ny:#0E355F; --ny2:#0B2DBE; --body:#4d5863;
   background:#eef4fc;
   padding:40px 0;
 }

@@ -82,7 +82,7 @@ export default function UaeFigureBand({ region }: { region: string }) {
           </p>
           <a className="vxn-figs__leadLink" href={rurl(region, '/services/')}>
             Explore Our Services
-            <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right" />
+            <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow" />
           </a>
         </div>
 

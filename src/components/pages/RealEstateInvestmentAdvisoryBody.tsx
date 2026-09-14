@@ -264,20 +264,7 @@ export default function RealEstateInvestmentAdvisoryBody({ page, region }: { pag
       												<div className="elementor-element elementor-element-83d077a e-con-full e-flex e-con e-child" data-id="83d077a" data-element_type="container" data-e-type="container">
       													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-d41d503 elementor-widget__width-initial animated-fast elementor-widget elementor-widget-text-editor" data-id="d41d503" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\",\"_animation_delay\":100}"} data-widget_type="text-editor.default">
       														<div className="elementor-widget-container">
-      															<p>Our advisory approach draws on the integrated VALUNXT group ecosystem, including HouzzHunt for luxury real estate and investment advisory. Combining independent research, valuation insight, and data driven analysis, we help investors make informed decisions and build long term value through real estate.</p>
-      														</div>
-      													</div>
-      													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-668319f elementor-invisible vamtam-icon-pos-row-reverse animated-fast elementor-widget elementor-widget-button" data-id="668319f" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":100}"} data-widget_type="button.default">
-      														<div className="elementor-widget-container">
-      															<div className="elementor-button-wrapper">
-      																<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/about/')}>
-      																	<span className="elementor-button-content-wrapper">
-      																		<span className="elementor-button-icon">
-      																			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
-      																		<span className="elementor-button-text">Learn More</span>
-      																	</span>
-      																</a>
-      															</div>
+      															<p>Our advisory approach draws on the integrated Valunxt group ecosystem, including HouzzHunt for luxury real estate and investment advisory. Combining independent research, valuation insight, and data driven analysis, we help investors make informed decisions and build long term value through real estate.</p>
       														</div>
       													</div>
       												</div>
@@ -312,7 +299,7 @@ export default function RealEstateInvestmentAdvisoryBody({ page, region }: { pag
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/free-consultation/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Book a Consultation</span>
       																</span>
       															</a>
@@ -327,7 +314,7 @@ export default function RealEstateInvestmentAdvisoryBody({ page, region }: { pag
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/capital-advisory/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Capital Advisory</span>
       																</span>
       															</a>
@@ -348,7 +335,7 @@ export default function RealEstateInvestmentAdvisoryBody({ page, region }: { pag
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/research-intelligence/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Research &amp; Intelligence</span>
       																</span>
       															</a>
@@ -369,7 +356,7 @@ export default function RealEstateInvestmentAdvisoryBody({ page, region }: { pag
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/technology-ai/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Technology &amp; AI</span>
       																</span>
       															</a>

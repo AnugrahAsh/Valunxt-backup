@@ -1,6 +1,6 @@
 /* Research & Reports — single report DETAIL page body. Navy split hero
    (report meta + title + breadcrumb | image) over a two-column body
-   (article + share / download sidebar), in the VALUNXT theme.
+   (article + share / download sidebar), in the Valunxt theme.
 
    Driven by the report's PageConfig:
      report_type, read_time, hero_image, hero_title,
@@ -10,6 +10,7 @@
 
    Port of includes/partials/research-detail.php. */
 import { BASE, rurl } from '@/lib/region';
+import CtaArrow from '@/components/ui/CtaArrow';
 import { uaePageImage, uaePageKey } from '@/lib/uae-page-images';
 import { vxnReadTime } from '@/lib/site-data';
 import { vxnRequestOrigin } from '@/lib/seo';
@@ -17,8 +18,8 @@ import Html from '@/components/Html';
 import type { ReportPageConfig } from '@/lib/pages';
 
 const CSS = `
-/* ===== VALUNXT Research report — detail ==================================== */
-.vxn-rd{--ny:#0E355F;--ny2:#0053B7;--gd:#0053B7;--gd2:#9C00DD;--ink:#26313b;--body:#42505c;--muted:#5b6670;--line:#e5e1d8;font-family:"DM Sans",sans-serif;color:var(--body);}
+/* ===== Valunxt Research report — detail ==================================== */
+.vxn-rd{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--ink:#26313b;--body:#42505c;--muted:#5b6670;--line:#e5e1d8;font-family:"DM Sans",sans-serif;color:var(--body);}
 .vxn-rd *{box-sizing:border-box;}
 
 /* ---- Hero ----------------------------------------------------------------- */
@@ -61,8 +62,7 @@ const CSS = `
 /* Both fill by wedge on hover — mechanism in valunxt-brand.css; each variant
    only names the colour it sweeps. */
 /* The one CTA (20260911): the site's pill geometry, gradient and outline; the sidebar's two buttons keep their full width. */
-.vxn-rd__btn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;min-height:var(--vxn-cta-h,46px);padding:0 var(--vxn-cta-px,28px);border-radius:var(--vxn-cta-r,999px);font-size:var(--vxn-cta-fs,14px);font-weight:var(--vxn-cta-fw,400);letter-spacing:var(--vxn-cta-ls,.01em);text-transform:none;line-height:1;text-decoration:none;}
-.vxn-rd__btn svg{width:17px;height:17px;flex:0 0 auto;}
+.vxn-rd__btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:var(--vxn-cta-h,46px);padding:0 var(--vxn-cta-px,28px);border-radius:var(--vxn-cta-r,999px);font-size:var(--vxn-cta-fs,14px);font-weight:var(--vxn-cta-fw,400);letter-spacing:var(--vxn-cta-ls,.01em);text-transform:none;line-height:1;text-decoration:none;}
 .vxn-rd__btn--solid{background-image:var(--vxn-cta-grad);background-color:var(--vxn-cta-ink,#0B2DBE);color:#fff!important;border:1px solid transparent;--vxn-cta-sweep:var(--vxn-cta-sweep-dark,#08248F);}
 .vxn-rd__btn--solid:hover{color:#fff!important;}
 .vxn-rd__btn--solid[aria-disabled="true"]{opacity:.55;pointer-events:none;}
@@ -234,33 +234,12 @@ export default async function ResearchDetailSection({
                     href={pdf !== '' ? pdf : 'javascript:void(0)'}
                     {...(pdf !== '' ? { download: true } : {})}
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M12 3v11m0 0l-4-4m4 4l4-4M4 20h16"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
                     <span>Download Report</span>
+                    <CtaArrow />
                   </a>
                   <a className="vxn-rd__btn vxn-rd__btn--ghost" href={contact}>
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      aria-hidden="true"
-                    >
-                      <rect x="3" y="5" width="18" height="14" rx="2" />
-                      <path d="M3.5 6.5l8.5 6 8.5-6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
                     <span>Talk to us</span>
+                    <CtaArrow />
                   </a>
                 </aside>
               </div>

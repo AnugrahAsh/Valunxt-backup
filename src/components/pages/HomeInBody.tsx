@@ -116,7 +116,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       		inset: 0;
       		z-index: 0;
       		border-radius: inherit;
-      		background: linear-gradient(135deg, #0053B7 0%, #16344A 55%, #0E355F 100%);
+      		background: linear-gradient(135deg, #0B2DBE 0%, #16344A 55%, #0E355F 100%);
       		opacity: 0;
       		transition: opacity .45s cubic-bezier(.4, 0, .2, 1);
       		pointer-events: none;
@@ -309,7 +309,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       												<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/free-consultation/')}>
       													<span className="elementor-button-content-wrapper">
       														<span className="elementor-button-icon">
-      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       														<span className="elementor-button-text">Speak with Our Advisory Team</span>
       													</span>
       												</a>
@@ -365,19 +365,19 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       											<p className="vxn-wwa__intro">We combine market intelligence, integrated advisory capabilities and execution expertise to help developers, investors, corporates and the government navigate complex real estate decisions with clarity and measurable outcomes.</p>
       											<div className="vxn-wwa__grid">
       												<div className="vxn-wwa__item">
-      													<svg className="vxn-wwa__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="url(#vxnW1)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Deep market intelligence"><defs><linearGradient id="vxnW1" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#0E355F" /><stop offset=".5" stopColor="#0053B7" /><stop offset="1" stopColor="#0053B7" /></linearGradient></defs><circle cx="10" cy="10" r="7" /><path d="M6.7 11.3l2.2-2.2 1.8 1.4 2.8-3.4" /><path d="M15 15l5 5" /></svg>
+      													<svg className="vxn-wwa__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="url(#vxnW1)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Deep market intelligence"><defs><linearGradient id="vxnW1" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#0E355F" /><stop offset=".5" stopColor="#0B2DBE" /><stop offset="1" stopColor="#0B2DBE" /></linearGradient></defs><circle cx="10" cy="10" r="7" /><path d="M6.7 11.3l2.2-2.2 1.8 1.4 2.8-3.4" /><path d="M15 15l5 5" /></svg>
       													<span className="vxn-wwa__label">Deep market intelligence</span>
       												</div>
       												<div className="vxn-wwa__item">
-      													<svg className="vxn-wwa__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="url(#vxnW2)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Integrated advisory and execution"><defs><linearGradient id="vxnW2" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#0E355F" /><stop offset=".5" stopColor="#0053B7" /><stop offset="1" stopColor="#0053B7" /></linearGradient></defs><path d="M11 17l2 2a1 1 0 0 0 3-3" /><path d="M14 14l2.5 2.5a1 1 0 0 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 0 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" /><path d="M21 3l1 11h-2" /><path d="M3 3L2 14l6.5 6.5a1 1 0 0 0 3-3" /><path d="M3 4h8" /></svg>
+      													<svg className="vxn-wwa__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="url(#vxnW2)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Integrated advisory and execution"><defs><linearGradient id="vxnW2" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#0E355F" /><stop offset=".5" stopColor="#0B2DBE" /><stop offset="1" stopColor="#0B2DBE" /></linearGradient></defs><path d="M11 17l2 2a1 1 0 0 0 3-3" /><path d="M14 14l2.5 2.5a1 1 0 0 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 0 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" /><path d="M21 3l1 11h-2" /><path d="M3 3L2 14l6.5 6.5a1 1 0 0 0 3-3" /><path d="M3 4h8" /></svg>
       													<span className="vxn-wwa__label">Integrated advisory and execution</span>
       												</div>
       												<div className="vxn-wwa__item">
-      													<svg className="vxn-wwa__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="url(#vxnW3)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="AI-driven insights"><defs><linearGradient id="vxnW3" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#0E355F" /><stop offset=".5" stopColor="#0053B7" /><stop offset="1" stopColor="#0053B7" /></linearGradient></defs><rect x="4.5" y="4.5" width={15} height={15} rx="3" /><path d="M12 8.4l.9 2.7 2.7.9-2.7.9-.9 2.7-.9-2.7-2.7-.9 2.7-.9z" /><path d="M9 4.5v-2M15 4.5v-2M9 21.5v-2M15 21.5v-2M4.5 9h-2M4.5 15h-2M21.5 9h-2M21.5 15h-2" /></svg>
+      													<svg className="vxn-wwa__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="url(#vxnW3)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="AI-driven insights"><defs><linearGradient id="vxnW3" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#0E355F" /><stop offset=".5" stopColor="#0B2DBE" /><stop offset="1" stopColor="#0B2DBE" /></linearGradient></defs><rect x="4.5" y="4.5" width={15} height={15} rx="3" /><path d="M12 8.4l.9 2.7 2.7.9-2.7.9-.9 2.7-.9-2.7-2.7-.9 2.7-.9z" /><path d="M9 4.5v-2M15 4.5v-2M9 21.5v-2M15 21.5v-2M4.5 9h-2M4.5 15h-2M21.5 9h-2M21.5 15h-2" /></svg>
       													<span className="vxn-wwa__label">AI-driven insights powering smarter real estate decisions</span>
       												</div>
       												<div className="vxn-wwa__item">
-      													<svg className="vxn-wwa__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="url(#vxnW4)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Trusted by developers, institutions and investors"><defs><linearGradient id="vxnW4" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#0E355F" /><stop offset=".5" stopColor="#0053B7" /><stop offset="1" stopColor="#0053B7" /></linearGradient></defs><path d="M12 3l7 2.5v5.2c0 4.3-2.9 7.9-7 9.3-4.1-1.4-7-5-7-9.3V5.5z" /><path d="M9 12l2.2 2.2L15.2 9.8" /></svg>
+      													<svg className="vxn-wwa__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="url(#vxnW4)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Trusted by developers, institutions and investors"><defs><linearGradient id="vxnW4" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#0E355F" /><stop offset=".5" stopColor="#0B2DBE" /><stop offset="1" stopColor="#0B2DBE" /></linearGradient></defs><path d="M12 3l7 2.5v5.2c0 4.3-2.9 7.9-7 9.3-4.1-1.4-7-5-7-9.3V5.5z" /><path d="M9 12l2.2 2.2L15.2 9.8" /></svg>
       													<span className="vxn-wwa__label">Trusted by developers, institutions and investors</span>
       												</div>
       											</div>
@@ -414,7 +414,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       									<div className="vxn-klay__content">
       										<h3 className="vxn-klay__title">Real Estate Investment Advisory</h3>
       										<p className="vxn-klay__desc">Disciplined portfolio strategy and risk analysis to create, preserve, and grow real estate wealth across India, the UAE, and beyond.</p>
-      										<span className="vxn-klay__btn">Learn more <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i></span>
+      										<span className="vxn-klay__btn">Learn more <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i></span>
       									</div>
       								</a>
       								<a className="vxn-klay__panel" href={rurl(region, '/services/capital-advisory/')}>
@@ -423,7 +423,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       									<div className="vxn-klay__content">
       										<h3 className="vxn-klay__title">Capital Advisory</h3>
       										<p className="vxn-klay__desc">Independent capital structuring &mdash; from project funding and debt advisory to equity, joint ventures, and investor syndication.</p>
-      										<span className="vxn-klay__btn">Learn more <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i></span>
+      										<span className="vxn-klay__btn">Learn more <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i></span>
       									</div>
       								</a>
       								<a className="vxn-klay__panel" href={rurl(region, '/services/research-intelligence/')}>
@@ -432,7 +432,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       									<div className="vxn-klay__content">
       										<h3 className="vxn-klay__title">Research &amp; Intelligence</h3>
       										<p className="vxn-klay__desc">Independent, data-driven research and valuation intelligence for clearer, more confident investment decisions.</p>
-      										<span className="vxn-klay__btn">Learn more <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i></span>
+      										<span className="vxn-klay__btn">Learn more <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i></span>
       									</div>
       								</a>
       								<a className="vxn-klay__panel" href={rurl(region, '/services/technology-ai/')}>
@@ -441,7 +441,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       									<div className="vxn-klay__content">
       										<h3 className="vxn-klay__title">Technology &amp; AI</h3>
       										<p className="vxn-klay__desc">Intelligent platforms, analytics, and AI systems that turn market data into better investment decisions.</p>
-      										<span className="vxn-klay__btn">Learn more <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i></span>
+      										<span className="vxn-klay__btn">Learn more <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i></span>
       									</div>
       								</a>
       							</nav>
@@ -686,19 +686,6 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       												</div>
       											</div>
       										</div>
-      										<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-ca54716 elementor-invisible vamtam-icon-pos-row-reverse elementor-align-justify vamtam-content-align-space-between animated-fast elementor-widget elementor-widget-button" data-id="ca54716" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":100}"} data-widget_type="button.default">
-      											<div className="elementor-widget-container">
-      												<div className="elementor-button-wrapper">
-      													<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/')}>
-      														<span className="elementor-button-content-wrapper">
-      															<span className="elementor-button-icon">
-      																<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
-      															<span className="elementor-button-text">Explore Our Capabilities</span>
-      														</span>
-      													</a>
-      												</div>
-      											</div>
-      										</div>
       									</div>
       								</div>
       							</div>
@@ -739,7 +726,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       														<svg xmlns="http://www.w3.org/2000/svg" width={37} height={34} viewBox="0 0 37 34">
       															<g fill="none" fillRule="evenodd">
       																<circle fill="#F6F4EF" cx="17" cy="17" r="11.33" />
-      																<g fill="#0053B7">
+      																<g fill="#0B2DBE">
       																	<path d="M16.84 34c-5.3 0-10.3-2.52-13.47-6.8a17.13 17.13 0 0 1-2.7-14.97A16.93 16.93 0 0 1 10.94 1.08a16.69 16.69 0 0 1 14.99 1.6c.18.11.3.29.36.5a.78.78 0 0 1-.6.94c-.2.04-.42 0-.6-.13a15.17 15.17 0 0 0-12.92-1.7 15.37 15.37 0 0 0-9.53 8.99 15.6 15.6 0 0 0 .8 13.15 15.19 15.19 0 0 0 23.17 4.49A15.51 15.51 0 0 0 32.13 17v-1.55a.78.78 0 0 1 .69-.85c.42-.04.8.27.84.7V17c0 4.5-1.77 8.83-4.93 12.02A16.74 16.74 0 0 1 16.84 34Z" />
       																	<path d="M19.14 20.48c-.2 0-.4-.09-.54-.23l-6.88-6.96c-.3-.3-.3-.8 0-1.1.3-.3.78-.3 1.08 0l6.34 6.36 16.3-16.39c.29-.3.78-.3 1.08 0 .3.3.3.8 0 1.1l-16.83 17a.76.76 0 0 1-.55.22Z" />
       																</g>
@@ -776,7 +763,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       														<svg xmlns="http://www.w3.org/2000/svg" width={37} height={34} viewBox="0 0 37 34">
       															<g fill="none" fillRule="evenodd">
       																<circle fill="#F6F4EF" cx="17" cy="17" r="11.33" />
-      																<g fill="#0053B7">
+      																<g fill="#0B2DBE">
       																	<path d="M16.84 34c-5.3 0-10.3-2.52-13.47-6.8a17.13 17.13 0 0 1-2.7-14.97A16.93 16.93 0 0 1 10.94 1.08a16.69 16.69 0 0 1 14.99 1.6c.18.11.3.29.36.5a.78.78 0 0 1-.6.94c-.2.04-.42 0-.6-.13a15.17 15.17 0 0 0-12.92-1.7 15.37 15.37 0 0 0-9.53 8.99 15.6 15.6 0 0 0 .8 13.15 15.19 15.19 0 0 0 23.17 4.49A15.51 15.51 0 0 0 32.13 17v-1.55a.78.78 0 0 1 .69-.85c.42-.04.8.27.84.7V17c0 4.5-1.77 8.83-4.93 12.02A16.74 16.74 0 0 1 16.84 34Z" />
       																	<path d="M19.14 20.48c-.2 0-.4-.09-.54-.23l-6.88-6.96c-.3-.3-.3-.8 0-1.1.3-.3.78-.3 1.08 0l6.34 6.36 16.3-16.39c.29-.3.78-.3 1.08 0 .3.3.3.8 0 1.1l-16.83 17a.76.76 0 0 1-.55.22Z" />
       																</g>
@@ -813,7 +800,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       														<svg xmlns="http://www.w3.org/2000/svg" width={37} height={34} viewBox="0 0 37 34">
       															<g fill="none" fillRule="evenodd">
       																<circle fill="#F6F4EF" cx="17" cy="17" r="11.33" />
-      																<g fill="#0053B7">
+      																<g fill="#0B2DBE">
       																	<path d="M16.84 34c-5.3 0-10.3-2.52-13.47-6.8a17.13 17.13 0 0 1-2.7-14.97A16.93 16.93 0 0 1 10.94 1.08a16.69 16.69 0 0 1 14.99 1.6c.18.11.3.29.36.5a.78.78 0 0 1-.6.94c-.2.04-.42 0-.6-.13a15.17 15.17 0 0 0-12.92-1.7 15.37 15.37 0 0 0-9.53 8.99 15.6 15.6 0 0 0 .8 13.15 15.19 15.19 0 0 0 23.17 4.49A15.51 15.51 0 0 0 32.13 17v-1.55a.78.78 0 0 1 .69-.85c.42-.04.8.27.84.7V17c0 4.5-1.77 8.83-4.93 12.02A16.74 16.74 0 0 1 16.84 34Z" />
       																	<path d="M19.14 20.48c-.2 0-.4-.09-.54-.23l-6.88-6.96c-.3-.3-.3-.8 0-1.1.3-.3.78-.3 1.08 0l6.34 6.36 16.3-16.39c.29-.3.78-.3 1.08 0 .3.3.3.8 0 1.1l-16.83 17a.76.76 0 0 1-.55.22Z" />
       																</g>
@@ -1111,7 +1098,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       								</div>
       								<div className="elementor-element elementor-element-6e16e53 elementor-invisible elementor-widget-tablet__width-initial elementor-widget__width-initial animated-fast elementor-widget elementor-widget-heading" data-id="6e16e53" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":200}"} data-widget_type="heading.default">
       									<div className="elementor-widget-container">
-      										<span className="elementor-heading-title elementor-size-default">Investors, developers, institutions, and family offices work with VALUNXT for advisory, capital, research, and technology &#8212; delivered as one integrated platform. </span>
+      										<span className="elementor-heading-title elementor-size-default">Investors, developers, institutions, and family offices work with Valunxt for advisory, capital, research, and technology &#8212; delivered as one integrated platform. </span>
       									</div>
       								</div>
       							</div>
@@ -1300,7 +1287,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       													<div className="elementor-widget-container">
       														<div className="elementor-icon-wrapper">
       															<div className="elementor-icon">
-      																<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      																<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       															</div>
       														</div>
       													</div>
@@ -1343,7 +1330,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       													<div className="elementor-widget-container">
       														<div className="elementor-icon-wrapper">
       															<div className="elementor-icon">
-      																<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      																<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       															</div>
       														</div>
       													</div>
@@ -1355,7 +1342,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       										<div className="elementor-element elementor-element-c9694fb elementor-invisible e-con-full animated-fast e-flex e-con e-child" data-id="c9694fb" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\",\"animation\":\"slideInUp\",\"animation_mobile\":\"none\"}"}>
       											<div className="elementor-element elementor-element-2734fe6 elementor-widget elementor-widget-image" data-id="2734fe6" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
       												<div className="elementor-widget-container">
-      													<img loading="lazy" decoding="async" width={190} height={38} src={`${BASE}/assets/content/uploads/logo/valunxt-white.svg`} className="attachment-medium size-medium vxn-logo" alt="VALUNXT" />
+      													<img loading="lazy" decoding="async" width={190} height={38} src={`${BASE}/assets/content/uploads/logo/valunxt-white.svg`} className="attachment-medium size-medium vxn-logo" alt="Valunxt" />
       												</div>
       											</div>
       											<div className="elementor-element elementor-element-aa46181 elementor-widget elementor-widget-heading" data-id="aa46181" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
@@ -1379,7 +1366,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       													<form className="elementor-form" method="post" name="New Form" aria-label="New Form">
       														<input type="hidden" name="post_id" value="17" />
       														<input type="hidden" name="form_id" value="5099fe1" />
-      														<input type="hidden" name="referer_title" value="VALUNXT" />
+      														<input type="hidden" name="referer_title" value="Valunxt" />
 
       														<input type="hidden" name="queried_id" value="17" />
 
@@ -1404,7 +1391,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       																<button className="elementor-button elementor-size-sm" type="submit">
       																	<span className="elementor-button-content-wrapper">
       																		<span className="elementor-button-icon">
-      																			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																		<span className="elementor-button-text">Submit</span>
       																	</span>
       																</button>
@@ -1423,7 +1410,7 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       											</div>
       											<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-bf7faf1 elementor-widget__width-initial elementor-widget-mobile__width-inherit elementor-widget elementor-widget-text-editor" data-id="bf7faf1" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       												<div className="elementor-widget-container">
-      													<p>By submitting this form you agree to our <a href={rurl(region, '/privacy-policy/')}>Privacy Policy</a>. VALUNXT may contact you by email or phone regarding your enquiry.</p>
+      													<p>By submitting this form you agree to our <a href={rurl(region, '/privacy-policy/')}>Privacy Policy</a>. Valunxt may contact you by email or phone regarding your enquiry.</p>
       												</div>
       											</div>
       										</div>

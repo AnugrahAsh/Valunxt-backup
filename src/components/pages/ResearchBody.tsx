@@ -377,7 +377,7 @@ export default function ResearchBody({ page, region }: { page: PageConfig; regio
       													<a className="elementor-button elementor-size-sm" role="button">
       														<span className="elementor-button-content-wrapper">
       															<span className="elementor-button-icon">
-      																<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-down"></i> </span>
+      																<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       															<span className="elementor-button-text">Load More</span>
       														</span>
       													</a>

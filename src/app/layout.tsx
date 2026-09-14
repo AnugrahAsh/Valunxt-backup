@@ -29,7 +29,7 @@ import type { PageConfig } from '@/lib/page-config';
 
 export const metadata: Metadata = {
   metadataBase: new URL(vxnSeoOrigin()),
-  title: 'VALUNXT',
+  title: 'Valunxt',
 };
 
 /* Elementor ships `.elementor-invisible { visibility: hidden }` and relies on
@@ -87,7 +87,7 @@ const CMS_BODY_CLASS =
 const RE_DOCUMENT_CSS = `html,body{margin:0;padding:0;}body{background:#FCFBF8;}`;
 
 const FALLBACK: PageConfig = pageConfig('/404/') ?? {
-  title: 'VALUNXT',
+  title: 'Valunxt',
   body: '',
   post_css: ['5', '3837', '2094', '4557'],
   header: '3837',
@@ -135,16 +135,16 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
        instruction. The face sheet is scoped to a body class, so the India
        edition of the module is untouched, and it names a family and nothing
        else, so the module's own sizes and weights stand. */
-    const uae = realEstate.region === 'en-ae';
     return (
       <html lang={vxnRegionData(realEstate.region).lang}>
         <head>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <SiteFavicons />
           <style dangerouslySetInnerHTML={{ __html: RE_DOCUMENT_CSS }} />
-          {uae ? <link rel="stylesheet" href={`${BASE}${UAE_FACE_CSS}`} media="all" /> : null}
+          {/* The face is site-wide since 20260914. */}
+          <link rel="stylesheet" href={`${BASE}${UAE_FACE_CSS}`} media="all" />
         </head>
-        <body className={uae ? UAE_FACE_CLASS : undefined}>
+        <body className={UAE_FACE_CLASS}>
           {children}
           {/* Google tag (gtag.js) — the same one the rest of the site runs. */}
           <Script src="https://www.googletagmanager.com/gtag/js?id=G-3LN0QDVS2F" strategy="afterInteractive" />
@@ -156,9 +156,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 
   /* A URL the registry has never heard of — a 404, or a page created in the
      admin panel — still renders in the market it was asked for, so under
-     /en-ae/ it takes the UAE face like every registered page. withUaeFace is a
-     no-op outside that market and idempotent on a page resolveRequest has
-     already decorated, so this line changes nothing for anything else. The
+     /en-ae/ it takes the UAE face like every registered page — and since
+     20260914 so does every India page. withUaeFace is idempotent on a page
+     resolveRequest has already decorated, so this line changes nothing else. The
      head keeps the 404 template's stylesheets and the body keeps the CMS class
      list, exactly as before. */
   const doc = withUaeFace(page ?? { ...FALLBACK, body: CMS_BODY_CLASS }, region);

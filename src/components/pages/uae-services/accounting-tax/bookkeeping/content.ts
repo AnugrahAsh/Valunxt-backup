@@ -106,7 +106,7 @@ export const ABK_BRIEF = {
   ] satisfies AbkPoint[],
 
   panel: {
-    mark: 'VALUNXT',
+    mark: 'Valunxt',
     title: 'Managed Books',
     sub: 'Monthly bookkeeping, reconciliation and reporting for UAE entities, run by a dedicated team on your own systems.',
     image: 'homepage/abstract-2.webp',
@@ -267,8 +267,8 @@ export const ABK_CASE = {
   alt: 'A finance lead reviewing a filing',
 
   quote:
-    'We came to VALUNXT weeks before the corporate tax deadline, expecting penalties. They ' +
-    'registered us, cleaned up a year of books and filed on time — and the fee never moved from ' +
+    'We came to Valunxt weeks before the corporate tax deadline, expecting penalties. They ' +
+    'registered us, cleaned up a year of books and filed on time, and the fee never moved from ' +
     'the quote.',
   /* Initials, not a photograph: a stock headshot attached to a named role reads
      as a real person who did not say this. */
@@ -280,7 +280,7 @@ export const ABK_CASE = {
   title: 'Penalty-Free Corporate Tax Registration & First Filing',
   /* The whole point of the panel. Everything else on it is caption. */
   stat: 'AED 0',
-  note: 'in FTA penalties — registered, reconciled and filed ahead of every deadline.',
+  note: 'in FTA penalties, registered, reconciled and filed ahead of every deadline.',
   cta: { label: 'Discuss Your Case', href: '/free-consultation/' },
   /* The corner arrow opens the practice this story belongs to. It pointed at
      /track-record/ once, which is a 404 on purpose until data/track-record.ts
@@ -298,9 +298,9 @@ export const ABK_CASE = {
 export const ABK_BAND = {
   image: 'banners/technology-and-ai.webp',
   alt: '',
-  title: 'VALUNXT Finance Intelligence',
+  title: 'Valunxt Finance Intelligence',
   body:
-    'Working with tax specialists, auditors and technology partners, VALUNXT Finance Intelligence ' +
+    'Working with tax specialists, auditors and technology partners, Valunxt Finance Intelligence ' +
     'turns a month of bookkeeping into a position you can act on — reconciled, documented and ' +
     'ready for whoever asks to see it next.',
   /* technology-data-ai, the UAE slug. It pointed at /services/technology-ai/,

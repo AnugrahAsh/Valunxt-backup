@@ -1,5 +1,5 @@
 /* =============================================================================
-   VALUNXT — the UAE face
+   Valunxt — the UAE face
 
    Sanomat Sans, on every page under /en-ae/. Loaded through `site_css`, which
    HeadAssets emits LAST, and scoped by `body.vxn-uae-face` — a class the same

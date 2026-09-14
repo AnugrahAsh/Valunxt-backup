@@ -108,7 +108,7 @@ export default function PageEditor({
   }, [state]);
 
   const autoTitle = useMemo(
-    () => (title.trim() ? `${title.trim()} | VALUNXT` : 'VALUNXT'),
+    () => (title.trim() ? `${title.trim()} | Valunxt` : 'Valunxt'),
     [title]
   );
   const autoCanon = useMemo(() => {
@@ -478,7 +478,7 @@ export default function PageEditor({
                 <div className="serp-site">
                   <span className="serp-fav">VX</span>
                   <span>
-                    <span className="serp-name">VALUNXT</span>
+                    <span className="serp-name">Valunxt</span>
                     <br />
                     <span className="serp-url">{canonical.trim() || autoCanon}</span>
                   </span>

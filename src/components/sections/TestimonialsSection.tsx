@@ -8,8 +8,8 @@
 import TESTIMONIALS from '@/data/testimonials';
 
 const CSS = `
-/* ===== VALUNXT testimonials =============================================== */
-.vxn-quotes{--ny:#0E355F;--ny2:#0053B7;--gd:#0053B7;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:var(--paper);padding:66px 0 72px;}
+/* ===== Valunxt testimonials =============================================== */
+.vxn-quotes{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:var(--paper);padding:66px 0 72px;}
 .vxn-quotes *{box-sizing:border-box;}
 .vxn-quotes__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-quotes__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}
@@ -84,7 +84,7 @@ export default function TestimonialsSection() {
                 '@type': 'Review',
                 reviewBody: q.quote,
                 author: { '@type': 'Person', name: q.name },
-                itemReviewed: { '@type': 'Organization', name: 'VALUNXT' },
+                itemReviewed: { '@type': 'Organization', name: 'Valunxt' },
               }),
             }}
           />

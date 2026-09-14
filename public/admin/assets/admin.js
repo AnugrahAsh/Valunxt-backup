@@ -1,4 +1,4 @@
-/* VALUNXT Capital — Admin panel interactions */
+/* Valunxt Capital — Admin panel interactions */
 (function () {
     'use strict';
 

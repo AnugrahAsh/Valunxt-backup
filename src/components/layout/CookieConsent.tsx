@@ -1,9 +1,10 @@
-/* VALUNXT — cookie consent banner + preferences modal (site-wide).
+/* Valunxt — cookie consent banner + preferences modal (site-wide).
    Port of includes/partials/cookie-consent.php. */
 import { rurl } from '@/lib/region';
+import CtaArrow from '@/components/ui/CtaArrow';
 import ClientScript from '@/components/ClientScript';
 
-/* VALUNXT cookie consent: persists the visitor's choice in localStorage (+ a
+/* Valunxt cookie consent: persists the visitor's choice in localStorage (+ a
    mirror cookie) so the banner only appears until a decision is made. Buttons
    are wired via [data-vxn-cookie] so nothing depends on element order.
      accept / acceptModal -> allow all categories
@@ -136,6 +137,7 @@ export default function CookieConsent({ region }: { region: string }) {
               data-vxn-cookie="manage"
             >
               Manage cookies
+              <CtaArrow />
             </button>
             <button
               type="button"
@@ -143,6 +145,7 @@ export default function CookieConsent({ region }: { region: string }) {
               data-vxn-cookie="accept"
             >
               Accept all
+              <CtaArrow />
             </button>
           </div>
         </div>
@@ -171,7 +174,7 @@ export default function CookieConsent({ region }: { region: string }) {
             Cookie Preferences
           </h2>
           <p className="vxn-cookie-modal__intro">
-            Choose which categories of cookies VALUNXT may use. Strictly necessary cookies keep
+            Choose which categories of cookies Valunxt may use. Strictly necessary cookies keep
             the site running and cannot be switched off.
           </p>
           <ul className="vxn-cookie-modal__list">
@@ -221,6 +224,7 @@ export default function CookieConsent({ region }: { region: string }) {
               data-vxn-cookie="save"
             >
               Save preferences
+              <CtaArrow />
             </button>
             <button
               type="button"
@@ -228,6 +232,7 @@ export default function CookieConsent({ region }: { region: string }) {
               data-vxn-cookie="acceptModal"
             >
               Accept all
+              <CtaArrow />
             </button>
           </div>
         </div>

@@ -1,5 +1,5 @@
 /**
- * VALUNXT — SEO & Sitemap library.
+ * Valunxt — SEO & Sitemap library.
  *
  * Everything the admin panel needs to manage per-page SEO metadata, page slugs
  * and the XML sitemap, so the individual admin screens stay thin. Nothing here
@@ -124,7 +124,7 @@ export async function seoPageUrl(slug: string, requestOrigin = ''): Promise<stri
 export function seoSlugifySegment(text: string): string {
   let t = String(text);
   // Strip a trailing "| Site Name" suffix that page titles commonly carry.
-  t = t.replace(/\s*[|–—-]\s*VALUNXT.*$/iu, '');
+  t = t.replace(/\s*[|–—-]\s*Valunxt.*$/iu, '');
   // Fold accents the way iconv//TRANSLIT did.
   t = t.normalize('NFKD').replace(/[̀-ͯ]/g, '');
   t = t.toLowerCase();
@@ -206,9 +206,9 @@ export function seoScanSite(): Record<string, DiscoveredPage> {
   return found;
 }
 
-/** Human page title derived from a meta title ("About | VALUNXT" → "About"). */
+/** Human page title derived from a meta title ("About | Valunxt" → "About"). */
 export function seoTitleFromMeta(metaTitle: string, slug: string): string {
-  const t = String(metaTitle).replace(/\s*\|\s*VALUNXT.*$/iu, '').trim();
+  const t = String(metaTitle).replace(/\s*\|\s*Valunxt.*$/iu, '').trim();
   if (t !== '') return t;
   if (slug === '') return 'Home';
   const last = slug.split('/').pop() ?? '';
@@ -325,7 +325,7 @@ export async function seoEffective(row: PageRow, requestOrigin = ''): Promise<Ef
   let ogTitle = String(row.og_title ?? '').trim();
   let ogDesc = String(row.og_description ?? '').trim();
 
-  if (metaTitle === '') metaTitle = title !== '' ? `${title} | VALUNXT` : 'VALUNXT';
+  if (metaTitle === '') metaTitle = title !== '' ? `${title} | Valunxt` : 'Valunxt';
   if (canonical === '') canonical = await seoPageUrl(slug, requestOrigin);
   if (!(ROBOTS_OPTIONS as readonly string[]).includes(robots)) robots = 'index, follow';
   if (ogTitle === '') ogTitle = metaTitle;

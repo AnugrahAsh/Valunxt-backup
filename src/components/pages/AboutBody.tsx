@@ -87,7 +87,7 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       													</div>
       													<div className="elementor-element elementor-element-6f0d499 elementor-widget elementor-widget-heading" data-id="6f0d499" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       														<div className="elementor-widget-container">
-      															<h5 className="elementor-heading-title elementor-size-default">Why VALUNXT?</h5>
+      															<h5 className="elementor-heading-title elementor-size-default">Why Valunxt?</h5>
       														</div>
       													</div>
       													<div className="elementor-element elementor-element-55fe71b elementor-align-left elementor-tablet-align-left elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="55fe71b" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
@@ -111,19 +111,8 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       															</ul>
       														</div>
       													</div>
-      													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-29050ba vamtam-icon-pos-row-reverse elementor-align-justify vamtam-content-align-space-between elementor-widget elementor-widget-button" data-id="29050ba" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
-      														<div className="elementor-widget-container">
-      															<div className="elementor-button-wrapper">
-      																<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/free-consultation/')}>
-      																	<span className="elementor-button-content-wrapper">
-      																		<span className="elementor-button-icon">
-      																			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
-      																		<span className="elementor-button-text">Book a Consultation</span>
-      																	</span>
-      																</a>
-      															</div>
-      														</div>
-      													</div>
+      													{/* The "Book a Consultation" button came out of this box on
+      													    client instruction (20260914). */}
       												</div>
       											</div>
       										</div>
@@ -140,7 +129,7 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       											</div>
       											<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-d8eae22 elementor-invisible elementor-widget-tablet__width-inherit animated-fast elementor-widget elementor-widget-text-editor" data-id="d8eae22" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":200}"} data-widget_type="text-editor.default">
       												<div className="elementor-widget-container">
-      													<p>VALUNXT is a premium real estate wealth, capital, intelligence, and technology group supporting investors, developers, institutions, and businesses.</p>
+      													<p>Valunxt is a premium real estate wealth, capital, intelligence, and technology group supporting investors, developers, institutions, and businesses.</p>
       													<p>We operate as an integrated platform of strategic advisory, independent research, capital solutions, and intelligent technology. Whether you are building a real estate portfolio, structuring capital, or seeking data driven market intelligence, our advisory team is here to help. Our capabilities span:</p>
       												</div>
       											</div>
@@ -236,19 +225,8 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       															</div>
       														</div>
       													</div>
-      													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-198665f elementor-invisible vamtam-icon-pos-row-reverse animated-fast vamtam-content-align-space-between elementor-widget elementor-widget-button" data-id="198665f" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":100}"} data-widget_type="button.default">
-      														<div className="elementor-widget-container">
-      															<div className="elementor-button-wrapper">
-      																<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/')}>
-      																	<span className="elementor-button-content-wrapper">
-      																		<span className="elementor-button-icon">
-      																			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
-      																		<span className="elementor-button-text">Explore Our Capabilities</span>
-      																	</span>
-      																</a>
-      															</div>
-      														</div>
-      													</div>
+      													{/* The "Explore Our Capabilities" button came out of this photo
+      													    card on client instruction (20260914). */}
       												</div>
       											</div>
       										</div>
@@ -262,7 +240,7 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       													<div className="elementor-element elementor-element-02b4fcd elementor-invisible e-con-full animated-fast e-flex e-con e-child" data-id="02b4fcd" data-element_type="container" data-e-type="container" data-settings={"{\"animation\":\"slideInUp\"}"}>
       														<div className="elementor-element elementor-element-daec1d8 elementor-widget elementor-widget-heading" data-id="daec1d8" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       															<div className="elementor-widget-container">
-      																<span className="elementor-heading-title elementor-size-default">VALUNXT</span>
+      																<span className="elementor-heading-title elementor-size-default">Valunxt</span>
       															</div>
       														</div>
       														<div className="elementor-element elementor-element-08af19a elementor-widget elementor-widget-heading" data-id="08af19a" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
@@ -276,25 +254,14 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       															</div>
       														</div>
       													</div>
-      													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-0b0f8b9 elementor-invisible vamtam-icon-pos-row-reverse elementor-align-justify vamtam-content-align-space-between animated-fast space-between elementor-widget elementor-widget-button" data-id="0b0f8b9" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":100}"} data-widget_type="button.default">
-      														<div className="elementor-widget-container">
-      															<div className="elementor-button-wrapper">
-      																<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/contact/')}>
-      																	<span className="elementor-button-content-wrapper">
-      																		<span className="elementor-button-icon">
-      																			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
-      																		<span className="elementor-button-text">Contact Us</span>
-      																	</span>
-      																</a>
-      															</div>
-      														</div>
-      													</div>
+      													{/* The "Contact Us" button came off the foot of this glass card
+      													    on client instruction (20260914). */}
       												</div>
       											</div>
       											<div className="elementor-element elementor-element-d5bea02 e-con-full e-flex e-con e-child" data-id="d5bea02" data-element_type="container" data-e-type="container">
       												<div className="elementor-element elementor-element-79395d4 elementor-invisible animated-fast elementor-widget elementor-widget-heading" data-id="79395d4" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\"}"} data-widget_type="heading.default">
       													<div className="elementor-widget-container">
-      														<span className="elementor-heading-title elementor-size-default">The VALUNXT Ecosystem</span>
+      														<span className="elementor-heading-title elementor-size-default">The Valunxt Ecosystem</span>
       													</div>
       												</div>
       												<div className="elementor-element elementor-element-d3199ef elementor-invisible elementor-widget-tablet__width-inherit animated-fast elementor-widget elementor-widget-heading" data-id="d3199ef" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":50}"} data-widget_type="heading.default">
@@ -304,7 +271,7 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       												</div>
       												<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-b2c46c3 elementor-invisible elementor-widget-tablet__width-inherit animated-fast elementor-widget elementor-widget-text-editor" data-id="b2c46c3" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":200}"} data-widget_type="text-editor.default">
       													<div className="elementor-widget-container">
-      														<p>VALUNXT operates as a connected group of specialist companies delivering expertise across real estate, valuation, mortgage, corporate services, research, and technology. VALUNXT Corporate Services provides business setup, accounting, tax, compliance, and business advisory. Reliant Surveyors delivers valuation, advisory, research, and consultancy. HouzzHunt focuses on luxury real estate and investment advisory, while HouzzHunt Mortgage supports mortgage advisory and investment finance. Together they operate as one integrated platform serving clients across India and the UAE.</p>
+      														<p>Valunxt operates as a connected group of specialist companies delivering expertise across real estate, valuation, mortgage, corporate services, research, and technology. Valunxt Corporate Services provides business setup, accounting, tax, compliance, and business advisory. Reliant Surveyors delivers valuation, advisory, research, and consultancy. HouzzHunt focuses on luxury real estate and investment advisory, while HouzzHunt Mortgage supports mortgage advisory and investment finance. Together they operate as one integrated platform serving clients across India and the UAE.</p>
       													</div>
       												</div>
       											</div>
@@ -348,7 +315,7 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       														<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/network/')}>
       															<span className="elementor-button-content-wrapper">
       																<span className="elementor-button-icon">
-      																	<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																	<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																<span className="elementor-button-text">Learn More</span>
       															</span>
       														</a>

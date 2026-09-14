@@ -107,6 +107,97 @@ const SCROLL_AND_NAV = `
 })();
 `;
 
+const MOBILE_DRAWER = `
+(function(){
+  /* The burger drawer (valunxt-mobile-menu.css, 20260914).
+
+     Elementor's nav widget opens and shuts the drawer and SmartMenus folds the
+     sub-menus inside it. This adds what neither of them does:
+
+     1. html.vxn-drawer-open while a drawer is open. The stylesheet hangs the
+        page lock, the white bar and the hidden back-to-top button off it.
+     2. The rows fold like an accordion. A tap on Services, About or Insights
+        opens that section and closes the others, and a second tap closes it.
+        SmartMenus' default opens on the first tap and follows the link on the
+        second, so a visitor closing Services was taken to /services/ instead.
+        The accordion is SmartMenus' own option; Elementor never sets it, so it
+        is set here on the instance, in the capture phase, before SmartMenus
+        reads it on the same click.
+     3. A tap outside the drawer (the dimmed page beside the tablet panel)
+        closes it instead of landing on whatever is under the tint.
+     4. Escape closes it and puts focus back on the burger.
+     5. A page restored from the back/forward cache comes back with the drawer
+        shut, not open over a locked page.
+
+     It also gives the drawer's sub-links a tab stop while it is open.
+     Elementor does that for the top-level links only, so a keyboard could open
+     Services and never reach a service. */
+  var HEADER = '.elementor-location-header';
+  var root = document.documentElement;
+  var wide = window.matchMedia('(min-width: 1400px)');
+
+  function openToggle(){
+    return document.querySelector(HEADER + ' .elementor-menu-toggle.elementor-active');
+  }
+
+  function sync(){
+    var t = openToggle();
+    root.classList.toggle('vxn-drawer-open', !!t && !wide.matches);
+    Array.prototype.forEach.call(document.querySelectorAll(HEADER + ' nav.elementor-nav-menu--dropdown'), function(nav){
+      var on = !!t && t.nextElementSibling === nav;
+      Array.prototype.forEach.call(nav.querySelectorAll('a.elementor-sub-item'), function(a){
+        a.setAttribute('tabindex', on ? '0' : '-1');
+      });
+    });
+  }
+
+  function bind(){
+    var toggles = document.querySelectorAll(HEADER + ' .elementor-menu-toggle');
+    if (!toggles.length || !window.MutationObserver) return;
+    var mo = new MutationObserver(sync);
+    Array.prototype.forEach.call(toggles, function(t){
+      mo.observe(t, { attributes: true, attributeFilter: ['class'] });
+    });
+    if (wide.addEventListener) wide.addEventListener('change', sync);
+    sync();
+  }
+
+  document.addEventListener('click', function(e){
+    var nav = e.target.closest ? e.target.closest(HEADER + ' nav.elementor-nav-menu--dropdown') : null;
+    if (!nav || !window.jQuery) return;
+    var menu = nav.querySelector('ul.elementor-nav-menu');
+    var sm = menu ? window.jQuery(menu).data('smartmenus') : null;
+    if (sm && sm.opts) sm.opts.collapsibleBehavior = 'accordion-toggle';
+  }, true);
+
+  document.addEventListener('click', function(e){
+    var t = openToggle();
+    if (!t || wide.matches || !e.target.closest) return;
+    if (e.target.closest(HEADER + ' .vamtam-sticky-header, .vxn-cookie, [role="dialog"]')) return;
+    e.preventDefault();
+    e.stopPropagation();
+    t.click();
+  }, true);
+
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Escape') return;
+    var t = openToggle();
+    if (!t) return;
+    t.click();
+    t.focus();
+  });
+
+  window.addEventListener('pageshow', function(e){
+    if (!e.persisted) return;
+    var t = openToggle();
+    if (t) t.click();
+  });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
+})();
+`;
+
 const KLAY_ACCORDION = `
 /* Valunxt home: Klay-style services accordion (.vxn-klay).
    Desktop pointer: hovering (or keyboard-focusing) a collapsed strip moves the
@@ -149,10 +240,10 @@ const KLAY_ACCORDION = `
 
 const NAVY_GRADIENT = `
 /* Valunxt brand: promote flat dark-navy section fills to the navy gradient
-   (scales across all pages; solid navy #0053B7/#0E355F already applied by CSS). */
+   (scales across all pages; solid navy #0B2DBE/#0E355F already applied by CSS). */
 (function(){
-  var NAVY = 'linear-gradient(90deg, #0053B7 0%, #0E355F 100%)';
-  var DARK = {'rgb(14, 53, 95)':1, 'rgb(0, 83, 183)':1}; // #0E355F, #0053B7
+  var NAVY = 'linear-gradient(90deg, #0B2DBE 0%, #0E355F 100%)';
+  var DARK = {'rgb(14, 53, 95)':1, 'rgb(11, 45, 190)':1}; // #0E355F, #0B2DBE
   function promote(){
     var els = document.querySelectorAll('.elementor-element, section, .e-con, .elementor-widget-wrap, .elementor-column-wrap');
     for (var i=0;i<els.length;i++){
@@ -581,6 +672,7 @@ export function siteScriptItems(page: PageConfig, region: RegionSlug | string): 
   return [
     inline(IFRAME_LAZYRENDER),
     inline(SCROLL_AND_NAV),
+    inline(MOBILE_DRAWER),
     inline(KLAY_ACCORDION),
     inline(NAVY_GRADIENT),
     inline(ENTRANCE_ANIMATIONS),

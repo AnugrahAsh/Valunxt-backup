@@ -6,6 +6,22 @@
  * group firm Reliant Surveyors, which is why that name appears where it does.
  * See ../template/subTypes.ts for the shape, the length rules and the note on
  * the success story being a placeholder.
+ *
+ * ALL FIVE PAGES ARE THE CLIENT'S page documents (20260914), word for word,
+ * under the same two rules as the rest of the UAE pages: nothing added to the
+ * documents or dropped from them, and no em dashes. Each document writes every
+ * practice-level section for its page, so each page carries them in
+ * `override`; the PARENT below is the shape they override and shows nowhere.
+ * The same slot calls as the real-estate and mortgage pages apply, and the
+ * ones particular to a page are marked at the line.
+ *
+ * THE FIGURE IN THE STORY PANEL. These documents write the panel's figure
+ * inside its headline ("Trusted Across 11K+ Client Relationships."). The panel
+ * sets its figure large on its own line, so the words before the figure are
+ * the title, the figure is the stat, and the words after it open the note,
+ * which keeps the document's word order top to bottom. Asset Valuation's
+ * headline puts the figure first ("11K+ Clients. One Valuation Legacy."), so
+ * there the title follows the figure rather than leading it.
  */
 import { buildSubs, type SubParent, type SubSpec } from '../template/subTypes';
 import {
@@ -21,7 +37,8 @@ import { VALUATION_TEMPLATE } from './content';
 
 const PARENT: SubParent = {
   service: 'valuation-and-advisory',
-  crumb: 'Valuation',
+  /* The documents write the breadcrumb out in full. */
+  crumb: 'Valuation & Advisory',
   hero: { image: VALUATION_TEMPLATE.hero.image, alt: VALUATION_TEMPLATE.hero.alt },
   panel: PANEL_PLATE,
   why: {
@@ -72,7 +89,7 @@ const PARENT: SubParent = {
     ...STORY_PHOTO,
     alt: 'A valuer reviewing a report',
     quote:
-      'The bank’s panel valuer and our own number were twenty per cent apart. VALUNXT’s report ' +
+      'The bank’s panel valuer and our own number were twenty per cent apart. Valunxt’s report ' +
       'set out the method line by line, and the lender accepted it without a single query.',
     initials: 'MS',
     role: 'Finance director',
@@ -86,9 +103,9 @@ const PARENT: SubParent = {
   },
   band: {
     ...BAND_PHOTO,
-    title: 'VALUNXT Valuation Intelligence',
+    title: 'Valunxt Valuation Intelligence',
     body:
-      'Working with Reliant Surveyors, the research team and the group’s accountants, VALUNXT ' +
+      'Working with Reliant Surveyors, the research team and the group’s accountants, Valunxt ' +
       'turns a valuation instruction into a number that holds — method documented, evidence ' +
       'sourced, ready for whoever questions it next.',
     cta: { label: "Discover what's next", href: '/services/technology-data-ai/' },
@@ -113,127 +130,474 @@ const PARENT: SubParent = {
 const SPECS: SubSpec[] = [
   {
     slug: 'business-valuation',
+    /* The document sets the heading in capitals; title case here, as every
+       other page heading. */
     title: 'Business Valuation',
-    lede:
-      'We value businesses for transactions, disputes, succession and shareholder events — with a method that is documented, reconciled and defensible to the buyer, the court or the regulator who will question it. Whether you are selling, buying, admitting a partner or resolving a dispute, we bring a number built from evidence and a report that shows how it was reached.',
+    lede: 'RICS-aligned business valuation combining financial analysis, market evidence and professional judgement for informed decision-making.',
     brief: {
-      lede:
-        'We partner with owners, boards and their advisers to make a valuation a position that holds rather than an opinion that is argued. The approach is built on business valuations delivered across UAE trading, service and asset-heavy companies, which has shown that the number matters less than the reasoning a reader can follow to it.',
-      whatIntro: 'The what sets out what a business valuation has to contain, including:',
+      lede: [
+        'A business valuation goes beyond its latest financial statements. It considers how the business performs, its ability to generate future earnings and cash flows, the market in which it operates, and the risks that can influence its value.',
+        'ValuNxt brings these factors together through financial analysis, appropriate valuation methodologies and professional judgement to determine a well-supported value of the business for the purpose at hand.',
+      ],
+      whatIntro: 'What Drives Business Value',
       what: [
-        { lead: 'The right basis', text: 'market value, fair value or investment value, fixed to the purpose — a sale, an IFRS test, a court — before any method is applied.', stress: 'fixed to the purpose' },
-        { lead: 'Three approaches', text: 'income, market and asset, each run where it is meaningful and reconciled into one conclusion rather than averaged.' },
-        { lead: 'Normalised earnings', text: 'owner remuneration, one-off items and related-party terms adjusted, with each adjustment listed.' },
-        { lead: 'Evidence', text: 'comparable transactions and listed multiples sourced and dated, and every discount or premium explained.' },
+        { lead: 'Earnings & Cash Flow.', text: 'Assess the profitability, cash generation and financial performance underpinning the business.' },
+        { lead: 'Future Earnings Potential.', text: 'Consider expected growth and the business’s ability to sustain future financial performance.' },
+        { lead: 'Market & Competitive Position.', text: 'Evaluate the industry environment, competitive standing and market factors influencing value.' },
+        { lead: 'Business & Financial Risk.', text: 'Consider the operational, commercial and financial risks that may affect the valuation.' },
       ],
-      howIntro: 'The how makes the report usable by whoever reads it next:',
+      howIntro: 'When Business Valuation Matters',
       how: [
-        { lead: 'Scope agreed in writing.', text: 'Purpose, basis, date, reliance and the information relied on, set out before work begins.', stress: 'before work begins' },
-        { lead: 'A reviewed report.', text: 'A second valuer reviews method, arithmetic and conclusion against professional standards before issue.' },
-        { lead: 'Written to be read.', text: 'The report explains the business, the method and the judgement in plain language, with the workings in appendices.' },
-        { lead: 'Defended if needed.', text: 'The valuer who signed it answers the questions a buyer, auditor or tribunal raises.' },
+        { lead: 'Mergers & Acquisitions.', text: 'Establish an independent view of value when buying, selling or negotiating a business interest.' },
+        { lead: 'Shareholder & Investment Decisions.', text: 'Support ownership changes, investor entry, shareholder exits and capital-related decisions.' },
+        { lead: 'Financial Reporting.', text: 'Determine value where independent valuation is required for accounting or reporting purposes.' },
+        { lead: 'Restructuring & Strategic Decisions.', text: 'Assess value when the business, ownership structure or strategic direction is changing.' },
       ],
-      panel: { title: 'Business Value', sub: 'Enterprise and equity value for deals, disputes and succession, with the method on the page.' },
+      panel: {
+        title: 'Value With Conviction.',
+        sub: 'Independent analysis and considered judgement behind every conclusion of value.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: '48+ Years.',
+        titleMid: 'One Standard',
+        titleMark: 'of Value.',
+        note: 'Decades of valuation experience bring depth, perspective and considered judgement to every business valuation we undertake.',
+        cta: { label: 'Discuss Your Valuation', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our valuation approach',
+        columns: [
+          { title: 'Understand the Business', body: 'We establish the purpose of the valuation and develop a clear understanding of the business, its operations, financial position and market environment.' },
+          { title: 'Assess the Value Drivers', body: 'Historical performance, earnings potential, cash flows, market evidence and risk are examined to identify the factors influencing value.' },
+          { title: 'Determine the Value', body: 'Relevant valuation methodologies are applied, assumptions are tested and professional judgement is used to arrive at a well-supported conclusion of value.' },
+        ],
+      },
+      insights: {
+        title: 'The Number Is the Outcome. The Drivers Matter More.',
+        lede: 'Explore the financial and commercial forces that can change what a business is worth.',
+        all: { label: 'Explore Valuation Insights', href: '/blogs/' },
+        cards: [
+          { title: 'What Really Drives the Value of a Business?', excerpt: 'The factors beyond revenue that can materially influence valuation.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'Growth Is Valuable. But At What Price?', excerpt: 'Why future potential needs to be considered alongside the risk of achieving it.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'When Is the Right Time to Value Your Business?', excerpt: 'The moments when knowing the number can change the decision you make next.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'Selling a Business? Start With the Value.', excerpt: 'Why an independent perspective can matter before negotiations begin.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A valuer reviewing an asset file',
+        quote: 'We needed an independent perspective before making a major business decision. ValuNxt helped us understand not only the valuation, but the assumptions and business factors behind it.',
+        pill: 'Proven Experience',
+        title: 'Trusted Across',
+        stat: '11K+',
+        note: 'Client Relationships. Valuation experience built across decades of assignments, industries and complex business decisions.',
+        cta: { label: 'Discuss Your Valuation', href: '/free-consultation/' },
+        arrow: { href: '/services/valuation-and-advisory/', label: 'More about Valuation & Advisory' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Valuation Intelligence',
+        /* The comma after "number" stands where the document's dash was. */
+        body: 'What Is the Business Worth? And What Is Driving It? A valuation becomes more useful when you can see the factors moving the number, not simply the number itself.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        steps: [
+          { title: 'Performance', body: 'See what the business delivers. Look at the financial results and operating performance supporting value today.' },
+          { title: 'Potential', body: 'Consider what comes next. Assess the expectations, opportunities and assumptions influencing future value.' },
+          { title: 'Risk', body: 'Put uncertainty into perspective. Consider the commercial and financial factors that could affect whether future expectations are realised.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To make business value a clearer foundation for better decisions.',
+      },
+      /* "Valuation For" heads the strip in the document; hidden slot. */
+      strip: stripOf('valuation-and-advisory', ['Mergers & Acquisitions', 'Shareholder Transactions', 'Capital Raising', 'Financial Reporting', 'Restructuring', 'Strategic Planning']),
+      talk: {
+        head: 'When the Decision Matters, Know the Value.',
+        lede: 'Get an independent business valuation built for the transaction, requirement or decision ahead.',
+        cta: { label: 'Speak to a Valuer', href: '/free-consultation/' },
+        image: VALUATION_TEMPLATE.close.image,
+      },
     },
   },
   {
     slug: 'company-valuation',
     title: 'Company Valuation',
-    lede:
-      'We value shares and companies to a standard a buyer, an auditor, a court or a regulator can rely on: for share transfers, buy-outs, capital raises, ESOPs and statutory or regulatory requirements. Whether you need a valuation for a single shareholding or an entire group, we bring the method, the evidence and the report the reader will accept.',
+    lede: 'RICS-aligned company and equity valuations supported by financial analysis, market evidence, forecasts and recognised valuation approaches.',
     brief: {
-      lede:
-        'We partner with companies and their shareholders to put a defensible value on equity at the moments it changes hands. The approach is built on company valuations delivered across the UAE, which has shown that a share value has to answer for control, marketability and the rights attached to the shares — not just for the business beneath them.',
-      whatIntro: 'The what covers what a company valuation has to settle, including:',
+      lede: [
+        'A company’s value is shaped by both what it has achieved and what its financial outlook suggests lies ahead. Historical performance provides part of the picture; earnings expectations, cash flows, market conditions and the economics of ownership can materially influence the conclusion.',
+        'ValuNxt brings these elements together to determine a well-supported value of the company or equity interest, applying the valuation approach most relevant to the purpose and circumstances of the assignment.',
+      ],
+      whatIntro: 'What Informs Company Value',
       what: [
-        { lead: 'Enterprise to equity', text: 'the bridge from business value to share value — debt, cash, surplus assets and preferred rights — set out line by line.', stress: 'set out line by line' },
-        { lead: 'The shareholding itself', text: 'control or minority, marketable or restricted, with the discounts and premiums evidenced rather than assumed.' },
-        { lead: 'The purpose', text: 'a transfer, a buy-out, an ESOP, a regulator — each carries its own basis and reporting requirement, applied from the start.' },
-        { lead: 'Group structures', text: 'holding companies, subsidiaries and cross-holdings valued consistently and consolidated once.' },
+        { lead: 'Financial Performance.', text: 'Examine historical earnings, profitability and cash generation to understand the company’s underlying financial position.' },
+        { lead: 'Forecast Performance.', text: 'Assess projected earnings and cash flows alongside the assumptions supporting future expectations.' },
+        { lead: 'Market Evidence.', text: 'Consider relevant market information and comparable evidence when assessing how the company may be valued.' },
+        { lead: 'Capital & Ownership.', text: 'Understand how the company’s financing and ownership structure can influence the value attributable to equity holders.' },
       ],
-      howIntro: 'The how keeps the valuation defensible:',
+      howIntro: 'What May Need to Be Valued',
       how: [
-        { lead: 'Standards followed.', text: 'International valuation standards applied and cited, so the report meets the test its reader will apply.', stress: 'International valuation standards' },
-        { lead: 'Information verified.', text: 'Financials reconciled to the ledger and management representations documented, with the group’s accountants where needed.' },
-        { lead: 'Independence protected.', text: 'One instruction, one client, one fee agreed in advance — never contingent on the outcome.' },
-        { lead: 'Explained to the parties.', text: 'The conclusion walked through with shareholders and their advisers, so the number is understood before it is relied on.' },
+        { lead: 'The Company.', text: 'Determine the value of the company as a whole based on its financial and economic characteristics.' },
+        { lead: 'Equity Interests.', text: 'Assess the value attributable to a particular ownership interest in the company.' },
+        { lead: 'Shares & Shareholdings.', text: 'Establish value where shares are being issued, transferred, acquired or otherwise assessed.' },
+        { lead: 'Investor Interests.', text: 'Provide an independent valuation perspective where new or existing investors need clarity around value.' },
       ],
-      panel: { title: 'Share Value', sub: 'Share and company valuations for transfers, buy-outs, ESOPs and regulators, to a standard that is relied on.' },
+      panel: {
+        title: 'Value the Company. Understand the Equity.',
+        sub: 'A clearer view of company value and the financial interests behind its ownership.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: 'Valuation Expertise.',
+        titleMid: 'Built Over',
+        titleMark: 'Decades.',
+        note: '48+ years of valuation expertise bring analytical depth, market perspective and seasoned professional judgement to every assignment.',
+        cta: { label: 'Speak With an Expert', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our valuation approach',
+        columns: [
+          { title: 'Examine the Fundamentals', body: 'We assess financial performance, earnings quality, cash generation and capital structure to establish the basis for valuation.' },
+          { title: 'Evaluate What Lies Ahead', body: 'Forecasts, growth expectations and key assumptions are considered alongside market evidence and relevant risks.' },
+          { title: 'Conclude on Value', body: 'Appropriate valuation approaches are applied and reconciled through professional judgement to reach a considered conclusion of value.' },
+        ],
+      },
+      insights: {
+        title: 'What Sits Behind Company Value?',
+        lede: 'Explore the financial, market and ownership factors that influence how companies and equity interests are valued.',
+        all: { label: 'Explore Valuation Insights', href: '/blogs/' },
+        cards: [
+          /* The comma after "value" stands where the document's dash was. */
+          { title: 'Enterprise Value or Equity Value?', excerpt: 'Understanding two important measures of company value, and why the distinction matters.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'How Much Weight Should Forecasts Carry?', excerpt: 'Why future expectations need to be considered alongside the assumptions supporting them.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'What Can Comparable Companies Tell You?', excerpt: 'How market evidence can provide perspective when assessing company value.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'What Is a Shareholding Really Worth?', excerpt: 'Why the value of an ownership interest may require a closer look at the economics behind it.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A valuer reviewing an asset file',
+        quote: 'We needed an independent view of the company’s value before progressing an ownership transaction. ValuNxt gave us a clear understanding of the financial analysis, assumptions and market evidence behind the conclusion.',
+        pill: 'Built on Trust',
+        title: 'Trusted Across',
+        stat: '11K+',
+        note: 'Clients. A valuation legacy shaped over 48+ years, bringing established professional standards and deep valuation experience to the ValuNxt platform.',
+        cta: { label: 'Discover Our Expertise', href: '/services/valuation-and-advisory/' },
+        arrow: { href: '/services/valuation-and-advisory/', label: 'More about Valuation & Advisory' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Valuation Intelligence',
+        body: 'From Financial Performance to Equity Value. Understanding company value means connecting what the company has delivered with what it may generate ahead and what that ultimately means for its owners.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        steps: [
+          { title: 'Performance', body: 'Establish the foundation. Look at the earnings, cash flows and financial characteristics supporting the company today.' },
+          { title: 'Forecasts', body: 'Consider what lies ahead. Examine future expectations and the assumptions that underpin projected performance.' },
+          { title: 'Equity', body: 'Understand the ownership value. Bring the company’s financial position and capital structure together to consider the value attributable to its owners.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To bring greater clarity to company and equity value through analysis that looks beyond a single financial measure.',
+      },
+      /* "Company Valuation For" heads the strip in the document; hidden slot. */
+      strip: stripOf('valuation-and-advisory', ['Whole Company', 'Equity Interests', 'Shareholdings', 'Investor Entry', 'Share Transfers', 'Ownership Transactions']),
+      talk: {
+        head: 'Know the Company. Understand the Value.',
+        lede: 'Get an independent view of company or equity value grounded in financial performance, forecasts and relevant market evidence.',
+        cta: { label: 'Speak to a Valuer', href: '/free-consultation/' },
+        image: VALUATION_TEMPLATE.close.image,
+      },
     },
   },
   {
     slug: 'plant-machinery-valuation',
     title: 'Plant & Machinery Valuation',
-    lede:
-      'We value industrial plant, machinery and equipment for lending, insurance, financial reporting and sale — from a single production line to an entire facility. Whether a bank needs security valued, an insurer needs a reinstatement figure or a buyer needs to know what the assets are worth, we bring inspection, evidence and a basis of value fixed to the purpose.',
+    lede: 'RICS-aligned valuation of plant, machinery and operational equipment for financial reporting, insurance, transactions, financing and asset decisions.',
     brief: {
-      lede:
-        'We partner with manufacturers, lenders and investors to value the assets that do the work. The approach is built on plant and machinery valuations delivered across UAE industrial estates and free zones, which has shown that each reader — lender, insurer, auditor, buyer — asks a different question of the same equipment, and that the report has to answer the right one.',
-      whatIntro: 'The what sets out what a plant and machinery valuation depends on, including:',
+      lede: [
+        'Plant and machinery can represent a significant part of a business’s invested capital, yet its value cannot be understood from acquisition cost or age alone. Condition, specification, utilisation, remaining economic life, technological relevance and market demand can all affect what an asset is worth.',
+        'ValuNxt combines asset-level inspection, technical understanding and relevant market evidence to establish an independent view of value appropriate to the asset, valuation purpose and reporting requirement.',
+      ],
+      whatIntro: 'What Shapes Machinery Value',
       what: [
-        { lead: 'Inspection', text: 'the assets seen, identified and recorded on site — make, model, age, condition, utilisation — not valued from a register.', stress: 'not valued from a register' },
-        { lead: 'The right basis', text: 'market value in situ, in exchange, or reinstatement cost, fixed to whether the reader is lending, insuring, reporting or selling.' },
-        { lead: 'Evidence', text: 'replacement cost from manufacturers and dealers, depreciation on condition and technology, and secondary-market sales where they exist.' },
-        { lead: 'Specialised assets', text: 'installed lines, process plant and bespoke equipment valued with the removal, reinstallation and obsolescence they carry.' },
+        { lead: 'Condition & Age.', text: 'Assess the asset’s physical condition, maintenance history and stage within its useful economic life.' },
+        { lead: 'Specification & Capacity.', text: 'Consider technical configuration, output capacity and the characteristics that influence utility and marketability.' },
+        { lead: 'Market Evidence.', text: 'Review relevant transactions, comparable equipment and market conditions where reliable evidence is available.' },
+        { lead: 'Obsolescence.', text: 'Consider physical deterioration alongside functional, technological and economic factors that may reduce value.' },
       ],
-      howIntro: 'The how delivers a report each reader can use:',
+      howIntro: 'Where Valuation Is Required',
       how: [
-        { lead: 'Scoped to the reader.', text: 'Lender, insurer, auditor or buyer named in the instruction, with the basis and reliance set to match.', stress: 'named in the instruction' },
-        { lead: 'RICS standards.', text: 'Valued through group firm Reliant Surveyors to the Red Book, so the report carries the standard a bank expects.' },
-        { lead: 'Asset register reconciled.', text: 'The fixed asset register agreed to what was found on site, with additions, disposals and ghosts listed.' },
-        { lead: 'Explained to the lender.', text: 'Where a bank’s panel number differs, the valuer speaks to the panel with the evidence.' },
+        { lead: 'Financial Reporting.', text: 'Support the measurement and reporting of plant, machinery and equipment where an independent valuation is required.' },
+        { lead: 'Insurance.', text: 'Establish an appropriate valuation basis to support asset insurance and risk-related requirements.' },
+        { lead: 'Financing & Security.', text: 'Provide an independent assessment of machinery and equipment used in financing or security-related decisions.' },
+        { lead: 'Transactions.', text: 'Support acquisitions, disposals and other transactions involving industrial and operational assets.' },
       ],
-      panel: { title: 'Plant & Machinery', sub: 'Industrial assets inspected and valued for lending, insurance, reporting and sale, to RICS standards.' },
+      panel: {
+        title: 'Precision Behind Valuation.',
+        sub: 'From specification and condition to utility and market relevance, every detail contributes to a more considered view of asset value.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: '48+ Years of',
+        titleMid: 'Valuation',
+        titleMark: 'Expertise.',
+        note: 'Decades of experience across asset classes and industries bring technical depth, market perspective and professional judgement to every plant and machinery valuation.',
+        cta: { label: 'Explore Our Expertise', href: '/services/valuation-and-advisory/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our valuation approach',
+        columns: [
+          { title: 'Identify & Inspect', body: 'We establish the asset population and examine relevant machinery, equipment and installations to understand their condition, specification and operational characteristics.' },
+          { title: 'Analyse & Benchmark', body: 'Technical information, available market evidence, replacement economics and relevant forms of obsolescence are considered in the valuation analysis.' },
+          { title: 'Establish the Value', body: 'The appropriate valuation approach and basis are applied to determine a well-supported value for the stated purpose of the assignment.' },
+        ],
+      },
+      insights: {
+        title: 'What Is Your Equipment Really Worth Today?',
+        lede: 'Explore the operational, technical and market factors that can materially change the value of plant and machinery.',
+        all: { label: 'Explore Valuation Insights', href: '/blogs/' },
+        cards: [
+          { title: 'Age Is Only Part of the Story', excerpt: 'Why two machines of similar age can carry very different values.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          /* As the document has it; "Start to Affect" is probably meant. */
+          { title: 'When Does Obsolescence Start Affect Value?', excerpt: 'How changing technology, efficiency and market requirements can influence equipment value.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'Replacement Cost Is Not Market Value', excerpt: 'Why the purpose and basis of valuation matter when assessing industrial assets.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'Before You Acquire Used Machinery', excerpt: 'What an independent valuation can reveal beyond the quoted purchase price.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A valuer reviewing an asset file',
+        quote: 'We needed an independent assessment of machinery across a complex operating environment. ValuNxt gave us a structured view of the assets and the factors influencing their value.',
+        pill: 'Valuation at Scale',
+        /* The document leads with the figure; the panel sets it under the title. */
+        title: 'Plant & Machinery Valued.',
+        stat: 'USD 90B+',
+        note: 'A substantial track record across industrial assets, specialist equipment and complex operational environments.',
+        cta: { label: 'Explore Our Expertise', href: '/services/valuation-and-advisory/' },
+        arrow: { href: '/services/valuation-and-advisory/', label: 'More about Valuation & Advisory' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Asset Intelligence',
+        body: 'From Physical Asset to Economic Value. Understanding machinery value means looking at what the asset is, how it performs, where it sits in its lifecycle and how the market views it today.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        steps: [
+          { title: 'Condition', body: 'Assess what exists today. Consider physical state, maintenance and remaining useful life as part of the asset’s current valuation profile.' },
+          { title: 'Utility', body: 'Understand what the asset can deliver. Examine specification, capacity and operational relevance to understand its continuing economic usefulness.' },
+          { title: 'Market', body: 'Put the asset in context. Consider comparable evidence, demand and market conditions to understand how external factors influence value.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To bring greater certainty to the value of assets that power industry and enterprise.',
+      },
+      /* "Valuation Across" heads the strip in the document; hidden slot. */
+      strip: stripOf('valuation-and-advisory', ['Manufacturing Plant', 'Construction Equipment', 'Industrial Machinery', 'Oilfield Equipment', 'Logistics & Transport Assets', 'Specialist Equipment']),
+      talk: {
+        head: 'Put a Defensible Value Behind Your Assets.',
+        lede: 'Independent plant and machinery valuation for the financial, operational or transaction requirement ahead.',
+        cta: { label: 'Request a Valuation', href: '/contact/' },
+        image: VALUATION_TEMPLATE.close.image,
+      },
     },
   },
   {
     slug: 'asset-valuation',
     title: 'Asset Valuation',
-    lede:
-      'We value property and other fixed assets to RICS standards through group firm Reliant Surveyors — residential, commercial, industrial and land — for lending, financial reporting, transactions and disputes. Whether a bank, an auditor, a buyer or a court will read the report, we bring an inspection, the comparable evidence and a method documented to the Red Book.',
+    lede: 'RICS-aligned asset valuations supported by market evidence, appropriate valuation methodologies and professional judgement for reporting, transactions, financing and business requirements.',
     brief: {
-      lede:
-        'We partner with owners, lenders and auditors to value the assets on the balance sheet and the land beneath them. The approach is built on RICS-regulated valuations delivered across the UAE through Reliant Surveyors, which has shown that a property valuation is only as strong as the comparables behind it and the clarity with which the report explains their use.',
-      whatIntro: 'The what sets out what an asset valuation has to carry, including:',
+      lede: [
+        'Assets can carry different values depending on their characteristics, condition, use and the purpose for which the valuation is required. Their recorded cost may provide historical context, but it does not necessarily reflect their value at a particular date.',
+        'ValuNxt assesses the asset in its relevant commercial and market context, applying an appropriate basis and methodology to establish an independent, well-supported conclusion of value.',
+      ],
+      whatIntro: 'What Informs Asset Value',
       what: [
-        { lead: 'Inspection and measurement', text: 'the property seen and measured to the IPMS standard the report states, with condition, tenure and occupation recorded.', stress: 'seen and measured' },
-        { lead: 'Comparable evidence', text: 'transactions and lettings sourced, dated, verified and adjusted in a table the reader can follow.' },
-        { lead: 'The right method', text: 'comparison, investment, residual or depreciated replacement cost, chosen for the asset and the purpose.' },
-        { lead: 'Basis and assumptions', text: 'market value, fair value or reinstatement, with every special assumption stated up front.' },
+        { lead: 'Asset Characteristics.', text: 'Consider the nature, specification, use and attributes that influence the asset’s value.' },
+        { lead: 'Condition & Lifecycle.', text: 'Assess physical condition, age and remaining economic life where relevant to the asset being valued.' },
+        { lead: 'Market Evidence.', text: 'Examine available transactions, comparable assets and prevailing market conditions.' },
+        { lead: 'Economic Utility.', text: 'Consider how the asset is used and the economic benefit it can provide within its relevant context.' },
       ],
-      howIntro: 'The how makes the report reliable for the reader it names:',
+      howIntro: 'Where Asset Valuation Matters',
       how: [
-        { lead: 'Red Book throughout.', text: 'RICS valuation standards applied and the valuer’s regulated status stated, which is what lenders and auditors require.', stress: 'Red Book' },
-        { lead: 'Independent.', text: 'No transaction interest and a fee agreed in advance, so the number cannot be said to favour anyone.' },
-        { lead: 'Portfolio consistency.', text: 'Multiple assets valued on one date, one basis and one evidence base, then reconciled across the portfolio.' },
-        { lead: 'Reviewed before issue.', text: 'A second RICS valuer signs off method, evidence and arithmetic on every report.' },
+        { lead: 'Financial Reporting.', text: 'Support accounting and reporting requirements where independent asset values are required.' },
+        { lead: 'Transactions.', text: 'Establish an independent view of value for acquisitions, disposals and asset transfers.' },
+        { lead: 'Financing.', text: 'Provide valuation evidence where assets form part of financing, security or collateral considerations.' },
+        { lead: 'Restructuring.', text: 'Bring greater clarity to asset values when ownership, operations or corporate structures are changing.' },
       ],
-      panel: { title: 'Property & Assets', sub: 'RICS-regulated valuation of property and fixed assets through Reliant Surveyors, for lenders, auditors and buyers.' },
+      panel: {
+        title: 'The Perspective Behind Asset Value.',
+        sub: 'Independent analysis brings the asset, its characteristics and relevant market evidence together to form a considered view of value.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: '48+ Years of',
+        titleMid: 'Valuation',
+        titleMark: 'Perspective.',
+        note: 'Decades of valuation experience bring market understanding, analytical depth and professional judgement across diverse asset classes and requirements.',
+        cta: { label: 'Connect With an Expert', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our valuation approach',
+        columns: [
+          { title: 'Define the Asset', body: 'We establish what is being valued, the purpose of the assignment and the characteristics relevant to the valuation.' },
+          { title: 'Examine the Evidence', body: 'Asset information, condition, market evidence and relevant economic factors are analysed within the appropriate valuation context.' },
+          { title: 'Establish the Value', body: 'The appropriate basis and valuation methodology are applied to arrive at a well-supported conclusion for the stated requirement.' },
+        ],
+      },
+      insights: {
+        title: 'The Factors Behind Asset Value.',
+        lede: 'Explore the factors, evidence and circumstances that can change how an asset is valued.',
+        all: { label: 'Explore Valuation Insights', href: '/blogs/' },
+        cards: [
+          { title: 'Cost and Value Are Not the Same', excerpt: 'Why what an asset originally cost may say little about what it is worth today.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'Why the Valuation Date Matters', excerpt: 'How changing markets and asset circumstances can influence value over time.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'One Asset. Different Bases of Value.', excerpt: 'Why the purpose of a valuation can influence how an asset needs to be assessed.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'When Should Assets Be Revalued?', excerpt: 'The business and reporting circumstances that can make an updated valuation important.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A valuer reviewing an asset file',
+        quote: 'We needed a consistent and independent view of assets held across the business. ValuNxt brought structure to the exercise and gave us a clearer basis for our reporting and internal decisions.',
+        pill: 'Built on Trust',
+        /* "11K+ Clients. One Valuation Legacy." in the document, figure first. */
+        title: 'One Valuation Legacy.',
+        stat: '11K+',
+        note: 'Clients. Established valuation expertise supporting businesses, institutions and investors across a wide range of asset and reporting requirements.',
+        cta: { label: 'Discover Our Expertise', href: '/services/valuation-and-advisory/' },
+        arrow: { href: '/services/valuation-and-advisory/', label: 'More about Valuation & Advisory' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Asset Intelligence',
+        body: 'The Asset Is Visible. Its Value Takes Analysis. Understanding asset value means looking beyond what appears on the register to the characteristics, market evidence and economic realities behind it.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        steps: [
+          { title: 'Characteristics', body: 'Understand the asset. Consider the attributes, condition and circumstances that distinguish one asset from another.' },
+          { title: 'Evidence', body: 'Understand the market. Examine relevant market information and comparable evidence to put the asset into context.' },
+          { title: 'Purpose', body: 'Understand the requirement. Apply the appropriate valuation perspective based on why the asset is being valued and how the conclusion will be used.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To bring greater clarity and consistency to the way business assets are understood and valued.',
+      },
+      /* "Asset Valuation For" heads the strip in the document; hidden slot. */
+      strip: stripOf('valuation-and-advisory', ['Financial Reporting', 'Asset Transactions', 'Financing & Security', 'Corporate Restructuring', 'Insurance Requirements', 'Internal Asset Reviews']),
+      talk: {
+        head: 'Put the Right Value Behind Every Decision.',
+        lede: 'Independent asset valuation for the reporting, transaction, financing or business requirement ahead.',
+        cta: { label: 'Speak With an Expert', href: '/free-consultation/' },
+        image: VALUATION_TEMPLATE.close.image,
+      },
     },
   },
   {
     slug: 'financial-valuation',
     title: 'Financial Valuation',
-    lede:
-      'We value financial instruments, intangible assets and acquisitions for financial reporting: purchase price allocations, impairment tests, share-based payments, and the fair value of investments, loans and derivatives under IFRS. Whether the reader is your auditor or your board, we bring models an auditor can test and a report that explains every input.',
+    lede: 'RICS-aligned valuation of financial interests, instruments and economic rights using robust financial analysis, relevant market inputs and recognised valuation techniques.',
     brief: {
-      lede:
-        'We partner with finance teams and their auditors to put fair value on the balance sheet with the workings beside it. The approach is built on financial reporting valuations delivered for UAE groups, which has shown that IFRS asks for the number and the method in equal measure, and that an unexplained input is the first thing an auditor challenges.',
-      whatIntro: 'The what covers the valuations financial reporting asks for, including:',
+      lede: [
+        'Financial value is often shaped by variables that extend beyond a quoted price or reported figure. Contractual terms, expected cash flows, market conditions, risk and underlying assumptions can each materially influence the value of a financial interest or instrument.',
+        'ValuNxt analyses these factors together, applying appropriate valuation techniques and professional judgement to establish a well-supported conclusion of value for the specific financial interest or right being assessed.',
+      ],
+      whatIntro: 'What Informs Financial Value',
       what: [
-        { lead: 'Purchase price allocation', text: 'under IFRS 3 — identifiable intangibles, contingent consideration and goodwill — with each asset valued on its own method.', stress: 'each asset valued on its own method' },
-        { lead: 'Impairment testing', text: 'under IAS 36 — cash-generating units, value in use and the sensitivities the auditor will run.' },
-        { lead: 'Instruments and investments', text: 'unquoted equity, loans, convertibles and derivatives at fair value under IFRS 9 and IFRS 13, with the hierarchy level stated.' },
-        { lead: 'Share-based payments', text: 'options and awards valued under IFRS 2 with the inputs — volatility, term, forfeiture — sourced and documented.' },
+        { lead: 'Cash Flow Expectations.', text: 'Assess the timing, amount and characteristics of expected financial benefits associated with the interest or instrument.' },
+        { lead: 'Contractual Terms.', text: 'Consider the rights, obligations and conditions that influence how value is created, received or transferred.' },
+        { lead: 'Market Inputs.', text: 'Examine relevant market data and observable evidence where available to support the valuation analysis.' },
+        { lead: 'Risk & Assumptions.', text: 'Evaluate the financial assumptions, uncertainties and risk factors that can materially influence the conclusion of value.' },
       ],
-      howIntro: 'The how keeps the valuation audit-ready:',
+      howIntro: 'What May Need to Be Valued',
       how: [
-        { lead: 'Models built to be tested.', text: 'Inputs, assumptions and calculations in a model the auditor can trace and re-perform, not a black box.', stress: 'trace and re-perform' },
-        { lead: 'Inputs sourced.', text: 'Discount rates, growth, multiples and volatility taken from named sources on named dates.' },
-        { lead: 'Standards cited.', text: 'The IFRS paragraph and the valuation standard each treatment relies on referenced in the report.' },
-        { lead: 'Auditor engaged early.', text: 'Method agreed with the audit team before the model is finalised, so the review is a confirmation.' },
+        { lead: 'Financial Interests.', text: 'Assess financial interests where an independent conclusion of value is required.' },
+        { lead: 'Financial Instruments.', text: 'Determine value using techniques appropriate to the characteristics, terms and available market evidence of the instrument.' },
+        { lead: 'Economic Rights.', text: 'Assess contractual or economic rights capable of generating measurable financial benefits.' },
+        { lead: 'Financial Assets & Liabilities.', text: 'Establish value where financial assets or obligations require independent assessment for the stated purpose.' },
       ],
-      panel: { title: 'Fair Value', sub: 'Instruments, intangibles, impairment and acquisitions valued for IFRS, in models an auditor can test.' },
+      panel: {
+        title: 'Value Beyond the Numbers.',
+        sub: 'Financial analysis, market inputs and carefully considered assumptions come together to provide a more complete view of value.',
+      },
+    },
+    override: {
+      why: {
+        pill: 'Why Valunxt?',
+        titleTop: 'Decades of Valuation.',
+        titleMid: 'Applied to',
+        titleMark: 'Finance.',
+        note: '48+ years of valuation expertise bring analytical discipline, market perspective and professional judgement to complex financial valuation requirements.',
+        cta: { label: 'Speak With an Expert', href: '/free-consultation/' },
+        ...WHY_PHOTO,
+      },
+      approach: {
+        eyebrow: 'Our valuation approach',
+        columns: [
+          { title: 'Understand the Economics', body: 'We examine the financial interest or instrument, its contractual characteristics and the economic benefits or obligations that underpin it.' },
+          { title: 'Test the Inputs', body: 'Market data, cash flow expectations, assumptions and relevant risk factors are assessed for their influence on value.' },
+          { title: 'Model the Value', body: 'Appropriate valuation techniques are applied and key inputs considered to arrive at a well-supported conclusion for the stated purpose.' },
+        ],
+      },
+      insights: {
+        title: 'Where Financial Value Takes Shape.',
+        lede: 'Explore how cash flows, market inputs, contractual terms and assumptions can influence financial value.',
+        all: { label: 'Explore Valuation Insights', href: '/blogs/' },
+        cards: [
+          { title: 'When Market Price Is Not Enough', excerpt: 'Why some financial interests require analysis beyond an observable market figure.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'How Assumptions Change Value', excerpt: 'A closer look at why valuation outcomes can be highly sensitive to the inputs behind them.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'What Makes Future Cash Flows Valuable Today?', excerpt: 'Understanding how timing, uncertainty and expectations influence present value.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'Why Contractual Terms Matter', excerpt: 'How the economics written into an agreement can materially influence the value of a financial interest.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+        ],
+      },
+      story: {
+        ...STORY_PHOTO,
+        alt: 'A valuer reviewing an asset file',
+        quote: 'We needed an independent view of a financial interest where the value was not immediately observable. ValuNxt brought structure to the assumptions, market inputs and financial analysis behind the conclusion.',
+        pill: 'Built on Trust',
+        title: 'Trusted Across',
+        stat: '11K+',
+        note: 'Clients. An established valuation legacy bringing independent perspective and professional discipline to complex financial and business requirements.',
+        cta: { label: 'Discover Our Expertise', href: '/services/valuation-and-advisory/' },
+        arrow: { href: '/services/valuation-and-advisory/', label: 'More about Valuation & Advisory' },
+      },
+      band: {
+        ...BAND_PHOTO,
+        title: 'Valunxt Financial Intelligence',
+        body: 'From Financial Terms to Financial Value. A financial interest becomes clearer when its economics, future benefits, risks and market context are considered together.',
+        cta: { label: 'Discover More', href: '/blogs/' },
+      },
+      vision: {
+        steps: [
+          { title: 'Economics', body: 'Understand the interest. Examine the contractual and financial characteristics that determine how economic value is created or received.' },
+          { title: 'Inputs', body: 'Test what drives value. Consider market data, expected cash flows and assumptions that materially influence the valuation outcome.' },
+          { title: 'Risk', body: 'Account for uncertainty. Assess the factors that can affect the timing, probability or amount of expected financial benefits.' },
+        ],
+        pill: 'Our Vision',
+        quote: 'To bring greater clarity to financial value where markets, models and assumptions intersect.',
+      },
+      /* "Financial Valuation For" heads the strip in the document; hidden slot. */
+      strip: stripOf('valuation-and-advisory', ['Financial Interests', 'Financial Instruments', 'Economic Rights', 'Financial Assets', 'Financial Liabilities', 'Contractual Interests']),
+      talk: {
+        head: 'Complex Financial Interests. Clearer Value.',
+        lede: 'Independent financial valuation supported by rigorous analysis, relevant market inputs and appropriate valuation techniques.',
+        cta: { label: 'Discuss Your Requirement', href: '/free-consultation/' },
+        image: VALUATION_TEMPLATE.close.image,
+      },
     },
   },
 ];

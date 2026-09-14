@@ -14,7 +14,7 @@ const ARTICLES: Record<string, Article> = {
     title: "How High-Net-Worth Investors Build Wealth Through Real Estate",
     category: "Real Estate Wealth",
     hero_image: "/assets/content/uploads/blogs/blog-1.webp",
-    author: "VALUNXT Research Team",
+    author: "Valunxt Research Team",
     author_role: "Real Estate Wealth Advisory",
     date: "July 28, 2026",
     date_iso: "2026-07-28",
@@ -30,7 +30,7 @@ const ARTICLES: Record<string, Article> = {
 <p>Institutional-grade investors spend as much time on what could go wrong as on the upside. Conservative underwriting, stress-tested cash flows, sensible loan-to-value ratios, and staggered maturities are what allow a portfolio to survive &#8212; and buy &#8212; when markets dislocate.</p>
 <p>This is where independent research and intelligence earns its keep, replacing optimism with evidence.</p>
 <h3>A disciplined partner compounds the advantage</h3>
-<p>Building real estate wealth at scale is a team sport &#8212; combining strategy, valuation, capital structuring, and active asset management. VALUNXT&#8217;s Real Estate Wealth Advisory practice helps investors design and manage portfolios built to compound across decades, not headlines.</p>
+<p>Building real estate wealth at scale is a team sport &#8212; combining strategy, valuation, capital structuring, and active asset management. Valunxt&#8217;s Real Estate Wealth Advisory practice helps investors design and manage portfolios built to compound across decades, not headlines.</p>
 `,
   },
   'capital-planning-for-large-property-developments': {
@@ -38,7 +38,7 @@ const ARTICLES: Record<string, Article> = {
     title: "Capital Planning for Large Property Developments",
     category: "Capital Advisory",
     hero_image: "/assets/content/uploads/blogs/blog-2.webp",
-    author: "VALUNXT Research Team",
+    author: "Valunxt Research Team",
     author_role: "Capital Advisory Desk",
     date: "July 9, 2026",
     date_iso: "2026-07-09",
@@ -51,7 +51,7 @@ const ARTICLES: Record<string, Article> = {
 <h3>Phasing to manage risk</h3>
 <p>Phasing a development can align capital deployment with demand and de-risk the project, releasing capital and evidence before the next stage is committed.</p>
 <h3>Planning with a partner</h3>
-<p>VALUNXT&#8217;s Capital Advisory team builds capital plans that anticipate risk and keep large developments funded, phased, and on course.</p>
+<p>Valunxt&#8217;s Capital Advisory team builds capital plans that anticipate risk and keep large developments funded, phased, and on course.</p>
 `,
   },
   'why-market-intelligence-matters-before-every-property-investment': {
@@ -59,7 +59,7 @@ const ARTICLES: Record<string, Article> = {
     title: "Why Market Intelligence Matters Before Every Property Investment",
     category: "Research & Intelligence",
     hero_image: "/assets/content/uploads/blogs/blog-3.webp",
-    author: "VALUNXT Research Team",
+    author: "Valunxt Research Team",
     author_role: "Research & Intelligence Desk",
     date: "June 18, 2026",
     date_iso: "2026-06-18",
@@ -72,7 +72,7 @@ const ARTICLES: Record<string, Article> = {
 <h3>Anticipating risk</h3>
 <p>Supply pipelines, absorption rates, and economic signals warn of oversupply or softening demand long before they hit valuations. Intelligence buys time to act.</p>
 <h3>Intelligence you can act on</h3>
-<p>VALUNXT&#8217;s Research &amp; Intelligence practice delivers independent, decision-ready analysis before every investment, replacing guesswork with evidence.</p>
+<p>Valunxt&#8217;s Research &amp; Intelligence practice delivers independent, decision-ready analysis before every investment, replacing guesswork with evidence.</p>
 `,
   },
   'the-future-of-automated-valuation-models-avms': {
@@ -80,7 +80,7 @@ const ARTICLES: Record<string, Article> = {
     title: "The Future of Automated Valuation Models (AVMs)",
     category: "Technology & AI",
     hero_image: "/assets/content/uploads/blogs/blog-4.webp",
-    author: "VALUNXT Research Team",
+    author: "Valunxt Research Team",
     author_role: "Technology & AI Desk",
     date: "May 26, 2026",
     date_iso: "2026-05-26",
@@ -93,7 +93,7 @@ const ARTICLES: Record<string, Article> = {
 <h3>Where judgement is still required</h3>
 <p>Unique assets, thin data, and rapidly changing markets expose the limits of automation. Here, expert valuation and local insight remain indispensable.</p>
 <h3>The hybrid future</h3>
-<p>The future is not AVM versus valuer, but AVM plus valuer. VALUNXT&#8217;s technology and research teams combine automated models with expert oversight.</p>
+<p>The future is not AVM versus valuer, but AVM plus valuer. Valunxt&#8217;s technology and research teams combine automated models with expert oversight.</p>
 `,
   },
 };

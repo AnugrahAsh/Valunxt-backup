@@ -265,20 +265,7 @@ export default function ResearchIntelligenceBody({ page, region }: { page: PageC
       												<div className="elementor-element elementor-element-74f303c6 e-con-full e-flex e-con e-child" data-id="74f303c6" data-element_type="container" data-e-type="container">
       													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-2a597ba4 elementor-widget__width-initial animated-fast elementor-widget elementor-widget-text-editor" data-id="2a597ba4" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\",\"_animation_delay\":100}"} data-widget_type="text-editor.default">
       														<div className="elementor-widget-container">
-      															<p>Our research and intelligence practice draws on independent valuation and research capabilities within the VALUNXT group, including Reliant Surveyors, a specialist in valuation, advisory, research, and consultancy. This integrated ecosystem grounds our analysis in market evidence and disciplined methodology.</p>
-      														</div>
-      													</div>
-      													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-6e76dd87 elementor-invisible vamtam-icon-pos-row-reverse animated-fast elementor-widget elementor-widget-button" data-id="6e76dd87" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":100}"} data-widget_type="button.default">
-      														<div className="elementor-widget-container">
-      															<div className="elementor-button-wrapper">
-      																<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/about/')}>
-      																	<span className="elementor-button-content-wrapper">
-      																		<span className="elementor-button-icon">
-      																			<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
-      																		<span className="elementor-button-text">Learn More</span>
-      																	</span>
-      																</a>
-      															</div>
+      															<p>Our research and intelligence practice draws on independent valuation and research capabilities within the Valunxt group, including Reliant Surveyors, a specialist in valuation, advisory, research, and consultancy. This integrated ecosystem grounds our analysis in market evidence and disciplined methodology.</p>
       														</div>
       													</div>
       												</div>
@@ -313,7 +300,7 @@ export default function ResearchIntelligenceBody({ page, region }: { page: PageC
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/free-consultation/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Book a Consultation</span>
       																</span>
       															</a>
@@ -328,7 +315,7 @@ export default function ResearchIntelligenceBody({ page, region }: { page: PageC
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/capital-advisory/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Capital Advisory</span>
       																</span>
       															</a>
@@ -349,7 +336,7 @@ export default function ResearchIntelligenceBody({ page, region }: { page: PageC
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/real-estate-investment-advisory/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Real Estate Investment Advisory</span>
       																</span>
       															</a>
@@ -370,7 +357,7 @@ export default function ResearchIntelligenceBody({ page, region }: { page: PageC
       															<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/technology-ai/')}>
       																<span className="elementor-button-content-wrapper">
       																	<span className="elementor-button-icon">
-      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																		<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																	<span className="elementor-button-text">Technology &amp; AI</span>
       																</span>
       															</a>

@@ -75,13 +75,13 @@ export default function FooterUae({ region }: { region: string }) {
         <footer className="vxn-foot" aria-label="Site footer">
           <div className="vxn-foot__inner">
             <div className="vxn-foot__top">
-              <a className="vxn-foot__logo" href={rurl(region, '/')} aria-label="VALUNXT — home">
+              <a className="vxn-foot__logo" href={rurl(region, '/')} aria-label="Valunxt — home">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`${BASE}/assets/content/uploads/logo/valunxt-white.svg`}
                   width={190}
                   height={38}
-                  alt="VALUNXT"
+                  alt="Valunxt"
                 />
               </a>
               <nav className="vxn-foot__nav" aria-label="Practices">
@@ -128,7 +128,7 @@ export default function FooterUae({ region }: { region: string }) {
             </div>
 
             <p className="vxn-foot__copy">
-              &copy; {vxnYear()} VALUNXT. All rights reserved.
+              &copy; {vxnYear()} Valunxt. All rights reserved.
             </p>
           </div>
         </footer>

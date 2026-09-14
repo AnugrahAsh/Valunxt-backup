@@ -88,7 +88,7 @@ export default function Footer3425({ region }: { region: string }) {
                           >
                             <span className="elementor-button-content-wrapper">
                               <span className="elementor-button-icon">
-                                <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right" />{' '}
+                                <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow" />{' '}
                               </span>
                               <span className="elementor-button-text">
                                 Speak with Our Advisory Team
@@ -134,7 +134,7 @@ export default function Footer3425({ region }: { region: string }) {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={`${BASE}/LOGO/icon-white.jpg`}
-                              alt="VALUNXT"
+                              alt="Valunxt"
                               className="vamtam-logo-sign-img"
                             />{' '}
                           </div>
@@ -300,7 +300,7 @@ export default function Footer3425({ region }: { region: string }) {
                       <div className="elementor-widget-container">
                         <span className="elementor-heading-title elementor-size-default">
                           <a href={rurl(region, '/')}>
-                            {vxnYear()} © VALUNXT. All rights reserved.
+                            {vxnYear()} © Valunxt. All rights reserved.
                           </a>
                         </span>
                       </div>

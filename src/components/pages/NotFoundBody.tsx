@@ -40,11 +40,13 @@ export default function NotFoundBody({ page, region }: { page: PageConfig; regio
       							<p>This page may have been moved or is no longer available.</p>
       						</div>
       					</div>
-      					<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-172ed00 elementor-align-center elementor-widget elementor-widget-button" data-id="172ed00" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+      					<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-172ed00 vamtam-icon-pos-row-reverse elementor-align-center elementor-widget elementor-widget-button" data-id="172ed00" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
       						<div className="elementor-widget-container">
       							<div className="elementor-button-wrapper">
       								<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/')}>
       									<span className="elementor-button-content-wrapper">
+      										<span className="elementor-button-icon">
+      											<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       										<span className="elementor-button-text">Back to home</span>
       									</span>
       								</a>

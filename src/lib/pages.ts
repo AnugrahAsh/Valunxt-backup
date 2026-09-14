@@ -122,7 +122,7 @@ export function resolveRequest(path: string): { region: string; page: PageConfig
  * /en-ae/ and /en-ae/services/capital-advisory/ did not.
  *
  * TWO SCOPES. The FACE — Sanomat Sans — goes on every page in the market, by
- * client instruction (20260910). The SCALE — the sizes, weights and line
+ * client instruction (20260910), and since 20260914 on every India page too. The SCALE — the sizes, weights and line
  * heights in valunxt-uae-type.css — stays on the market home page and the
  * services section, which is what was asked for when it was built, and the
  * same instruction said to leave every size, weight and line height as it is.
@@ -132,7 +132,10 @@ export function resolveRequest(path: string): { region: string; page: PageConfig
  * root layout gives them the face itself.
  */
 function uaeType(page: PageConfig | null, region: string, rest: string): PageConfig | null {
-  if (!page || region !== 'en-ae') return page;
+  if (!page) return page;
+  /* The face goes on every page in every market (20260914); the scale stays
+     on the UAE home and services, which withUaeType itself enforces. */
+  if (region !== 'en-ae') return withUaeFace(page, region);
   if (rest !== '/' && !rest.startsWith('/services/')) return withUaeFace(page, region);
   return withUaeType(page, region);
 }

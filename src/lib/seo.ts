@@ -1,5 +1,5 @@
 /**
- * VALUNXT — front-end SEO resolver.
+ * Valunxt — front-end SEO resolver.
  *
  * Reads the SEO metadata the admin panel manages and merges it over whatever
  * the page declared in its PageConfig. The values come from
@@ -138,7 +138,7 @@ export function vxnSeo(page: PageConfig, region: string, origin = vxnSeoOrigin()
 
   let title = (seo.title ?? '').trim();
   if (title === '') title = (page.title ?? '').trim();
-  if (title === '') title = 'VALUNXT';
+  if (title === '') title = 'Valunxt';
 
   let desc = (seo.description ?? '').trim();
   if (desc === '') desc = (page.desc ?? '').trim();
@@ -200,7 +200,7 @@ export async function buildMetadata(page: PageConfig, region: string): Promise<M
       title: seo.og_title,
       ...(seo.og_description !== '' ? { description: seo.og_description } : {}),
       url: seo.canonical,
-      siteName: 'VALUNXT',
+      siteName: 'Valunxt',
       ...(page.og_image ? { images: [{ url: BASE + page.og_image }] } : {}),
     },
     twitter: {

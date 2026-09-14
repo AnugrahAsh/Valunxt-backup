@@ -109,7 +109,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       												<div className="elementor-widget-container">
       													<div className="elementor-icon-wrapper">
       														<div className="elementor-icon">
-      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       														</div>
       													</div>
       												</div>
@@ -144,7 +144,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       												<div className="elementor-widget-container">
       													<div className="elementor-icon-wrapper">
       														<div className="elementor-icon">
-      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       														</div>
       													</div>
       												</div>
@@ -179,7 +179,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       												<div className="elementor-widget-container">
       													<div className="elementor-icon-wrapper">
       														<div className="elementor-icon">
-      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      															<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       														</div>
       													</div>
       												</div>
@@ -235,7 +235,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       														<div className="elementor-widget-container">
       															<div className="elementor-icon-wrapper">
       																<div className="elementor-icon">
-      																	<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>
+      																	<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>
       																</div>
       															</div>
       														</div>
@@ -266,7 +266,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       														<form className="elementor-form" method="post" name="Contact Form" aria-label="Contact Form">
       															<input type="hidden" name="post_id" value="264" />
       															<input type="hidden" name="form_id" value="7655e08" />
-      															<input type="hidden" name="referer_title" value="VALUNXT" />
+      															<input type="hidden" name="referer_title" value="Valunxt" />
 
       															<input type="hidden" name="queried_id" value="264" />
 
@@ -291,7 +291,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       																	<button className="elementor-button elementor-size-sm" type="submit">
       																		<span className="elementor-button-content-wrapper">
       																			<span className="elementor-button-icon">
-      																				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i> </span>
+      																				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>
       																			<span className="elementor-button-text">Submit</span>
       																		</span>
       																	</button>
@@ -310,7 +310,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       												</div>
       												<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-38c3fa6 elementor-widget__width-initial elementor-widget-mobile__width-inherit elementor-widget elementor-widget-text-editor" data-id="38c3fa6" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       													<div className="elementor-widget-container">
-      														<p>By submitting this form you agree to our <a href={rurl(region, '/privacy-policy/')}>Privacy Policy</a>. VALUNXT may contact you via email or phone regarding your enquiry.</p>
+      														<p>By submitting this form you agree to our <a href={rurl(region, '/privacy-policy/')}>Privacy Policy</a>. Valunxt may contact you via email or phone regarding your enquiry.</p>
       													</div>
       												</div>
       											</div>

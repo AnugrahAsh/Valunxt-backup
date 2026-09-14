@@ -74,7 +74,7 @@ export default function CareersBody({ page, region }: { page: PageConfig; region
       		<div className="elementor-element elementor-element-e8b9dab e-con-full e-flex e-con e-child" data-id="e8b9dab" data-element_type="container" data-e-type="container">
       				<div className="elementor-element elementor-element-ba294bb elementor-widget elementor-widget-heading" data-id="ba294bb" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">
-      					<h5 className="elementor-heading-title elementor-size-default">Why Work With VALUNXT?</h5>				</div>
+      					<h5 className="elementor-heading-title elementor-size-default">Why Work With Valunxt?</h5>				</div>
       				</div>
       				<div className="elementor-element elementor-element-8713576 elementor-align-left elementor-tablet-align-left elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="8713576" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
       				<div className="elementor-widget-container">
@@ -103,7 +103,7 @@ export default function CareersBody({ page, region }: { page: PageConfig; region
       					<a className="elementor-button elementor-button-link elementor-size-sm" href="#jobs">
       						<span className="elementor-button-content-wrapper">
       						<span className="elementor-button-icon">
-      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>			</span>
+      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>			</span>
       									<span className="elementor-button-text">Explore Areas of Work</span>
       					</span>
       					</a>
@@ -120,7 +120,7 @@ export default function CareersBody({ page, region }: { page: PageConfig; region
       				</div>
       				<div className="elementor-element elementor-element-d208463 elementor-invisible elementor-widget-tablet__width-inherit animated-fast elementor-widget elementor-widget-heading" data-id="d208463" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":50}"} data-widget_type="heading.default">
       				<div className="elementor-widget-container">
-      					<h2 className="elementor-heading-title elementor-size-default">Grow Your Career With VALUNXT</h2>				</div>
+      					<h2 className="elementor-heading-title elementor-size-default">Grow Your Career With Valunxt</h2>				</div>
       				</div>
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-9c431ac elementor-invisible elementor-widget-tablet__width-inherit animated-fast elementor-widget elementor-widget-text-editor" data-id="9c431ac" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":200}"} data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
@@ -313,7 +313,7 @@ export default function CareersBody({ page, region }: { page: PageConfig; region
       					<a className="elementor-button elementor-button-link elementor-size-sm" href="mailto:contact@valunxt.com?subject=Careers%20Enquiry">
       						<span className="elementor-button-content-wrapper">
       						<span className="elementor-button-icon">
-      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>			</span>
+      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>			</span>
       									<span className="elementor-button-text">Write to Us</span>
       					</span>
       					</a>
@@ -352,7 +352,7 @@ export default function CareersBody({ page, region }: { page: PageConfig; region
       					<a className="elementor-button elementor-button-link elementor-size-sm" href="mailto:contact@valunxt.com?subject=Careers%20Enquiry">
       						<span className="elementor-button-content-wrapper">
       						<span className="elementor-button-icon">
-      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>			</span>
+      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>			</span>
       									<span className="elementor-button-text">Write to Us</span>
       					</span>
       					</a>
@@ -391,7 +391,7 @@ export default function CareersBody({ page, region }: { page: PageConfig; region
       					<a className="elementor-button elementor-button-link elementor-size-sm" href="mailto:contact@valunxt.com?subject=Careers%20Enquiry">
       						<span className="elementor-button-content-wrapper">
       						<span className="elementor-button-icon">
-      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>			</span>
+      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>			</span>
       									<span className="elementor-button-text">Write to Us</span>
       					</span>
       					</a>
@@ -430,7 +430,7 @@ export default function CareersBody({ page, region }: { page: PageConfig; region
       					<a className="elementor-button elementor-button-link elementor-size-sm" href="mailto:contact@valunxt.com?subject=Careers%20Enquiry">
       						<span className="elementor-button-content-wrapper">
       						<span className="elementor-button-icon">
-      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>			</span>
+      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>			</span>
       									<span className="elementor-button-text">Write to Us</span>
       					</span>
       					</a>
@@ -469,7 +469,7 @@ export default function CareersBody({ page, region }: { page: PageConfig; region
       					<a className="elementor-button elementor-button-link elementor-size-sm" href="mailto:contact@valunxt.com?subject=Careers%20Enquiry">
       						<span className="elementor-button-content-wrapper">
       						<span className="elementor-button-icon">
-      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right"></i>			</span>
+      				<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i>			</span>
       									<span className="elementor-button-text">Write to Us</span>
       					</span>
       					</a>

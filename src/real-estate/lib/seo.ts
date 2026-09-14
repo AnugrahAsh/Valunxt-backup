@@ -26,7 +26,7 @@ import type { Locale } from './types';
 /** og:image for the section — a real photograph, per page where there is one. */
 const PILLAR_IMAGE = '/real-estate/img/hero-poster.webp';
 
-const PILLAR_TITLE = 'Dubai Real Estate — Buy, Sell, Rent & Off-Plan | VALUNXT';
+const PILLAR_TITLE = 'Dubai Real Estate — Buy, Sell, Rent & Off-Plan | Valunxt';
 const PILLAR_DESC =
   "Discover Dubai's most sought-after properties through expert advisory, curated " +
   'opportunities, and strategic guidance tailored to your ambitions.';
@@ -74,7 +74,7 @@ async function build({
       title,
       description,
       url: canonical,
-      siteName: 'VALUNXT',
+      siteName: 'Valunxt',
       images: [{ url: image }],
     },
     twitter: {
@@ -104,7 +104,7 @@ export async function serviceMetadata(region: Locale, slug: string): Promise<Met
   return build({
     region,
     path: `/${slug}/`,
-    title: `${page.eyebrow} in Dubai | VALUNXT`,
+    title: `${page.eyebrow} in Dubai | Valunxt`,
     description: page.lede,
     image: page.heroImg || PILLAR_IMAGE,
   });

@@ -1,11 +1,12 @@
 /* Community page body — mirrors the 500 Global "500 Around the World"
    community layout (intro → stats → tabbed support card → photo carousel →
-   events accordion → CTA band → disclaimer), restyled in the VALUNXT theme
+   events accordion → CTA band → disclaimer), restyled in the Valunxt theme
    (Forum serif + DM Sans, navy/gold palette). Rendered below the image
    page-hero on /community/. Images from new-folder.
 
    Port of includes/partials/community-content.php. */
 import { BASE, rurl } from '@/lib/region';
+import CtaArrow from '@/components/ui/CtaArrow';
 import { uaePageImage } from '@/lib/uae-page-images';
 import Html from '@/components/Html';
 import ClientScript from '@/components/ClientScript';
@@ -33,7 +34,7 @@ const TABS = [
     key: 'partners',
     label: 'Partners &amp; Group',
     title: 'One integrated ecosystem.',
-    text: 'VALUNXT is backed by a trusted group of companies spanning surveying, property, mortgage, and corporate services. Our partners plug into a single network — sharing intelligence, referrals, and on-the-ground reach across India and the UAE so clients move faster with fewer intermediaries.',
+    text: 'Valunxt is backed by a trusted group of companies spanning surveying, property, mortgage, and corporate services. Our partners plug into a single network — sharing intelligence, referrals, and on-the-ground reach across India and the UAE so clients move faster with fewer intermediaries.',
     links: [
       { t: 'Meet the Group', h: '/about/' },
       { t: 'Partner With Us', h: '/partnership/' },
@@ -57,7 +58,7 @@ const SLIDES = [
     img: '/assets/content/uploads/new-folder/research-intelligence-2.webp',
     cap: 'Research & intelligence briefing',
   },
-  { img: '/assets/content/uploads/new-folder/who-we-are-2.webp', cap: 'The people behind VALUNXT' },
+  { img: '/assets/content/uploads/new-folder/who-we-are-2.webp', cap: 'The people behind Valunxt' },
   {
     img: '/assets/content/uploads/new-folder/client-success-2.webp',
     cap: 'Family office advisory session',
@@ -89,8 +90,8 @@ const EVENTS = [
 ];
 
 const CSS = `
-/* ===== VALUNXT Community ==================================================== */
-.vxn-com{--ny:#0E355F;--ny2:#0053B7;--gd:#0053B7;--gd2:#9C00DD;--ink:#26313b;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f6f4ef;font-family:"DM Sans",sans-serif;color:var(--body);}
+/* ===== Valunxt Community ==================================================== */
+.vxn-com{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--ink:#26313b;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f6f4ef;font-family:"DM Sans",sans-serif;color:var(--body);}
 .vxn-com *{box-sizing:border-box;}
 .vxn-com__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-com__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 16px;}
@@ -140,7 +141,6 @@ const CSS = `
 .vxn-com__btn--solid{background-image:var(--vxn-cta-grad);background-color:var(--vxn-cta-ink,#0B2DBE);color:#fff!important;--vxn-cta-sweep:var(--vxn-cta-sweep-dark,#08248F);}
 .vxn-com__btn--ghost{border:1px solid rgba(11,45,190,.35);color:var(--vxn-cta-ink,#0B2DBE)!important;--vxn-cta-sweep:var(--vxn-cta-grad);}
 .vxn-com__btn--ghost:hover{border-color:transparent;color:#fff!important;}
-.vxn-com__btn svg{width:16px;height:16px;flex:0 0 auto;}
 
 /* ---- Carousel ------------------------------------------------------------- */
 .vxn-com__gallery{background:#fff;padding:16px 0 44px;}
@@ -183,7 +183,7 @@ const CSS = `
 .vxn-com__acc-body{padding:0 4px 24px;font-size:15.5px;line-height:1.8;color:var(--body);max-width:640px;}
 
 /* ---- CTA band ------------------------------------------------------------- */
-.vxn-com__cta{background:linear-gradient(90deg,#0053B7 0%,#0E355F 100%);text-align:center;padding:56px 24px 60px;}
+.vxn-com__cta{background:linear-gradient(90deg,#0B2DBE 0%,#0E355F 100%);text-align:center;padding:56px 24px 60px;}
 .vxn-com__cta h2{font-family:"Forum",serif;font-weight:400;color:#fff;font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin:0 0 14px;}
 .vxn-com__cta p{max-width:600px;margin:0 auto 26px;color:#cdd6de;font-size:16px;line-height:1.7;}
 /* On the blue band the pill is the inverse finish: white with the ink, so it does not vanish into its own colour. */
@@ -309,12 +309,6 @@ const JS = `
 })();
 `;
 
-const Arrow = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-    <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
 export default function CommunitySection({ region }: { region: string }) {
   return (
     <>
@@ -328,14 +322,14 @@ export default function CommunitySection({ region }: { region: string }) {
             <h2 className="vxn-com__h">What brings our community together</h2>
             <div className="vxn-com__intro-grid">
               <p className="vxn-com__lead">
-                VALUNXT connects investors, families, developers, partners, and ecosystem
+                Valunxt connects investors, families, developers, partners, and ecosystem
                 builders through advisory mandates, research, events, and the relationships that are
                 formed in between. Our community is how we describe that network — the people, the
-                group companies, and the connections that make VALUNXT work across India and the UAE.
+                group companies, and the connections that make Valunxt work across India and the UAE.
               </p>
               <div>
                 <p>
-                  Community, for us, started as a choice. When VALUNXT was founded, the belief
+                  Community, for us, started as a choice. When Valunxt was founded, the belief
                   was that trust has to be built deliberately — real channels for investors to learn
                   from each other, and advice offered because it is right, not because a transaction
                   demands it.
@@ -343,7 +337,7 @@ export default function CommunitySection({ region }: { region: string }) {
                 <p style={{ marginTop: '22px' }}>
                   What began with a handful of relationships in real estate has grown into a network
                   spanning private clients, family offices, NRIs, developers, and institutions —
-                  connected to each other and to the wider VALUNXT ecosystem long after a single
+                  connected to each other and to the wider Valunxt ecosystem long after a single
                   mandate ends.
                 </p>
               </div>
@@ -416,7 +410,7 @@ export default function CommunitySection({ region }: { region: string }) {
                             key={l.h + l.t}
                           >
                             <Html as="span" html={l.t} />
-                            <Arrow />
+                            <CtaArrow />
                           </a>
                         ))}
                       </div>
@@ -496,7 +490,7 @@ export default function CommunitySection({ region }: { region: string }) {
           </p>
           <a className="vxn-com__btn vxn-com__btn--solid" href={rurl(region, '/services/')}>
             <span>Explore</span>
-            <Arrow />
+            <CtaArrow />
           </a>
         </section>
 
@@ -507,9 +501,9 @@ export default function CommunitySection({ region }: { region: string }) {
             <p>
               All community figures shown on this page are illustrative and based on internal
               estimates; they are not independently verified and should not be relied upon as a
-              representation of assets, returns, or performance. VALUNXT does not provide
+              representation of assets, returns, or performance. Valunxt does not provide
               personalised investment advice through this website. Events and gatherings are offered at
-              VALUNXT&apos;s discretion and do not confer any rights in relation to any
+              Valunxt&apos;s discretion and do not confer any rights in relation to any
               investment.
             </p>
           </div>

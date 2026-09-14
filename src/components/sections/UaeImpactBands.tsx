@@ -26,6 +26,7 @@
 import { rurl } from '@/lib/region';
 import { rimg, rimgFirst } from '@/lib/region-assets';
 import { LogoXGlyph } from '@/components/brand/LogoX';
+import { brandCase } from '@/components/ui/BrandName';
 
 /** The client's artwork for these bands (20260913). Each leads its slot's
  *  candidate list, so the stand-in it replaced still shows if a file goes. */
@@ -50,7 +51,7 @@ function Pill({
   return (
     <a className={`vxn-band__pill vxn-band__pill--${variant}`} href={href}>
       {label}
-      <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right" />
+      <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow" />
     </a>
   );
 }
@@ -150,12 +151,12 @@ interface MosaicCard {
  *  which was the group's card, now goes where its new title points: the
  *  services index, with a label to match. */
 const MOSAIC_LEAD: MosaicCard = {
-  eyebrow: 'About VALUNXT',
+  eyebrow: 'About Valunxt',
   title: 'Expertise That Moves Business Forward.',
   cta: 'See How We Work',
   href: '/about/',
   images: [UAE_HOME.mosaicLead, 'banners/clients.webp', 'homepage/client-2.webp'],
-  alt: 'VALUNXT adviser in conversation with a client',
+  alt: 'Valunxt adviser in conversation with a client',
 };
 
 const MOSAIC_STACK: MosaicCard[] = [
@@ -182,7 +183,7 @@ const MOSAIC_STACK: MosaicCard[] = [
  */
 export function MosaicBand({ region }: { region: string }) {
   return (
-    <section className="vxn-mosaic" aria-label="More from VALUNXT">
+    <section className="vxn-mosaic" aria-label="More from Valunxt">
       <div className="vxn-mosaic__grid">
         <a className="vxn-mosaic__card vxn-mosaic__card--lead" href={rurl(region, MOSAIC_LEAD.href)}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -193,11 +194,11 @@ export function MosaicBand({ region }: { region: string }) {
             loading="lazy"
           />
           <div className="vxn-mosaic__body">
-            <span className="vxn-band__eyebrow">{MOSAIC_LEAD.eyebrow}</span>
+            <span className="vxn-band__eyebrow">{brandCase(MOSAIC_LEAD.eyebrow)}</span>
             <h3 className="vxn-mosaic__title">{MOSAIC_LEAD.title}</h3>
             <span className="vxn-band__pill vxn-band__pill--accent">
               {MOSAIC_LEAD.cta}
-              <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right" />
+              <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow" />
             </span>
           </div>
         </a>
@@ -232,7 +233,7 @@ export function MosaicBand({ region }: { region: string }) {
                 <h3 className="vxn-mosaic__title">{card.title}</h3>
                 <span className="vxn-band__pill vxn-band__pill--accent">
                   {card.cta}
-                  <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right" />
+                  <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow" />
                 </span>
               </div>
             </a>
@@ -266,7 +267,7 @@ export function CareersBand({ region }: { region: string }) {
           depth of knowledge brought to every business, property and investment mandate.
         </p>
         <div className="vxn-careers__actions">
-          <Pill href={rurl(region, '/about/')} label="About VALUNXT" variant="solid" />
+          <Pill href={rurl(region, '/about/')} label="About Valunxt" variant="solid" />
         </div>
       </div>
       <div className="vxn-careers__media">
@@ -282,7 +283,7 @@ export function CareersBand({ region }: { region: string }) {
         <img
           className="vxn-careers__inset"
           src={rimgFirst(region, [UAE_HOME.careersInset, 'banners/careers.webp', 'banners/community.webp'])}
-          alt="VALUNXT team around a boardroom table"
+          alt="Valunxt team around a boardroom table"
           loading="lazy"
         />
       </div>

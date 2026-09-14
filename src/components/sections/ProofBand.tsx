@@ -9,7 +9,7 @@
  * On the content — read this before adding to it.
  *
  * The reference composition puts a named client quote in the frosted panel and
- * a client outcome ("AED 0 in FTA penalties") on the card. VALUNXT has not
+ * a client outcome ("AED 0 in FTA penalties") on the card. Valunxt has not
  * supplied either, and inventing a client endorsement or a client result for a
  * regulated advisory firm is not a design decision — see the note at the top of
  * data/testimonials.ts, which is empty for exactly this reason.
@@ -134,7 +134,7 @@ export default function ProofBand({ region }: { region: string }) {
       }
     : {
         quote: c.standin,
-        who: 'VALUNXT',
+        who: 'Valunxt',
         where: 'How we work',
         badge: 'VX',
       };

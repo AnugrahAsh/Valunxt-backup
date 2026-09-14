@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
     success: true,
     data: {
       message:
-        'Thank you for contacting VALUNXT. Our advisory team will review your enquiry and respond shortly.',
+        'Thank you for contacting Valunxt. Our advisory team will review your enquiry and respond shortly.',
       data: [],
       meta: [],
     },

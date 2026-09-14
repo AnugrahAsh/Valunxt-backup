@@ -106,7 +106,7 @@ export default function TechnologyAiBody({ page, region }: { page: PageConfig; r
       											</div>
       											<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-65107e40 elementor-invisible elementor-widget__width-initial elementor-widget-tablet__width-inherit animated-fast elementor-widget elementor-widget-text-editor" data-id="65107e40" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":200}"} data-widget_type="text-editor.default">
       												<div className="elementor-widget-container">
-      													<p>VALUNXT develops intelligent platforms, automated valuation systems, dashboards, and analytics that improve visibility, efficiency, and decision making across the real estate investment lifecycle. Every system we build reflects the discipline of our advisory practice: data driven decisions in pursuit of long term value.</p>
+      													<p>Valunxt develops intelligent platforms, automated valuation systems, dashboards, and analytics that improve visibility, efficiency, and decision making across the real estate investment lifecycle. Every system we build reflects the discipline of our advisory practice: data driven decisions in pursuit of long term value.</p>
       													<p>We do not simply build software. We create intelligent platforms that improve investment decisions. From predictive market analytics to enterprise SaaS and workflow automation, our technology supports investors, developers, and institutions across India, the UAE, and international markets.</p>
       												</div>
       											</div>
@@ -118,7 +118,7 @@ export default function TechnologyAiBody({ page, region }: { page: PageConfig; r
       										<div className="vxn-offer__content">
       											<span className="vxn-offer__label">Services Offered</span>
       											<h2 className="vxn-offer__heading">Our Technology &amp; AI Capabilities</h2>
-      											<p className="vxn-offer__sub">We design intelligent platforms, analytics, and automation that strengthen investment visibility, efficiency, and decision making. <a href={rurl(region, '/services/technology-ai/platform/')} style={{ color: "#0053B7", textDecoration: "underline", textUnderlineOffset: "2px" }}>See the platform, module by module &rarr;</a></p>
+      											<p className="vxn-offer__sub">We design intelligent platforms, analytics, and automation that strengthen investment visibility, efficiency, and decision making. <a href={rurl(region, '/services/technology-ai/platform/')} style={{ color: "#0B2DBE", textDecoration: "underline", textUnderlineOffset: "2px" }}>See the platform, module by module &rarr;</a></p>
       											<div className="vxn-offer__grid">
       												<div className="vxn-offer__item"><span className="vxn-offer__icon"><i className="vamtamtheme- vamtam-theme-doppler-effect" aria-hidden="true"></i></span><span className="vxn-offer__text">AI Solutions &amp; Automated Valuation Models</span></div>
       												<div className="vxn-offer__item"><span className="vxn-offer__icon"><i className="vamtamtheme- vamtam-theme-growth" aria-hidden="true"></i></span><span className="vxn-offer__text">Predictive Market Analytics &amp; Portfolio Intelligence</span></div>

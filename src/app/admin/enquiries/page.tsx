@@ -18,7 +18,7 @@ import { csrfToken, currentUser, takeFlash } from '@/lib/admin/session';
 import { deleteEnquiryAction } from '@/lib/admin/actions';
 
 export const metadata: Metadata = {
-  title: 'Enquiries — VALUNXT Admin',
+  title: 'Enquiries — Valunxt Admin',
   robots: 'noindex, nofollow',
 };
 

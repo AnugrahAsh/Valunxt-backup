@@ -12,6 +12,7 @@
 
    Port of includes/partials/faq-content.php. */
 import { rurl } from '@/lib/region';
+import CtaArrow from '@/components/ui/CtaArrow';
 import { vxnMarkets } from '@/lib/site-data';
 import Html from '@/components/Html';
 
@@ -24,14 +25,14 @@ function faqData(region: string): FaqGroup[] {
   const u = (p: string) => rurl(region, p);
   return [
     {
-      group: 'Working with VALUNXT',
+      group: 'Working with Valunxt',
       items: [
         {
-          q: 'What does VALUNXT actually do?',
+          q: 'What does Valunxt actually do?',
           a: `<p>We are an integrated real estate wealth, capital, research and technology advisory group. In practice that means four connected practices: <a href="${u('/services/real-estate-investment-advisory/')}">Real Estate Investment Advisory</a> (portfolio strategy, acquisition and exit), <a href="${u('/services/capital-advisory/')}">Capital Advisory</a> (project funding, debt and equity structuring), <a href="${u('/services/research-intelligence/')}">Research &amp; Intelligence</a> (independent valuation and market analysis), and <a href="${u('/services/technology-ai/')}">Technology &amp; AI</a> (the analytics platform that underpins the other three).</p><p>Most clients engage one practice first and draw on the others as a mandate develops.</p>`,
         },
         {
-          q: 'How is VALUNXT different from a broker or an estate agent?',
+          q: 'How is Valunxt different from a broker or an estate agent?',
           a: `<p>A broker is paid to complete a transaction. We are engaged to reach a decision, which sometimes means advising against one. Our valuation and research work is delivered independently of whether a deal proceeds.</p><p>Where a transaction is the right answer, execution can be handled inside the group by HouzzHunt — but that is a separate engagement with its own scope, not a condition of the advice.</p>`,
         },
         {
@@ -94,8 +95,8 @@ function faqData(region: string): FaqGroup[] {
 }
 
 const CSS = `
-/* ===== VALUNXT FAQ ========================================================= */
-.vxn-faq{--ny:#0E355F;--ny2:#0053B7;--gd:#0053B7;--gd2:#9C00DD;--body:#4d5863;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 72px;}
+/* ===== Valunxt FAQ ========================================================= */
+.vxn-faq{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 72px;}
 .vxn-faq *{box-sizing:border-box;}
 .vxn-faq__wrap{max-width:900px;margin:0 auto;padding:0 24px;}
 .vxn-faq__intro{margin:0 0 48px;font-size:17px;line-height:1.8;max-width:72ch;}
@@ -120,7 +121,7 @@ const CSS = `
 .vxn-faq__a a{color:var(--ny2);text-decoration:underline;text-underline-offset:2px;}
 .vxn-faq__a a:hover{color:var(--gd2);}
 
-.vxn-faq__cta{margin:8px 0 0;padding:30px 32px;background:linear-gradient(90deg,#0053B7 0%,#0E355F 100%);border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;}
+.vxn-faq__cta{margin:8px 0 0;padding:30px 32px;background:linear-gradient(90deg,#0B2DBE 0%,#0E355F 100%);border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;}
 .vxn-faq h2.vxn-faq__ctah{font-family:"Forum",serif!important;font-weight:400!important;color:#fff!important;font-size:25px;line-height:1.2;margin:0 0 6px;}
 .vxn-faq__ctap{margin:0;color:rgba(255,255,255,.82);font-size:15px;line-height:1.7;}
 /* Sweeps to white on hover, keeping its navy label — mechanism in
@@ -204,6 +205,7 @@ export default function FaqSection({ region }: { region: string }) {
             </div>
             <a className="vxn-faq__btn" href={rurl(region, '/contact/')}>
               Talk to our advisory team
+              <CtaArrow />
             </a>
           </div>
         </div>

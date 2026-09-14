@@ -1269,6 +1269,20 @@
   /* background: #0053b7; */
 }
 
+/* The lead card's photograph is now the client's uae/home/about-valunxt.webp
+   (20260913), whose left edge is a bright window right where the eyebrow sits.
+   On the stops above the eyebrow measured 3.95:1 at 1440; these hold it at
+   5.1:1 or better from 768 to 1920, and the top of the picture is still left
+   open. */
+.vxn-mosaic__card--lead::after {
+  background: linear-gradient(to top,
+      rgba(8, 25, 48, .88) 0%,
+      rgba(8, 25, 48, .78) 20%,
+      rgba(8, 25, 48, .68) 35%,
+      rgba(8, 25, 48, .40) 55%,
+      rgba(8, 25, 48, 0) 80%);
+}
+
 .vxn-mosaic__x {
   position: absolute;
   right: -18px;

@@ -5,6 +5,7 @@
 
    Port of location/index.php. */
 import { BASE, rurl } from '@/lib/region';
+import { uaePageImage } from '@/lib/uae-page-images';
 import { vxnCompanyList, vxnMarkets, vxnOffices } from '@/lib/site-data';
 import SubscribeSection from '@/components/sections/SubscribeSection';
 import type { PageConfig } from '@/lib/page-config';
@@ -157,7 +158,7 @@ export default function LocationBody({ page, region }: { page: PageConfig; regio
                 <div className="vxn-loc__media">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`${BASE}/assets/content/uploads/new-folder/${LOCATION_IMG[k] ?? 'mumbai.webp'}`}
+                    src={uaePageImage(region, `location/office-${k}`, `${BASE}/assets/content/uploads/new-folder/${LOCATION_IMG[k] ?? 'mumbai.webp'}`)}
                     alt={`${o.city} office`}
                     loading="lazy"
                   />

@@ -63,7 +63,7 @@ import { rurl } from '@/lib/region';
 import { rimg, rimgFirst } from '@/lib/region-assets';
 
 import SubServiceTemplateMotion from './SubMotion';
-import type { SubPoint, SubServiceTemplateContent } from './subTypes';
+import { subImageList, type SubPoint, type SubServiceTemplateContent } from './subTypes';
 
 /* -------------------------------------------------------------------------
    Small pieces
@@ -222,7 +222,7 @@ export default function SubServiceTemplateBody({
 
             <figure className="abk-panel">
               <div className="abk-panel__media abk-zoom">
-                <img src={rimg(region, brief.panel.image)} alt={brief.panel.alt} loading="lazy" />
+                <img src={rimgFirst(region, subImageList(brief.panel.image))} alt={brief.panel.alt} loading="lazy" />
               </div>
               <div className="abk-panel__glow" aria-hidden="true" />
 
@@ -247,7 +247,7 @@ export default function SubServiceTemplateBody({
         <div className="abk-in">
           <div className="abk-why__band">
             <div className="abk-why__media abk-zoom">
-              <img src={rimg(region, why.image)} alt={why.alt} loading="lazy" />
+              <img src={rimgFirst(region, subImageList(why.image))} alt={why.alt} loading="lazy" />
             </div>
             <div className="abk-why__tint" aria-hidden="true" />
 
@@ -365,7 +365,7 @@ export default function SubServiceTemplateBody({
         <div className="abk-in">
           <div className="abk-case__grid">
             <figure className="abk-case__photo">
-              <img src={rimg(region, story.photo)} alt={story.alt} loading="lazy" />
+              <img src={rimgFirst(region, subImageList(story.photo))} alt={story.alt} loading="lazy" />
 
               {/* Same frosted treatment as the Why Us card — the frost is its
                   own masked layer inside the box, so the panel dissolves into
@@ -422,7 +422,7 @@ export default function SubServiceTemplateBody({
         <div className="abk-in">
           <div className="abk-band__box">
             <span className="abk-band__media abk-zoom">
-              <img src={rimg(region, band.image)} alt={band.alt} loading="lazy" />
+              <img src={rimgFirst(region, subImageList(band.image))} alt={band.alt} loading="lazy" />
             </span>
             <span className="abk-band__tint" aria-hidden="true" />
 

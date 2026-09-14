@@ -7,6 +7,7 @@
  * visitor's market.
  */
 import { BASE, rurl } from '@/lib/region';
+import { uaePageImage } from '@/lib/uae-page-images';
 import BLOG_CATALOG from '@/data/blog-catalog';
 import type { PageConfig } from '@/lib/page-config';
 
@@ -256,7 +257,7 @@ export default function BlogsBody({ page, region }: { page: PageConfig; region: 
       																<div className="elementor-element elementor-element-9b0d8db animated-fast elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="9b0d8db" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\"}"} data-widget_type="theme-post-featured-image.default">
       																	<div className="elementor-widget-container">
       																		<a href={rurl(region, '/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/')}>
-      																			<img fetchPriority="high" decoding="async" width={750} height={1024} src={`${BASE}/assets/content/uploads/blogs/blog-1.webp`} className="attachment-large size-large wp-image-1948" alt="" /> </a>
+      																			<img fetchPriority="high" decoding="async" width={750} height={1024} src={uaePageImage(region, 'blogs/how-high-net-worth-investors-build-wealth-through-real-estate', `${BASE}/assets/content/uploads/blogs/blog-1.webp`)} className="attachment-large size-large wp-image-1948" alt="" /> </a>
       																	</div>
       																</div>
       																<div className="elementor-element elementor-element-e4b59e9 e-con-full e-flex e-con e-child" data-id="e4b59e9" data-element_type="container" data-e-type="container">
@@ -289,7 +290,7 @@ export default function BlogsBody({ page, region }: { page: PageConfig; region: 
       																<div className="elementor-element elementor-element-9b0d8db animated-fast elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="9b0d8db" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\"}"} data-widget_type="theme-post-featured-image.default">
       																	<div className="elementor-widget-container">
       																		<a href={rurl(region, '/blogs/capital-planning-for-large-property-developments/')}>
-      																			<img fetchPriority="high" decoding="async" width={750} height={1024} src={`${BASE}/assets/content/uploads/blogs/blog-2.webp`} className="attachment-large size-large wp-image-1949" alt="" /> </a>
+      																			<img fetchPriority="high" decoding="async" width={750} height={1024} src={uaePageImage(region, 'blogs/capital-planning-for-large-property-developments', `${BASE}/assets/content/uploads/blogs/blog-2.webp`)} className="attachment-large size-large wp-image-1949" alt="" /> </a>
       																	</div>
       																</div>
       																<div className="elementor-element elementor-element-e4b59e9 e-con-full e-flex e-con e-child" data-id="e4b59e9" data-element_type="container" data-e-type="container">
@@ -322,7 +323,7 @@ export default function BlogsBody({ page, region }: { page: PageConfig; region: 
       																<div className="elementor-element elementor-element-9b0d8db animated-fast elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="9b0d8db" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\"}"} data-widget_type="theme-post-featured-image.default">
       																	<div className="elementor-widget-container">
       																		<a href={rurl(region, '/blogs/why-market-intelligence-matters-before-every-property-investment/')}>
-      																			<img decoding="async" width={750} height={1024} src={`${BASE}/assets/content/uploads/blogs/blog-3.webp`} className="attachment-large size-large wp-image-1951" alt="" /> </a>
+      																			<img decoding="async" width={750} height={1024} src={uaePageImage(region, 'blogs/why-market-intelligence-matters-before-every-property-investment', `${BASE}/assets/content/uploads/blogs/blog-3.webp`)} className="attachment-large size-large wp-image-1951" alt="" /> </a>
       																	</div>
       																</div>
       																<div className="elementor-element elementor-element-e4b59e9 e-con-full e-flex e-con e-child" data-id="e4b59e9" data-element_type="container" data-e-type="container">
@@ -355,7 +356,7 @@ export default function BlogsBody({ page, region }: { page: PageConfig; region: 
       																<div className="elementor-element elementor-element-9b0d8db animated-fast elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="9b0d8db" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\"}"} data-widget_type="theme-post-featured-image.default">
       																	<div className="elementor-widget-container">
       																		<a href={rurl(region, '/blogs/the-future-of-automated-valuation-models-avms/')}>
-      																			<img loading="lazy" decoding="async" width={750} height={1024} src={`${BASE}/assets/content/uploads/blogs/blog-4.webp`} className="attachment-large size-large wp-image-1950" alt="" /> </a>
+      																			<img loading="lazy" decoding="async" width={750} height={1024} src={uaePageImage(region, 'blogs/the-future-of-automated-valuation-models-avms', `${BASE}/assets/content/uploads/blogs/blog-4.webp`)} className="attachment-large size-large wp-image-1950" alt="" /> </a>
       																	</div>
       																</div>
       																<div className="elementor-element elementor-element-e4b59e9 e-con-full e-flex e-con e-child" data-id="e4b59e9" data-element_type="container" data-e-type="container">

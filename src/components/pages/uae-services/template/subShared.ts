@@ -110,12 +110,20 @@ const STRIP_STANDINS = [
   'homepage/abstract-1.webp',
 ];
 
-/** Six disciplines for the strip, with a purpose-shot slot in front of each stand-in. */
+/** Six disciplines for the strip, with a purpose-shot slot in front of each stand-in.
+ *  The slot is keyed by the discipline's name, not its position, so a page that
+ *  overrides the strip with other disciplines can never pick up its siblings'
+ *  photographs. */
 export function stripOf(service: string, names: [string, string, string, string, string, string]): Industry[] {
   return names.map((name, i) => ({
     name,
-    img: [`services/strip-${service}-${i + 1}.webp`, STRIP_STANDINS[i]],
+    img: [`services/strip-${service}-${slugOf(name)}.webp`, STRIP_STANDINS[i]],
   }));
+}
+
+/** "Plant & Machinery" -> "plant-machinery". */
+function slugOf(name: string): string {
+  return name.toLowerCase().replace(/&/g, ' ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
 
 /** The client-team photograph the bookkeeping page's Why-us card sits on. */

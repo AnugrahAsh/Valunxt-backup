@@ -7,6 +7,7 @@
  * visitor's market.
  */
 import { BASE, rurl } from '@/lib/region';
+import { uaePageImage } from '@/lib/uae-page-images';
 import type { PageConfig } from '@/lib/page-config';
 
 export default function AboutBody({ page, region }: { page: PageConfig; region: string }) {
@@ -481,7 +482,7 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       																		<div className="elementor-element elementor-element-35b5e58 elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="35b5e58" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-featured-image.default">
       																			<div className="elementor-widget-container">
       																				<a href={rurl(region, '/services/research-intelligence/')}>
-      																					<img decoding="async" width={608} height={658} src={`${BASE}/assets/content/uploads/new-folder/research-intelligence-1.webp`} className="attachment-large size-large wp-image-2367" alt="Research &amp; Intelligence" /> </a>
+      																					<img decoding="async" width={608} height={658} src={uaePageImage(region, 'about/carousel-2', `${BASE}/assets/content/uploads/new-folder/research-intelligence-1.webp`)} className="attachment-large size-large wp-image-2367" alt="Research &amp; Intelligence" /> </a>
       																			</div>
       																		</div>
       																		<div className="elementor-element elementor-element-e1d7406 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="e1d7406" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
@@ -502,7 +503,7 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       																		<div className="elementor-element elementor-element-35b5e58 elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="35b5e58" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-featured-image.default">
       																			<div className="elementor-widget-container">
       																				<a href={rurl(region, '/services/technology-ai/')}>
-      																					<img loading="lazy" decoding="async" width={608} height={658} src={`${BASE}/assets/content/uploads/new-folder/services-4.webp`} className="attachment-large size-large wp-image-2363" alt="Technology &amp; AI" /> </a>
+      																					<img loading="lazy" decoding="async" width={608} height={658} src={uaePageImage(region, 'about/carousel-3', `${BASE}/assets/content/uploads/new-folder/services-4.webp`)} className="attachment-large size-large wp-image-2363" alt="Technology &amp; AI" /> </a>
       																			</div>
       																		</div>
       																		<div className="elementor-element elementor-element-e1d7406 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="e1d7406" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">

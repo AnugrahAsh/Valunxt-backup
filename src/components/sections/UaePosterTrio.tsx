@@ -44,13 +44,15 @@ export default function UaePosterTrio({ region }: { region: string }) {
   return (
     <section className="vxn-post" aria-label="What Valunxt stands for">
       <div className="vxn-post__grid">
-        {/* 1. The story: a photograph, the statement over its foot. */}
+        {/* 1. The story: a photograph, the statement over its foot. The file
+            is cut to the card's proportions (20260913) with both faces in the
+            top band, so the plain centre crop holds them at every width. */}
         <a className="vxn-post__card vxn-post__card--story" href={rurl(region, '/free-consultation/')}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="vxn-post__media"
-            src={rimgFirst(region, ['new-folder/about-us-1.webp', 'banners/careers.webp'])}
-            alt="Two colleagues reviewing figures together"
+            src={rimgFirst(region, ['uae/home/who-we-work-with.webp', 'new-folder/about-us-1.webp', 'banners/careers.webp'])}
+            alt="Two colleagues reviewing a report together"
             loading="lazy"
           />
           <span className="vxn-post__scrim" aria-hidden="true" />
@@ -73,7 +75,9 @@ export default function UaePosterTrio({ region }: { region: string }) {
           </div>
         </div>
 
-        {/* 3. The dark card: the statement above, a photograph along the foot. */}
+        {/* 3. The dark card: the statement above, a photograph along the foot.
+            The Abu Dhabi skyline, cut as a 4:1 panorama at 1600px (20260913)
+            so the strip needs no crop adjustment of its own. */}
         <a className="vxn-post__card vxn-post__card--dark" href={rurl(region, '/about/')}>
           <span className="vxn-post__eyebrow">About Valunxt</span>
           <h3 className="vxn-post__title">Advice that protects what you are building.</h3>
@@ -81,7 +85,7 @@ export default function UaePosterTrio({ region }: { region: string }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className="vxn-post__media"
-              src={rimgFirst(region, ['new-folder/who-we-are-1.webp', 'new-folder/career-1.webp', 'new-folder/about-us-1.webp'])}
+              src={rimgFirst(region, ['uae/home/about-valunxt-band.webp', 'new-folder/who-we-are-1.webp', 'new-folder/career-1.webp', 'new-folder/about-us-1.webp'])}
               alt=""
               loading="lazy"
             />

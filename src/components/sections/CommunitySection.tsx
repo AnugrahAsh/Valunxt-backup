@@ -6,6 +6,7 @@
 
    Port of includes/partials/community-content.php. */
 import { BASE, rurl } from '@/lib/region';
+import { uaePageImage } from '@/lib/uae-page-images';
 import Html from '@/components/Html';
 import ClientScript from '@/components/ClientScript';
 
@@ -437,11 +438,11 @@ export default function CommunitySection({ region }: { region: string }) {
             </button>
             <div className="vxn-com__car-vp">
               <div className="vxn-com__car-track">
-                {SLIDES.map((sl) => (
+                {SLIDES.map((sl, i) => (
                   <div className="vxn-com__car-slide" key={sl.img}>
                     <figure className="vxn-com__car-fig">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={BASE + sl.img} alt={sl.cap} loading="lazy" />
+                      <img src={uaePageImage(region, `community/carousel-${i + 1}`, BASE + sl.img)} alt={sl.cap} loading="lazy" />
                       <figcaption>{sl.cap}</figcaption>
                     </figure>
                   </div>

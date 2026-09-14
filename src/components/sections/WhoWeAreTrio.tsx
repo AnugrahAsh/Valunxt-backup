@@ -22,15 +22,20 @@
  * Styles: assets/css/valunxt-landing.css (.vxn-trio).
  */
 import { rurl } from '@/lib/region';
-import { rimg } from '@/lib/region-assets';
+import { rimg, rimgFirst } from '@/lib/region-assets';
 import { LogoXWindow } from '@/components/brand/LogoX';
+
+/** A path, or candidates in preference order: the first file that exists wins. */
+type ImgSrc = string | readonly string[];
+
+const srcOf = (region: string, img: ImgSrc) => rimgFirst(region, ([] as string[]).concat(img));
 
 interface TrioCard {
   tag: string;
   title: React.ReactNode;
   href: string;
   /** Omitted on the gradient card, which shows the x window instead. */
-  img?: string;
+  img?: ImgSrc;
   alt?: string;
 }
 
@@ -41,7 +46,7 @@ interface TrioContent {
    * `texture` is set, in which case that plate fills the slot and the x is not
    * drawn at all.
    */
-  brand: TrioCard & { img: string; texture?: string };
+  brand: TrioCard & { img: string; texture?: ImgSrc };
   right: TrioCard;
 }
 
@@ -68,13 +73,16 @@ const CONTENT: Record<string, TrioContent> = {
       alt: 'Commercial towers seen from street level',
     },
   },
+  /* The client's artwork for these three cards (20260913) lives in
+     uploads/uae/home/ and leads each list; the stand-in behind it is what
+     shows if that file is ever missing. */
   'en-ae': {
     left: {
       tag: 'Who We Are',
       title: 'One Accountable Partner for Business, Property & Investment Advisory in the UAE',
       href: '/about/',
-      img: 'services/accounting-and-tax-services.webp',
-      alt: 'Management accounts under review',
+      img: ['uae/home/who-we-are.webp', 'services/accounting-and-tax-services.webp'],
+      alt: 'Adviser shaking hands with a client',
     },
     brand: {
       tag: 'The Group',
@@ -83,14 +91,14 @@ const CONTENT: Record<string, TrioContent> = {
       /* Unused while `texture` is set; kept so removing the texture restores
          the x window without hunting for a photograph. */
       img: 'services/valuation-and-advisory.webp',
-      texture: 'banners/texture-2.webp',
+      texture: ['uae/home/the-group.webp', 'banners/texture-2.webp'],
     },
     right: {
       tag: 'Why VALUNXT',
       title: 'Evidence-Led Advice. Built Around Your Goals.',
       href: '/about/',
-      img: 'banners/uae-slider-3.webp',
-      alt: 'Dubai commercial district',
+      img: ['uae/home/why-choose-us.webp', 'banners/uae-slider-3.webp'],
+      alt: 'Advisory team reviewing reports in a Dubai office',
     },
   },
 };
@@ -124,7 +132,7 @@ function PlainCard({ region, card }: { region: string; card: TrioCard }) {
       {card.img ? (
         <div className="vxn-trio__media">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={rimg(region, card.img)} alt={card.alt ?? ''} loading="lazy" />
+          <img src={srcOf(region, card.img)} alt={card.alt ?? ''} loading="lazy" />
         </div>
       ) : null}
     </a>
@@ -146,7 +154,7 @@ export default function WhoWeAreTrio({ region }: { region: string }) {
         {c.brand.texture ? (
           <div className="vxn-trio__tex" aria-hidden="true">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={rimg(region, c.brand.texture)} alt="" loading="lazy" />
+            <img src={srcOf(region, c.brand.texture)} alt="" loading="lazy" />
           </div>
         ) : null}
 

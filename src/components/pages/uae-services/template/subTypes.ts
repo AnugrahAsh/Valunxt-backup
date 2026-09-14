@@ -30,6 +30,8 @@
  */
 import type { Industry } from '@/components/sections/HomeIndustriesRow';
 
+import { SUB_PAGE_IMAGES } from './subImages';
+
 export interface SubLink {
   label: string;
   href: string;
@@ -70,6 +72,12 @@ export type SubInsight = {
 /** One item on the vision rail. */
 export type SubStep = { title: string; body: string };
 
+/** A path under uploads/, or candidates in preference order (first that exists). */
+export type SubImage = string | string[];
+
+/** A SubImage as a candidate list. */
+export const subImageList = (img: SubImage): string[] => ([] as string[]).concat(img);
+
 export interface SubWhy {
   pill: string;
   /** Three lines, because a fourth overflows the card at 1280. */
@@ -78,7 +86,7 @@ export interface SubWhy {
   titleMark: string;
   note: string;
   cta: SubLink;
-  image: string;
+  image: SubImage;
   alt: string;
 }
 
@@ -95,7 +103,7 @@ export interface SubInsights {
 }
 
 export interface SubStory {
-  photo: string;
+  photo: SubImage;
   alt: string;
   quote: string;
   /** Initials, not a photograph: a stock headshot attached to a named role reads
@@ -116,7 +124,7 @@ export interface SubStory {
 }
 
 export interface SubBand {
-  image: string;
+  image: SubImage;
   alt: string;
   title: string;
   body: string;
@@ -149,7 +157,7 @@ export interface SubBrief {
     mark: string;
     title: string;
     sub: string;
-    image: string;
+    image: SubImage;
     alt: string;
   };
 }
@@ -188,7 +196,7 @@ export interface SubParent {
   /** The breadcrumb's middle step, short. "Accounting & Tax", not the registry name. */
   crumb: string;
   hero: { image: string[]; alt: string };
-  panel: { mark: string; image: string; alt: string };
+  panel: { mark: string; image: SubImage; alt: string };
   why: SubWhy;
   approach: SubApproach;
   insights: SubInsights;
@@ -219,9 +227,17 @@ export interface SubSpec {
  * The breadcrumb, the hero photograph and the panel's mark and plate are the
  * parent's unless the spec says otherwise; everything in `override` replaces
  * the parent's section wholesale rather than merging into it.
+ *
+ * EVERY IMAGE HAS A PURPOSE-SHOT SLOT (20260913), so no photograph repeats
+ * between pages: hero, panel, why, story, band, the six strip panels and the
+ * close, all per page, under uploads/services/sub/<service>/<page>-<slot>.webp.
+ * The insights cards are the exception: they are the site's articles' own images. Each leads its
+ * candidate list with the stand-in it replaces behind it, so a page with no file
+ * of its own still renders.
  */
 export function buildSubs(parent: SubParent, specs: SubSpec[]): Record<string, SubServiceTemplateContent> {
   const out: Record<string, SubServiceTemplateContent> = {};
+  const dir = `services/sub/${parent.service}`;
   for (const s of specs) {
     out[s.slug] = {
       service: parent.service,
@@ -233,7 +249,7 @@ export function buildSubs(parent: SubParent, specs: SubSpec[]): Record<string, S
       hero: {
         title: s.title,
         lede: s.lede,
-        image: s.hero?.image ?? parent.hero.image,
+        image: parent.hero.image,
         alt: s.hero?.alt ?? parent.hero.alt,
       },
       brief: {
@@ -250,6 +266,22 @@ export function buildSubs(parent: SubParent, specs: SubSpec[]): Record<string, S
       talk: parent.talk,
       ...s.override,
     };
+    /* The plates are wrapped after the override lands. Every image on every
+       page is that page's own, by client instruction (20260913): pages that share
+       a structure still never share a photograph. The strip panels are keyed by
+       position because each page's strip is its own list. */
+    const o = out[s.slug];
+    /* The page's entry in SUB_PAGE_IMAGES names its files; a page missing from
+       the registry still gets page-keyed names, never a sibling's. */
+    const reg = SUB_PAGE_IMAGES[`${parent.service}/${s.slug}`];
+    const own = (name: string) => `${dir}/${s.slug}-${name}.webp`;
+    o.hero = { ...o.hero, image: s.hero?.image ?? [...subImageList(reg?.hero ?? own('hero')), ...parent.hero.image] };
+    o.brief = { ...o.brief, panel: { ...o.brief.panel, image: [...subImageList(reg?.panel ?? own('panel')), ...subImageList(parent.panel.image)] } };
+    o.why = { ...o.why, image: [...subImageList(reg?.why ?? own('why')), ...subImageList(o.why.image)] };
+    o.story = { ...o.story, photo: [...subImageList(reg?.story ?? own('story')), ...subImageList(o.story.photo)] };
+    o.band = { ...o.band, image: [...subImageList(reg?.band ?? own('band')), ...subImageList(o.band.image)] };
+    o.strip = o.strip.map((st, i) => ({ ...st, img: [...subImageList(reg?.strip[i] ?? own(`strip-${i + 1}`)), ...subImageList(st.img)] }));
+    o.talk = { ...o.talk, image: [...subImageList(reg?.talk ?? own('talk')), ...o.talk.image] };
   }
   return out;
 }

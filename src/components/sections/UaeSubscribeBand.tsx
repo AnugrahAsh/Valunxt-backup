@@ -39,14 +39,16 @@ export default function UaeSubscribeBand({ region }: { region: string }) {
       </div>
 
       {/* Decorative: the headline beside it is what the section says. The
-          purpose-shot filename comes first in the house convention, so dropping
-          banners/uae-insights-subscribe.webp in replaces the stand-in with no
-          change here. */}
+          client's photograph for the band above the footer (20260913) comes
+          first; their alternative is next, so deleting footer-image.webp is
+          all it takes to show it. */}
       <div className="vxn-sub__shot" aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="vxn-sub__ground"
           src={rimgFirst(region, [
+            'uae/home/footer-image.webp',
+            'uae/home/footer-alternative.webp',
             'banners/uae-insights-subscribe.webp',
             'new-folder/about-us-1.webp',
           ])}

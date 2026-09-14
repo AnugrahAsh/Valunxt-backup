@@ -6,9 +6,9 @@
  *
  * The layouts are the ones supplied as reference (a dark impact strip, a split
  * spotlight, a three-card mosaic and a careers band). The palette is not: every
- * surface here is built from the brand tokens in valunxt-brand.css, and the
- * artwork is the abstract/texture set already in uploads rather than anything
- * new. The recurring device is the same one the rest of the page uses — the
+ * surface here is built from the brand tokens in valunxt-brand.css. The
+ * artwork was the abstract/texture set already in uploads until the client
+ * supplied its own (20260913, see UAE_HOME below). The recurring device is the same one the rest of the page uses — the
  * wordmark's x as a corner motif, see components/brand/LogoX.tsx.
  *
  * THE COPY IS THE CLIENT'S home-page document (20260911), word for word, with
@@ -26,6 +26,16 @@
 import { rurl } from '@/lib/region';
 import { rimg, rimgFirst } from '@/lib/region-assets';
 import { LogoXGlyph } from '@/components/brand/LogoX';
+
+/** The client's artwork for these bands (20260913). Each leads its slot's
+ *  candidate list, so the stand-in it replaced still shows if a file goes. */
+const UAE_HOME = {
+  impact: 'uae/home/advisory-scrutiny.webp',
+  mosaicLead: 'uae/home/about-valunxt.webp',
+  careersTexture: 'uae/home/expertise-abstract.webp',
+  /* Cut to the inset's 4:3 from the client's square original. */
+  careersInset: 'uae/home/expertise-inset.webp',
+} as const;
 
 /** The pill CTA used across all four bands. */
 function Pill({
@@ -58,7 +68,7 @@ export function ImpactBand({ region }: { region: string }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="vxn-impact__texture"
-          src={rimg(region, 'homepage/abstract-3.webp')}
+          src={rimgFirst(region, [UAE_HOME.impact, 'homepage/abstract-3.webp'])}
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -144,8 +154,8 @@ const MOSAIC_LEAD: MosaicCard = {
   title: 'Expertise That Moves Business Forward.',
   cta: 'See How We Work',
   href: '/about/',
-  images: ['banners/clients.webp', 'homepage/client-2.webp'],
-  alt: 'Advisers and clients in a Dubai office',
+  images: [UAE_HOME.mosaicLead, 'banners/clients.webp', 'homepage/client-2.webp'],
+  alt: 'VALUNXT adviser in conversation with a client',
 };
 
 const MOSAIC_STACK: MosaicCard[] = [
@@ -263,7 +273,7 @@ export function CareersBand({ region }: { region: string }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="vxn-careers__texture"
-          src={rimg(region, 'banners/texture-2.webp')}
+          src={rimgFirst(region, [UAE_HOME.careersTexture, 'banners/texture-2.webp'])}
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -271,8 +281,8 @@ export function CareersBand({ region }: { region: string }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="vxn-careers__inset"
-          src={rimgFirst(region, ['banners/careers.webp', 'banners/community.webp'])}
-          alt="VALUNXT colleagues in conversation"
+          src={rimgFirst(region, [UAE_HOME.careersInset, 'banners/careers.webp', 'banners/community.webp'])}
+          alt="VALUNXT team around a boardroom table"
           loading="lazy"
         />
       </div>

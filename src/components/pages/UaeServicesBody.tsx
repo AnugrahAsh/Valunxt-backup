@@ -428,6 +428,10 @@ export default function UaeServicesBody({
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={rimgFirst(region, [
+                            /* Its own card shot first (20260913), so the
+                               index does not repeat the home page's
+                               accordion photograph. */
+                            `services/index-${sv.slug}.webp`,
                             sv.img.replace('/assets/content/uploads/', ''),
                             ...(RELATED_FIGURE[sv.slug ?? ''] ?? []),
                           ])}

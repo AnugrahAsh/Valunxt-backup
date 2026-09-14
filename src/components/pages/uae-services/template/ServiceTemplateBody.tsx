@@ -1553,7 +1553,7 @@ export default function ServiceTemplateBody({
                 (t, k) => `
 .elementor-17 .elementor-element.elementor-element-${t.pane}:not(.elementor-motion-effects-element-type-background),
 .elementor-17 .elementor-element.elementor-element-${t.pane} > .elementor-motion-effects-container > .elementor-motion-effects-layer{
-  background-image:url("${rimgFirst(region, solution.images[k] ?? solution.images[0] ?? [])}")!important;
+  background-image:url("${rimgFirst(region, [`services/${content.slug}-solution-${k + 1}.webp`, ...(solution.images[k] ?? solution.images[0] ?? [])])}")!important;
   background-position:center center!important;
   background-size:cover!important;
 }
@@ -1761,6 +1761,11 @@ export default function ServiceTemplateBody({
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={rimgFirst(region, [
+                          /* This page's own shot of that service first
+                             (20260913): the same service is related from
+                             several pages, and each card takes a different
+                             photograph so none repeats across the section. */
+                          `services/at-related-${content.slug}--${sv.slug}.webp`,
                           ...(RELATED_FIGURE[sv.slug ?? ""] ?? []),
                           sv.img.replace("/assets/content/uploads/", ""),
                         ])}

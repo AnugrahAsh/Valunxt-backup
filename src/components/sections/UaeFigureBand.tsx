@@ -5,8 +5,9 @@
  * gradient with flowing ribbons across it, a lead panel held apart on the left
  * and three points beside it with a hairline between each. The reference's
  * palette is not used; every surface here is the brand's own, and the ribbons
- * are homepage/abstract-2.webp, the artwork already in uploads that the
- * reference's background happens to be a near match for.
+ * were homepage/abstract-2.webp, the artwork already in uploads that the
+ * reference's background happens to be a near match for, until the client
+ * supplied uae/home/connected-practices.webp (20260913).
  *
  * NO FIGURES. The first build carried four numbers (six practices, 48+ years,
  * 200+ years combined, 10+ industries) rolled up on arrival. Rehman asked for
@@ -28,7 +29,7 @@
  *
  * Styles: assets/css/valunxt-landing.css (section 19, .vxn-figs).
  */
-import { rimg } from '@/lib/region-assets';
+import { rimgFirst } from '@/lib/region-assets';
 import { rurl } from '@/lib/region';
 
 /** One point: a short heading and the line under it. */
@@ -57,10 +58,12 @@ export default function UaeFigureBand({ region }: { region: string }) {
   return (
     <section className="vxn-figs" aria-labelledby="vxn-figs-title">
       <div className="vxn-figs__card" data-vxn-figs="">
+        {/* The client's plate for this band (20260913), with the ribbons it
+            replaced behind it in case the file is ever missing. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="vxn-figs__texture"
-          src={rimg(region, 'homepage/abstract-2.webp')}
+          src={rimgFirst(region, ['uae/home/connected-practices.webp', 'homepage/abstract-2.webp'])}
           alt=""
           aria-hidden="true"
           loading="lazy"

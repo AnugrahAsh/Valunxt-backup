@@ -4,6 +4,7 @@
 
    Port of includes/partials/page-hero.php. */
 import { BASE, rurl } from '@/lib/region';
+import { uaePageImage, uaePageKey } from '@/lib/uae-page-images';
 import type { PageConfig } from '@/lib/page-config';
 
 const HERO_CSS = `
@@ -56,7 +57,8 @@ export default function PageHeroSection({
   tone?: 'default' | 'brand';
 }) {
   const title = page.hero_title ?? page.title ?? 'Page';
-  const image = page.hero_image ?? '';
+  /* The UAE edition's own hero for this page when one exists (lib/uae-page-images.ts). */
+  const image = uaePageImage(region, `${uaePageKey(page.path)}/hero`, `${BASE}${page.hero_image ?? ''}`).replace(new RegExp(`^${BASE}`), '');
   const pid = Number(page.post_id ?? 0);
   const brand = tone === 'brand';
 

@@ -7,6 +7,7 @@
  * visitor's market.
  */
 import { BASE, rurl } from '@/lib/region';
+import { uaePageImage } from '@/lib/uae-page-images';
 import ClientScript from '@/components/ClientScript';
 import type { PageConfig } from '@/lib/page-config';
 
@@ -73,7 +74,7 @@ export default function ResearchBody({ page, region }: { page: PageConfig; regio
       													<style id="loop-dynamic-9230" dangerouslySetInnerHTML={{ __html: `
       														.e-loop-item-9165 .elementor-element.elementor-element-a51fd27:not(.elementor-motion-effects-element-type-background),
       														.e-loop-item-9165 .elementor-element.elementor-element-a51fd27>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-      															background-image: url("${BASE}/assets/content/uploads/new-folder/insights-1.webp");
+      															background-image: url("${uaePageImage(region, 'research/india-real-estate-outlook-2026', `${BASE}/assets/content/uploads/new-folder/insights-1.webp`)}");
       														}
       													` }} />
       													<style id="loop-9230" dangerouslySetInnerHTML={{ __html: `
@@ -294,7 +295,7 @@ export default function ResearchBody({ page, region }: { page: PageConfig; regio
       													<style id="loop-dynamic-9230" dangerouslySetInnerHTML={{ __html: `
       														.e-loop-item-9158 .elementor-element.elementor-element-a51fd27:not(.elementor-motion-effects-element-type-background),
       														.e-loop-item-9158 .elementor-element.elementor-element-a51fd27>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-      															background-image: url("${BASE}/assets/content/uploads/new-folder/insights-2.webp");
+      															background-image: url("${uaePageImage(region, 'research/dubai-residential-market-review', `${BASE}/assets/content/uploads/new-folder/insights-2.webp`)}");
       														}
       													` }} />
       													<div data-elementor-type="loop-item" data-elementor-id="9230" className="elementor elementor-9230 e-loop-item e-loop-item-9158 post-9158 post type-post status-publish format-standard has-post-thumbnail hentry category-case-studies" data-elementor-post-type="elementor_library" data-custom-edit-handle="1">
@@ -319,7 +320,7 @@ export default function ResearchBody({ page, region }: { page: PageConfig; regio
       													<style id="loop-dynamic-9230" dangerouslySetInnerHTML={{ __html: `
       														.e-loop-item-9155 .elementor-element.elementor-element-a51fd27:not(.elementor-motion-effects-element-type-background),
       														.e-loop-item-9155 .elementor-element.elementor-element-a51fd27>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-      															background-image: url("${BASE}/assets/content/uploads/new-folder/research-intelligence-2.webp");
+      															background-image: url("${uaePageImage(region, 'research/nri-investment-trends', `${BASE}/assets/content/uploads/new-folder/research-intelligence-2.webp`)}");
       														}
       													` }} />
       													<div data-elementor-type="loop-item" data-elementor-id="9230" className="elementor elementor-9230 e-loop-item e-loop-item-9155 post-9155 post type-post status-publish format-standard has-post-thumbnail hentry category-case-studies" data-elementor-post-type="elementor_library" data-custom-edit-handle="1">
@@ -344,7 +345,7 @@ export default function ResearchBody({ page, region }: { page: PageConfig; regio
       													<style id="loop-dynamic-9230" dangerouslySetInnerHTML={{ __html: `
       														.e-loop-item-9152 .elementor-element.elementor-element-a51fd27:not(.elementor-motion-effects-element-type-background),
       														.e-loop-item-9152 .elementor-element.elementor-element-a51fd27>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-      															background-image: url("${BASE}/assets/content/uploads/new-folder/insights-3.webp");
+      															background-image: url("${uaePageImage(region, 'research/commercial-yields-capital-values', `${BASE}/assets/content/uploads/new-folder/insights-3.webp`)}");
       														}
       													` }} />
       													<div data-elementor-type="loop-item" data-elementor-id="9230" className="elementor elementor-9230 e-loop-item e-loop-item-9152 post-9152 post type-post status-publish format-standard has-post-thumbnail hentry category-case-studies" data-elementor-post-type="elementor_library" data-custom-edit-handle="1">

@@ -52,7 +52,7 @@ import { CSS as TEMPLATE_CSS } from './uae-services/template/ServiceTemplateBody
  * the services index's consultation promo carries, so the card and the page
  * it opens share a picture.
  */
-const PLATE = ['banners/free-consultation-uae.webp', 'new-folder/who-we-are-1.webp', 'banners/contact.webp'];
+const PLATE = ['uae/pages/free-consultation/hero.webp', 'banners/free-consultation-uae.webp', 'new-folder/who-we-are-1.webp', 'banners/contact.webp'];
 
 /** The four group companies, as the captured page listed and linked them. */
 const GROUP = [

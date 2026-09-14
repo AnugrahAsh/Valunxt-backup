@@ -18,6 +18,7 @@
 import type { ReactNode } from 'react';
 import type { PageConfig } from '@/lib/page-config';
 import { vxnRegion } from '@/lib/region';
+import { uaePageImageCss } from '@/lib/uae-page-images';
 
 import Preloader from './Preloader';
 import Header139 from './Header139';
@@ -63,9 +64,13 @@ export default function PageShell({
   children: ReactNode;
 }) {
   const region = vxnRegion(rawRegion);
+  /* The UAE edition's own hero and panel images for this page (see
+     lib/uae-page-images.ts). Empty for India and for any slot with no file. */
+  const pageImageCss = uaePageImageCss(region, page.path);
 
   return (
     <>
+      {pageImageCss ? <style id="uae-page-images" dangerouslySetInnerHTML={{ __html: pageImageCss }} /> : null}
       <Preloader />
       <SiteHeader which={page.header} region={region} />
       <div id="page" className="main-container">

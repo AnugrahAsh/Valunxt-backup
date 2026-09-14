@@ -10,6 +10,7 @@
 
    Port of includes/partials/research-detail.php. */
 import { BASE, rurl } from '@/lib/region';
+import { uaePageImage, uaePageKey } from '@/lib/uae-page-images';
 import { vxnReadTime } from '@/lib/site-data';
 import { vxnRequestOrigin } from '@/lib/seo';
 import Html from '@/components/Html';
@@ -86,7 +87,8 @@ export default async function ResearchDetailSection({
   region: string;
 }) {
   const type = page.report_type ?? 'Report';
-  const img = page.hero_image ?? '';
+  /* The UAE edition's own picture for this report (lib/uae-page-images.ts), shared with its index card. */
+  const img = uaePageImage(region, uaePageKey(page.path), `${BASE}${page.hero_image ?? ''}`);
   const title = page.hero_title ?? page.title ?? 'Report';
   const crumbs = page.crumbs ?? {};
   const topics = page.topics ?? [];
@@ -167,7 +169,7 @@ export default async function ResearchDetailSection({
               </div>
               <div
                 className="vxn-rd__hero-media"
-                style={{ backgroundImage: `url('${BASE}${img}')` }}
+                style={{ backgroundImage: `url('${img}')` }}
               />
             </section>
 

@@ -7,6 +7,7 @@
  * Port of includes/partials/blog-article.php.
  */
 import { BASE, rurl } from '@/lib/region';
+import { uaePageImage } from '@/lib/uae-page-images';
 import { vxnRequestOrigin } from '@/lib/seo';
 import BLOG_CATALOG from '@/data/blog-catalog';
 import SubscribeSection from './SubscribeSection';
@@ -111,7 +112,8 @@ export default async function BlogArticleSection({
   const author = article.author ?? 'VALUNXT Research Team';
   const arole = article.author_role ?? 'Insights & Analysis Desk';
   const initial = author.trim().slice(0, 1).toUpperCase() || 'V';
-  const hero = article.hero_image ?? page.og_image ?? '';
+  /* The UAE edition's own picture for this article (lib/uae-page-images.ts), shared with its index card and related thumbs. */
+  const hero = uaePageImage(region, `blogs/${article.slug}`, `${BASE}${article.hero_image ?? page.og_image ?? ''}`);
   const wordCount = article.body.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(Boolean).length;
   const rt = article.read_time ?? `${Math.max(1, Math.round(wordCount / 200))} min read`;
 
@@ -154,7 +156,7 @@ export default async function BlogArticleSection({
               </div>
               <div
                 className="vxn-art-hero__media"
-                style={{ backgroundImage: `url('${BASE}${hero}')` }}
+                style={{ backgroundImage: `url('${hero}')` }}
               />
             </header>
 
@@ -229,7 +231,7 @@ export default async function BlogArticleSection({
                           <div className="vxn-rel__thumb">
                             <span className="vxn-rel__badge">Article</span>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={BASE + meta.img} alt={meta.title} loading="lazy" />
+                            <img src={uaePageImage(region, `blogs/${slug}`, BASE + meta.img)} alt={meta.title} loading="lazy" />
                           </div>
                           <div className="vxn-rel__title">{meta.title}</div>
                         </a>

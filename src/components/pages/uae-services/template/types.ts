@@ -88,6 +88,13 @@ export interface ServiceTemplateContent {
     /** The invitation beside the heading. */
     cta: string;
     subs: TemplateSub[];
+    /** 'deck' draws the strip as the card deck of the 20260915 reference
+     *  (ExploreDeck.tsx): the open card's copy on its photograph with an icon
+     *  panel and a corner button, the closed cards on silk with their names
+     *  on end. Unset, the template's own strip. Real Estate only, so far. */
+    look?: 'deck';
+    /** The silk each card shows while closed, in `subs` order (deck only). */
+    silks?: string[][];
   };
 
   /** The three-tab chooser. Exactly three tabs render; a fourth is ignored. */
@@ -96,6 +103,12 @@ export interface ServiceTemplateContent {
     tabs: TemplateTab[];
     /** The photograph behind each tab's right-hand pane, in tab order. */
     images: string[][];
+    /** 'satin' draws the chooser as the green satin band of the 20260915
+     *  reference (SolutionSatin.tsx) in place of the captured Elementor tabs.
+     *  Unset, the captured block. Real Estate only, so far. */
+    look?: 'satin';
+    /** The band's texture, candidates first (satin only). */
+    texture?: string[];
   };
 
   /** The split banner card. */

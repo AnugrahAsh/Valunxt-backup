@@ -12,6 +12,7 @@ import type { PageConfig } from '@/lib/page-config';
 import { LogoXClipDefs } from '@/components/brand/LogoX';
 import HomeIndustriesRow from '@/components/sections/HomeIndustriesRow';
 import UaeReadyBand from '@/components/sections/UaeReadyBand';
+import UaeSubscribeBand from '@/components/sections/UaeSubscribeBand';
 
 export default function HomeInBody({ page, region }: { page: PageConfig; region: string }) {
   return (
@@ -1760,9 +1761,11 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       							</div>
       						</div>
       						<HomeIndustriesRow region={region} />
-      						{/* Closing band: the three ways to start, shared with the UAE home
-      						    (client, 20260914). It sits last, straight above the footer. */}
+      						{/* Closing bands, shared with the UAE home: the three ways to start
+      						    (client, 20260914), then Valunxt Insights (client, 20260915),
+      						    which sits last, straight above the footer. */}
       						<UaeReadyBand region={region} />
+      						<UaeSubscribeBand region={region} />
       					</div>
       				</div>
       			</article>

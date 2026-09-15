@@ -55,6 +55,8 @@ const GROUPS: { sel: string; variant: string; stagger?: boolean }[] = [
      the inner keeps the staggered entrance and leaves the panel's transition
      to the panel. */
   { sel: '.at-acc__inner', variant: 'up', stagger: true },
+  /* The satin chooser (SolutionSatin.tsx, 20260915): the card arrives whole. */
+  { sel: '.at-sat__card', variant: 'up' },
   { sel: '.at-rel__card', variant: 'up', stagger: true },
   { sel: '.at-talk__fig', variant: 'left' },
   { sel: '.at-talk__copy > *', variant: 'up', stagger: true },

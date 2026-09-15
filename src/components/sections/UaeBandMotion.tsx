@@ -18,7 +18,10 @@
  * THREE THINGS HAPPEN:
  *
  *   reveal   .vxn-figs__lead, each .vxn-figs__stat and each .vxn-post__card
- *            arrive in sequence, 90ms apart within their group.
+ *            arrive in sequence, 90ms apart within their group; since
+ *            20260915 so do the answer card's six tiles, the expertise
+ *            band's copy and its photograph (the stylesheet draws each
+ *            arrival: the tiles open by clip-path, the rest rise or slide).
  *   count    every [data-vxn-count] rolls from zero to its own value over
  *            1.1s. The value is in the markup as text, so the roll only ever
  *            replaces it with itself; the suffix ("+") is preserved.
@@ -30,8 +33,16 @@
  */
 import { useEffect } from 'react';
 
-/** What reveals, and in what order within its own group. */
-const GROUPS = ['.vxn-figs__lead, .vxn-figs__stat', '.vxn-post__card'];
+/** What reveals, and in what order within its own group. The answer card's
+ *  tiles and the expertise band's copy joined on 20260915; its figures carry
+ *  [data-vxn-count], so they roll when their list arrives. */
+const GROUPS = [
+  '.vxn-figs__lead, .vxn-figs__stat',
+  '.vxn-post__card',
+  '.vxn-answer__tile',
+  '.vxn-xp__copy > *',
+  '.vxn-xp__art',
+];
 
 /** 0 at 0, 1 at 1, fast then settling. */
 function easeOut(t: number): number {

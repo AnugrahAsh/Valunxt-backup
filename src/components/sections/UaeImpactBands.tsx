@@ -294,18 +294,18 @@ export function CareersBand({ region }: { region: string }) {
 /* -------------------------------------------------------------------------- */
 
 /**
- * The bands the page runs, in order. THREE, not four, since 20260911: the
- * spotlight ("Intelligence Behind Every Decision.") came off the home page on
- * client instruction. SpotlightBand stays exported above, and its styles stay
- * in the stylesheet, so putting it back is the one line between the impact
- * strip and the mosaic.
+ * The bands the page runs, in order. TWO since 20260915. The spotlight
+ * ("Intelligence Behind Every Decision.") came off the home page on client
+ * instruction on 20260911, and the careers band followed on 20260915: its copy
+ * now renders in UaeExpertiseBand.tsx, rebuilt to the client's reference, which
+ * HomeAeBody places straight after these two. Both stay exported above, and
+ * their styles stay in the stylesheet, so putting either back is one line.
  */
 export default function UaeImpactBands({ region }: { region: string }) {
   return (
     <>
       <ImpactBand region={region} />
       <MosaicBand region={region} />
-      <CareersBand region={region} />
     </>
   );
 }

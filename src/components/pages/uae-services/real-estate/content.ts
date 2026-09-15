@@ -71,6 +71,11 @@ export const REAL_ESTATE_TEMPLATE: ServiceTemplateContent = {
         figure: ['services/re-explore-off-plan.webp', 'new-folder/services-1.webp'],
       },
     ],
+    /* The card deck of the reference supplied 20260915, this page only, in
+       the brand's blues: each closed card sits on its own silk, as the
+       reference's narrow cards do. */
+    look: 'deck',
+    silks: [['banners/texture-1.webp'], ['uae/home/expertise-abstract.webp'], ['banners/uae-slider-2.webp']],
   },
   solution: {
     head: 'Find the Right Solution',
@@ -116,6 +121,11 @@ export const REAL_ESTATE_TEMPLATE: ServiceTemplateContent = {
       },
     ],
     images: [['homepage/industry-2.webp'], ['new-folder/client-success-2.webp'], ['new-folder/who-we-are-3.webp']],
+    /* The green satin band of the reference supplied 20260915, this page
+       only. The texture is banners/texture-1.webp re-toned to the
+       reference's teal (ffmpeg: blue channel, normalised, curves). */
+    look: 'satin',
+    texture: ['services/re-solution-texture.webp'],
   },
   banner: {
     head: 'Read the Market Before You Move',

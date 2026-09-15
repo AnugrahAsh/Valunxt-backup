@@ -90,7 +90,7 @@ const OFFICES: Record<OfficeKey, Office> = {
   mumbai: {
     city: 'Mumbai',
     note: 'BKC',
-    entity: 'Valunxt Capital Advisory Services Private Limited',
+    entity: 'Valunxt Advisory Services Private Limited',
     address:
       '11th Floor, Platina Tower, Plot C 59, Bandra Kurla Complex Rd, G Block, Bandra Kurla Complex, Bandra East, Mumbai, Maharashtra 400051, India',
     country: 'India',

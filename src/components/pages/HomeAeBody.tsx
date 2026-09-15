@@ -16,9 +16,10 @@ import WhoWeAreTrio from '@/components/sections/WhoWeAreTrio';
 import UaeFigureBand from '@/components/sections/UaeFigureBand';
 import UaeAnswerBand from '@/components/sections/UaeAnswerBand';
 import UaeImpactBands from '@/components/sections/UaeImpactBands';
-import UaePosterTrio from '@/components/sections/UaePosterTrio';
+import UaeExpertiseBand from '@/components/sections/UaeExpertiseBand';
 import UaeBandMotion from '@/components/sections/UaeBandMotion';
 import UaeReadyBand from '@/components/sections/UaeReadyBand';
+import UaeSubscribeBand from '@/components/sections/UaeSubscribeBand';
 
 /** The small entity set the hero's aria-labels and alt text need decoded. */
 function decodeEntities(v: string): string {
@@ -553,13 +554,16 @@ export default function HomeAeBody({ page, region }: { page: PageConfig; region:
       						    It follows the six services because every question it answers is
       						    one of theirs. UAE only. */}
       						<UaeAnswerBand region={region} />
-      						{/* The feature bands (impact, mosaic, careers; the spotlight came off on
-      						    20260911), between the Answer band and the insights carousel. UAE only —
-      						    India does not render them. */}
+      						{/* The feature bands (impact, mosaic; the spotlight came off on 20260911
+      						    and the careers band on 20260915), between the Answer band and the
+      						    insights carousel. UAE only — India does not render them. */}
       						<UaeImpactBands region={region} />
-      						{/* The bento (20260912; rebuilt light 20260914). It closes the
-      						    middle of the page, before the insights carousel. UAE only. */}
-      						<UaePosterTrio region={region} />
+      						{/* "Expertise Measured in Decades." (20260915), built to the client's
+      						    reference in the careers band's place. UAE only. */}
+      						<UaeExpertiseBand region={region} />
+      						{/* The bento (.vxn-post, UaePosterTrio.tsx) came off the page on
+      						    20260915, client instruction. The component and its styles
+      						    stay, unrendered. */}
       						{/* One motion layer for both of the day's bands: the figure roll
       						    and the staggered arrival. Renders nothing. */}
       						<UaeBandMotion />
@@ -906,10 +910,11 @@ export default function HomeAeBody({ page, region }: { page: PageConfig; region:
       								</div>
       							</div>
       						</div>
-      						{/* Closing band: the three ways to start. India renders the same
-      						    band since 20260914. The newsletter band that followed it was
-      						    removed site-wide the same day. */}
+      						{/* Closing bands: the three ways to start, then Valunxt Insights.
+      						    India renders both since 20260915; the newsletter band had come
+      						    off site-wide on 20260914 and is back by client instruction. */}
       						<UaeReadyBand region={region} />
+      						<UaeSubscribeBand region={region} />
       					</div>
       				</div>
       			</article>

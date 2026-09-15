@@ -65,7 +65,9 @@ import type React from "react";
 import Html from "@/components/Html";
 import { rurl, vxnServiceName, vxnServices } from "@/lib/region";
 import { rimgFirst } from "@/lib/region-assets";
+import ExploreDeck from "./ExploreDeck";
 import ServiceTemplateMotion from "./Motion";
+import SolutionSatin from "./SolutionSatin";
 import type { ServiceTemplateContent, TemplateSub } from "./types";
 
 /**
@@ -1437,7 +1439,12 @@ export default function ServiceTemplateBody({
               Directly under the proposition, because the source document's
               own instruction is not to let generic education push the
               services down the page. The id is what the hero's secondary
-              button and the banner's link jump to. */}
+              button and the banner's link jump to. A page whose content asks
+              for the card deck (strip.look, 20260915; Real Estate) gets
+              ExploreDeck instead, on the same accordion. */}
+          {strip.look === "deck" ? (
+            <ExploreDeck region={region} content={content} />
+          ) : (
           <section className="at-services" id="at-services" aria-labelledby="at-services-head">
             <div className="at-in">
               <div className="at-services__head">
@@ -1488,6 +1495,7 @@ export default function ServiceTemplateBody({
               </div>
             </div>
           </section>
+          )}
 
           {/* ---- 2c. FIND THE RIGHT SOLUTION ----
               THE HOME PAGE'S SECTION, COPIED. Everything inside the
@@ -1510,7 +1518,26 @@ export default function ServiceTemplateBody({
               children apart, which held the corner mark at the top and the
               button at the foot; the mark is gone (client instruction,
               20260911) and the button is the only child left, so without this
-              it would rise to the top. */}
+              it would rise to the top.
+
+              A page whose content asks for the satin band (solution.look,
+              20260915; Real Estate) gets SolutionSatin instead: the same
+              heading, tabs, titles, intros, steps and buttons, on the green
+              satin of that day's reference, switched by its own script. */}
+          {solution.look === "satin" ? (
+            <SolutionSatin
+              head={solution.head}
+              texture={rimgFirst(region, solution.texture ?? ["services/re-solution-texture.webp"])}
+              tabs={SOL.map((g) => ({
+                tab: g.tab,
+                title: g.title,
+                intro: g.intro,
+                items: g.items,
+                cta: { label: g.cta.label, href: rurl(region, g.cta.href) },
+              }))}
+            />
+          ) : (
+          <>
           <style
             id={`${content.slug}-solution-images`}
             dangerouslySetInnerHTML={{
@@ -1670,6 +1697,8 @@ export default function ServiceTemplateBody({
               </div>
             </div>
           </div>
+          </>
+          )}
 
           {/* ---- 3. THE BANNER ---- */}
           <section className="at-prob" aria-labelledby="at-problem-head">

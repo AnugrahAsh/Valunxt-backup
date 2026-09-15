@@ -61,7 +61,7 @@ const REGIONS: Record<RegionSlug, Region> = {
     markets: 'India',
     markets_long: 'India, the UAE, and international markets',
     cities: 'Mumbai and Noida',
-    entity: 'Valunxt Capital Advisory Services Private Limited',
+    entity: 'Valunxt Advisory Services Private Limited',
     phone: '+91 120 718 5322',
     tel: '+911207185322',
     hours: 'Mon – Sat, 9:00 AM – 6:00 PM IST',

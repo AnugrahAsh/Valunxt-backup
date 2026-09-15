@@ -12,6 +12,10 @@
  * word in light blue), and the accent bar under the title and the underline
  * under the link are gone.
  *
+ * OFF THE PAGE, 20260915 (client, later that day): HomeAeBody no longer
+ * renders this band. The component, its motion groups and section 21 of the
+ * stylesheet stay, so putting it back is the one line in HomeAeBody.
+ *
  * IT REPLACES THE CAREERS BAND (CareersBand in UaeImpactBands.tsx), which
  * carried the same title, sentence and link on a cream split. The words are
  * the client's home document, unchanged; the eyebrow and the three figure

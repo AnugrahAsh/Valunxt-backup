@@ -1,8 +1,8 @@
 /**
  * The feature bands that run between the services accordion and the insights
- * carousel on /en-ae/ only: a dark impact strip, a three-card mosaic and a
- * careers band. A fourth, the split spotlight, is still written here but no
- * longer rendered; see the default export.
+ * carousel on /en-ae/ only: a dark impact strip and a three-tile mosaic. Two
+ * more, the split spotlight and the careers band, are still written here but
+ * no longer rendered; see the default export.
  *
  * The layouts are the ones supplied as reference (a dark impact strip, a split
  * spotlight, a three-card mosaic and a careers band). The palette is not: every
@@ -27,6 +27,7 @@ import { rurl } from '@/lib/region';
 import { rimg, rimgFirst } from '@/lib/region-assets';
 import { LogoXGlyph } from '@/components/brand/LogoX';
 import { brandCase } from '@/components/ui/BrandName';
+import CtaArrow from '@/components/ui/CtaArrow';
 
 /** The client's artwork for these bands (20260913). Each leads its slot's
  *  candidate list, so the stand-in it replaced still shows if a file goes. */
@@ -135,110 +136,116 @@ export function SpotlightBand({ region }: { region: string }) {
 /* -------------------------------------------------------------------------- */
 
 interface MosaicCard {
+  /** split: a photograph and the words side by side, the photograph first
+   *  unless flip is set. brand: the full-height blue tile, its picture a
+   *  texture under the words. */
+  look: 'split' | 'brand';
+  flip?: boolean;
   eyebrow: string;
   title: string;
   cta: string;
   href: string;
   /** Candidates in preference order; the first that exists wins. */
-  images?: string[];
-  alt?: string;
+  images: string[];
+  /** Empty for the texture, which is decoration. */
+  alt: string;
+  /** object-position, so the crop keeps the faces at every tile shape. */
+  focus?: string;
 }
 
-/** The tall card on the left, then the two stacked beside it.
+/** The three tiles, in reading order: About, Research, Integrated Advisory.
  *
  *  The eyebrows and titles are the client's. The document gives the tiles no
  *  button text, so the first two keep the labels they had, and the third,
  *  which was the group's card, now goes where its new title points: the
- *  services index, with a label to match. */
-const MOSAIC_LEAD: MosaicCard = {
-  eyebrow: 'About Valunxt',
-  title: 'Expertise That Moves Business Forward.',
-  cta: 'See How We Work',
-  href: '/about/',
-  images: [UAE_HOME.mosaicLead, 'banners/clients.webp', 'homepage/client-2.webp'],
-  alt: 'Valunxt adviser in conversation with a client',
-};
-
-const MOSAIC_STACK: MosaicCard[] = [
+ *  services index, with a label to match.
+ *
+ *  PICTURES, 20260915 layout pass. About keeps the client's photograph.
+ *  Research stands on its own practice's banner (uae-slider-3, the vertical
+ *  fins), which the hero does not show because that practice is hero: false.
+ *  Integrated Advisory takes the client's uae/home/card-above-insights.webp,
+ *  a boardroom in daylight, over the blurred, dark banners/our-group.webp it
+ *  had; take the first entry out of its list to switch back. */
+const MOSAIC: MosaicCard[] = [
   {
-    eyebrow: 'Research &amp; Intelligence',
+    look: 'split',
+    eyebrow: 'About Valunxt',
+    title: 'Expertise That Moves Business Forward.',
+    cta: 'See How We Work',
+    href: '/about/',
+    images: [UAE_HOME.mosaicLead, 'banners/clients.webp', 'homepage/client-2.webp'],
+    alt: 'Valunxt adviser in conversation with a client',
+    focus: '50% 24%',
+  },
+  {
+    look: 'brand',
+    eyebrow: 'Research & Intelligence',
     title: 'Intelligence That Turns Decisions Into Impact.',
     cta: 'Read the Research',
     href: '/research/',
+    images: ['banners/uae-slider-3.webp', 'homepage/abstract-1.webp'],
+    alt: '',
   },
   {
+    look: 'split',
+    flip: true,
     eyebrow: 'Integrated Advisory',
     title: 'Business. Property. Finance. All Connected.',
     cta: 'Explore Our Services',
     href: '/services/',
-    images: ['banners/our-group.webp', 'banners/network.webp'],
-    alt: 'Valuation team reviewing a property file',
+    images: ['uae/home/card-above-insights.webp', 'banners/our-group.webp', 'banners/network.webp'],
+    alt: 'Advisers in discussion around a boardroom table',
+    focus: '50% 22%',
   },
 ];
 
 /**
- * 3. The mosaic. A tall photographic card beside two shorter ones — the middle
- *    card takes the brand gradient so the group does not read as three
- *    photographs in a row.
+ * 3. The mosaic (layout rebuilt 20260915, client: "not looking good as
+ *    expected, try a different, better layout").
+ *
+ *    It was a tall photograph beside two short cards, every title set over
+ *    its picture under a dark scrim. Now two split tiles, a photograph beside
+ *    its words, run down the left two thirds with the photographs on the
+ *    diagonal, and the Research tile takes the right third at full height in
+ *    the brand blue. Nothing is written over a photograph, so neither needs
+ *    a scrim. Same three links, same words.
  */
 export function MosaicBand({ region }: { region: string }) {
   return (
     <section className="vxn-mosaic" aria-label="More from Valunxt">
       <div className="vxn-mosaic__grid">
-        <a className="vxn-mosaic__card vxn-mosaic__card--lead" href={rurl(region, MOSAIC_LEAD.href)}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            className="vxn-mosaic__media"
-            src={rimgFirst(region, MOSAIC_LEAD.images ?? [])}
-            alt={MOSAIC_LEAD.alt ?? ''}
-            loading="lazy"
-          />
-          <div className="vxn-mosaic__body">
-            <span className="vxn-band__eyebrow">{brandCase(MOSAIC_LEAD.eyebrow)}</span>
-            <h3 className="vxn-mosaic__title">{MOSAIC_LEAD.title}</h3>
-            <span className="vxn-band__pill vxn-band__pill--accent">
-              {MOSAIC_LEAD.cta}
-              <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow" />
-            </span>
-          </div>
-        </a>
-
-        <div className="vxn-mosaic__stack">
-          {MOSAIC_STACK.map((card, i) => (
-            <a
-              className={`vxn-mosaic__card vxn-mosaic__card--${i === 0 ? 'grad' : 'photo'}`}
-              href={rurl(region, card.href)}
-              key={card.href}
-            >
-              {card.images ? (
-                <>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    className="vxn-mosaic__media"
-                    src={rimgFirst(region, card.images)}
-                    alt={card.alt ?? ''}
-                    loading="lazy"
-                  />
-                </>
-              ) : (
-                <span className="vxn-mosaic__x" aria-hidden="true">
-                  <LogoXGlyph />
-                </span>
-              )}
-              <div className="vxn-mosaic__body">
-                <span
-                  className="vxn-band__eyebrow"
-                  dangerouslySetInnerHTML={{ __html: card.eyebrow }}
-                />
-                <h3 className="vxn-mosaic__title">{card.title}</h3>
-                <span className="vxn-band__pill vxn-band__pill--accent">
-                  {card.cta}
-                  <i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow" />
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
+        {MOSAIC.map((card) => (
+          <a
+            className={`vxn-mosaic__card vxn-mosaic__card--${card.look}${card.flip ? ' vxn-mosaic__card--flip' : ''}`}
+            href={rurl(region, card.href)}
+            key={card.href}
+          >
+            <div className="vxn-mosaic__shot">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="vxn-mosaic__media"
+                src={rimgFirst(region, card.images)}
+                alt={card.alt}
+                loading="lazy"
+                style={card.focus ? { objectPosition: card.focus } : undefined}
+              />
+            </div>
+            <div className="vxn-mosaic__body">
+              {/* The words in their own span: the eyebrow is a flex row (the
+                  rule, then the words), and brandCase() returns loose
+                  fragments that would each become a flex item and lose the
+                  spaces between them. */}
+              <span className="vxn-mosaic__eyebrow">
+                <span>{brandCase(card.eyebrow)}</span>
+              </span>
+              <h3 className="vxn-mosaic__title">{card.title}</h3>
+              <span className={`vxn-band__pill vxn-band__pill--${card.look === 'brand' ? 'accent' : 'solid'}`}>
+                {card.cta}
+                <CtaArrow />
+              </span>
+            </div>
+          </a>
+        ))}
       </div>
     </section>
   );
@@ -297,9 +304,10 @@ export function CareersBand({ region }: { region: string }) {
  * The bands the page runs, in order. TWO since 20260915. The spotlight
  * ("Intelligence Behind Every Decision.") came off the home page on client
  * instruction on 20260911, and the careers band followed on 20260915: its copy
- * now renders in UaeExpertiseBand.tsx, rebuilt to the client's reference, which
- * HomeAeBody places straight after these two. Both stay exported above, and
- * their styles stay in the stylesheet, so putting either back is one line.
+ * moved to UaeExpertiseBand.tsx, rebuilt to the client's reference, and that
+ * band came off the page too later the same day (client). Both stay exported
+ * above, and their styles stay in the stylesheet, so putting either back is
+ * one line.
  */
 export default function UaeImpactBands({ region }: { region: string }) {
   return (

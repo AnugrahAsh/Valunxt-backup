@@ -16,7 +16,6 @@ import WhoWeAreTrio from '@/components/sections/WhoWeAreTrio';
 import UaeFigureBand from '@/components/sections/UaeFigureBand';
 import UaeAnswerBand from '@/components/sections/UaeAnswerBand';
 import UaeImpactBands from '@/components/sections/UaeImpactBands';
-import UaeExpertiseBand from '@/components/sections/UaeExpertiseBand';
 import UaeBandMotion from '@/components/sections/UaeBandMotion';
 import UaeReadyBand from '@/components/sections/UaeReadyBand';
 import UaeSubscribeBand from '@/components/sections/UaeSubscribeBand';
@@ -558,9 +557,10 @@ export default function HomeAeBody({ page, region }: { page: PageConfig; region:
       						    and the careers band on 20260915), between the Answer band and the
       						    insights carousel. UAE only — India does not render them. */}
       						<UaeImpactBands region={region} />
-      						{/* "Expertise Measured in Decades." (20260915), built to the client's
-      						    reference in the careers band's place. UAE only. */}
-      						<UaeExpertiseBand region={region} />
+      						{/* "Expertise Measured in Decades." (.vxn-xp, UaeExpertiseBand.tsx),
+      						    built to the client's reference in the careers band's place,
+      						    came off the page on 20260915, client instruction. The
+      						    component and its styles stay, unrendered. */}
       						{/* The bento (.vxn-post, UaePosterTrio.tsx) came off the page on
       						    20260915, client instruction. The component and its styles
       						    stay, unrendered. */}

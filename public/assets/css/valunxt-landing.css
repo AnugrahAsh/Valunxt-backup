@@ -15,7 +15,7 @@
 
      5. .vxn-impact     the dark impact strip
      6. .vxn-spotlight  one practice, copy beside artwork
-     7. .vxn-mosaic     a tall card beside two stacked
+     7. .vxn-mosaic     two split tiles beside a brand tile
      8. .vxn-careers    the split careers band
 
    And two more, added 2026-09 from supplied reference artwork, /en-ae/ only:
@@ -899,7 +899,7 @@
 
      5. .vxn-impact     the dark impact strip
      6. .vxn-spotlight  one practice, copy beside artwork
-     7. .vxn-mosaic     a tall card beside two stacked
+     7. .vxn-mosaic     two split tiles beside a brand tile
      8. .vxn-careers    the split careers band
 
    Self-contained: the responsive and reduced-motion rules for these four are
@@ -1166,168 +1166,332 @@
 }
 
 /* --------------------------------------------------------------------------
-   7. .vxn-mosaic — a tall card beside two stacked
+   7. .vxn-mosaic — two split tiles beside a brand tile (layout 20260915)
+
+   REBUILT on client feedback ("not looking good as expected, try a
+   different, better layout"). It was a tall photograph beside two short
+   cards, each title set over its picture under a dark scrim, so the pictures
+   went muddy and the words ran across faces. The links and the words are
+   unchanged; the arrangement is new:
+
+     +------------+------------+------------+
+     | photograph | About      |            |
+     +------------+------------+  Research  |
+     | Integrated | photograph |  on its    |
+     | Advisory   |            |  texture   |
+     +------------+------------+------------+
+
+   The two photographs sit on the diagonal with nothing written over them,
+   so no scrim, and each shows at full strength. The words sit on a pale
+   tint of the brand blue with the ready band's corner glow. The Research
+   tile runs the full height on its practice's own banner.
+
+   Three equal columns: a split tile spans two of them and the brand tile is
+   one. Stacked at 1024 and below with the split tiles keeping their halves;
+   at 600 the halves stack as well, photograph first.
+
+   SPECIFICITY. Written as .vxn-mosaic .vxn-mosaic__x at (0,2,0): the UAE
+   type sheet sizes every h3 through body.vxn-uae-type h3 at (0,1,2) with
+   !important, and the kit colours links and rounds images at (0,1,1).
    -------------------------------------------------------------------------- */
 .vxn-mosaic {
   padding: clamp(44px, 5.5vw, 86px) clamp(16px, 4vw, 48px) 0;
   background: #fff;
 }
 
-.vxn-mosaic__grid {
+.vxn-mosaic .vxn-mosaic__grid {
   max-width: 1520px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* A row is a split tile's words (eyebrow, a two-line title, the pill) on
+     their padding, over a floor for the widths where the words run short.
+     Kept near the old band's height, which the client had asked to come
+     down from 548 at 1600 to 440: the grid is 504 there now, and the row
+     grows if a title ever needs a third line. */
+  grid-auto-rows: minmax(clamp(210px, 14vw, 260px), auto);
   gap: 20px;
 }
 
-.vxn-mosaic__stack {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 20px;
-  min-width: 0;
-}
-
-/* THE STACK SETS THE SECTION'S HEIGHT, not the lead card — which is why this
-   min-height had to come down with the lead's and not instead of it.
-
-   The right column is two of these plus a 20px gap, so at the old 264 it stood
-   264 * 2 + 20 = 548 — exactly the lead's old ceiling. Lowering only the lead
-   would have changed nothing: the grid row takes the taller of the two, and
-   the stack would simply have kept the section at 548. */
-.vxn-mosaic__card {
+.vxn-mosaic .vxn-mosaic__card {
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  min-height: 190px;
-  padding: clamp(22px, 2.4vw, 34px);
-  border-radius: 18px;
-  overflow: hidden;
   isolation: isolate;
-  text-decoration: none;
-  background: var(--vxn-band-dark);
-  transition: transform .3s var(--vxn-ease), box-shadow .3s var(--vxn-ease);
+  overflow: hidden;
+  border-radius: 20px;
+  text-decoration: none !important;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Reduced on client feedback: 548 at 1600 made this the tallest band on the
-   page for three cards carrying a line of copy each. */
-.vxn-mosaic__card--lead {
-  min-height: clamp(300px, 30vw, 440px);
+.vxn-mosaic .vxn-mosaic__card:focus-visible {
+  outline: 2px solid var(--vxn-blue);
+  outline-offset: 4px;
 }
 
-/* The shared card fill runs blue -> violet -> magenta. This page carries no
-   purple, so the middle card takes the same blue ramp as the trio card. */
-.vxn-mosaic__card--grad {
-  background: linear-gradient(150deg, #0E3FA8 0%, #1436D8 48%, #0B2DBE 100%);
+/* ---- The split tiles --------------------------------------------------------
+   One link, two halves. The glow sits in the words' outer corner: top right
+   on the first tile, bottom left on the flipped one. */
+.vxn-mosaic .vxn-mosaic__card--split {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  background:
+    radial-gradient(60% 95% at 100% 0%, rgba(11, 45, 190, .075) 0%, rgba(11, 45, 190, 0) 72%),
+    #F1F5FC;
+  transition: background-color .4s var(--vxn-ease);
 }
 
-.vxn-mosaic__card:hover,
-.vxn-mosaic__card:focus-visible {
-  transform: translateY(-4px);
-  box-shadow: 0 22px 48px rgba(11, 44, 86, .22);
+.vxn-mosaic .vxn-mosaic__card--flip {
+  grid-row: 2;
+  background:
+    radial-gradient(60% 95% at 0% 100%, rgba(11, 45, 190, .075) 0%, rgba(11, 45, 190, 0) 72%),
+    #F1F5FC;
 }
 
-.vxn-mosaic__media {
+.vxn-mosaic .vxn-mosaic__card--flip .vxn-mosaic__shot {
+  order: 2;
+}
+
+.vxn-mosaic .vxn-mosaic__shot {
+  position: relative;
+  display: block;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+/* !important twice: `.elementor img { height: auto }` would leave the
+   picture at its own aspect ratio, and the kit's 8px image radius would show
+   at the seam, where the photograph meets the words square. The crop point
+   comes from the markup (focus), per photograph. */
+.vxn-mosaic .vxn-mosaic__media {
   position: absolute;
   inset: 0;
-  z-index: -2;
-  width: 100%;
-  /* Without !important this loses to `.elementor img { height: auto }` and the
-     photograph sits at its own aspect ratio across the top of the card, leaving
-     the card's own dark fill showing as a solid block behind the copy. */
-  height: 100% !important;
-  object-fit: cover;
-  transition: transform .6s var(--vxn-ease);
-}
-
-.vxn-mosaic__card:hover .vxn-mosaic__media {
-  transform: scale(1.04);
-}
-
-/* The scrim that holds white type over a photograph — an overlay on the picture
-   rather than a panel under the copy, so the image reads the whole height of
-   the card. The stops are not eyeballed: banners/clients.webp is a high-key
-   photograph whose lower half measures ~0.42-0.50 relative luminance, and white
-   needs the backdrop under ~0.18 to clear 4.5:1. That puts the overlay near .62
-   where the eyebrow sits and .71 under the title, falling to nothing by 78% so
-   the top half of the picture is untouched. The gradient card gets a weaker one
-   — it is already dark — so the copy sits at the same weight in all three. */
-.vxn-mosaic__card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(to top,
-      rgba(8, 25, 48, .88) 0%,
-      rgba(8, 25, 48, .74) 20%,
-      rgba(8, 25, 48, .60) 35%,
-      rgba(8, 25, 48, .28) 55%,
-      rgba(8, 25, 48, 0) 78%);
-  pointer-events: none;
-}
-
-.vxn-mosaic__card--grad::after {
-  background: linear-gradient(to top, rgba(8, 25, 48, .34) 0%, rgba(8, 25, 48, 0) 62%);
-  /* background: #0B2DBE; */
-}
-
-/* The lead card's photograph is now the client's uae/home/about-valunxt.webp
-   (20260913), whose left edge is a bright window right where the eyebrow sits.
-   On the stops above the eyebrow measured 3.95:1 at 1440; these hold it at
-   5.1:1 or better from 768 to 1920, and the top of the picture is still left
-   open. */
-.vxn-mosaic__card--lead::after {
-  background: linear-gradient(to top,
-      rgba(8, 25, 48, .88) 0%,
-      rgba(8, 25, 48, .78) 20%,
-      rgba(8, 25, 48, .68) 35%,
-      rgba(8, 25, 48, .40) 55%,
-      rgba(8, 25, 48, 0) 80%);
-}
-
-.vxn-mosaic__x {
-  position: absolute;
-  right: -18px;
-  top: -14px;
-  z-index: -1;
-  width: clamp(120px, 14vw, 190px);
-  color: #FFFFFF;
-  opacity: .14;
-  pointer-events: none;
-}
-
-.vxn-mosaic__x svg {
   display: block;
   width: 100%;
-  height: auto;
+  max-width: none;
+  height: 100% !important;
+  object-fit: cover;
+  border-radius: 0 !important;
+  transition: transform .9s var(--vxn-ease);
 }
 
-.vxn-mosaic__body {
+/* Words from the top, pill at the foot, on the same padding in every tile:
+   so the two eyebrows on the top row share a line, and so do the two pills
+   on the bottom row (the Integrated tile's and the Research tile's). */
+.vxn-mosaic .vxn-mosaic__body {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%;
+  justify-content: flex-start;
+  min-width: 0;
+  padding: clamp(24px, 2.2vw, 40px);
 }
 
-/* Nearly solid: at 11px over a photograph the .78 this started at measured
-   4.1:1, just under the threshold. */
-.vxn-mosaic__body .vxn-band__eyebrow {
-  color: rgba(255, 255, 255, .92);
-  margin-bottom: 10px;
+.vxn-mosaic .vxn-mosaic__body .vxn-band__pill {
+  margin-top: auto;
 }
 
-.vxn-mosaic__title {
-  margin: 0 0 20px;
-  max-width: 100%;
+/* The ready band's eyebrow: a short rule, then the tracked capitals. */
+.vxn-mosaic .vxn-mosaic__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: clamp(12px, 1vw, 16px);
+  color: var(--vxn-blue);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.vxn-mosaic .vxn-mosaic__eyebrow::before {
+  content: "";
+  flex: none;
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+}
+
+.vxn-mosaic .vxn-mosaic__title {
+  margin: 0 0 clamp(16px, 1.4vw, 24px);
+  max-width: 17em;
+  color: var(--vxn-ink) !important;
+  font-size: clamp(22px, 1.9vw, 31px) !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.01em;
+}
+
+/* ---- The brand tile ----------------------------------------------------------
+   The Research practice's banner (the vertical fins) under a wash of the
+   brand's deep blue. The wash is blue, not the dark scrim the old cards
+   carried, and it only runs as far as the words: the fins are brightest in
+   the lower half, where only the white pill sits. */
+.vxn-mosaic .vxn-mosaic__card--brand {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  display: flex;
+  background: var(--vxn-blue);
+}
+
+.vxn-mosaic .vxn-mosaic__card--brand .vxn-mosaic__shot {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.vxn-mosaic .vxn-mosaic__card--brand .vxn-mosaic__shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      rgba(8, 36, 143, .74) 0%,
+      rgba(8, 36, 143, .42) 38%,
+      rgba(8, 36, 143, 0) 66%);
+  pointer-events: none;
+}
+
+.vxn-mosaic .vxn-mosaic__card--brand .vxn-mosaic__body {
+  flex: 1 1 auto;
+}
+
+.vxn-mosaic .vxn-mosaic__card--brand .vxn-mosaic__eyebrow {
+  color: #FFFFFF;
+}
+
+/* Measured at 1600 with the words hidden: the texture under the title holds
+   white at 9.1:1 at its 95th-percentile pixel, 8.1:1 at its brightest. */
+.vxn-mosaic .vxn-mosaic__card--brand .vxn-mosaic__title {
+  max-width: 12em;
   color: #FFFFFF !important;
-  font-weight: 400 !important;
-  font-size: clamp(22px, 2.1vw, 32px) !important;
-  line-height: 1.16 !important;
+  font-size: clamp(28px, 2.5vw, 40px) !important;
+  line-height: 1.14 !important;
 }
 
-/* Set to the right, as in the reference, without needing its own row wrapper. */
-.vxn-mosaic__body .vxn-band__pill {
-  align-self: flex-end;
+/* ---- Pointed at --------------------------------------------------------------
+   The whole tile is the link, so pointing anywhere on it runs the pill's
+   wedge, not only pointing at the pill; the picture eases in and the tint
+   deepens a step. Nothing lifts: the tiles share their edges. */
+.vxn-mosaic .vxn-mosaic__card--split:hover,
+.vxn-mosaic .vxn-mosaic__card--split:focus-visible {
+  background-color: #E8EFFB;
+}
+
+.vxn-mosaic .vxn-mosaic__card:hover .vxn-mosaic__media,
+.vxn-mosaic .vxn-mosaic__card:focus-visible .vxn-mosaic__media {
+  transform: scale(1.05);
+}
+
+.vxn-mosaic .vxn-mosaic__card:hover .vxn-band__pill::before,
+.vxn-mosaic .vxn-mosaic__card:focus-visible .vxn-band__pill::before {
+  width: 250%;
+}
+
+/* ---- Arrival -----------------------------------------------------------------
+   Visible by default; hidden only while UaeBandMotion.tsx marks a tile
+   pending. The tiles rise in reading order, 90ms apart. The transition list
+   carries the tint as well, because this shorthand replaces the tile's own. */
+.vxn-mosaic .vxn-mosaic__card[data-anim='pending'] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.vxn-mosaic .vxn-mosaic__card[data-anim='in'] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity .8s var(--vxn-ease) var(--vxn-anim-d, 0ms),
+    transform .8s var(--vxn-ease) var(--vxn-anim-d, 0ms),
+    background-color .4s var(--vxn-ease);
+}
+
+/* ---- Widths --------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+
+  .vxn-mosaic .vxn-mosaic__grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: auto;
+    gap: 16px;
+  }
+
+  .vxn-mosaic .vxn-mosaic__card--split,
+  .vxn-mosaic .vxn-mosaic__card--flip,
+  .vxn-mosaic .vxn-mosaic__card--brand {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .vxn-mosaic .vxn-mosaic__card--split {
+    min-height: clamp(240px, 28vw, 280px);
+  }
+
+  .vxn-mosaic .vxn-mosaic__card--brand {
+    min-height: clamp(240px, 27vw, 280px);
+  }
+
+  .vxn-mosaic .vxn-mosaic__body {
+    padding: clamp(24px, 3vw, 32px);
+  }
+
+  /* Full width now, so the titles take a size up: the desktop clamps would
+     leave them at their 22 and 28px floors on a 942px tile. */
+  .vxn-mosaic .vxn-mosaic__title {
+    font-size: clamp(22px, 2.9vw, 28px) !important;
+  }
+
+  .vxn-mosaic .vxn-mosaic__card--brand .vxn-mosaic__title {
+    font-size: clamp(28px, 3.8vw, 38px) !important;
+  }
+}
+
+/* The halves stack, photograph first. Only the split tiles' photographs
+   take the ratio: the brand tile's texture is absolutely placed, and a ratio
+   on it would outrank its insets and stop it short of the tile's foot. */
+@media (max-width: 600px) {
+
+  .vxn-mosaic .vxn-mosaic__card--split {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .vxn-mosaic .vxn-mosaic__card--split .vxn-mosaic__shot {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .vxn-mosaic .vxn-mosaic__card--flip .vxn-mosaic__shot {
+    order: 0;
+  }
+
+  .vxn-mosaic .vxn-mosaic__body {
+    padding: 22px 22px 26px;
+  }
+
+  .vxn-mosaic .vxn-mosaic__card--brand {
+    min-height: 300px;
+  }
+
+  .vxn-mosaic .vxn-mosaic__card--brand .vxn-mosaic__body {
+    padding: 26px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .vxn-mosaic .vxn-mosaic__card[data-anim] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .vxn-mosaic .vxn-mosaic__media {
+    transition: none;
+  }
+
+  .vxn-mosaic .vxn-mosaic__card:hover .vxn-mosaic__media,
+  .vxn-mosaic .vxn-mosaic__card:focus-visible .vxn-mosaic__media {
+    transform: none;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1420,9 +1584,9 @@
    -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
 
+  /* The mosaic keeps its responsive rules with the rest of section 7. */
   .vxn-impact__card,
   .vxn-spotlight__inner,
-  .vxn-mosaic__grid,
   .vxn-careers {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -1447,14 +1611,6 @@
     margin-bottom: 26px;
   }
 
-  .vxn-mosaic__stack {
-    grid-template-rows: none;
-  }
-
-  .vxn-mosaic__card--lead {
-    min-height: clamp(300px, 52vw, 420px);
-  }
-
   /* SQUARE ONCE IT STACKS. The left-only radius is a two-column device: it
      works because the plate runs off the right edge of the viewport and the
      rounded side is the only one the reader can see. Stacked, the plate spans
@@ -1473,14 +1629,6 @@
     border-radius: 18px;
   }
 
-  .vxn-mosaic__card {
-    min-height: 232px;
-  }
-
-  .vxn-mosaic__title {
-    max-width: none;
-  }
-
   /* Two full-width pills would read as a stack of buttons; keep them inline
      and let them shrink a little at the sides. The height and the type stay
      the one CTA's. */
@@ -1497,19 +1645,8 @@
 @media (prefers-reduced-motion: reduce) {
 
   .vxn-band__pill,
-  .vxn-band__pill i,
-  .vxn-mosaic__card,
-  .vxn-mosaic__media {
+  .vxn-band__pill i {
     transition: none !important;
-  }
-
-  .vxn-mosaic__card:hover,
-  .vxn-mosaic__card:focus-visible {
-    transform: none;
-  }
-
-  .vxn-mosaic__card:hover .vxn-mosaic__media {
-    transform: none;
   }
 }
 
@@ -2391,7 +2528,7 @@
    about 49.6px type on the 1.26 line the base rule gives and a measure under
    a fifth of the sentence. */
 .vxn-sub.vxn-sub.vxn-sub .vxn-sub__head {
-  max-width: 8.8em;
+  max-width: 100%;
   font-size: clamp(28px, 2.6vw, 50px) !important;
   font-weight: 400 !important;
   line-height: 1.26 !important;

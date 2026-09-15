@@ -35,11 +35,14 @@ import { useEffect } from 'react';
 
 /** What reveals, and in what order within its own group. The answer card's
  *  tiles and the expertise band's copy joined on 20260915; its figures carry
- *  [data-vxn-count], so they roll when their list arrives. */
+ *  [data-vxn-count], so they roll when their list arrives. The mosaic's three
+ *  tiles joined with its new layout the same day. A group whose band is not
+ *  rendered (the bento, the expertise band) simply matches nothing. */
 const GROUPS = [
   '.vxn-figs__lead, .vxn-figs__stat',
   '.vxn-post__card',
   '.vxn-answer__tile',
+  '.vxn-mosaic__card',
   '.vxn-xp__copy > *',
   '.vxn-xp__art',
 ];

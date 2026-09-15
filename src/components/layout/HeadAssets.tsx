@@ -680,12 +680,12 @@ export default function HeadAssets({ page }: { page: PageConfig }) {
           because the header renders on every page in that market — and it is
           entirely under `.vxn-umega`, a class only that component emits, so it
           is inert everywhere else. */}
-      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-uae-mega.css?v=16`} media="all" />
+      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-uae-mega.css?v=18`} media="all" />
       {/* The burger drawer, the menu on phones, tablets and small laptops
           (20260914). Global for the same reason: every page has the header.
           Every rule in it sits inside a max-width: 1399px query, so the
           desktop bar never reads it. */}
-      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-mobile-menu.css?v=4`} media="all" />
+      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-mobile-menu.css?v=5`} media="all" />
       {/* Stylesheets a single page wrote for itself. Last in the block on
           purpose: a page sheet is scoped to one root class and has to be able
           to beat the theme's rules at equal specificity, which is what loading

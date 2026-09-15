@@ -329,7 +329,8 @@
   /* ===========================================================================
      4. THE SUB-MENUS
 
-     Level two opens as a pale tray under its row: About's three pages,
+     Level two opens as a pale tray under its row: About's six pages (the
+     desktop About panel's links, since 20260915),
      India's four services, the Insights pages, the UAE's six services. Level
      three (a UAE service's own pages) hangs inside the tray on a blue rule.
      SmartMenus slides them open and shut itself, with inline styles.

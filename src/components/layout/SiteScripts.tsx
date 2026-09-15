@@ -31,8 +31,9 @@ const SCROLL_AND_NAV = `
   navUpdate();
 })();
 (function(){
-  /* Open-menu state: while a header dropdown (a mega sheet or the plain About
-     list) is hovered or holds focus, put .vxn-nav-open on <html>. The panels are
+  /* Open-menu state: while a header dropdown (Services, About or Insights, all
+     mega sheets since 20260915) is hovered or holds focus, put .vxn-nav-open on
+     <html>. The panels are
      full-width white slabs hanging off the bar, so the bar has to take the same
      background and invert its logo and type — otherwise white type on white.
      CSS does the painting; this only tracks when to paint (see the

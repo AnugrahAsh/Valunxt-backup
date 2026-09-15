@@ -21,14 +21,15 @@
  * WHY THIS IS A CLIENT COMPONENT
  *
  * The panel OPENS on hover in CSS (`li:hover > .panel`), so it works before
- * hydration and stays consistent with the About dropdown. React owns two
- * pieces of state hover cannot express: which tab is selected, and the close
- * button the reference puts in the tab row.
+ * hydration and stays consistent with the About panel. React owns two pieces
+ * of state hover cannot express: which tab is selected, and the close button
+ * the reference puts in the tab row. The close logic (the ✕, Escape, and the
+ * re-arm) is shared with AboutMega through useMegaDismiss (mega-dismiss.ts).
  *
- * `dismissed` clears on pointer leave AND on re-entering the trigger. Without
- * either, closing the panel once would leave it shut for the rest of the page —
- * the pointer is still inside the item that opens it, so no hover event would
- * ever re-fire. See the note on the trigger below.
+ * `dismissed` clears when the pointer enters the trigger or focus arrives on
+ * it, and nowhere else. It also cleared on the item's pointer leave until
+ * 20260915, which is what made the ✕ reopen the sheet it had just closed; the
+ * hook's note has the trace. See the note on the trigger below.
  *
  * ---------------------------------------------------------------------------
  * THE TABS ARE THE GROUPS of the preset. For UAE Services that is one tab per
@@ -42,10 +43,11 @@
  * event — see the note on the tab row.
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { rurl } from '@/lib/region';
 import CtaArrow from '@/components/ui/CtaArrow';
+import { useMegaDismiss } from './mega-dismiss';
 import type { MegaGroup, MegaPreset } from './mega-presets';
 
 function Chev() {
@@ -69,25 +71,11 @@ export default function UaeServicesMega({
 }) {
   const groups = preset.groups;
   const [active, setActive] = useState(0);
-  const [dismissed, setDismissed] = useState(false);
-  const itemRef = useRef<HTMLLIElement>(null);
+  /* The ✕, Escape from anywhere inside, and the re-arm: see mega-dismiss.ts. */
+  const { itemRef, dismissed, close, rearm } = useMegaDismiss();
   /* The tab a touch went down on, and whether its pane was already showing at
      that moment. See the note on the tab row. */
   const tap = useRef<{ index: number; shown: boolean } | null>(null);
-
-  /* Escape closes it from anywhere inside, which is the one thing a hover menu
-     otherwise gives a keyboard user no way to do. */
-  useEffect(() => {
-    if (dismissed) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
-      if (!itemRef.current?.contains(document.activeElement)) return;
-      setDismissed(true);
-      itemRef.current?.querySelector<HTMLAnchorElement>('.elementor-item')?.focus();
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [dismissed]);
 
   const tab = tabIndex === -1 ? { tabIndex: -1 } : {};
   const current: MegaGroup | undefined = groups[active] ?? groups[0];
@@ -98,22 +86,22 @@ export default function UaeServicesMega({
       className={`menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children vxn-umega${
         dismissed ? ' is-dismissed' : ''
       }`}
-      onMouseLeave={() => setDismissed(false)}
     >
-      {/* ---- WHY THE RE-ARM IS ON THE TRIGGER AND NOT ONLY ON LEAVE --------
+      {/* ---- WHY THE RE-ARM IS ON THE TRIGGER --------------------------------
           The panel is a DOM child of this <li>, so while the pointer is over
-          the sheet the <li> is still hovered and `mouseleave` has not fired.
-          Press ✕ and the sheet stops taking pointer events — but the browser
-          does not re-run hit testing until the pointer next MOVES, and if that
-          move lands straight on this link the browser fires one mouseout whose
-          relatedTarget is this anchor. That is still inside the <li>, so React
-          correctly does NOT fire onMouseLeave, `dismissed` stays set, and the
-          menu is hovered but refuses to open. Clearing on entry to the trigger
-          closes that hole. */}
+          the sheet the <li> is still hovered. Press ✕ and the sheet stops
+          taking pointer events, and the way back in is to point at this link
+          again: entering it re-arms, whatever path the pointer took. (Once
+          that path could land straight on this link through a single mouseout
+          whose relatedTarget was the anchor, which a leave handler on the
+          <li> never saw.) Focusing it re-arms too, for the keyboard; the hook
+          moves focus here quietly after Escape so that does not reopen what
+          Escape closed. */}
       <a
         href={rurl(region, preset.href)}
         className="elementor-item"
-        onMouseEnter={() => setDismissed(false)}
+        onMouseEnter={rearm}
+        onFocus={rearm}
         {...tab}
       >
         {preset.label}
@@ -184,7 +172,7 @@ export default function UaeServicesMega({
                   type="button"
                   className="vxn-umega__close"
                   aria-label={preset.closeLabel}
-                  onClick={() => setDismissed(true)}
+                  onClick={close}
                   tabIndex={tabIndex === -1 ? -1 : undefined}
                 >
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">

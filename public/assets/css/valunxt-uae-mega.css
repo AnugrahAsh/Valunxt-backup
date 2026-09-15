@@ -6,6 +6,10 @@
    inert on every page that does not show it — which is why it can be listed
    globally in HeadAssets rather than threaded through a page config.
 
+   AboutMega.tsx (20260915) renders the same sheet with a different body: its
+   <li> carries `vxn-umega` too, so sections 1, 3 (the ✕) and 5 serve both,
+   and its columns and card are section 7.
+
    ---------------------------------------------------------------------------
    THE PANEL IS A CENTRED BOX, NOT A FULL-BLEED SHEET
 
@@ -182,9 +186,9 @@
 
   /* The close button's doing: it beats the open rule above (0,6,1 against
      0,5,1) for as long as the class is set, which is what shuts the sheet
-     while the pointer is still inside it. Cleared on pointer leave and on
-     re-entering the trigger — see the note in the component for why one of
-     those alone is not enough.
+     while the pointer is still inside it. Cleared when the pointer enters the
+     trigger or focus arrives on it, and nowhere else: clearing it on pointer
+     leave too reopened the sheet the ✕ had just shut (mega-dismiss.ts).
 
      It fades rather than cutting, so pressing the ✕ reads as the panel
      closing rather than as the panel breaking. Slightly quicker than the open
@@ -759,5 +763,327 @@
     transform: none;
     transition-duration: 0s;
     transition-delay: 0s;
+  }
+}
+
+/* =============================================================================
+   7. THE ABOUT PANEL (20260915)
+
+   AboutMega.tsx. The sheet around it is sections 1 and 5 and its ✕ is section
+   3's, all reached through the `vxn-umega` class its <li> carries; this is the
+   body, `.vxn-amega`, built from the two references the client supplied:
+
+     Reliant Surveyors, "About Us"   headed columns of links, each on its own
+                                     hairline with a chevron at the end, and a
+                                     card whose artwork carries a figure
+     Savills, "Why Savills"          a sentence under each entry
+
+   In Valunxt's colours and one face, as the other panels are: the sheet's ink
+   and body greys, the brand blue for whatever is lit, the ramp under the
+   artwork, and the violet rule closing the sheet.
+
+   THREE COLUMNS, the third a little wider for the card. Every column opens
+   with a heading row of one fixed height, so the ✕ on the third one's row
+   cannot push that column down: the first link rows and the top of the
+   artwork start on one line.
+
+   THE ANCHOR RULES THIS HAS TO CLEAR are the ones section 4 lists: the reset
+   `.vxn-umega .vxn-umega__panel a { padding: 10px 0 !important }` at (0,2,1),
+   and Elementor's own on every anchor in a nav menu, `display: flex`,
+   `line-height: 20px`, `white-space: nowrap` and `flex-grow: 1`. So the two
+   links here are written as `.vxn-umega .vxn-umega__panel a.x` at (0,3,1),
+   with the padding asserted, and `white-space` put back: nowrap would run a
+   described link off the sheet on one line.
+
+   The desktop bar only shows from 1400px, so the sheet is 1304 to 1520px wide
+   wherever this is seen, and the proportions hold across it without a
+   breakpoint.
+   ============================================================================= */
+
+.vxn-umega .vxn-amega {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.12fr);
+  column-gap: clamp(36px, 3.4vw, 64px);
+  align-items: start;
+  padding: 34px 48px 40px;
+}
+
+.vxn-umega .vxn-amega__col {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.vxn-umega .vxn-amega__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 40px;
+  margin: 0 0 12px;
+}
+
+/* The Services column's title, in the sheet's ink rather than on blue. */
+.vxn-umega .vxn-amega__title {
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--umega-ink);
+}
+
+/* ---- The link rows ---------------------------------------------------------
+   Name over its sentence, the chevron centred on both. A hairline under every
+   row; pointed at, a blue line draws along it from the left, the name turns
+   blue and the chevron steps on, the way the Services links move. */
+
+.vxn-umega .vxn-umega__panel a.vxn-amega__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 18px;
+  row-gap: 4px;
+  padding: 15px 2px 16px 0 !important;
+  border-bottom: 1px solid rgba(14, 53, 95, 0.12);
+  line-height: normal;
+  white-space: normal;
+  color: var(--umega-ink) !important;
+  text-decoration: none !important;
+  transition: color 0.25s ease;
+}
+
+.vxn-umega .vxn-amega__row::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  background: var(--umega-blue);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vxn-umega .vxn-amega__name {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--umega-ink);
+  transition: color 0.25s ease;
+}
+
+/* `pretty` keeps a lone word off the second line ("advise.", "and Noida."
+   both came out that way at 1600). */
+.vxn-umega .vxn-amega__text {
+  grid-column: 1;
+  grid-row: 2;
+  max-width: 44ch;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--umega-body);
+  text-wrap: pretty;
+}
+
+.vxn-umega .vxn-amega__row .vxn-umega__chev {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--umega-ink);
+  transition:
+    transform 0.3s ease,
+    color 0.25s ease;
+}
+
+.vxn-umega .vxn-amega__row:hover .vxn-amega__name,
+.vxn-umega .vxn-amega__row:focus-visible .vxn-amega__name,
+.vxn-umega .vxn-amega__row:hover .vxn-umega__chev,
+.vxn-umega .vxn-amega__row:focus-visible .vxn-umega__chev {
+  color: var(--umega-blue);
+}
+
+.vxn-umega .vxn-amega__row:hover .vxn-umega__chev,
+.vxn-umega .vxn-amega__row:focus-visible .vxn-umega__chev {
+  transform: translateX(4px);
+}
+
+.vxn-umega .vxn-amega__row:hover::after,
+.vxn-umega .vxn-amega__row:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.vxn-umega .vxn-amega__row:focus-visible,
+.vxn-umega .vxn-umega__panel a.vxn-amega__card:focus-visible {
+  outline: 2px solid var(--umega-blue);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ---- The card ---------------------------------------------------------------
+   One link. `flex: 0 0 auto` is THE FLEX-GROW RESET of section 4: without it
+   Elementor grows the anchor down the column. */
+
+.vxn-umega .vxn-umega__panel a.vxn-amega__card {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 !important;
+  line-height: normal;
+  white-space: normal;
+  color: var(--umega-ink) !important;
+  text-decoration: none !important;
+}
+
+/* THE ARTWORK is the client's texture (uae/home/expertise-abstract.webp,
+   supplied for the expertise band) laid over the brand ramp by luminosity,
+   the treatment the Services column gives its photograph, so the waves come
+   out in the brand's blues whatever blue the file itself is. A wash from the
+   left deepens the side away from the figure. Both layers sit at z-index -1
+   inside the box's own stacking context: over the ramp, under the figure. */
+.vxn-umega .vxn-amega__art {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--umega-ramp);
+}
+
+.vxn-umega .vxn-amega__art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("../content/uploads/uae/home/expertise-abstract.webp") center / cover no-repeat;
+  opacity: 0.9;
+  mix-blend-mode: luminosity;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vxn-umega .vxn-amega__art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, rgba(8, 28, 120, 0.42) 0%, rgba(11, 45, 190, 0) 62%);
+}
+
+/* THE FIGURE, as a stamp: the reference's device. The perforations are two
+   background layers, not a mask, so nothing clips its shadow: a grid of
+   10px tiles with a hole at every tile corner, and a solid centre laid over
+   it 5px in from each edge. Only the half-holes on the edges stay open, and
+   they show the artwork through. The box is 100 x 110, whole tiles both
+   ways, so the corners come out alike. A hairline 9px inside finishes it. */
+.vxn-umega .vxn-amega__stamp {
+  position: absolute;
+  top: 50%;
+  right: 8%;
+  display: flex;
+  box-sizing: border-box;
+  width: 100px;
+  height: 110px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px;
+  background:
+    linear-gradient(#fff, #fff) center / calc(100% - 10px) calc(100% - 10px) no-repeat,
+    radial-gradient(circle, transparent 2.4px, #fff 2.9px) -5px -5px / 10px 10px;
+  filter: drop-shadow(0 10px 18px rgba(6, 18, 44, 0.28));
+  text-align: center;
+  transform: translateY(-50%);
+}
+
+.vxn-umega .vxn-amega__stamp::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(11, 45, 190, 0.22);
+  pointer-events: none;
+}
+
+.vxn-umega .vxn-amega__num {
+  display: block;
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--umega-blue);
+}
+
+.vxn-umega .vxn-amega__label {
+  display: block;
+  max-width: 70px;
+  margin-top: 7px;
+  font-size: 9.5px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--umega-ink);
+}
+
+.vxn-umega .vxn-amega__cardtitle {
+  display: block;
+  margin: 18px 0 8px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--umega-ink);
+  transition: color 0.25s ease;
+}
+
+.vxn-umega .vxn-amega__cardtext {
+  display: block;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--umega-body);
+  text-wrap: pretty;
+}
+
+/* Section 4's "View all": the same size, weight and blue, and the underline
+   when lit. The arrow is the site's one arrow, which nudges on its own. */
+.vxn-umega .vxn-amega__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--umega-blue);
+  text-underline-offset: 4px;
+}
+
+.vxn-umega .vxn-amega__card:hover .vxn-amega__art::before,
+.vxn-umega .vxn-amega__card:focus-visible .vxn-amega__art::before {
+  transform: scale(1.05);
+}
+
+.vxn-umega .vxn-amega__card:hover .vxn-amega__cardtitle,
+.vxn-umega .vxn-amega__card:focus-visible .vxn-amega__cardtitle {
+  color: var(--umega-blue);
+}
+
+.vxn-umega .vxn-amega__card:hover .vxn-amega__morelabel,
+.vxn-umega .vxn-amega__card:focus-visible .vxn-amega__morelabel {
+  text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vxn-umega .vxn-amega__row::after,
+  .vxn-umega .vxn-amega__art::before,
+  .vxn-umega .vxn-amega__row .vxn-umega__chev {
+    transition: none !important;
+  }
+
+  .vxn-umega .vxn-amega__card:hover .vxn-amega__art::before,
+  .vxn-umega .vxn-amega__card:focus-visible .vxn-amega__art::before {
+    transform: none;
   }
 }

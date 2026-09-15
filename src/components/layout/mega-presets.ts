@@ -16,10 +16,17 @@
  * the one hand-written list, because those five pages are not services and
  * live in no registry.
  *
- * Plain objects only: UaeServicesMega is a client component and these cross
- * the server/client boundary as props.
+ * About (20260915) is the one panel of a different shape: two headed columns
+ * of described links and a feature card, built from two supplied references
+ * (Savills' "Why Savills" sheet and Reliant Surveyors' "About Us" sheet) and
+ * drawn by AboutMega.tsx inside the same sheet. Its words are aboutPreset()
+ * below.
+ *
+ * Plain objects only: UaeServicesMega and AboutMega are client components and
+ * these cross the server/client boundary as props.
  */
 import { vxnServiceName, vxnServices } from '@/lib/region';
+import { vxnMarkets } from '@/lib/site-data';
 
 export interface MegaLink {
   /** Plain text. */
@@ -111,6 +118,117 @@ export function servicesPreset(region: string): MegaPreset {
     },
     groups,
     closeLabel: 'Close the services menu',
+  };
+}
+
+/* ---------------------------------------------------------------------------
+   ABOUT
+   --------------------------------------------------------------------------- */
+
+export interface AboutLink extends MegaLink {
+  /** The one line under the link's name. Plain text. */
+  text: string;
+}
+
+export interface AboutColumn {
+  key: string;
+  title: string;
+  links: AboutLink[];
+}
+
+export interface AboutPreset {
+  label: string;
+  href: string;
+  columns: AboutColumn[];
+  feature: {
+    /** The third column's heading, over the card. */
+    heading: string;
+    title: string;
+    text: string;
+    /** The figure on the card's artwork. */
+    stat: { value: string; label: string };
+    link: { label: string; href: string };
+  };
+  closeLabel: string;
+}
+
+/**
+ * The About panel.
+ *
+ * EVERY LINK IS A PAGE THIS SITE PUBLISHES, in both markets. The references
+ * list leadership, news and awards pages; this site has none to link (its
+ * /about/leadership/ and /track-record/ 404 until their data files are filled),
+ * so the columns carry the About family instead: Who We Are, Careers and FAQ,
+ * which the old dropdown listed, and the three pages that say who Valunxt works
+ * with and how to reach it.
+ *
+ * THE WORDS. The card is the client's own copy from the home document (the
+ * Expertise band's title, sentence and link, and its "Years of Expertise"
+ * figure label). The link lines are drafted, each from its page's own lede or
+ * meta description, shortened and with no dashes; the column headings and
+ * "Our Legacy" are drafted too. Who We Are reads the UAE home's positioning on
+ * /en-ae/ and the About page's own on /en-in/. The markets and the office
+ * cities come from site-data.ts, as everything that states them must.
+ */
+export function aboutPreset(region: string): AboutPreset {
+  return {
+    label: 'About',
+    href: '/about/',
+    columns: [
+      {
+        key: 'firm',
+        title: 'Our Firm',
+        links: [
+          {
+            name: 'Who We Are',
+            href: '/about/',
+            text:
+              region === 'en-ae'
+                ? 'One accountable partner for business, property and investment advisory in the UAE.'
+                : `A real estate wealth, capital, intelligence and technology group across ${vxnMarkets('short')}.`,
+          },
+          {
+            name: 'Our Network',
+            href: '/network/',
+            text: 'Group companies, lending partners, accredited valuers and in-house research.',
+          },
+          {
+            name: 'Clients',
+            href: '/clients/',
+            text: 'The investors, families, developers and institutions we advise.',
+          },
+        ],
+      },
+      {
+        key: 'work',
+        title: 'Work With Us',
+        links: [
+          {
+            name: 'Careers',
+            href: '/about/careers/',
+            text: `Build a career with purpose across ${vxnMarkets('short')}.`,
+          },
+          {
+            name: 'FAQ',
+            href: '/faq/',
+            text: 'Common questions on mandates, valuation, the group and how we are paid.',
+          },
+          {
+            name: 'Contact Us',
+            href: '/contact/',
+            text: `Speak to our advisory team in ${vxnMarkets('cities')}.`,
+          },
+        ],
+      },
+    ],
+    feature: {
+      heading: 'Our Legacy',
+      title: 'Expertise Measured in Decades.',
+      text: '48+ years of expertise. 200+ years of combined experience. 10+ industries served. A depth of knowledge brought to every business, property and investment mandate.',
+      stat: { value: '48+', label: 'Years of Expertise' },
+      link: { label: 'About Valunxt', href: '/about/' },
+    },
+    closeLabel: 'Close the about menu',
   };
 }
 

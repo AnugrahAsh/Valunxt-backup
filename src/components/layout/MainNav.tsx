@@ -11,76 +11,60 @@
  * captured per-post stylesheets target them.
  */
 import { rurl } from '@/lib/region';
+import AboutMega from './AboutMega';
 import MegaDrawerItem from './MegaDrawerItem';
 import UaeServicesMega from './UaeServicesMega';
-import { insightsPreset, servicesPreset, type MegaPreset } from './mega-presets';
+import { aboutPreset, insightsPreset, servicesPreset, type AboutPreset, type MegaPreset } from './mega-presets';
 
 export interface NavIds {
   /** menu-item-<n> on the About parent. */
   about: string;
-  /** menu-item-<n> on "Who We Are". */
-  aboutWho: string;
-  /** menu-item-<n> on "Careers". */
-  aboutCareers: string;
   /** menu-item-<n> on Contact. */
   contact: string;
 }
 
+/* The ids of About's old sub-items ("Who We Are" 288 / 3202, "Careers"
+   282 / 3204) went with the dropdown (20260915): nothing styles them, and the
+   links they marked are now rows in the About panel. */
+
 /** Header 139 and 3837 share the original WordPress menu ids. */
 export const NAV_IDS_DEFAULT: NavIds = {
   about: '278',
-  aboutWho: '288',
-  aboutCareers: '282',
   contact: '275',
 };
 
 /** Header 3134 was built from a second menu, so its ids differ. */
 export const NAV_IDS_3134: NavIds = {
   about: '3201',
-  aboutWho: '3202',
-  aboutCareers: '3204',
   contact: '3206',
 };
 
 export type NavOrder = 'insights-last' | 'contact-before-insights';
 
-function AboutItem({
-  region,
-  ids,
-  hidden,
-}: {
-  region: string;
-  ids: NavIds;
-  hidden: boolean;
-}) {
-  const tab = hidden ? { tabIndex: -1 } : {};
+/**
+ * About as the burger drawer shows it: the panel's links, column by column, as
+ * the one nested list SmartMenus folds, the markup About has always had in the
+ * drawer. The desktop bar renders AboutMega from the same preset, so the two
+ * cannot list different pages.
+ */
+function AboutDrawerItem({ region, ids, preset }: { region: string; ids: NavIds; preset: AboutPreset }) {
   return (
     <li
       className={`menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-${ids.about}`}
     >
-      <a href={rurl(region, '/about/')} className="elementor-item" {...tab}>
-        About
+      <a href={rurl(region, preset.href)} className="elementor-item" tabIndex={-1}>
+        {preset.label}
       </a>
       <ul className="sub-menu elementor-nav-menu--dropdown">
-        <li
-          className={`menu-item menu-item-type-post_type menu-item-object-page menu-item-${ids.aboutWho}`}
-        >
-          <a href={rurl(region, '/about/')} className="elementor-sub-item" {...tab}>
-            Who We Are
-          </a>
-        </li>
-        <li
-          className={`menu-item menu-item-type-post_type menu-item-object-page menu-item-${ids.aboutCareers}`}
-        >
-          <a href={rurl(region, '/about/careers/')} className="elementor-sub-item" {...tab}>
-            Careers
-          </a>
-        </li>
-        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-faq">
-          <a href={rurl(region, '/faq/')} className="elementor-sub-item" {...tab}>
-            FAQ
-          </a>
-        </li>
+        {preset.columns
+          .flatMap((col) => col.links)
+          .map((link) => (
+            <li key={link.href} className="menu-item menu-item-type-post_type menu-item-object-page">
+              <a href={rurl(region, link.href)} className="elementor-sub-item" tabIndex={-1}>
+                {link.name}
+              </a>
+            </li>
+          ))}
       </ul>
     </li>
   );
@@ -115,10 +99,12 @@ export default function MainNav({
       </a>
     </li>
   );
-  /* Both mega menus are the tabbed panel built to the client's UAE reference
-     (20260914) — see mega-presets.ts for the words each one carries. The
-     hidden burger-drawer copy renders them as nested lists instead, which is
-     what a drawer can fold (MegaDrawerItem, valunxt-mobile-menu.css). */
+  /* Services and Insights are the tabbed panel built to the client's UAE
+     reference (20260914), About the columned panel in the same sheet
+     (20260915) — see mega-presets.ts for the words each one carries. The
+     hidden burger-drawer copy renders all three as nested lists instead, which
+     is what a drawer can fold (MegaDrawerItem, AboutDrawerItem,
+     valunxt-mobile-menu.css). */
   const mega = (key: string, preset: MegaPreset) =>
     hidden ? (
       <MegaDrawerItem key={key} region={region} preset={preset} />
@@ -126,6 +112,7 @@ export default function MainNav({
       <UaeServicesMega key={key} region={region} preset={preset} />
     );
   const insights = mega('insights', insightsPreset());
+  const about = aboutPreset(region);
 
   return (
     <ul id={id} className={className}>
@@ -134,7 +121,11 @@ export default function MainNav({
           page by default — /en-in/ and /en-ae/ — so the item only repeated an
           affordance the bar already had. The route is untouched. */}
       {mega('services', servicesPreset(region))}
-      <AboutItem region={region} ids={ids} hidden={hidden} />
+      {hidden ? (
+        <AboutDrawerItem region={region} ids={ids} preset={about} />
+      ) : (
+        <AboutMega region={region} preset={about} itemClass={`menu-item-${ids.about}`} />
+      )}
       {/* "Our Group" and its pages were removed from the site (20260914). */}
       <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-industries">
         <a href={rurl(region, '/industries/')} className="elementor-item" {...tab}>

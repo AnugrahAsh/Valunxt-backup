@@ -13,15 +13,22 @@ import type { Metadata } from 'next';
 
 import AdminShell from '@/components/admin/AdminShell';
 import { FlashErr, FlashOk } from '@/components/admin/Flash';
+import Icon from '@/components/admin/Icon';
+import MarketChips from '@/components/admin/MarketChips';
 import { adminUrl, siteUrl } from '@/lib/admin/config';
+import { formatDate, formatDateTime, localStamp, utcStamp } from '@/lib/admin/format';
 import { csrfToken, currentUser, takeFlash } from '@/lib/admin/session';
 import { sitemapOpAction } from '@/lib/admin/actions';
+import { sectionLabel } from '@/lib/site-pages';
 import {
   seoDetectSiteUrl,
-  seoEffective,
+  seoMarketLinks,
+  seoPlacement,
   seoSetting,
   seoSitemapPath,
   seoSitemapRows,
+  seoSitemapStale,
+  seoSitemapUrls,
   seoSiteUrl,
   seoStats,
   type PageRow,
@@ -38,20 +45,6 @@ function fsize(bytes: number): string {
   if (bytes < 1024) return bytes + ' B';
   if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
   return (bytes / 1048576).toFixed(2) + ' MB';
-}
-
-function stamp(value: string): string {
-  if (!value) return 'Never';
-  const d = new Date(value.replace(' ', 'T'));
-  if (Number.isNaN(d.getTime())) return value;
-  return d.toLocaleString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  });
 }
 
 export default async function SitemapPage() {
@@ -83,6 +76,7 @@ export default async function SitemapPage() {
   let urlCount = 0;
   let configured = '';
   let site = '';
+  let stale = false;
   try {
     stats = await seoStats();
     rows = await seoSitemapRows();
@@ -90,12 +84,12 @@ export default async function SitemapPage() {
     urlCount = Number(await seoSetting('sitemap_url_count', '0'));
     configured = await seoSetting('site_url', '');
     site = await seoSiteUrl();
+    stale = await seoSitemapStale();
   } catch {
     /* shown as zeroes */
   }
   const detected = seoDetectSiteUrl();
-
-  const effective = await Promise.all(rows.map((r) => seoEffective(r)));
+  const listed = rows.reduce((n, r) => n + seoSitemapUrls(r, site || detected).length, 0);
 
   return (
     <AdminShell active="sitemap" user={user}>
@@ -105,18 +99,29 @@ export default async function SitemapPage() {
         </div>
         <h1>Sitemap Settings</h1>
         <p>
-          The XML sitemap regenerates automatically whenever a page is created, published, updated or
-          deleted. You can also rebuild it here.
+          The XML sitemap lists every published page once per market, and regenerates automatically
+          whenever a page is created, published, updated or deleted. You can also rebuild it here.
         </p>
       </div>
 
-      <FlashOk message={flash.ok ?? ''} />
-      <FlashErr message={flash.err ?? ''} />
+      <FlashOk key={'ok' + flash.id} message={flash.ok ?? ''} />
+      <FlashErr key={'err' + flash.id} message={flash.err ?? ''} />
+
+      {stale ? (
+        <div className="notice" role="status">
+          <Icon name="refresh" />
+          <span className="notice-text">
+            The website&rsquo;s pages have changed since this sitemap was generated. Generate it again to
+            publish the current set.
+          </span>
+        </div>
+      ) : null}
 
       <section className="panel">
         <div className="panel-head">
           <h3>Sitemap Status</h3>
           <span className={`pill ${exists ? 'ok' : 'warnp'}`}>
+            <span className="pill-dot" />
             {exists ? 'Generated' : 'Not generated yet'}
           </span>
         </div>
@@ -128,7 +133,7 @@ export default async function SitemapPage() {
             </div>
             <div className="kv-item">
               <div className="k">Last Generated</div>
-              <div className="v sm">{stamp(generatedAt)}</div>
+              <div className="v sm">{formatDateTime(utcStamp(generatedAt), 'Never')}</div>
             </div>
             <div className="kv-item">
               <div className="k">File Size</div>
@@ -148,21 +153,17 @@ export default async function SitemapPage() {
             <form action={sitemapOpAction}>
               <input type="hidden" name="op" value="generate" />
               <input type="hidden" name="csrf" value={csrf} />
-              <button type="submit" className="btn gold">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="23 4 23 10 17 10" />
-                  <polyline points="1 20 1 14 7 14" />
-                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-                </svg>
+              <button type="submit" className="btn primary">
+                <Icon name="refresh" size={16} />
                 Generate Sitemap
               </button>
             </form>
-            <a className={'btn' + (exists ? '' : ' is-disabled')} href={adminUrl('sitemap/download')}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
+            <a
+              className={'btn' + (exists ? '' : ' is-disabled')}
+              href={adminUrl('sitemap/download')}
+              aria-disabled={exists ? undefined : true}
+            >
+              <Icon name="download" size={16} />
               Download Sitemap
             </a>
             <a
@@ -170,11 +171,9 @@ export default async function SitemapPage() {
               href={siteUrl('sitemap.xml')}
               target="_blank"
               rel="noopener"
+              aria-disabled={exists ? undefined : true}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
+              <Icon name="eye" size={16} />
               View Sitemap
             </a>
             <span className="spacer" />
@@ -204,18 +203,19 @@ export default async function SitemapPage() {
                 maxLength={255}
               />
               <div className="hint">
-                Used to build sitemap entries and the automatic canonical URLs. Leave blank to use
-                the address the site is served from (currently <code>{detected}</code>). Set it
-                explicitly before generating the sitemap you submit to Google Search Console.
+                The main domain every sitemap URL is built on, e.g. <code>https://valunxt.com</code>.
+                Leave blank to use the address the site is served from, or <code>{detected}</code>{' '}
+                when the panel runs on a local development server.
               </div>
             </div>
           </div>
           <div className="form-actions">
-            <button type="submit" className="btn navy">
+            <button type="submit" className="btn primary">
+              <Icon name="save" size={16} />
               Save &amp; Regenerate
             </button>
             <span className="spacer" />
-            <span style={{ fontSize: 13, color: 'var(--muted)' }}>
+            <span className="form-note">
               {stats.published} published · {stats.draft} draft · {stats.noindex} no-index
             </span>
           </div>
@@ -225,15 +225,19 @@ export default async function SitemapPage() {
       <section className="panel" style={{ marginTop: 20 }}>
         <div className="panel-head">
           <h3>
-            URLs In The Sitemap <span className="count-chip">{rows.length}</span>
+            URLs In The Sitemap <span className="count-chip">{listed}</span>
           </h3>
           <a className="link" href={adminUrl('pages')}>
             Edit page SEO
+            <Icon name="arrowRight" size={14} stroke={2.4} />
           </a>
         </div>
-        <div className="panel-body" style={{ padding: 0 }}>
+        <div className="panel-body flush">
           {!rows.length ? (
             <div className="empty-state">
+              <span className="empty-ico">
+                <Icon name="globe" size={26} />
+              </span>
               <h4>No URLs yet</h4>
               <p>Publish at least one page and include it in the sitemap.</p>
             </div>
@@ -242,35 +246,39 @@ export default async function SitemapPage() {
               <table className="data">
                 <thead>
                   <tr>
-                    <th>URL</th>
+                    <th>Page</th>
+                    <th>URLs</th>
                     <th>Priority</th>
                     <th>Change Frequency</th>
                     <th>Last Modified</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map((r, i) => {
-                    const eff = effective[i];
-                    const loc = eff.canonical || eff.url;
-                    const when = new Date(String(r.updated_at).replace(' ', 'T'));
+                  {rows.map((r) => {
+                    const urls = seoSitemapUrls(r, site || detected);
+                    const place = seoPlacement(r);
                     return (
                       <tr key={r.id}>
-                        <td className="slug-cell">
-                          <a className="link" href={loc} target="_blank" rel="noopener">
-                            {loc}
-                          </a>
+                        <td className="title-cell">
+                          <a href={adminUrl('pages/edit') + '?id=' + r.id}>{r.title}</a>
+                          <span className="sub">
+                            {place.site ? sectionLabel(place.site.section) : 'Created in the CMS'}
+                            <MarketChips markets={seoMarketLinks(r)} />
+                          </span>
+                        </td>
+                        <td className="slug-cell url-list">
+                          {urls.map((u) => (
+                            <a key={u.loc} className="link" href={u.loc} target="_blank" rel="noopener">
+                              {u.loc}
+                            </a>
+                          ))}
                         </td>
                         <td>{Number(r.priority).toFixed(1)}</td>
                         <td>
                           {String(r.changefreq).charAt(0).toUpperCase() +
                             String(r.changefreq).slice(1)}
                         </td>
-                        <td className="nowrap">
-                          {(Number.isNaN(when.getTime()) ? new Date() : when).toLocaleDateString(
-                            'en-GB',
-                            { day: '2-digit', month: 'short', year: 'numeric' }
-                          )}
-                        </td>
+                        <td className="nowrap">{formatDate(localStamp(String(r.updated_at)))}</td>
                       </tr>
                     );
                   })}

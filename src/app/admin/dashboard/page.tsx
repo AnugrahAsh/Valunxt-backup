@@ -1,16 +1,19 @@
 /**
  * Admin dashboard.
  *
- * Port of admin/dashboard.php. The KPI cards, chart and activity feed are the
- * same placeholder figures the PHP page carried; the "Latest Enquiries" table
- * now reads the real `enquiries` rows, which is what the page linked to anyway.
+ * Port of admin/dashboard.php. The PHP page carried placeholder figures — KPI
+ * cards, an eight-month chart and an activity feed that described no real
+ * event. Every figure is now read from the panel's own tables (see
+ * lib/admin/insights.ts), so the dashboard agrees with the screens it links to.
  */
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 import AdminShell from '@/components/admin/AdminShell';
-import { adminUrl } from '@/lib/admin/config';
-import { query } from '@/lib/admin/db';
+import Icon, { type IconName } from '@/components/admin/Icon';
+import { adminUrl, brandText } from '@/lib/admin/config';
+import { formatCount, formatDate, formatDateTime, localStamp, timeAgo } from '@/lib/admin/format';
+import { dashboardData, enquiryWho, type DashboardData } from '@/lib/admin/insights';
 import { currentUser } from '@/lib/admin/session';
 
 export const metadata: Metadata = {
@@ -18,88 +21,56 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow',
 };
 
-/** Demo figures (wire to real queries as the panel grows). */
-const STATS = [
-  {
-    label: 'Total Enquiries',
-    value: '1,248',
-    trend: '+12.5%',
-    dir: 'up',
-    ico: '',
-    svg: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
-  },
-  {
-    label: 'Active Clients',
-    value: '342',
-    trend: '+4.2%',
-    dir: 'up',
-    ico: 'blue',
-    svg: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-  },
-  {
-    label: 'Reports Published',
-    value: '86',
-    trend: '+7 new',
-    dir: 'up',
-    ico: 'green',
-    svg: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
-  },
-  {
-    label: 'Assets Under Review',
-    value: '$4.7B',
-    trend: '-1.1%',
-    dir: 'down',
-    ico: 'navy',
-    svg: '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
-  },
-];
-
-/** Simple 8-month bar chart (percent heights). */
-const CHART: Array<[string, number]> = [
-  ['Jan', 45],
-  ['Feb', 62],
-  ['Mar', 55],
-  ['Apr', 78],
-  ['May', 68],
-  ['Jun', 90],
-  ['Jul', 74],
-  ['Aug', 83],
-];
-
-const ACTIVITY: Array<[string, string, string, string]> = [
-  ['navy', 'New enquiry received', 'Corporate advisory — Meridian Holdings', '18 minutes ago'],
-  ['green', 'Report published', '“Q3 Private Markets Outlook” is now live', '2 hours ago'],
-  ['', 'Client onboarded', 'Ashcroft Family Office added to portfolio', '5 hours ago'],
-  ['navy', 'Consultation scheduled', 'Free consultation booked for 31 Jul', 'Yesterday'],
-];
-
-interface EnquiryRow {
-  id: number;
-  full_name: string;
-  email: string;
-  company: string;
-  source: string;
-}
-
 const SOURCE_PILL: Record<string, string> = {
   Contact: 'new',
   'Free Consultation': 'wait',
   Enquiry: 'ok',
 };
 
+const ACTIVITY_ICON: Record<string, [IconName, string]> = {
+  enquiry: ['message', ''],
+  page: ['edit', 'violet'],
+  sitemap: ['globe', 'green'],
+};
+
+type Trend = { dir: 'up' | 'down' | 'flat'; text: string; muted?: string };
+
+/** The last-30-days card's comparison line. */
+function periodTrend(last30: number, prev30: number): Trend {
+  if (prev30 === 0 && last30 === 0) return { dir: 'flat', text: 'No change', muted: 'vs previous 30 days' };
+  if (prev30 === 0) return { dir: 'up', text: `+${last30} new`, muted: 'vs none before' };
+  const pct = Math.round(((last30 - prev30) / prev30) * 100);
+  if (pct === 0) return { dir: 'flat', text: '0%', muted: 'vs previous 30 days' };
+  return { dir: pct > 0 ? 'up' : 'down', text: `${pct > 0 ? '+' : ''}${pct}%`, muted: 'vs previous 30 days' };
+}
+
+function TrendLine({ trend }: { trend: Trend }) {
+  const icon: IconName = trend.dir === 'up' ? 'trendUp' : trend.dir === 'down' ? 'trendDown' : 'minus';
+  return (
+    <div className={`trend ${trend.dir}`}>
+      <Icon name={icon} size={14} stroke={2.5} />
+      {trend.text} {trend.muted ? <span className="muted">{trend.muted}</span> : null}
+    </div>
+  );
+}
+
 export default async function DashboardPage() {
   const user = await currentUser();
   if (!user) redirect(adminUrl(''));
 
-  let latest: EnquiryRow[] = [];
+  let data: DashboardData | null = null;
   try {
-    latest = await query<EnquiryRow>(
-      `SELECT id, full_name, email, company, source
-         FROM enquiries ORDER BY created_at DESC, id DESC LIMIT 4`
-    );
+    data = await dashboardData();
   } catch {
-    /* MySQL unavailable — the table renders empty */
+    /* MySQL unavailable — the cards render dashes and a notice explains why */
   }
+
+  const firstName = brandText(user.name).split(' ')[0];
+  const now = new Date();
+  const e = data?.enquiries;
+  const pages = data?.pages;
+  const maxMonth = Math.max(0, ...(data?.months ?? []).map((m) => m.count));
+  const thisMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 
   return (
     <AdminShell active="dashboard" user={user}>
@@ -107,85 +78,133 @@ export default async function DashboardPage() {
         <div className="crumbs">
           Home <span className="sep">/</span> Dashboard
         </div>
-        <h1>Welcome back, {user.name.split(' ')[0]} 👋</h1>
+        <h1>Welcome back, {firstName} 👋</h1>
         <p>Here&rsquo;s what&rsquo;s happening across Valunxt today.</p>
       </div>
 
+      {!data ? (
+        <div className="flash err" role="alert">
+          <Icon name="alertCircle" />
+          <span className="flash-text">
+            Could not load the dashboard figures. Please ensure MySQL is running, then reload.
+          </span>
+        </div>
+      ) : null}
+
       {/* KPI cards */}
       <section className="stat-grid">
-        {STATS.map((s) => (
-          <div className="stat-card" key={s.label}>
-            <div className={`ico ${s.ico}`}>
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                dangerouslySetInnerHTML={{ __html: s.svg }}
-              />
-            </div>
-            <div className="label">{s.label}</div>
-            <div className="value">{s.value}</div>
-            <div className={`trend ${s.dir}`}>
-              {s.dir === 'up' ? (
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                  <polyline points="17 6 23 6 23 12" />
-                </svg>
-              ) : (
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
-                  <polyline points="17 18 23 18 23 12" />
-                </svg>
-              )}
-              {s.trend} <span className="muted">vs last month</span>
-            </div>
+        <div className="stat-card feature">
+          <div className="ico">
+            <Icon name="message" size={22} />
           </div>
-        ))}
+          <div className="label">Total Enquiries</div>
+          <div className="value">{e ? formatCount(e.total) : '—'}</div>
+          <div className="trend">
+            {e ? (
+              <>
+                <Icon name="clock" size={14} stroke={2.4} />
+                {formatCount(e.last30)} <span className="muted">in the last 30 days</span>
+              </>
+            ) : (
+              <span className="muted">Unavailable</span>
+            )}
+          </div>
+        </div>
+
+        <div className="stat-card">
+          <div className="ico sky">
+            <Icon name="users" size={22} />
+          </div>
+          <div className="label">Enquiries, Last 30 Days</div>
+          <div className="value">{e ? formatCount(e.last30) : '—'}</div>
+          {e ? <TrendLine trend={periodTrend(e.last30, e.prev30)} /> : <div className="trend flat">—</div>}
+        </div>
+
+        <div className="stat-card">
+          <div className="ico green">
+            <Icon name="file" size={22} />
+          </div>
+          <div className="label">Published Pages</div>
+          <div className="value">
+            {pages ? formatCount(pages.published) : '—'}
+            {pages ? <span className="value-of">/ {formatCount(pages.total)}</span> : null}
+          </div>
+          {pages ? (
+            <div className={`trend ${pages.draft ? 'flat' : 'up'}`}>
+              <Icon name={pages.draft ? 'edit' : 'checkCircle'} size={14} stroke={2.4} />
+              {pages.draft ? (
+                <>
+                  {pages.draft} <span className="muted">draft{pages.draft === 1 ? '' : 's'}</span>
+                </>
+              ) : (
+                <>
+                  All live <span className="muted">no drafts</span>
+                </>
+              )}
+            </div>
+          ) : (
+            <div className="trend flat">—</div>
+          )}
+        </div>
+
+        <div className="stat-card">
+          <div className="ico violet">
+            <Icon name="globe" size={22} />
+          </div>
+          <div className="label">Pages in Sitemap</div>
+          <div className="value">{pages ? formatCount(pages.sitemap) : '—'}</div>
+          <div className="trend flat">
+            <Icon name="refresh" size={14} stroke={2.4} />
+            {data?.sitemap.generatedAt ? (
+              <>
+                Generated <span className="muted">{formatDate(data.sitemap.generatedAt)}</span>
+              </>
+            ) : (
+              <span className="muted">Not generated yet</span>
+            )}
+          </div>
+        </div>
       </section>
 
       {/* Chart + activity */}
       <section className="panel-grid">
         <div className="panel">
           <div className="panel-head">
-            <h3>Enquiries Overview</h3>
-            <a href="#" className="link">
-              View report
+            <div>
+              <h3>Enquiries Overview</h3>
+              <div className="panel-sub">Submissions per month, last 8 months</div>
+            </div>
+            <a href={adminUrl('enquiries')} className="link">
+              View enquiries
+              <Icon name="arrowRight" size={14} stroke={2.4} />
             </a>
           </div>
           <div className="panel-body">
-            <div className="chart">
-              {CHART.map((c, i) => (
-                <div className="bar-col" key={c[0]}>
-                  <div
-                    className={`bar ${i % 2 ? 'alt' : ''}`}
-                    style={{ height: `${c[1]}%`, animationDelay: `${i * 60}ms` }}
-                  />
-                  <span className="m">{c[0]}</span>
+            <div className={'chart' + (maxMonth === 0 ? ' is-empty' : '')}>
+              {(data?.months ?? []).map((m, i) => (
+                <div
+                  className={'bar-col' + (m.key === thisMonthKey ? ' current' : '')}
+                  key={m.key}
+                  title={`${m.label}: ${m.count} enquir${m.count === 1 ? 'y' : 'ies'}`}
+                >
+                  <div className="bar-track">
+                    <div
+                      className="bar"
+                      data-n={m.count}
+                      style={{
+                        height: maxMonth ? `${Math.max(3, (m.count / maxMonth) * 100)}%` : '3%',
+                        animationDelay: `${i * 60}ms`,
+                      }}
+                    />
+                  </div>
+                  <span className="m">{m.label}</span>
                 </div>
               ))}
+              {maxMonth === 0 ? (
+                <div className="chart-empty">
+                  {data ? 'No enquiries in the last 8 months.' : 'Figures unavailable.'}
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -193,37 +212,39 @@ export default async function DashboardPage() {
         <div className="panel">
           <div className="panel-head">
             <h3>Recent Activity</h3>
-            <a href="#" className="link">
-              See all
+            <a href={adminUrl('pages')} className="link">
+              Pages &amp; SEO
+              <Icon name="arrowRight" size={14} stroke={2.4} />
             </a>
           </div>
           <div className="panel-body">
-            <ul className="activity">
-              {ACTIVITY.map((a) => (
-                <li key={a[1] + a[3]}>
-                  <span className={`dot ${a[0]}`}>
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <polyline points="12 6 12 12 16 14" />
-                    </svg>
-                  </span>
-                  <div className="txt">
-                    <div className="who">{a[1]}</div>
-                    <div>{a[2]}</div>
-                    <div className="when">{a[3]}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            {data && data.activity.length ? (
+              <ul className="activity">
+                {data.activity.map((a) => {
+                  const [icon, tone] = ACTIVITY_ICON[a.kind];
+                  return (
+                    <li key={a.kind + a.href + a.at.getTime()}>
+                      <span className={`dot ${tone}`}>
+                        <Icon name={icon} size={17} />
+                      </span>
+                      <div className="txt">
+                        <a className="who" href={a.href}>
+                          {a.title}
+                        </a>
+                        <div className="what">{a.detail}</div>
+                        <div className="when" title={formatDateTime(a.at)}>
+                          {timeAgo(a.at, now)}
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <div className="empty-state compact">
+                <p>{data ? 'Nothing has happened yet.' : 'Activity unavailable.'}</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -234,9 +255,10 @@ export default async function DashboardPage() {
           <h3>Latest Enquiries</h3>
           <a href={adminUrl('enquiries')} className="link">
             Manage enquiries
+            <Icon name="arrowRight" size={14} stroke={2.4} />
           </a>
         </div>
-        <div className="panel-body" style={{ padding: 0 }}>
+        <div className="panel-body flush">
           <div className="table-wrap">
             <table className="data">
               <thead>
@@ -245,31 +267,44 @@ export default async function DashboardPage() {
                   <th>Client</th>
                   <th>Email</th>
                   <th>Source</th>
-                  <th style={{ textAlign: 'right' }}>Action</th>
+                  <th>Received</th>
+                  <th className="right">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {latest.length === 0 ? (
+                {!data || data.latest.length === 0 ? (
                   <tr>
-                    <td colSpan={5} style={{ color: 'var(--muted)' }}>
-                      No enquiries yet — submissions from the website forms appear here.
+                    <td colSpan={6} className="muted-cell">
+                      {data
+                        ? 'No enquiries yet. Submissions from the website forms appear here.'
+                        : 'Enquiries unavailable.'}
                     </td>
                   </tr>
                 ) : (
-                  latest.map((e) => (
-                    <tr key={e.id}>
-                      <td style={{ fontWeight: 600 }}>
-                        ENQ-{String(e.id).padStart(4, '0')}
-                      </td>
-                      <td>{e.company !== '' ? e.company : e.full_name || '—'}</td>
-                      <td>{e.email || '—'}</td>
+                  data.latest.map((row) => (
+                    <tr key={row.id}>
+                      <td className="strong nowrap">ENQ-{String(row.id).padStart(4, '0')}</td>
+                      <td>{enquiryWho(row)}</td>
                       <td>
-                        <span className={`pill ${SOURCE_PILL[e.source] ?? 'new'}`}>
-                          {e.source !== '' ? e.source : 'Website'}
+                        {row.email ? (
+                          <a className="link" href={`mailto:${row.email}`}>
+                            {row.email}
+                          </a>
+                        ) : (
+                          '—'
+                        )}
+                      </td>
+                      <td>
+                        <span className={`pill ${SOURCE_PILL[row.source] ?? 'new'}`}>
+                          {row.source !== '' ? row.source : 'Website'}
                         </span>
                       </td>
-                      <td style={{ textAlign: 'right' }}>
-                        <a href={adminUrl('enquiries')} className="link">
+                      <td className="nowrap">{formatDateTime(localStamp(row.created_at))}</td>
+                      <td className="right">
+                        <a
+                          href={adminUrl('enquiries') + (row.email ? '?q=' + encodeURIComponent(row.email) : '')}
+                          className="btn sm"
+                        >
                           View
                         </a>
                       </td>

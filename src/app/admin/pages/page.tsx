@@ -1,9 +1,10 @@
 /**
  * Admin — Pages & SEO.
  *
- * Lists every public page under CMS management with its SEO status, and handles
- * the list-level operations: rescan the site for new pages, publish / unpublish,
- * include or exclude from the sitemap, and delete.
+ * Lists every page the website publishes — both markets, the UAE services
+ * section included — with its SEO status, and handles the list-level
+ * operations: rescan the site, publish / unpublish, and delete the pages that
+ * were created here.
  *
  * Every operation that can change what search engines see finishes by calling
  * seoRegenerate(), which rewrites public/sitemap.xml and the front-end SEO cache.
@@ -14,27 +15,37 @@ import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 import AdminShell from '@/components/admin/AdminShell';
+import ConfirmSubmit from '@/components/admin/ConfirmSubmit';
 import { FlashErr, FlashOk } from '@/components/admin/Flash';
+import Icon from '@/components/admin/Icon';
+import MarketChips from '@/components/admin/MarketChips';
 import PagesSearch from '@/components/admin/PagesSearch';
-import { adminUrl, siteUrl } from '@/lib/admin/config';
+import { adminUrl } from '@/lib/admin/config';
+import { formatDateTime, utcStamp } from '@/lib/admin/format';
 import { csrfToken, currentUser, takeFlash } from '@/lib/admin/session';
 import { pagesOpAction } from '@/lib/admin/actions';
 import {
-  seoPageExists,
-  seoPagesCount,
-  seoPagesSlice,
+  seoMarketLinks,
+  seoPageDefaults,
+  seoPagesList,
+  seoPlacement,
   seoSetting,
+  seoSitemapStale,
   seoStats,
   type PageRow,
   type SeoStats,
 } from '@/lib/admin/seo-lib';
+import { vxnRegionList } from '@/lib/region';
+import { sectionLabel } from '@/lib/site-pages';
 
 export const metadata: Metadata = {
   title: 'Pages & SEO — Valunxt Admin',
   robots: 'noindex, nofollow',
 };
 
-const PER_PAGE = 10;
+const PER_PAGE = 20;
+
+const MARKETS: Array<[string, string]> = vxnRegionList().map((r) => [r.slug, r.short ?? r.name]);
 
 /** Length badge class for a meta title / description against its target range. */
 function lenClass(len: number, min: number, max: number): string {
@@ -67,48 +78,62 @@ function pagerNumbers(current: number, total: number, window = 1): Array<number 
 export default async function AdminPagesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; p?: string }>;
+  searchParams: Promise<{ q?: string; p?: string; m?: string; missing?: string }>;
 }) {
   const user = await currentUser();
   if (!user) redirect(adminUrl(''));
 
   const sp = await searchParams;
   const q = (sp.q ?? '').trim();
+  const market = MARKETS.some(([slug]) => slug === sp.m) ? String(sp.m) : '';
   let pageNo = Math.max(1, Number(sp.p ?? 1) || 1);
 
   const flash = await takeFlash();
+  // Sent here by the editor when the page it was asked for could not be opened.
+  if (sp.missing && !flash.err) {
+    flash.err =
+      sp.missing === 'db'
+        ? 'That page could not be opened. Please ensure MySQL is running.'
+        : 'That page no longer exists.';
+  }
   const csrf = await csrfToken();
 
-  const listUrl = (over: { q?: string; p?: number } = {}) => {
+  const listUrl = (over: { q?: string; p?: number; m?: string } = {}) => {
     const args = new URLSearchParams();
     const qq = over.q !== undefined ? over.q : q;
+    const mm = over.m !== undefined ? over.m : market;
     const pp = over.p !== undefined ? over.p : pageNo;
     if (qq) args.set('q', qq);
+    if (mm) args.set('m', mm);
     if (pp > 1) args.set('p', String(pp));
     const s = args.toString();
     return adminUrl('pages') + (s ? '?' + s : '');
   };
 
-  let rows: PageRow[] = [];
+  let all: PageRow[] = [];
   let stats: SeoStats = { total: 0, published: 0, draft: 0, sitemap: 0, noindex: 0 };
-  let matched = 0;
-  let totalPages = 1;
   let loadError = '';
   let generatedAt = '';
+  let urlCount = 0;
+  let stale = false;
   try {
     stats = await seoStats();
-    matched = await seoPagesCount(q);
-    totalPages = Math.max(1, Math.ceil(matched / PER_PAGE));
-    if (pageNo > totalPages) pageNo = totalPages;
-    rows = await seoPagesSlice(q, PER_PAGE, (pageNo - 1) * PER_PAGE);
+    all = await seoPagesList(q, market);
     generatedAt = await seoSetting('sitemap_generated_at', '');
+    urlCount = Number(await seoSetting('sitemap_url_count', '0'));
+    stale = await seoSitemapStale();
   } catch {
     loadError = 'Could not load pages. Please ensure MySQL is running.';
   }
 
+  const matched = all.length;
+  const totalPages = Math.max(1, Math.ceil(matched / PER_PAGE));
+  if (pageNo > totalPages) pageNo = totalPages;
+  const rows = all.slice((pageNo - 1) * PER_PAGE, pageNo * PER_PAGE);
   const firstRow = matched ? (pageNo - 1) * PER_PAGE + 1 : 0;
   const lastRow = Math.min(pageNo * PER_PAGE, matched);
   const back = listUrl();
+  const filtered = q !== '' || market !== '';
 
   return (
     <AdminShell active="pages" user={user}>
@@ -118,53 +143,57 @@ export default async function AdminPagesPage({
         </div>
         <h1>Pages &amp; SEO</h1>
         <p>
-          Manage the title, slug, meta tags, canonical URL and robots directive for every public
-          page.
+          Manage the title, meta tags, canonical URL and robots directive for every page the website
+          publishes, in India and the UAE.
         </p>
       </div>
 
-      <FlashOk message={flash.ok ?? ''} />
-      <FlashErr message={flash.err ?? ''} />
+      <FlashOk key={'ok' + flash.id} message={flash.ok ?? ''} />
+      <FlashErr key={'err' + flash.id} message={flash.err ?? ''} />
+
+      {stale && !loadError ? (
+        <div className="notice" role="status">
+          <Icon name="refresh" />
+          <span className="notice-text">
+            The website&rsquo;s pages have changed since the sitemap was last generated.
+          </span>
+          <form action={pagesOpAction}>
+            <input type="hidden" name="op" value="sync" />
+            <input type="hidden" name="csrf" value={csrf} />
+            <input type="hidden" name="back" value={back} />
+            <button type="submit" className="btn primary sm">
+              Update sitemap
+            </button>
+          </form>
+        </div>
+      ) : null}
 
       {/* KPI cards */}
       <section className="stat-grid">
         <div className="stat-card">
           <div className="ico">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-            </svg>
+            <Icon name="file" size={22} />
           </div>
           <div className="label">Total Pages</div>
           <div className="value">{stats.total}</div>
         </div>
         <div className="stat-card">
           <div className="ico green">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
+            <Icon name="checkCircle" size={22} />
           </div>
           <div className="label">Published</div>
           <div className="value">{stats.published}</div>
         </div>
         <div className="stat-card">
-          <div className="ico blue">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="2" y1="12" x2="22" y2="12" />
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-            </svg>
+          <div className="ico sky">
+            <Icon name="globe" size={22} />
           </div>
           <div className="label">In Sitemap</div>
           <div className="value">{stats.sitemap}</div>
         </div>
         <div className="stat-card">
-          <div className="ico navy">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
-              <line x1="1" y1="1" x2="23" y2="23" />
-            </svg>
+          <div className="ico violet">
+            <Icon name="noIndex" size={22} />
           </div>
           <div className="label">No-index Pages</div>
           <div className="value">{stats.noindex}</div>
@@ -174,10 +203,10 @@ export default async function AdminPagesPage({
       <section className="panel" style={{ marginTop: 20 }}>
         <div className="panel-head">
           <h3>
-            {q !== '' ? 'Matching Pages' : 'All Pages'} <span className="count-chip">{matched}</span>
+            {filtered ? 'Matching Pages' : 'All Pages'} <span className="count-chip">{matched}</span>
           </h3>
           <div className="toolbar">
-            <PagesSearch action={adminUrl('pages')} value={q} />
+            <PagesSearch action={adminUrl('pages')} value={q} market={market} markets={MARKETS} />
             <form action={pagesOpAction}>
               <input type="hidden" name="op" value="sync" />
               <input type="hidden" name="csrf" value={csrf} />
@@ -185,54 +214,49 @@ export default async function AdminPagesPage({
               <button
                 type="submit"
                 className="btn sm"
-                title="Scan the website for pages that are not in the CMS yet"
+                title="Add pages the website publishes that are not listed yet, remove pages it no longer publishes, and regenerate the sitemap"
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="23 4 23 10 17 10" />
-                  <polyline points="1 20 1 14 7 14" />
-                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-                </svg>
+                <Icon name="refresh" size={15} />
                 Rescan website
               </button>
             </form>
-            <a href={adminUrl('pages/edit') + '?new=1'} className="btn gold sm">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
+            <a href={adminUrl('pages/edit') + '?new=1'} className="btn primary sm">
+              <Icon name="plus" size={15} stroke={2.4} />
               New Page
             </a>
           </div>
         </div>
-        <div className="panel-body" style={{ padding: 0 }}>
+        <div className="panel-body flush">
           {loadError ? (
             <div className="empty-state">
+              <span className="empty-ico danger">
+                <Icon name="alertCircle" size={26} />
+              </span>
+              <h4>Pages unavailable</h4>
               <p>{loadError}</p>
             </div>
-          ) : !rows.length && q !== '' ? (
+          ) : !rows.length && filtered ? (
             <div className="empty-state">
-              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="7" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <h4>No pages match “{q}”</h4>
+              <span className="empty-ico">
+                <Icon name="search" size={24} />
+              </span>
+              <h4>No pages match{q !== '' ? ` “${q}”` : ''}</h4>
               <p>
                 <a className="link" href={adminUrl('pages')}>
-                  Clear the search
+                  Clear the filters
                 </a>{' '}
                 to see all pages.
               </p>
             </div>
           ) : !rows.length ? (
             <div className="empty-state">
-              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-              </svg>
+              <span className="empty-ico">
+                <Icon name="file" size={26} />
+              </span>
               <h4>No pages yet</h4>
               <p>
-                Use <strong>Rescan website</strong> to import the pages that already exist, or create
-                a new one.
+                Use <strong>Rescan website</strong> to list the pages the website publishes, or create a
+                new one.
               </p>
             </div>
           ) : (
@@ -242,107 +266,100 @@ export default async function AdminPagesPage({
                   <thead>
                     <tr>
                       <th>Page</th>
-                      <th>URL Slug</th>
+                      <th>Address</th>
                       <th>Meta Title</th>
                       <th>Meta Description</th>
                       <th>Robots</th>
                       <th>Status</th>
-                      <th style={{ textAlign: 'right' }}>Actions</th>
+                      <th className="right">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {rows.map((r) => {
-                      const slug = String(r.slug);
-                      const isHome = slug === '';
-                      const mtLen = String(r.meta_title ?? '').length;
-                      const mdLen = String(r.meta_description ?? '').length;
+                      const place = seoPlacement(r);
+                      const links = seoMarketLinks(r);
+                      const defaults = seoPageDefaults(r);
+                      const mtLen = (String(r.meta_title ?? '').trim() || defaults.title).length;
+                      const mdLen = (String(r.meta_description ?? '').trim() || defaults.desc).length;
                       const noindex = String(r.robots_meta ?? '').startsWith('noindex');
-                      const exists = seoPageExists(r);
+                      const published = r.status === 'published';
+                      const deletable = !place.builtIn || !place.exists;
                       return (
                         <tr key={r.id}>
                           <td className="title-cell">
-                            {r.title}
-                            {!exists ? (
-                              <span className="sub" style={{ color: 'var(--danger)' }}>
-                                No matching page on the website
-                              </span>
-                            ) : Number(r.is_cms) === 1 ? (
-                              <span className="sub">Created in the CMS</span>
-                            ) : null}
-                          </td>
-                          <td className="slug-cell">
-                            {isHome ? (
-                              <strong>/</strong>
+                            <a href={adminUrl('pages/edit') + '?id=' + r.id}>{r.title}</a>
+                            {!place.exists ? (
+                              <span className="sub is-danger">No longer on the website</span>
+                            ) : place.site ? (
+                              <span className="sub">{sectionLabel(place.site.section)}</span>
                             ) : (
-                              <>
-                                /<strong>{slug}</strong>/
-                              </>
+                              <span className="sub">Created in the CMS</span>
                             )}
                           </td>
-                          <td>
-                            <span className={`counter ${lenClass(mtLen, 50, 60)}`}>{mtLen}</span>{' '}
-                            <span style={{ color: 'var(--muted)', fontSize: 12 }}>/ 60</span>
+                          <td className="slug-cell">
+                            <span className="addr">{place.path}</span>
+                            <MarketChips markets={links} links />
                           </td>
-                          <td>
+                          <td className="nowrap">
+                            <span className={`counter ${lenClass(mtLen, 50, 60)}`}>{mtLen}</span>{' '}
+                            <span className="counter-of">/ 60</span>
+                          </td>
+                          <td className="nowrap">
                             <span className={`counter ${lenClass(mdLen, 150, 160)}`}>{mdLen}</span>{' '}
-                            <span style={{ color: 'var(--muted)', fontSize: 12 }}>/ 160</span>
+                            <span className="counter-of">/ 160</span>
                           </td>
                           <td>
                             <span className={`pill ${noindex ? 'warnp' : 'ok'}`}>{r.robots_meta}</span>
                           </td>
                           <td>
-                            <form action={pagesOpAction} style={{ display: 'inline' }}>
+                            <form action={pagesOpAction} className="inline-form">
                               <input type="hidden" name="op" value="toggle_status" />
                               <input type="hidden" name="csrf" value={csrf} />
                               <input type="hidden" name="id" value={r.id} />
                               <input type="hidden" name="back" value={back} />
                               <button
                                 type="submit"
-                                className={`pill ${r.status === 'published' ? 'ok' : 'off'}`}
-                                style={{ border: 0, cursor: 'pointer' }}
-                                title={`Click to ${r.status === 'published' ? 'unpublish' : 'publish'}`}
+                                className={`pill as-button ${published ? 'ok' : 'off'}`}
+                                title={`Click to ${published ? 'unpublish' : 'publish'}`}
                               >
+                                <span className="pill-dot" />
                                 {r.status.charAt(0).toUpperCase() + r.status.slice(1)}
                               </button>
                             </form>
                           </td>
                           <td>
                             <div className="row-actions">
-                              <a
-                                className="icon-btn"
-                                href={siteUrl('en-in/' + (slug === '' ? '' : slug + '/'))}
-                                target="_blank"
-                                rel="noopener"
-                                title="View page"
-                              >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                                  <polyline points="15 3 21 3 21 9" />
-                                  <line x1="10" y1="14" x2="21" y2="3" />
-                                </svg>
-                              </a>
+                              {links[0] ? (
+                                <a
+                                  className="icon-btn"
+                                  href={links[0].path}
+                                  target="_blank"
+                                  rel="noopener"
+                                  title={`View ${links[0].path}`}
+                                  aria-label={`View ${r.title} on the website`}
+                                >
+                                  <Icon name="external" size={16} />
+                                </a>
+                              ) : null}
                               <a
                                 className="icon-btn"
                                 href={adminUrl('pages/edit') + '?id=' + r.id}
                                 title="Edit SEO"
+                                aria-label={`Edit SEO for ${r.title}`}
                               >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                  <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z" />
-                                </svg>
+                                <Icon name="edit" size={16} />
                               </a>
-                              <form action={pagesOpAction}>
-                                <input type="hidden" name="op" value="delete" />
-                                <input type="hidden" name="csrf" value={csrf} />
-                                <input type="hidden" name="id" value={r.id} />
-                                <input type="hidden" name="back" value={back} />
-                                <button type="submit" className="icon-btn danger" title="Delete">
-                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <polyline points="3 6 5 6 21 6" />
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                  </svg>
-                                </button>
-                              </form>
+                              {deletable ? (
+                                <form action={pagesOpAction}>
+                                  <input type="hidden" name="op" value="delete" />
+                                  <input type="hidden" name="csrf" value={csrf} />
+                                  <input type="hidden" name="id" value={r.id} />
+                                  <input type="hidden" name="back" value={back} />
+                                  <ConfirmSubmit label={`Delete ${r.title}`} className="icon-btn danger">
+                                    <Icon name="trash" size={16} />
+                                  </ConfirmSubmit>
+                                </form>
+                              ) : null}
                             </div>
                           </td>
                         </tr>
@@ -360,21 +377,17 @@ export default async function AdminPagesPage({
                       {firstRow}–{lastRow}
                     </strong>{' '}
                     of <strong>{matched}</strong>
-                    {q !== '' ? ' matching' : ''} pages
+                    {filtered ? ' matching' : ''} pages
                   </span>
                   <span className="pager-links">
                     {pageNo > 1 ? (
                       <a className="pg" href={listUrl({ p: pageNo - 1 })} rel="prev" aria-label="Previous page">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="15 18 9 12 15 6" />
-                        </svg>
+                        <Icon name="chevronLeft" size={14} stroke={2.4} />
                         Prev
                       </a>
                     ) : (
                       <span className="pg is-disabled">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="15 18 9 12 15 6" />
-                        </svg>
+                        <Icon name="chevronLeft" size={14} stroke={2.4} />
                         Prev
                       </span>
                     )}
@@ -398,16 +411,12 @@ export default async function AdminPagesPage({
                     {pageNo < totalPages ? (
                       <a className="pg" href={listUrl({ p: pageNo + 1 })} rel="next" aria-label="Next page">
                         Next
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="9 18 15 12 9 6" />
-                        </svg>
+                        <Icon name="chevronRight" size={14} stroke={2.4} />
                       </a>
                     ) : (
                       <span className="pg is-disabled">
                         Next
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="9 18 15 12 9 6" />
-                        </svg>
+                        <Icon name="chevronRight" size={14} stroke={2.4} />
                       </span>
                     )}
                   </span>
@@ -417,23 +426,11 @@ export default async function AdminPagesPage({
           )}
         </div>
         <div className="form-actions">
-          <span style={{ fontSize: 13, color: 'var(--muted)' }}>
-            Sitemap last generated:{' '}
-            <strong style={{ color: 'var(--ink)' }}>
-              {generatedAt
-                ? new Date(generatedAt.replace(' ', 'T')).toLocaleString('en-GB', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                  })
-                : 'never'}
-            </strong>{' '}
-            — {stats.sitemap} URLs
+          <span className="form-note">
+            Sitemap last generated: <strong>{formatDateTime(utcStamp(generatedAt), 'never')}</strong> —{' '}
+            {urlCount} URL{urlCount === 1 ? '' : 's'} for {stats.sitemap} page{stats.sitemap === 1 ? '' : 's'}
           </span>
-          <span className="spacer" style={{ flex: 1 }} />
+          <span className="spacer" />
           <a href={adminUrl('sitemap')} className="btn sm">
             Sitemap settings
           </a>

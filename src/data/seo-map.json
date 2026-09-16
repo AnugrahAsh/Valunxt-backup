@@ -1,11 +1,11 @@
 {
   "": {
-    "title": "Real Estate Wealth, Capital, Intelligence & Technology | Valunxt",
+    "title": "Valunxt | Home",
     "description": "Valunxt provides Real Estate Investment Advisory, capital solutions, market intelligence, and AI powered technology for investors, developers, institutions, and businesses across India and the UAE.",
     "canonical": "",
     "robots": "index, follow",
     "keywords": "",
-    "og_title": "Real Estate Wealth, Capital, Intelligence & Technology | Valunxt",
+    "og_title": "Valunxt | Home",
     "og_description": "Valunxt provides Real Estate Investment Advisory, capital solutions, market intelligence, and AI powered technology for investors, developers, institutions, and businesses across India and the UAE."
   },
   "about": {
@@ -106,6 +106,366 @@
     "keywords": "",
     "og_title": "Disclaimer | Valunxt",
     "og_description": "Investment disclaimer for Valunxt. The information on valunxtcapital.com is for general informational purposes only and does not constitute investment advice."
+  },
+  "en-ae": {
+    "title": "Accounting, Tax, Valuation & Advisory in the UAE | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Accounting, Tax, Valuation & Advisory in the UAE | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/accounting-tax-services": {
+    "title": "Accounting & Tax Services | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Accounting & Tax Services | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/accounting-tax-services/accounting-bookkeeping": {
+    "title": "Accounting & Bookkeeping | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Accounting & Bookkeeping | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/accounting-tax-services/budgeting-forecasting": {
+    "title": "Budgeting & Forecasting | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Budgeting & Forecasting | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/accounting-tax-services/cfo-services": {
+    "title": "Part-Time CFO | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Part-Time CFO | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/accounting-tax-services/corporate-tax-services": {
+    "title": "Corporate Tax Filing | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Corporate Tax Filing | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/accounting-tax-services/external-audit-support": {
+    "title": "External Audit Support | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "External Audit Support | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/accounting-tax-services/financial-reporting": {
+    "title": "Financial Statements | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Financial Statements | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/accounting-tax-services/management-reporting": {
+    "title": "Management Reporting | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Management Reporting | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/accounting-tax-services/vat-services": {
+    "title": "VAT Advisory | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "VAT Advisory | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/mortgages-services": {
+    "title": "Mortgage Services | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Mortgage Services | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/mortgages-services/commercial-mortgages": {
+    "title": "Commercial Mortgages | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Commercial Mortgages | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/mortgages-services/islamic-finance": {
+    "title": "Islamic Finance | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Islamic Finance | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/mortgages-services/mortgage-pre-approval": {
+    "title": "Mortgage Pre-Approval | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Mortgage Pre-Approval | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/mortgages-services/non-resident-mortgages": {
+    "title": "Non-Resident Mortgages | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Non-Resident Mortgages | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/mortgages-services/refinancing": {
+    "title": "Refinancing | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Refinancing | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/mortgages-services/residential-mortgages": {
+    "title": "Residential Mortgages | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Residential Mortgages | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/real-estate-transactions": {
+    "title": "Real Estate Transactions | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Real Estate Transactions | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/real-estate-transactions/buy-property": {
+    "title": "Buy Property | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Buy Property | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/real-estate-transactions/off-plan-properties": {
+    "title": "Off-Plan Properties | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Off-Plan Properties | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/real-estate-transactions/sell-rent-lease-property": {
+    "title": "Sell & Rent/Lease Property | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Sell & Rent/Lease Property | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/research-intelligence": {
+    "title": "Research & Intelligence | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Research & Intelligence | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/research-intelligence/feasibility-studies": {
+    "title": "Feasibility Studies | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Feasibility Studies | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/research-intelligence/investment-research": {
+    "title": "Investment Research | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Investment Research | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/research-intelligence/market-intelligence": {
+    "title": "Market Intelligence | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Market Intelligence | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/research-intelligence/market-research": {
+    "title": "Market Research | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Market Research | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/research-intelligence/real-estate-research": {
+    "title": "Real Estate Research | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Real Estate Research | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/research-intelligence/research-reports": {
+    "title": "Research Reports | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Research Reports | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/technology-data-ai": {
+    "title": "Technology, Data & AI | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Technology, Data & AI | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/technology-data-ai/ai-solutions": {
+    "title": "AI Solutions | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "AI Solutions | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/technology-data-ai/enterprise-solutions": {
+    "title": "Enterprise Solutions | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Enterprise Solutions | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/technology-data-ai/erp-dashboards": {
+    "title": "ERP Dashboards | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "ERP Dashboards | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/technology-data-ai/proptech": {
+    "title": "PropTech | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "PropTech | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/technology-data-ai/technology-consulting": {
+    "title": "Technology Consulting | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Technology Consulting | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/valuation-and-advisory": {
+    "title": "Valuation & Advisory | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Valuation & Advisory | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/valuation-and-advisory/asset-valuation": {
+    "title": "Asset Valuation | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Asset Valuation | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/valuation-and-advisory/business-valuation": {
+    "title": "Business Valuation | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Business Valuation | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/valuation-and-advisory/company-valuation": {
+    "title": "Company Valuation | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Company Valuation | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/valuation-and-advisory/financial-valuation": {
+    "title": "Financial Valuation | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Financial Valuation | Valunxt",
+    "og_description": ""
+  },
+  "en-ae/services/valuation-and-advisory/plant-machinery-valuation": {
+    "title": "Plant & Machinery Valuation | Valunxt",
+    "description": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Plant & Machinery Valuation | Valunxt",
+    "og_description": ""
   },
   "faq": {
     "title": "FAQ | Valunxt",

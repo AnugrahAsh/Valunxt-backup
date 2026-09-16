@@ -6,28 +6,49 @@
  * renders anything.
  *
  * Data model
- *   pages          one row per public page (slug = full URL path, '' = home)
+ *   pages          one row per public page, keyed by slug — the key the front-end
+ *                  SEO map uses ('' = India home, 'en-ae' = UAE home, 'about' =
+ *                  a page both markets publish, 'en-ae/services/…' = UAE only)
  *   seo_settings   simple key/value store (site URL, last sitemap run, …)
  *
  * Generated artefacts
- *   public/sitemap.xml       XML Sitemap protocol 0.9
+ *   public/sitemap.xml       XML Sitemap protocol 0.9, one entry per page per market
  *   src/data/seo-map.json    the map the public front end reads, so a page view
  *                            never opens a database connection
  *
- * Port of admin/includes/seo-lib.php. The one structural change: page
- * discovery reads the route registry (src/data/page-configs.json) plus the CMS
- * rows rather than scanning the filesystem for index.php files, because pages
- * are TypeScript routes now rather than PHP directories.
+ * Port of admin/includes/seo-lib.php. Page discovery reads lib/site-pages.ts —
+ * the published set derived from the routes' own registries — rather than
+ * scanning the filesystem for index.php files, because pages are TypeScript
+ * routes now rather than PHP directories.
  */
 import 'server-only';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import { execute, query } from './db';
+import { db, execute, query } from './db';
 import { SITE_BASE } from './config';
-import rawConfigs from '@/data/page-configs.json';
-import type { PageConfig } from '@/lib/page-config';
+import {
+  SEO_MAP_HASH_KEY,
+  SITEMAP_STALE_KEY,
+  seoMapHash,
+  seoMapPath,
+  syncSitePages,
+} from './seo-import';
 import { publicFilesIn } from '@/lib/public-files';
+import { vxnRegionData, vxnRegionList, type RegionSlug } from '@/lib/region';
+import {
+  marketPath,
+  reservedCmsSlug,
+  sitePageBySlug,
+  sitePageRank,
+  sitePages,
+  type SitePage,
+} from '@/lib/site-pages';
+
+export { reservedCmsSlug };
+
+/** The public address the panel builds absolute URLs on when none is configured. */
+export const DEFAULT_SITE_ORIGIN = 'https://valunxt.com';
 
 /* ---------------------------------------------------------------------------
  * Paths & constants
@@ -45,7 +66,7 @@ export function seoSitemapPath(): string {
 
 /** Absolute path of the front-end SEO cache written on every save. */
 export function seoCachePath(): string {
-  return path.join(seoRoot(), 'src', 'data', 'seo-map.json');
+  return seoMapPath();
 }
 
 /** Allowed robots directives, in the order shown in the admin UI. */
@@ -95,25 +116,26 @@ export async function seoSettingSet(key: string, value: string): Promise<void> {
   ]);
 }
 
-/** Best-guess public site URL, when none is configured. */
+/**
+ * Best-guess public site URL, when none is configured.
+ *
+ * A local address is never the public one, so a request from localhost does not
+ * count: generating the sitemap from a development server used to write
+ * http://localhost:3000 URLs into the committed public/sitemap.xml.
+ */
 export function seoDetectSiteUrl(requestOrigin = ''): string {
-  if (requestOrigin) return requestOrigin.replace(/\/+$/, '') + SITE_BASE;
+  const local = /^https?:\/\/(localhost|127\.|\[::1\]|0\.0\.0\.0)/i.test(requestOrigin);
+  if (requestOrigin && !local) return requestOrigin.replace(/\/+$/, '') + SITE_BASE;
   const env =
     process.env.NEXT_PUBLIC_SITE_ORIGIN ||
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '');
-  return (env || 'https://valunxtcapital.com').replace(/\/+$/, '') + SITE_BASE;
+  return (env || DEFAULT_SITE_ORIGIN).replace(/\/+$/, '') + SITE_BASE;
 }
 
 /** Configured public site URL (no trailing slash). */
 export async function seoSiteUrl(requestOrigin = ''): Promise<string> {
   const url = (await seoSetting('site_url', '')).trim();
   return (url !== '' ? url : seoDetectSiteUrl(requestOrigin)).replace(/\/+$/, '');
-}
-
-/** Absolute public URL for a slug ('' = home). Always ends in a slash. */
-export async function seoPageUrl(slug: string, requestOrigin = ''): Promise<string> {
-  const s = String(slug).replace(/^\/+|\/+$/g, '');
-  return (await seoSiteUrl(requestOrigin)) + '/' + (s === '' ? '' : s + '/');
 }
 
 /* ---------------------------------------------------------------------------
@@ -154,130 +176,8 @@ export async function seoSlugTaken(slug: string, exceptId = 0): Promise<boolean>
   return Number(rows[0]?.n ?? 0) > 0;
 }
 
-/** Append -2, -3 … until the slug is unique. */
-export async function seoUniqueSlug(slug: string, exceptId = 0): Promise<string> {
-  let s = seoNormalizeSlug(slug);
-  if (s === '') return '';
-  const base = s;
-  let n = 2;
-  while (await seoSlugTaken(s, exceptId)) {
-    s = `${base}-${n}`;
-    n++;
-    if (n > 200) break;
-  }
-  return s;
-}
-
 /* ---------------------------------------------------------------------------
- * Page discovery
- * ------------------------------------------------------------------------ */
-
-const CONFIGS = rawConfigs as unknown as Record<string, PageConfig>;
-
-/** Folders that are never public pages. */
-const EXCLUDED = new Set(['404']);
-
-export interface DiscoveredPage {
-  slug: string;
-  title: string;
-  desc: string;
-  file_path: string;
-}
-
-/**
- * Every public page the site publishes, keyed by slug ('' = home).
- *
- * The PHP version walked the filesystem looking for index.php files that
- * required includes/head.php. The equivalent here is the route registry, which
- * holds exactly the same set of pages and the same $PAGE values.
- */
-export function seoScanSite(): Record<string, DiscoveredPage> {
-  const found: Record<string, DiscoveredPage> = {};
-  for (const [p, cfg] of Object.entries(CONFIGS)) {
-    const slug = p.replace(/^\/+|\/+$/g, '');
-    if (EXCLUDED.has(slug)) continue;
-    found[slug] = {
-      slug,
-      title: cfg.title ?? '',
-      desc: cfg.desc ?? '',
-      file_path: 'src/data/page-configs.json#' + (slug === '' ? '/' : '/' + slug + '/'),
-    };
-  }
-  return found;
-}
-
-/** Human page title derived from a meta title ("About | Valunxt" → "About"). */
-export function seoTitleFromMeta(metaTitle: string, slug: string): string {
-  const t = String(metaTitle).replace(/\s*\|\s*Valunxt.*$/iu, '').trim();
-  if (t !== '') return t;
-  if (slug === '') return 'Home';
-  const last = slug.split('/').pop() ?? '';
-  return last.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-/** Sensible sitemap priority for a page at the given depth. */
-export function seoDefaultPriority(depth: number): string {
-  if (depth <= 0) return '1.0';
-  if (depth === 1) return '0.8';
-  if (depth === 2) return '0.6';
-  return '0.5';
-}
-
-/** Sensible sitemap change frequency for a page at the given depth. */
-export function seoDefaultChangefreq(depth: number): string {
-  return depth <= 0 ? 'weekly' : 'monthly';
-}
-
-/**
- * Import pages the CMS does not know about yet, and count rows whose page no
- * longer exists on the site.
- */
-export async function seoSyncPages(): Promise<{ added: number; missing: number; total: number }> {
-  const disk = seoScanSite();
-  const known = new Set(
-    (await query<{ slug: string }>('SELECT slug FROM pages')).map((r) => r.slug)
-  );
-
-  let added = 0;
-  for (const [slug, p] of Object.entries(disk)) {
-    if (known.has(slug)) continue;
-    const depth = slug === '' ? 0 : slug.split('/').length;
-    await execute(
-      `INSERT INTO pages
-            (title, slug, file_path, meta_title, meta_description, robots_meta, priority, changefreq, status, in_sitemap)
-         VALUES (?, ?, ?, ?, ?, 'index, follow', ?, ?, 'published', 1)`,
-      [
-        seoTitleFromMeta(p.title, slug),
-        slug,
-        p.file_path,
-        p.title,
-        p.desc,
-        seoDefaultPriority(depth),
-        seoDefaultChangefreq(depth),
-      ]
-    );
-    added++;
-  }
-
-  // Keep file_path in step for rows that already exist.
-  for (const [slug, p] of Object.entries(disk)) {
-    await execute('UPDATE pages SET file_path = ? WHERE slug = ? AND file_path <> ?', [
-      p.file_path,
-      slug,
-      p.file_path,
-    ]);
-  }
-
-  let missing = 0;
-  for (const r of await query<{ slug: string; is_cms: number }>('SELECT slug, is_cms FROM pages')) {
-    if (!(r.slug in disk) && Number(r.is_cms) !== 1) missing++;
-  }
-
-  return { added, missing, total: Object.keys(disk).length };
-}
-
-/* ---------------------------------------------------------------------------
- * Effective (resolved) SEO values
+ * Where a row's page lives
  * ------------------------------------------------------------------------ */
 
 export interface PageRow {
@@ -303,6 +203,79 @@ export interface PageRow {
   updated_at: string;
 }
 
+export interface PagePlacement {
+  /** Built into the website's code, rather than created in the panel. */
+  builtIn: boolean;
+  /** The website publishes it. False only for a built-in row whose page has gone. */
+  exists: boolean;
+  /** The address inside a market: '/about/', '/' for a home. */
+  path: string;
+  /** The markets that publish it. */
+  regions: RegionSlug[];
+  /** The published page, for a built-in row. */
+  site?: SitePage;
+}
+
+const ALL_REGIONS: RegionSlug[] = vxnRegionList().map((r) => r.slug);
+
+/** Where the page behind a row is published. */
+export function seoPlacement(row: Pick<PageRow, 'slug' | 'is_cms'>): PagePlacement {
+  const slug = String(row.slug ?? '');
+  const site = sitePageBySlug(slug);
+  if (site) return { builtIn: true, exists: true, path: site.path, regions: site.regions, site };
+  const cmsPath = `/${slug.replace(/^\/+|\/+$/g, '')}/`;
+  // A page created in the panel is served by the CMS catch-all in every market.
+  if (Number(row.is_cms) === 1) return { builtIn: false, exists: true, path: cmsPath, regions: ALL_REGIONS };
+  return { builtIn: true, exists: false, path: cmsPath, regions: [] };
+}
+
+/** Whether the page behind a row still exists on the site. */
+export function seoPageExists(row: Pick<PageRow, 'slug' | 'is_cms'>): boolean {
+  return seoPlacement(row).exists;
+}
+
+export interface MarketLink {
+  region: RegionSlug;
+  /** "IN", "AE" */
+  code: string;
+  /** "India", "UAE" */
+  label: string;
+  /** '/en-in/about/' — relative, so it opens on whichever host the panel is on. */
+  path: string;
+}
+
+/** The page's address in each market that publishes it. */
+export function seoMarketLinks(row: Pick<PageRow, 'slug' | 'is_cms'>): MarketLink[] {
+  const place = seoPlacement(row);
+  return place.regions.map((region) => {
+    const r = vxnRegionData(region);
+    return { region, code: r.code, label: r.short ?? r.name, path: marketPath(region, place.path) };
+  });
+}
+
+/** What the page itself declares, for the editor's placeholders. */
+export function seoPageDefaults(row: Pick<PageRow, 'slug' | 'is_cms' | 'title'>): { title: string; desc: string } {
+  const site = seoPlacement(row).site;
+  return {
+    title: site?.title ?? (String(row.title ?? '').trim() ? `${String(row.title).trim()} | Valunxt` : 'Valunxt'),
+    desc: site?.desc ?? '',
+  };
+}
+
+/**
+ * Bring the table in line with the pages the website publishes: add rows for
+ * new pages, remove built-in rows whose page has gone. Pages created in the
+ * panel are never touched.
+ */
+export async function seoSyncPages(): Promise<{ added: number; removed: number; total: number }> {
+  const res = await syncSitePages(await db(), true);
+  return res ?? { added: 0, removed: 0, total: sitePages().length };
+}
+
+/* ---------------------------------------------------------------------------
+ * Effective (resolved) SEO values
+ * ------------------------------------------------------------------------ */
+
 export interface EffectiveSeo {
   title: string;
   description: string;
@@ -316,8 +289,6 @@ export interface EffectiveSeo {
 
 /** Apply the documented fallbacks to a raw pages row. */
 export async function seoEffective(row: PageRow, requestOrigin = ''): Promise<EffectiveSeo> {
-  const slug = String(row.slug ?? '');
-  const title = String(row.title ?? '').trim();
   let metaTitle = String(row.meta_title ?? '').trim();
   const metaDesc = String(row.meta_description ?? '').trim();
   let canonical = String(row.canonical_url ?? '').trim();
@@ -325,8 +296,13 @@ export async function seoEffective(row: PageRow, requestOrigin = ''): Promise<Ef
   let ogTitle = String(row.og_title ?? '').trim();
   let ogDesc = String(row.og_description ?? '').trim();
 
-  if (metaTitle === '') metaTitle = title !== '' ? `${title} | Valunxt` : 'Valunxt';
-  if (canonical === '') canonical = await seoPageUrl(slug, requestOrigin);
+  const first = seoMarketLinks(row)[0];
+  const url = (await seoSiteUrl(requestOrigin)) + (first ? first.path : '/');
+
+  // Blank means "what the page itself says": its own title for a built-in page,
+  // "<name> | Valunxt" for one created here (what the CMS catch-all renders).
+  if (metaTitle === '') metaTitle = seoPageDefaults(row).title;
+  if (canonical === '') canonical = url;
   if (!(ROBOTS_OPTIONS as readonly string[]).includes(robots)) robots = 'index, follow';
   if (ogTitle === '') ogTitle = metaTitle;
   if (ogDesc === '') ogDesc = metaDesc;
@@ -339,7 +315,7 @@ export async function seoEffective(row: PageRow, requestOrigin = ''): Promise<Ef
     keywords: String(row.meta_keywords ?? '').trim(),
     og_title: ogTitle,
     og_description: ogDesc,
-    url: await seoPageUrl(slug, requestOrigin),
+    url,
   };
 }
 
@@ -347,15 +323,70 @@ export async function seoEffective(row: PageRow, requestOrigin = ''): Promise<Ef
  * Sitemap generation
  * ------------------------------------------------------------------------ */
 
-/** Rows eligible for the sitemap: published, included, and not noindex. */
+/** Rows in the order the site is organised: homes, pages, insights, research, services, UAE services. */
+function bySiteOrder(a: PageRow, b: PageRow): number {
+  return sitePageRank(String(a.slug)) - sitePageRank(String(b.slug)) || String(a.slug).localeCompare(String(b.slug));
+}
+
+/**
+ * Rows eligible for the sitemap: published, included, not noindex — and still
+ * a page on the website. A row whose page has gone would otherwise list a URL
+ * that answers 404.
+ */
 export async function seoSitemapRows(): Promise<PageRow[]> {
-  return query<PageRow>(
+  const rows = await query<PageRow>(
     `SELECT * FROM pages
          WHERE status = 'published'
            AND in_sitemap = 1
-           AND robots_meta NOT LIKE 'noindex%'
-         ORDER BY priority DESC, slug ASC`
+           AND robots_meta NOT LIKE 'noindex%'`
   );
+  return rows.filter(seoPageExists).sort(bySiteOrder);
+}
+
+export interface SitemapUrl {
+  loc: string;
+  region: RegionSlug | null;
+  /** hreflang → href: this address in every market that publishes it, plus x-default. */
+  alternates: Array<[string, string]>;
+}
+
+/**
+ * The sitemap entries for one page.
+ *
+ * Every public page lives under a market prefix (/en-in/…, /en-ae/…) and the
+ * unprefixed URL only redirects, so a page is listed once per market that
+ * publishes it. Where more than one market publishes the same address — a
+ * shared page, the two homes, India's and the UAE's Research & Intelligence —
+ * each entry names the others as alternates; a page only one market publishes
+ * (the UAE services section) names none, rather than an address that 404s. A
+ * page with an explicit canonical URL is listed at that URL alone.
+ */
+export function seoSitemapUrls(row: PageRow, site: string): SitemapUrl[] {
+  const canonical = String(row.canonical_url ?? '').trim();
+  if (canonical !== '') return [{ loc: canonical, region: null, alternates: [] }];
+
+  const place = seoPlacement(row);
+  if (!place.exists) return [];
+
+  // The same address in every market, from whichever pages publish it.
+  const twins = new Map<RegionSlug, string>();
+  for (const p of sitePages()) {
+    if (p.path !== place.path) continue;
+    for (const r of p.regions) twins.set(r, site + marketPath(r, p.path));
+  }
+  for (const r of place.regions) twins.set(r, site + marketPath(r, place.path));
+
+  const alternates: Array<[string, string]> =
+    twins.size > 1
+      ? [
+          ...vxnRegionList()
+            .filter((r) => twins.has(r.slug))
+            .map((r): [string, string] => [r.lang, twins.get(r.slug)!]),
+          ['x-default', site + place.path],
+        ]
+      : [];
+
+  return place.regions.map((region) => ({ loc: site + marketPath(region, place.path), region, alternates }));
 }
 
 function xmlEscape(s: string): string {
@@ -372,20 +403,33 @@ export async function seoGenerateSitemap(
   requestOrigin = ''
 ): Promise<{ ok: boolean; count: number; path: string; error: string }> {
   const rows = await seoSitemapRows();
+  const site = await seoSiteUrl(requestOrigin);
 
+  let count = 0;
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  xml += '<!-- Generated by the Valunxt admin panel (Sitemap). One entry per page per country\n';
+  xml += '     edition that publishes it: every public URL lives under a market prefix, and the\n';
+  xml += '     unprefixed form redirects, so listing it would list a redirect. -->\n';
+  xml +=
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
   for (const r of rows) {
-    const eff = await seoEffective(r, requestOrigin);
-    const loc = eff.canonical !== '' ? eff.canonical : eff.url;
-    const when = new Date(r.updated_at ?? Date.now());
-    const day = Number.isNaN(when.getTime()) ? new Date() : when;
-    xml += '    <url>\n';
-    xml += `        <loc>${xmlEscape(loc)}</loc>\n`;
-    xml += `        <lastmod>${day.toISOString().slice(0, 10)}</lastmod>\n`;
-    xml += `        <changefreq>${xmlEscape(String(r.changefreq))}</changefreq>\n`;
-    xml += `        <priority>${Number(r.priority).toFixed(1)}</priority>\n`;
-    xml += '    </url>\n';
+    // updated_at is a local-time DATETIME string; keep its calendar date as written.
+    const stamp = String(r.updated_at ?? '');
+    const lastmod = /^\d{4}-\d{2}-\d{2}/.test(stamp)
+      ? stamp.slice(0, 10)
+      : new Date().toISOString().slice(0, 10);
+    for (const u of seoSitemapUrls(r, site)) {
+      xml += '    <url>\n';
+      xml += `        <loc>${xmlEscape(u.loc)}</loc>\n`;
+      for (const [lang, href] of u.alternates) {
+        xml += `        <xhtml:link rel="alternate" hreflang="${xmlEscape(lang)}" href="${xmlEscape(href)}" />\n`;
+      }
+      xml += `        <lastmod>${lastmod}</lastmod>\n`;
+      xml += `        <changefreq>${xmlEscape(String(r.changefreq))}</changefreq>\n`;
+      xml += `        <priority>${Number(r.priority).toFixed(1)}</priority>\n`;
+      xml += '    </url>\n';
+      count++;
+    }
   }
   xml += '</urlset>\n';
 
@@ -402,10 +446,10 @@ export async function seoGenerateSitemap(
     };
   }
 
-  const count = rows.length;
   try {
     await seoSettingSet('sitemap_generated_at', new Date().toISOString().slice(0, 19).replace('T', ' '));
     await seoSettingSet('sitemap_url_count', String(count));
+    await seoSettingSet(SITEMAP_STALE_KEY, '0');
   } catch {
     /* non-fatal */
   }
@@ -429,6 +473,8 @@ export async function seoWriteCache(
 
   const map: Record<string, Record<string, string>> = {};
   for (const r of rows) {
+    // A row whose page has left the website can shape no page.
+    if (!seoPageExists(r)) continue;
     const eff = await seoEffective(r, requestOrigin);
     map[String(r.slug)] = {
       title: eff.title,
@@ -445,11 +491,18 @@ export async function seoWriteCache(
   }
 
   const target = seoCachePath();
+  const text = JSON.stringify(map, null, 2) + '\n';
   try {
     await fs.mkdir(path.dirname(target), { recursive: true });
-    await fs.writeFile(target, JSON.stringify(map, null, 2) + '\n', 'utf8');
+    await fs.writeFile(target, text, 'utf8');
   } catch (e) {
     return { ok: false, count: 0, path: target, error: `Could not write ${target}. (${String(e)})` };
+  }
+  // Remember this map as the panel's own, so seo-import.ts does not read it back.
+  try {
+    await seoSettingSet(SEO_MAP_HASH_KEY, seoMapHash(text));
+  } catch {
+    /* non-fatal: at worst the same values are imported once */
   }
 
   return { ok: true, count: Object.keys(map).length, path: target, error: '' };
@@ -470,6 +523,11 @@ export async function seoRegenerate(
   return { ok: errors.length === 0, count: sm.count, errors };
 }
 
+/** True when pages changed since sitemap.xml and the SEO map were last generated. */
+export async function seoSitemapStale(): Promise<boolean> {
+  return (await seoSetting(SITEMAP_STALE_KEY, '0')) === '1';
+}
+
 /* ---------------------------------------------------------------------------
  * Convenience accessors used by the admin screens
  * ------------------------------------------------------------------------ */
@@ -484,9 +542,6 @@ export async function seoPageBySlug(slug: string): Promise<PageRow | null> {
   return rows[0] ?? null;
 }
 
-/** Shared ORDER BY for the admin listing: home first, then alphabetical. */
-const PAGES_ORDER = "ORDER BY slug = '' DESC, slug ASC";
-
 function pagesFilter(q: string): { where: string; args: string[] } {
   const t = q.trim();
   if (t === '') return { where: '', args: [] };
@@ -494,19 +549,18 @@ function pagesFilter(q: string): { where: string; args: string[] } {
   return { where: 'WHERE (title LIKE ? OR slug LIKE ? OR meta_title LIKE ?)', args: [like, like, like] };
 }
 
-export async function seoPagesCount(q = ''): Promise<number> {
+/**
+ * Every row matching the search, and the market filter when one is given, in
+ * the order the site is organised. The listing pages through this in memory:
+ * the table holds a row per page of one website, not a data set.
+ */
+export async function seoPagesList(q = '', market = ''): Promise<PageRow[]> {
   const { where, args } = pagesFilter(q);
-  const rows = await query<{ n: number }>(`SELECT COUNT(*) AS n FROM pages ${where}`, args);
-  return Number(rows[0]?.n ?? 0);
-}
-
-export async function seoPagesSlice(q = '', limit = 10, offset = 0): Promise<PageRow[]> {
-  const { where, args } = pagesFilter(q);
-  const lim = Math.max(1, Math.trunc(limit));
-  const off = Math.max(0, Math.trunc(offset));
-  // LIMIT/OFFSET are integers by construction above, so interpolating them is
-  // safe — MySQL will not take them as bound parameters with prepares on.
-  return query<PageRow>(`SELECT * FROM pages ${where} ${PAGES_ORDER} LIMIT ${lim} OFFSET ${off}`, args);
+  const rows = await query<PageRow>(`SELECT * FROM pages ${where}`, args);
+  const filtered = market
+    ? rows.filter((r) => seoPlacement(r).regions.includes(market as RegionSlug))
+    : rows;
+  return filtered.sort(bySiteOrder);
 }
 
 export interface SeoStats {
@@ -526,12 +580,6 @@ export async function seoStats(): Promise<SeoStats> {
     sitemap: (await seoSitemapRows()).length,
     noindex: await one("SELECT COUNT(*) AS n FROM pages WHERE robots_meta LIKE 'noindex%'"),
   };
-}
-
-/** Whether the page behind a row still exists on the site. */
-export function seoPageExists(row: PageRow): boolean {
-  if (Number(row.is_cms) === 1) return true;
-  return row.slug in seoScanSite();
 }
 
 /** The hero banners a new CMS page can choose from. */

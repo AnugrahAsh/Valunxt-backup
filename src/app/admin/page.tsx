@@ -11,9 +11,12 @@ import {
   ADMIN_LOGO_WHITE,
   DEFAULT_ADMIN_EMAIL,
   DEFAULT_ADMIN_PASS,
+  SHOW_DEFAULT_CREDENTIALS,
   adminUrl,
+  siteUrl,
 } from '@/lib/admin/config';
 import { currentUser } from '@/lib/admin/session';
+import Icon from '@/components/admin/Icon';
 import LoginForm from '@/components/admin/LoginForm';
 
 export const metadata: Metadata = {
@@ -31,7 +34,7 @@ export default async function AdminLoginPage() {
       <aside className="login-brand">
         <div className="brand-logo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={ADMIN_LOGO_WHITE} alt="Valunxt" />
+          <img src={ADMIN_LOGO_WHITE} alt="Valunxt" width={176} height={35} />
         </div>
 
         <div className="brand-copy">
@@ -45,54 +48,21 @@ export default async function AdminLoginPage() {
           </p>
           <ul className="brand-points">
             <li>
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
+              <span className="bp-ico">
+                <Icon name="shield" size={18} />
+              </span>
               Bank-grade session security
             </li>
             <li>
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M3 3v18h18" />
-                <path d="M18 17V9" />
-                <path d="M13 17V5" />
-                <path d="M8 17v-3" />
-              </svg>
+              <span className="bp-ico">
+                <Icon name="chart" size={18} />
+              </span>
               Real-time performance insights
             </li>
             <li>
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
+              <span className="bp-ico">
+                <Icon name="users" size={18} />
+              </span>
               Centralised client &amp; enquiry management
             </li>
           </ul>
@@ -107,23 +77,35 @@ export default async function AdminLoginPage() {
       <main className="login-form-wrap">
         <div className="login-card">
           <div className="form-logo">
+            {/* Shown only on narrow screens; lazy, so wide ones never fetch it. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={ADMIN_LOGO_DARK} alt="Valunxt" />
+            <img src={ADMIN_LOGO_DARK} alt="Valunxt" width={150} height={30} loading="lazy" />
           </div>
 
           <h2>Welcome back</h2>
           <p className="sub">Sign in to your Valunxt admin account.</p>
 
-          <LoginForm defaultEmail={DEFAULT_ADMIN_EMAIL} defaultPassword={DEFAULT_ADMIN_PASS} />
+          <LoginForm
+            defaultEmail={SHOW_DEFAULT_CREDENTIALS ? DEFAULT_ADMIN_EMAIL : ''}
+            defaultPassword={SHOW_DEFAULT_CREDENTIALS ? DEFAULT_ADMIN_PASS : ''}
+          />
 
-          <div className="cred-hint">
-            <strong>Default credentials</strong>
-            <br />
-            Email: <code>{DEFAULT_ADMIN_EMAIL}</code>
-            <br />
-            Password: <code>{DEFAULT_ADMIN_PASS}</code>
-          </div>
+          {SHOW_DEFAULT_CREDENTIALS ? (
+            <div className="cred-hint">
+              <strong>Default credentials</strong>
+              <span className="cred-tag">Development only</span>
+              <br />
+              Email: <code>{DEFAULT_ADMIN_EMAIL}</code>
+              <br />
+              Password: <code>{DEFAULT_ADMIN_PASS}</code>
+            </div>
+          ) : null}
         </div>
+
+        <a className="login-back" href={siteUrl('')}>
+          <Icon name="chevronLeft" size={16} stroke={2.2} />
+          Back to website
+        </a>
       </main>
     </div>
   );

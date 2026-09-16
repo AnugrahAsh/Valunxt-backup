@@ -6,12 +6,22 @@
  * Port of admin/page-edit.php's form and its inline script. The submit is a
  * Server Action, so the form still works with JavaScript disabled — the script
  * only adds the live preview.
+ *
+ * Two kinds of page come through here. A page BUILT INTO the website (every
+ * page the site publishes from its code, the UAE services section included)
+ * keeps the address its route answers at, so its address is shown rather than
+ * edited, and a blank title or description falls back to what the page itself
+ * declares. A page CREATED HERE picks its own slug and is published in every
+ * market by the CMS catch-all route.
  */
 import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 
+import Icon from './Icon';
+import MarketChips from './MarketChips';
 import { savePageAction, type PageFormState } from '@/lib/admin/actions';
-import { adminUrl, siteUrl } from '@/lib/admin/config';
+import { ADMIN_MARK, adminUrl } from '@/lib/admin/config';
+import type { MarketLink } from '@/lib/admin/seo-lib';
 
 export interface EditorForm {
   title: string;
@@ -49,21 +59,8 @@ function slugify(value: string): string {
 function SaveButton({ isNew }: { isNew: boolean }) {
   const { pending } = useFormStatus();
   return (
-    <button type="submit" className="btn gold" disabled={pending}>
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
-        <polyline points="17 21 17 13 7 13 7 21" />
-        <polyline points="7 3 7 8 15 8" />
-      </svg>
+    <button type="submit" className="btn primary" disabled={pending}>
+      <Icon name="save" size={16} />
       {pending ? 'Saving…' : isNew ? 'Create Page' : 'Save SEO Settings'}
     </button>
   );
@@ -71,20 +68,31 @@ function SaveButton({ isNew }: { isNew: boolean }) {
 
 export default function PageEditor({
   isNew,
-  isHome,
+  builtIn,
   id,
   csrf,
   site,
   initial,
   heroes,
+  markets,
+  defaults,
 }: {
   isNew: boolean;
-  isHome: boolean;
+  /** Built into the website's code: the address is fixed. */
+  builtIn: boolean;
   id: number;
   csrf: string;
+  /** The public site URL, e.g. https://valunxt.com */
   site: string;
   initial: EditorForm;
   heroes: string[];
+  /**
+   * Where the page is published. For a page created here, every market with an
+   * empty path — its address follows the slug as it is typed.
+   */
+  markets: MarketLink[];
+  /** What the page itself declares, shown when a field is left blank. */
+  defaults: { title: string; desc: string };
 }) {
   const [state, action] = useActionState<PageFormState | null, FormData>(savePageAction, null);
   const errors = state?.errors ?? {};
@@ -96,6 +104,7 @@ export default function PageEditor({
   const [metaDesc, setMetaDesc] = useState(String(v.meta_description));
   const [canonical, setCanonical] = useState(String(v.canonical_url));
   const slugTouched = useRef(!isNew && String(v.slug) !== '');
+  const formRef = useRef<HTMLFormElement>(null);
 
   // Keep the fields in step when the action returns with validation errors.
   useEffect(() => {
@@ -107,14 +116,30 @@ export default function PageEditor({
     setCanonical(String(state.values.canonical_url ?? ''));
   }, [state]);
 
-  const autoTitle = useMemo(
-    () => (title.trim() ? `${title.trim()} | Valunxt` : 'Valunxt'),
-    [title]
-  );
-  const autoCanon = useMemo(() => {
+  // A rejected save is reported at the top of the form, far above the button
+  // that was pressed: bring the first field at fault (or the notice) into view.
+  useEffect(() => {
+    if (!state?.errors || !Object.keys(state.errors).length) return;
+    const form = formRef.current;
+    const target = form?.querySelector<HTMLElement>('.is-invalid') ?? form?.querySelector<HTMLElement>('.flash.err');
+    if (!target) return;
+    target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    if (target.matches('input, textarea, select')) target.focus({ preventScroll: true });
+  }, [state]);
+
+  /* A page created here is published at /<market>/<slug>/ in every market, so
+     its addresses follow the slug field. A built-in page's are fixed. */
+  const liveMarkets = useMemo<MarketLink[]>(() => {
+    if (builtIn) return markets;
     const s = slug.trim().replace(/^\/+|\/+$/g, '');
-    return site + '/' + (s ? s + '/' : '');
-  }, [slug, site]);
+    return markets.map((m) => ({ ...m, path: `/${m.region}/${s ? s + '/' : ''}` }));
+  }, [builtIn, markets, slug]);
+
+  const autoTitle = useMemo(() => {
+    if (builtIn) return defaults.title;
+    return title.trim() ? `${title.trim()} | Valunxt` : 'Valunxt';
+  }, [builtIn, defaults.title, title]);
+  const autoCanon = site + (liveMarkets[0]?.path ?? '/');
 
   const counterClass = (len: number, min: number, max: number) => {
     if (!len) return 'counter';
@@ -122,20 +147,31 @@ export default function PageEditor({
   };
 
   const shownTitle = metaTitle.trim() || autoTitle;
+  const effectiveDesc = metaDesc.trim() || defaults.desc;
   const shownDesc =
-    metaDesc.trim() ||
-    'Add a meta description to control the snippet Google shows beneath your page title.';
+    effectiveDesc || 'Add a meta description to control the snippet Google shows beneath your page title.';
 
   return (
-    <form action={action} id="seoForm">
+    <form action={action} id="seoForm" ref={formRef}>
       <input type="hidden" name="csrf" value={csrf} />
       <input type="hidden" name="mode" value={isNew ? 'new' : 'edit'} />
       <input type="hidden" name="id" value={id} />
 
-      <div
-        className="panel-grid"
-        style={{ gridTemplateColumns: 'minmax(0,1.55fr) minmax(0,1fr)', alignItems: 'start' }}
-      >
+      {errors.general ? (
+        <div className="flash err" role="alert">
+          <Icon name="alertCircle" />
+          <span className="flash-text">{errors.general}</span>
+        </div>
+      ) : Object.keys(errors).length ? (
+        <div className="flash err" role="alert">
+          <Icon name="alertCircle" />
+          <span className="flash-text">
+            The page was not saved. Correct the highlighted fields below and try again.
+          </span>
+        </div>
+      ) : null}
+
+      <div className="panel-grid editor-grid">
         {/* Left column: the fields */}
         <div>
           <section className="panel">
@@ -152,13 +188,15 @@ export default function PageEditor({
                     type="text"
                     id="title"
                     name="title"
+                    className={errors.title ? 'is-invalid' : undefined}
+                    aria-invalid={errors.title ? true : undefined}
                     value={title}
                     maxLength={200}
                     required
                     placeholder="e.g. Investor Relations"
                     onChange={(e) => {
                       setTitle(e.target.value);
-                      if (!slugTouched.current && !isHome) setSlug(slugify(e.target.value));
+                      if (!slugTouched.current && !builtIn) setSlug(slugify(e.target.value));
                     }}
                   />
                   {errors.title ? (
@@ -167,68 +205,71 @@ export default function PageEditor({
                     </div>
                   ) : null}
                   <div className="hint">
-                    The page&rsquo;s name inside the CMS. Also used to suggest the slug and meta
-                    title.
+                    {builtIn
+                      ? 'The page’s name inside the CMS. It does not change the page on the website.'
+                      : 'The page’s name inside the CMS. Also used to suggest the slug and meta title.'}
                   </div>
                 </div>
 
-                <div className="fld full">
-                  <label htmlFor="slug">URL Slug</label>
-                  <div className="prefix-input">
-                    <span className="px">{site}/</span>
-                    <input
-                      type="text"
-                      id="slug"
-                      name="slug"
-                      value={slug}
-                      maxLength={255}
-                      readOnly={isHome}
-                      placeholder="investor-relations"
-                      onChange={(e) => {
-                        slugTouched.current = true;
-                        setSlug(e.target.value);
-                      }}
-                      onBlur={(e) => {
-                        if (!isHome) setSlug(slugify(e.target.value));
-                      }}
-                    />
-                  </div>
-                  {errors.slug ? (
-                    <div className="hint" style={{ color: 'var(--danger)' }}>
-                      {errors.slug}
-                    </div>
-                  ) : null}
-                  <div className="hint">
-                    {isHome ? (
-                      'This is the home page, so its URL is fixed.'
-                    ) : isNew ? (
-                      <>
-                        Generated from the page title as you type — edit it if you want something
-                        different. Letters, numbers and hyphens only; use <code>/</code> to nest
-                        under a parent (e.g. <code>about/team</code>).
-                      </>
-                    ) : (
-                      'Changing the slug updates this page’s SEO record and any child pages beneath it, then regenerates the sitemap.'
-                    )}
-                  </div>
-                </div>
-
-                {isNew && heroes.length ? (
+                {builtIn ? (
                   <div className="fld full">
-                    <label htmlFor="hero_image">Hero Banner Image</label>
-                    <select id="hero_image" name="hero_image" defaultValue={String(v.hero_image)}>
-                      {heroes.map((img) => (
-                        <option value={img} key={img}>
-                          {img.split('/').pop()}
-                        </option>
+                    <input type="hidden" name="slug" value={slug} />
+                    <label>Address</label>
+                    <ul className="address-list">
+                      {liveMarkets.map((m) => (
+                        <li key={m.region}>
+                          <MarketChips markets={[m]} />
+                          <a className="link" href={m.path} target="_blank" rel="noopener">
+                            {site + m.path}
+                          </a>
+                        </li>
                       ))}
-                    </select>
+                    </ul>
                     <div className="hint">
-                      Used for the breadcrumb hero on the new page. You can change it later by
-                      editing this page.
+                      Built into the website, so its address is set by the site&rsquo;s code and cannot be
+                      changed here.
                     </div>
                   </div>
-                ) : !isNew && Number(initial.hero_image !== '' ? 1 : 0) ? (
+                ) : (
+                  <div className="fld full">
+                    <label htmlFor="slug">URL Slug</label>
+                    <div className="prefix-input">
+                      <span className="px">{site}/&hellip;/</span>
+                      <input
+                        type="text"
+                        id="slug"
+                        name="slug"
+                        className={errors.slug ? 'is-invalid' : undefined}
+                        aria-invalid={errors.slug ? true : undefined}
+                        value={slug}
+                        maxLength={255}
+                        placeholder="investor-relations"
+                        onChange={(e) => {
+                          slugTouched.current = true;
+                          setSlug(e.target.value);
+                        }}
+                        onBlur={(e) => setSlug(slugify(e.target.value))}
+                      />
+                    </div>
+                    {errors.slug ? (
+                      <div className="hint" style={{ color: 'var(--danger)' }}>
+                        {errors.slug}
+                      </div>
+                    ) : null}
+                    <div className="hint">
+                      Published at {liveMarkets.map((m, i) => (
+                        <span key={m.region}>
+                          {i > 0 ? (i === liveMarkets.length - 1 ? ' and ' : ', ') : ''}
+                          <code>{m.path}</code>
+                        </span>
+                      ))}
+                      . Letters, numbers and hyphens only; use <code>/</code> to nest under a parent (e.g.{' '}
+                      <code>about/team</code>).
+                    </div>
+                  </div>
+                )}
+
+                {!builtIn && heroes.length ? (
                   <div className="fld full">
                     <label htmlFor="hero_image">Hero Banner Image</label>
                     <select id="hero_image" name="hero_image" defaultValue={String(v.hero_image)}>
@@ -254,14 +295,14 @@ export default function PageEditor({
                 <div className="fld full">
                   <label htmlFor="meta_title">
                     Meta Title{' '}
-                    <span className={counterClass(shownTitle.length, 50, 60)}>
-                      {shownTitle.length}
-                    </span>
+                    <span className={counterClass(shownTitle.length, 50, 60)}>{shownTitle.length}</span>
                   </label>
                   <input
                     type="text"
                     id="meta_title"
                     name="meta_title"
+                    className={errors.meta_title ? 'is-invalid' : undefined}
+                    aria-invalid={errors.meta_title ? true : undefined}
                     value={metaTitle}
                     maxLength={255}
                     placeholder={autoTitle}
@@ -273,23 +314,23 @@ export default function PageEditor({
                     </div>
                   ) : null}
                   <div className="hint">
-                    Recommended 50–60 characters. Leave blank to use “{autoTitle}”.
+                    Recommended 50–60 characters. Leave blank to use &ldquo;{autoTitle}&rdquo;.
                   </div>
                 </div>
 
                 <div className="fld full">
                   <label htmlFor="meta_description">
                     Meta Description{' '}
-                    <span className={counterClass(metaDesc.length, 150, 160)}>
-                      {metaDesc.length}
-                    </span>
+                    <span className={counterClass(effectiveDesc.length, 150, 160)}>{effectiveDesc.length}</span>
                   </label>
                   <textarea
                     id="meta_description"
                     name="meta_description"
+                    className={errors.meta_description ? 'is-invalid' : undefined}
+                    aria-invalid={errors.meta_description ? true : undefined}
                     rows={3}
                     maxLength={500}
-                    placeholder="A short, compelling summary of the page."
+                    placeholder={defaults.desc || 'A short, compelling summary of the page.'}
                     value={metaDesc}
                     onChange={(e) => setMetaDesc(e.target.value)}
                   />
@@ -298,7 +339,10 @@ export default function PageEditor({
                       {errors.meta_description}
                     </div>
                   ) : null}
-                  <div className="hint">Recommended 150–160 characters.</div>
+                  <div className="hint">
+                    Recommended 150–160 characters.
+                    {defaults.desc ? ' Leave blank to use the page’s own description, shown in the box.' : ''}
+                  </div>
                 </div>
 
                 <div className="fld full">
@@ -307,6 +351,8 @@ export default function PageEditor({
                     type="text"
                     id="canonical_url"
                     name="canonical_url"
+                    className={errors.canonical_url ? 'is-invalid' : undefined}
+                    aria-invalid={errors.canonical_url ? true : undefined}
                     value={canonical}
                     maxLength={255}
                     placeholder={autoCanon}
@@ -318,7 +364,14 @@ export default function PageEditor({
                     </div>
                   ) : null}
                   <div className="hint">
-                    Leave blank and the page publishes <code>{autoCanon}</code> automatically.
+                    Leave blank and each market&rsquo;s page names itself as canonical
+                    {liveMarkets.length ? (
+                      <>
+                        {' '}
+                        (e.g. <code>{autoCanon}</code>)
+                      </>
+                    ) : null}
+                    .
                   </div>
                 </div>
 
@@ -357,6 +410,8 @@ export default function PageEditor({
                     type="text"
                     id="meta_keywords"
                     name="meta_keywords"
+                    className={errors.meta_keywords ? 'is-invalid' : undefined}
+                    aria-invalid={errors.meta_keywords ? true : undefined}
                     defaultValue={String(v.meta_keywords)}
                     maxLength={500}
                     placeholder="real estate advisory, capital markets, dubai"
@@ -438,7 +493,7 @@ export default function PageEditor({
                       name="in_sitemap"
                       value="1"
                       defaultChecked={Number(v.in_sitemap) === 1}
-                      style={{ width: 'auto', accentColor: 'var(--gold)' }}
+                      style={{ width: 'auto', accentColor: 'var(--brand)' }}
                     />
                     Include this page in sitemap.xml
                   </label>
@@ -450,17 +505,15 @@ export default function PageEditor({
               <a href={adminUrl('pages')} className="btn">
                 Cancel
               </a>
-              {!isNew ? (
+              {!isNew && liveMarkets.length ? (
                 <>
                   <span className="spacer" />
-                  <a
-                    href={siteUrl('en-in/' + (slug === '' ? '' : slug + '/'))}
-                    target="_blank"
-                    rel="noopener"
-                    className="btn sm"
-                  >
-                    View live page
-                  </a>
+                  {liveMarkets.map((m) => (
+                    <a key={m.region} href={m.path} target="_blank" rel="noopener" className="btn sm">
+                      View in {m.label}
+                      <Icon name="arrowUpRight" size={14} />
+                    </a>
+                  ))}
                 </>
               ) : null}
             </div>
@@ -469,14 +522,17 @@ export default function PageEditor({
 
         {/* Right column: live Google preview */}
         <div>
-          <section className="panel" style={{ position: 'sticky', top: 88 }}>
+          <section className="panel serp-panel">
             <div className="panel-head">
               <h3>Google Search Preview</h3>
             </div>
             <div className="panel-body">
               <div className="serp">
                 <div className="serp-site">
-                  <span className="serp-fav">VX</span>
+                  <span className="serp-fav">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={ADMIN_MARK} alt="" width={18} height={18} />
+                  </span>
                   <span>
                     <span className="serp-name">Valunxt</span>
                     <br />

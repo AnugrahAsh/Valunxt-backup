@@ -8,12 +8,12 @@
  * Twitter — assembled here from the site's own SEO helpers rather than from a
  * second, parallel implementation.
  *
- * The one thing they deliberately do NOT do is register in
- * src/data/page-configs.json. That registry is what the admin panel lists and
- * what the sitemap is generated from, and this section is published unlinked
- * for now: reachable by typing the URL, absent from the navigation and absent
- * from the sitemap. Add an entry there when the practice is ready to be
- * advertised, and the panel and the sitemap pick it up.
+ * The one thing they deliberately do NOT do is appear in src/lib/site-pages.ts.
+ * That list is what the admin panel manages and what the sitemap is generated
+ * from, and this section is published unlinked for now: reachable by typing the
+ * URL, absent from the navigation and absent from the sitemap. Add the pillar and
+ * its services there when the practice is ready to be advertised, and the panel
+ * and the sitemap pick them up.
  */
 import type { Metadata } from 'next';
 

@@ -11,6 +11,7 @@ import bcrypt from 'bcryptjs';
 
 import { dbConfig, ENQUIRIES_TABLE_SQL } from '@/lib/db';
 import { DEFAULT_ADMIN_EMAIL, DEFAULT_ADMIN_NAME, DEFAULT_ADMIN_PASS } from './config';
+import { syncSeoMap } from './seo-import';
 
 export const USERS_TABLE_SQL = `CREATE TABLE IF NOT EXISTS users (
                 id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -109,7 +110,10 @@ async function bootstrap(): Promise<void> {
   }
 }
 
-/** The pool, with the schema guaranteed. Throws if MySQL is unreachable. */
+/**
+ * The pool, with the schema guaranteed and the pages table in step with
+ * src/data/seo-map.json (see seo-import.ts). Throws if MySQL is unreachable.
+ */
 export async function db(): Promise<mysql.Pool> {
   if (!bootstrapped) {
     bootstrapped = bootstrap().catch((e) => {
@@ -119,6 +123,7 @@ export async function db(): Promise<mysql.Pool> {
     });
   }
   await bootstrapped;
+  await syncSeoMap(getPool());
   return getPool();
 }
 
@@ -174,4 +179,40 @@ export async function attemptLogin(email: string, password: string): Promise<Use
     /* non-fatal */
   }
   return user;
+}
+
+/* ---- Account settings ---------------------------------------------------- */
+
+export interface AccountRow {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  last_login_at: string | null;
+  created_at: string;
+}
+
+/** The signed-in administrator's own row, without the password hash. */
+export async function findAccount(id: number): Promise<AccountRow | null> {
+  const rows = await query<AccountRow>(
+    'SELECT id, name, email, role, last_login_at, created_at FROM users WHERE id = ? LIMIT 1',
+    [id]
+  );
+  return rows[0] ?? null;
+}
+
+/** Whether `password` is the current password of user `id`. */
+export async function passwordMatches(id: number, password: string): Promise<boolean> {
+  const rows = await query<{ password_hash: string }>(
+    'SELECT password_hash FROM users WHERE id = ? LIMIT 1',
+    [id]
+  );
+  const hash = rows[0]?.password_hash;
+  if (!hash) return false;
+  return bcrypt.compare(password, hash.replace(/^\$2y\$/, '$2a$'));
+}
+
+/** Replace the password of user `id`. */
+export async function setPassword(id: number, password: string): Promise<void> {
+  await execute('UPDATE users SET password_hash = ? WHERE id = ?', [await bcrypt.hash(password, 10), id]);
 }

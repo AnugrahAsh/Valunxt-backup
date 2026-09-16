@@ -1,45 +1,68 @@
-/** The success / error banners the admin screens show after a redirect. */
-export function FlashOk({ message }: { message: string }) {
-  if (!message) return null;
+'use client';
+
+/**
+ * The success / error banners the admin screens show after a redirect.
+ *
+ * The message arrives in a cookie set by the Server Action. A page render may
+ * only read cookies, so the banner is what clears it: once a message is on
+ * screen it deletes the cookie, and a reload does not show it again. Success
+ * messages then dismiss themselves; errors stay until closed, so they can be
+ * read and acted on.
+ *
+ * Screens render it with `key={flash.id}`, so the same message twice in a row
+ * (two deletions, say) still shows the second time.
+ */
+import { useEffect, useState } from 'react';
+
+import Icon from './Icon';
+import { ADMIN_FLASH_COOKIE, ADMIN_FLASH_PATH } from '@/lib/admin/config';
+
+const OK_DELAY = 4000;
+const FADE = 400;
+
+function clearFlashCookie() {
+  document.cookie = `${ADMIN_FLASH_COOKIE}=; Max-Age=0; path=${ADMIN_FLASH_PATH}; SameSite=Lax`;
+}
+
+function Banner({ message, tone }: { message: string; tone: 'ok' | 'err' }) {
+  const [state, setState] = useState<'shown' | 'hiding' | 'gone'>('shown');
+
+  useEffect(() => {
+    clearFlashCookie();
+    if (tone !== 'ok') return;
+    const hide = setTimeout(() => setState('hiding'), OK_DELAY);
+    const gone = setTimeout(() => setState('gone'), OK_DELAY + FADE);
+    return () => {
+      clearTimeout(hide);
+      clearTimeout(gone);
+    };
+  }, [tone]);
+
+  if (!message || state === 'gone') return null;
+
+  const dismiss = () => {
+    setState('hiding');
+    setTimeout(() => setState('gone'), FADE);
+  };
+
   return (
-    <div className="flash" role="status">
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-        <polyline points="22 4 12 14.01 9 11.01" />
-      </svg>
-      <span>{message}</span>
+    <div
+      className={'flash' + (tone === 'err' ? ' err' : '') + (state === 'hiding' ? ' is-hiding' : '')}
+      role={tone === 'err' ? 'alert' : 'status'}
+    >
+      <Icon name={tone === 'err' ? 'alertCircle' : 'checkCircle'} />
+      <span className="flash-text">{message}</span>
+      <button type="button" className="flash-close" aria-label="Dismiss message" onClick={dismiss}>
+        <Icon name="close" size={16} />
+      </button>
     </div>
   );
 }
 
+export function FlashOk({ message }: { message: string }) {
+  return message ? <Banner message={message} tone="ok" /> : null;
+}
+
 export function FlashErr({ message }: { message: string }) {
-  if (!message) return null;
-  return (
-    <div className="flash err" role="alert">
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <line x1="12" y1="8" x2="12" y2="12" />
-        <line x1="12" y1="16" x2="12.01" y2="16" />
-      </svg>
-      <span>{message}</span>
-    </div>
-  );
+  return message ? <Banner message={message} tone="err" /> : null;
 }

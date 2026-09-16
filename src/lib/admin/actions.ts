@@ -14,15 +14,26 @@ import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 
 import { adminUrl } from './config';
-import { attemptLogin } from './db';
+import { attemptLogin, findAccount, passwordMatches, setPassword } from './db';
 import { execute, query } from './db';
-import { csrfOk, loginUser, logoutUser, setFlash } from './session';
+import {
+  csrfOk,
+  currentUser,
+  loginUser,
+  logoutUser,
+  refreshUser,
+  setFlash,
+  type AdminUser,
+} from './session';
 import {
   CHANGEFREQ_OPTIONS,
+  DEFAULT_SITE_ORIGIN,
   ROBOTS_OPTIONS,
+  reservedCmsSlug,
   seoCmsFilePath,
   seoNormalizeSlug,
   seoPage,
+  seoPlacement,
   seoRegenerate,
   seoSettingSet,
   seoSlugTaken,
@@ -44,6 +55,19 @@ async function requestOrigin(): Promise<string> {
 /** The public pages whose rendered output depends on the SEO cache. */
 function revalidateSite() {
   revalidatePath('/', 'layout');
+}
+
+/**
+ * The signed-in administrator, or a redirect to the sign-in screen.
+ *
+ * A Server Action is an endpoint in its own right: anyone can post to it, not
+ * only the screen that renders its form. The screens already refuse visitors
+ * who are not signed in, so every action that writes checks the same thing.
+ */
+async function requireUser(): Promise<AdminUser> {
+  const user = await currentUser();
+  if (!user) redirect(adminUrl(''));
+  return user;
 }
 
 /* ---- Session ------------------------------------------------------------- */
@@ -70,7 +94,10 @@ export async function loginAction(_prev: { error?: string } | null, form: FormDa
     return { error: 'Invalid credentials. Please check your email and password.', email };
   }
 
-  await loginUser({ id: user.id, name: user.name, email: user.email, role: user.role });
+  await loginUser(
+    { id: user.id, name: user.name, email: user.email, role: user.role },
+    form.get('remember') === '1'
+  );
   redirect(adminUrl('dashboard'));
 }
 
@@ -82,6 +109,7 @@ export async function logoutAction() {
 /* ---- Enquiries ----------------------------------------------------------- */
 
 export async function deleteEnquiryAction(form: FormData) {
+  await requireUser();
   const token = String(form.get('csrf') ?? '');
   const id = Number(form.get('id') ?? 0);
 
@@ -103,9 +131,12 @@ export async function deleteEnquiryAction(form: FormData) {
 /* ---- Pages listing ------------------------------------------------------- */
 
 export async function pagesOpAction(form: FormData) {
+  await requireUser();
   const op = String(form.get('op') ?? '');
   const id = Number(form.get('id') ?? 0);
-  const back = String(form.get('back') ?? adminUrl('pages'));
+  // Only ever back into the panel: the field comes from the browser.
+  const backField = String(form.get('back') ?? '');
+  const back = backField.startsWith(adminUrl('')) ? backField : adminUrl('pages');
   const origin = await requestOrigin();
 
   if (!(await csrfOk(String(form.get('csrf') ?? '')))) {
@@ -116,16 +147,19 @@ export async function pagesOpAction(form: FormData) {
   try {
     if (op === 'sync') {
       const res = await seoSyncPages();
-      await seoRegenerate(origin);
-      const ok =
-        res.added > 0
-          ? `${res.added} new page${res.added === 1 ? '' : 's'} imported from the website. Sitemap regenerated.`
-          : 'No new pages found — the CMS is already in step with the website.';
-      const err =
-        res.missing > 0
-          ? `${res.missing} page record${res.missing === 1 ? ' has' : 's have'} no matching page on the website and are flagged below.`
-          : undefined;
-      await setFlash({ ok, err });
+      const gen = await seoRegenerate(origin);
+      const changes = [
+        res.added ? `${res.added} new page${res.added === 1 ? '' : 's'} added` : '',
+        res.removed ? `${res.removed} old page${res.removed === 1 ? '' : 's'} removed` : '',
+      ].filter(Boolean);
+      await setFlash({
+        ok:
+          (changes.length
+            ? `${changes.join(', ')}.`
+            : `The CMS already lists all ${res.total} pages the website publishes.`) +
+          ` Sitemap regenerated with ${gen.count} URLs.`,
+        err: gen.errors.length ? gen.errors.join(' ') : undefined,
+      });
     } else if (op === 'toggle_status') {
       const page = await seoPage(id);
       if (page) {
@@ -146,7 +180,14 @@ export async function pagesOpAction(form: FormData) {
       }
     } else if (op === 'delete') {
       const page = await seoPage(id);
-      if (page) {
+      const place = page ? seoPlacement(page) : null;
+      if (page && place?.builtIn && place.exists) {
+        // The page is part of the website's code: removing its row would only
+        // lose its SEO settings, and the next sync would list it again.
+        await setFlash({
+          err: `“${page.title}” is built into the website, so it cannot be deleted here. Set it to Draft or leave it out of the sitemap instead.`,
+        });
+      } else if (page) {
         const wasCms = Number(page.is_cms) === 1;
         await execute('DELETE FROM pages WHERE id = ?', [id]);
         await seoRegenerate(origin);
@@ -174,6 +215,7 @@ export async function savePageAction(
   _prev: PageFormState | null,
   form: FormData
 ): Promise<PageFormState> {
+  await requireUser();
   const origin = await requestOrigin();
   const isNew = String(form.get('mode') ?? '') === 'new';
   const id = Number(form.get('id') ?? 0);
@@ -208,7 +250,9 @@ export async function savePageAction(
       redirect(adminUrl('pages'));
     }
   }
-  const isHome = !isNew && String(existing!.slug) === '';
+  // A page built into the website keeps the address its route answers at; only
+  // a page created here can move.
+  const builtIn = !isNew && seoPlacement(existing!).builtIn;
 
   const errors: Record<string, string> = {};
 
@@ -216,13 +260,17 @@ export async function savePageAction(
   else if (String(values.title).length > 200)
     errors.title = 'Keep the page title under 200 characters.';
 
-  const slug = isHome
-    ? ''
+  const slug = builtIn
+    ? String(existing!.slug)
     : seoNormalizeSlug(values.slug !== '' ? String(values.slug) : String(values.title));
-  if (!isHome && slug === '') {
-    errors.slug = 'A URL slug is required — use letters, numbers and hyphens.';
-  } else if (!isHome && (await seoSlugTaken(slug, isNew ? 0 : id))) {
-    errors.slug = `The slug “${slug}” is already used by another page. Choose a different one.`;
+  if (!builtIn) {
+    if (slug === '') {
+      errors.slug = 'A URL slug is required — use letters, numbers and hyphens.';
+    } else if (reservedCmsSlug(slug)) {
+      errors.slug = `“/${slug}/” belongs to a page or section built into the website. Choose a different slug.`;
+    } else if (await seoSlugTaken(slug, isNew ? 0 : id)) {
+      errors.slug = `The slug “${slug}” is already used by another page. Choose a different one.`;
+    }
   }
   values.slug = slug;
 
@@ -286,10 +334,10 @@ export async function savePageAction(
     const oldSlug = String(existing!.slug);
     const notices: string[] = [];
 
-    if (!isHome && values.slug !== oldSlug) {
-      // Descendant pages inherit the new parent prefix, as they did in PHP.
+    if (!builtIn && values.slug !== oldSlug) {
+      // Pages created beneath this one move with it, as they did in PHP.
       const kids = await query<{ id: number; slug: string }>(
-        'SELECT id, slug FROM pages WHERE slug LIKE ? AND id <> ?',
+        'SELECT id, slug FROM pages WHERE slug LIKE ? AND id <> ? AND is_cms = 1',
         [oldSlug + '/%', id]
       );
       for (const kid of kids) {
@@ -302,11 +350,6 @@ export async function savePageAction(
       }
       if (kids.length) {
         notices.push(`${kids.length} child page${kids.length === 1 ? '' : 's'} moved under the new slug.`);
-      }
-      if (Number(existing!.is_cms) !== 1) {
-        notices.push(
-          'This page is a built-in route, so its URL is defined in the codebase — the new slug changes its SEO record only.'
-        );
       }
     }
 
@@ -352,6 +395,7 @@ export async function savePageAction(
 /* ---- Sitemap screen ------------------------------------------------------ */
 
 export async function sitemapOpAction(form: FormData) {
+  await requireUser();
   const op = String(form.get('op') ?? '');
   const origin = await requestOrigin();
 
@@ -374,7 +418,7 @@ export async function sitemapOpAction(form: FormData) {
       const url = String(form.get('site_url') ?? '').trim().replace(/\/+$/, '');
       if (url !== '' && !/^https?:\/\/[^\s]+$/i.test(url)) {
         await setFlash({
-          err: 'Enter a full site URL including https:// — for example https://valunxtcapital.com',
+          err: `Enter a full site URL including https:// — for example ${DEFAULT_SITE_ORIGIN}`,
         });
       } else {
         await seoSettingSet('site_url', url);
@@ -394,4 +438,85 @@ export async function sitemapOpAction(form: FormData) {
 
   revalidateSite();
   redirect(adminUrl('sitemap'));
+}
+
+/* ---- Account settings ---------------------------------------------------- */
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MIN_PASSWORD = 8;
+
+export async function saveProfileAction(form: FormData) {
+  const user = await requireUser();
+
+  if (!(await csrfOk(String(form.get('csrf') ?? '')))) {
+    await setFlash({ err: 'Your session expired. Please try again.' });
+    redirect(adminUrl('settings'));
+  }
+
+  const name = String(form.get('name') ?? '').trim();
+  const email = String(form.get('email') ?? '').trim();
+
+  if (name === '' || name.length > 120) {
+    await setFlash({ err: 'Enter your name, up to 120 characters.' });
+  } else if (!EMAIL_RE.test(email) || email.length > 190) {
+    await setFlash({ err: 'Enter a valid email address.' });
+  } else {
+    try {
+      const taken = await query<{ n: number }>(
+        'SELECT COUNT(*) AS n FROM users WHERE email = ? AND id <> ?',
+        [email, user.id]
+      );
+      if (Number(taken[0]?.n ?? 0) > 0) {
+        await setFlash({ err: `${email} is already used by another administrator.` });
+      } else {
+        await execute('UPDATE users SET name = ?, email = ? WHERE id = ?', [name, email, user.id]);
+        const account = await findAccount(user.id);
+        await refreshUser({
+          id: user.id,
+          name: account?.name ?? name,
+          email: account?.email ?? email,
+          role: account?.role ?? user.role,
+        });
+        await setFlash({ ok: 'Profile saved.' });
+      }
+    } catch {
+      await setFlash({ err: 'Could not save your profile. Please ensure MySQL is running.' });
+    }
+  }
+  redirect(adminUrl('settings'));
+}
+
+export async function changePasswordAction(form: FormData) {
+  const user = await requireUser();
+
+  if (!(await csrfOk(String(form.get('csrf') ?? '')))) {
+    await setFlash({ err: 'Your session expired. Please try again.' });
+    redirect(adminUrl('settings'));
+  }
+
+  const current = String(form.get('current_password') ?? '');
+  const next = String(form.get('new_password') ?? '');
+  const confirm = String(form.get('confirm_password') ?? '');
+
+  if (current === '' || next === '' || confirm === '') {
+    await setFlash({ err: 'Fill in all three password fields.' });
+  } else if (next.length < MIN_PASSWORD) {
+    await setFlash({ err: `Choose a new password of at least ${MIN_PASSWORD} characters.` });
+  } else if (next !== confirm) {
+    await setFlash({ err: 'The new password and its confirmation do not match.' });
+  } else {
+    try {
+      if (!(await passwordMatches(user.id, current))) {
+        await setFlash({ err: 'Your current password is not correct.' });
+      } else if (current === next) {
+        await setFlash({ err: 'The new password must be different from the current one.' });
+      } else {
+        await setPassword(user.id, next);
+        await setFlash({ ok: 'Password changed. Use the new password the next time you sign in.' });
+      }
+    } catch {
+      await setFlash({ err: 'Could not change your password. Please ensure MySQL is running.' });
+    }
+  }
+  redirect(adminUrl('settings'));
 }

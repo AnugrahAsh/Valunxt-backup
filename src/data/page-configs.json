@@ -487,7 +487,7 @@
     "post_excerpt": "Partner with Valunxt to connect capital, real estate, research, and technology into opportunities that build lasting wealth.",
     "active_nav": [],
     "inline_css": "<style id=\"elementor-frontend-inline-css\">\nbody{--vxn-hero-img:url(\"{{BASE}}/assets/content/uploads/banners/partnership.webp\") !important;}\n.elementor-2281 .elementor-element.elementor-element-577ba48b:not(.elementor-motion-effects-element-type-background), .elementor-2281 .elementor-element.elementor-element-577ba48b > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image:url(\"{{BASE}}/assets/content/uploads/2025/03/GettyImages-1522377398.jpg\");}\n/*# sourceURL=elementor-frontend-inline-css */\n</style>\n",
-    "path": "/services/tax-planning/"
+    "path": "/partnership/"
   },
   "/privacy-policy/": {
     "title": "Privacy Policy | Valunxt",

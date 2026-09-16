@@ -103,31 +103,64 @@ resolves the page from the URL that `middleware.ts` publishes as `x-vxn-path`.
 
 ## The admin panel
 
-`/admin` — a separate application with its own stylesheet, never indexed, and
-loading none of the site's Elementor cascade.
+`/admin` — a separate application with its own stylesheet
+([`public/admin/assets/admin.css`](public/admin/assets/admin.css)), never
+indexed, and loading none of the site's Elementor cascade. It carries the site's
+identity: the brand blue and its gradient, Sanomat Sans, the current wordmark
+and tab icon.
 
 | Screen              | Route |
 | ------------------- | ----- |
 | Sign in             | `/admin/` |
 | Dashboard           | `/admin/dashboard` |
-| Enquiries           | `/admin/enquiries` |
+| Enquiries           | `/admin/enquiries` (`?q=` pre-filters) |
 | Pages & SEO         | `/admin/pages` |
 | Page editor         | `/admin/pages/edit?id=N` or `?new=1` |
 | Sitemap settings    | `/admin/sitemap` |
+| Account settings    | `/admin/settings` — name, email, password |
+| Search              | `/admin/search?q=` — enquiries and pages |
 
 Default credentials, seeded into an empty `users` table on first connection:
-`admin@valunxtcapital.com` / `Admin@123`. **Change them before the panel is
-reachable from the internet**, and set `ADMIN_SESSION_SECRET` (see below).
+`admin@valunxtcapital.com` / `Admin@123` — the sign-in screen prefills and prints
+them in development only. **Change the password under Settings before the panel
+is reachable from the internet**, and set `ADMIN_SESSION_SECRET` (see below).
 
 Sessions are an HMAC-signed, httpOnly cookie rather than a PHP session — there is
 no server-side session store to keep. Existing accounts keep working: PHP's
 `password_hash()` bcrypt digests verify unchanged.
 
+**Which pages it lists.** Pages & SEO lists every page the website publishes, in
+both markets, and nothing else. The list is derived from the registries the
+routes answer from ([`src/lib/site-pages.ts`](src/lib/site-pages.ts)): the page
+registry, the article list, and the UAE services registry with its thirty-three
+sub-pages. A page added in code appears in the panel on its own; a page taken out
+of the code is removed from the panel and the sitemap (pages created in the panel
+are never removed). The unlinked real estate module under `/real-estate/` and
+pages that 404 until their data exists (leadership, track record) are left out on
+purpose. Rows are keyed the way the SEO map is: `about` for a page both markets
+publish, `en-ae/services/…` for a UAE-only page, `''` and `en-ae` for the homes.
+
 Saving a page rewrites two files, exactly as the PHP panel did:
 
-- `public/sitemap.xml`
+- `public/sitemap.xml` — one entry per page per market that publishes it, on the
+  main domain (`https://valunxt.com` unless the Site URL setting says otherwise),
+  with hreflang alternates where more than one market publishes the address
 - `src/data/seo-map.json` — the map the public pages read, so a page view never
   opens a database connection and the site keeps rendering if MySQL is down.
+
+The database is the source of those files, so the two must not drift. When
+`seo-map.json` is changed outside the panel — edited in the repository, pulled,
+deployed — the panel notices (it records a hash of every map it writes) and
+imports the file's values into the `pages` table before anything reads from it
+([`seo-import.ts`](src/lib/admin/seo-import.ts)). Without that, the first save
+would rewrite the file from stale rows and put old SEO copy back on the site. When
+the set of pages changes, the Pages and Sitemap screens say so and offer to
+regenerate.
+
+These files are part of the repository: the public site reads the SEO map at
+build time, so SEO edits reach the deployed site with the next build, and the
+panel can only write them where the filesystem is writable (a local checkout, not
+Vercel).
 
 **One deliberate difference.** The PHP panel created a new page by writing a
 folder and an `index.php` to disk. A Next.js route cannot appear at runtime, so a
@@ -145,7 +178,7 @@ working default, so a fresh clone runs with no configuration at all.
 
 | Variable                 | Purpose |
 | ------------------------ | ------- |
-| `NEXT_PUBLIC_SITE_ORIGIN`| Canonical/OG/sitemap origin when the request host is not authoritative |
+| `NEXT_PUBLIC_SITE_ORIGIN`| Canonical/OG/sitemap origin when the request host is not authoritative (default `https://valunxt.com`) |
 | `DB_HOST` … `DB_PASS`    | MySQL for enquiries and the admin panel |
 | `ADMIN_SESSION_SECRET`   | Signs the admin session cookie |
 | `ADMIN_DEFAULT_*`        | The administrator seeded into an empty `users` table |

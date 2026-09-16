@@ -5,21 +5,35 @@
  * store here, so the same payload travels in an HMAC-signed, httpOnly cookie:
  * the browser cannot read or forge it, and the panel stays stateless.
  *
+ * One rule shapes this file: a page render may READ cookies but never write
+ * them (Next.js throws "Cookies can only be modified in a Server Action or
+ * Route Handler"). Everything a screen calls while rendering — currentUser(),
+ * csrfToken(), takeFlash() — is therefore read-only, and every write happens in
+ * a Server Action or a Route Handler.
+ *
  * Port of admin/auth.php.
  */
 import 'server-only';
 import crypto from 'node:crypto';
 import { cookies } from 'next/headers';
 
+import { ADMIN_FLASH_COOKIE, ADMIN_FLASH_PATH } from './config';
+
 const COOKIE = 'vxn_admin';
-const FLASH_COOKIE = 'vxn_admin_flash';
 const MAX_AGE = 60 * 60 * 8; // eight hours, as a working day
+const REMEMBER_AGE = 60 * 60 * 24 * 30; // "Remember me": thirty days
 
 export interface AdminUser {
   id: number;
   name: string;
   email: string;
   role: string;
+}
+
+interface SessionPayload extends AdminUser {
+  exp: number;
+  /** Signed in with "Remember me" — kept so a refreshed cookie keeps its length. */
+  rem?: 1;
 }
 
 function secret(): string {
@@ -36,50 +50,69 @@ function sign(payload: string): string {
   return crypto.createHmac('sha256', secret()).update(payload).digest('base64url');
 }
 
-function encode(user: AdminUser): string {
-  const payload = Buffer.from(JSON.stringify({ ...user, exp: Date.now() + MAX_AGE * 1000 })).toString(
-    'base64url'
-  );
+function safeEqual(a: string, b: string): boolean {
+  // Constant-time compare, the equivalent of PHP's hash_equals().
+  return a.length === b.length && crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b));
+}
+
+function encode(user: AdminUser, remember: boolean): string {
+  const data: SessionPayload = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    exp: Date.now() + (remember ? REMEMBER_AGE : MAX_AGE) * 1000,
+    ...(remember ? { rem: 1 as const } : {}),
+  };
+  const payload = Buffer.from(JSON.stringify(data)).toString('base64url');
   return `${payload}.${sign(payload)}`;
 }
 
-function decode(value: string): AdminUser | null {
+function decode(value: string): SessionPayload | null {
   const [payload, mac] = value.split('.');
-  if (!payload || !mac) return null;
-  const expected = sign(payload);
-  // Constant-time compare, the equivalent of PHP's hash_equals().
-  if (
-    mac.length !== expected.length ||
-    !crypto.timingSafeEqual(Buffer.from(mac), Buffer.from(expected))
-  ) {
-    return null;
-  }
+  if (!payload || !mac || !safeEqual(mac, sign(payload))) return null;
   try {
     const data = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'));
     if (typeof data.exp !== 'number' || data.exp < Date.now()) return null;
-    return { id: data.id, name: data.name, email: data.email, role: data.role };
+    return data as SessionPayload;
   } catch {
     return null;
   }
+}
+
+async function writeSession(user: AdminUser, remember: boolean): Promise<void> {
+  const c = await cookies();
+  c.set(COOKIE, encode(user, remember), {
+    httpOnly: true,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: remember ? REMEMBER_AGE : MAX_AGE,
+    secure: process.env.NODE_ENV === 'production',
+  });
 }
 
 /** The currently signed-in user, or null. */
 export async function currentUser(): Promise<AdminUser | null> {
   const c = await cookies();
   const raw = c.get(COOKIE)?.value;
-  return raw ? decode(raw) : null;
+  const data = raw ? decode(raw) : null;
+  return data ? { id: data.id, name: data.name, email: data.email, role: data.role } : null;
 }
 
-/** Store the authenticated user. */
-export async function loginUser(user: AdminUser): Promise<void> {
+/** Store the authenticated user. "Remember me" keeps the session for thirty days. */
+export async function loginUser(user: AdminUser, remember = false): Promise<void> {
+  await writeSession(user, remember);
+}
+
+/**
+ * Re-issue the session with updated details (after a profile change), keeping
+ * the length the user signed in with.
+ */
+export async function refreshUser(user: AdminUser): Promise<void> {
   const c = await cookies();
-  c.set(COOKIE, encode(user), {
-    httpOnly: true,
-    sameSite: 'lax',
-    path: '/',
-    maxAge: MAX_AGE,
-    secure: process.env.NODE_ENV === 'production',
-  });
+  const raw = c.get(COOKIE)?.value;
+  const data = raw ? decode(raw) : null;
+  await writeSession(user, data?.rem === 1);
 }
 
 /** Sign the current administrator out. */
@@ -92,30 +125,24 @@ export async function logoutUser(): Promise<void> {
 
 /**
  * The panel's forms are Server Actions, which Next.js already protects against
- * cross-origin POSTs. The token is kept because the PHP forms carried one and
- * the double-submit check costs nothing.
+ * cross-origin POSTs. The token is kept because the PHP forms carried one.
+ *
+ * It used to be a random value stored in its own cookie, created the first time
+ * a screen asked for it — which meant writing a cookie during a page render,
+ * and every screen with a form (Enquiries, Pages, the editor, Sitemap) failed
+ * with a 500 as a result. It is now derived from the session cookie instead: an
+ * HMAC the browser already holds the input for and cannot compute itself, so
+ * rendering it needs no write, and it is bound to the signed-in session.
  */
-const CSRF_COOKIE = 'vxn_admin_csrf';
-
 export async function csrfToken(): Promise<string> {
   const c = await cookies();
-  const existing = c.get(CSRF_COOKIE)?.value;
-  if (existing) return existing;
-  const token = crypto.randomBytes(16).toString('hex');
-  c.set(CSRF_COOKIE, token, {
-    httpOnly: true,
-    sameSite: 'lax',
-    path: '/',
-    secure: process.env.NODE_ENV === 'production',
-  });
-  return token;
+  const session = c.get(COOKIE)?.value ?? '';
+  return session ? sign('csrf.' + session) : '';
 }
 
 export async function csrfOk(token: string): Promise<boolean> {
-  const c = await cookies();
-  const expected = c.get(CSRF_COOKIE)?.value ?? '';
-  if (!expected || token.length !== expected.length) return false;
-  return crypto.timingSafeEqual(Buffer.from(token), Buffer.from(expected));
+  const expected = await csrfToken();
+  return expected !== '' && safeEqual(String(token), expected);
 }
 
 /* ---- Flash messages ------------------------------------------------------ */
@@ -123,29 +150,35 @@ export async function csrfOk(token: string): Promise<boolean> {
 export interface Flash {
   ok?: string;
   err?: string;
+  /** Distinguishes two identical messages in a row, so the second still shows. */
+  id?: string;
 }
 
 /** Set the message shown after the next redirect. */
 export async function setFlash(flash: Flash): Promise<void> {
   const c = await cookies();
-  c.set(FLASH_COOKIE, Buffer.from(JSON.stringify(flash)).toString('base64url'), {
-    httpOnly: true,
+  const value = { ...flash, id: crypto.randomBytes(6).toString('hex') };
+  c.set(ADMIN_FLASH_COOKIE, Buffer.from(JSON.stringify(value)).toString('base64url'), {
+    // Not httpOnly: the banner deletes it from the browser once it has shown
+    // it (components/admin/Flash.tsx). It carries a UI message and nothing else.
+    httpOnly: false,
     sameSite: 'lax',
-    path: '/',
-    maxAge: 30,
+    path: ADMIN_FLASH_PATH,
+    maxAge: 60,
   });
 }
 
-/** Read and clear the pending message. */
+/**
+ * Read the pending message.
+ *
+ * Read-only, because it runs during a render. The banner clears the cookie in
+ * the browser once the message is on screen; the one-minute max-age is the
+ * backstop when scripts do not run.
+ */
 export async function takeFlash(): Promise<Flash> {
   const c = await cookies();
-  const raw = c.get(FLASH_COOKIE)?.value;
+  const raw = c.get(ADMIN_FLASH_COOKIE)?.value;
   if (!raw) return {};
-  try {
-    c.delete(FLASH_COOKIE);
-  } catch {
-    /* reading during render cannot clear it; the 30s max-age does */
-  }
   try {
     return JSON.parse(Buffer.from(raw, 'base64url').toString('utf8')) as Flash;
   } catch {

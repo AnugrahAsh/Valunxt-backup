@@ -93,6 +93,8 @@ function config({
     hero_title: name,
     hero_image: heroImage,
     path,
+    /* The section exists under /en-ae/ only (the routes 404 it anywhere else). */
+    regions: ['en-ae'],
     /* Nothing to index while the page says "coming soon": the URLs are live so
        they can be linked and reviewed, not so they can be ranked. A written page
        has something to say, so it indexes like any other. */

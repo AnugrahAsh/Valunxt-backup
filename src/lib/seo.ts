@@ -14,6 +14,7 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import rawSeoMap from '@/data/seo-map.json';
 import { BASE, vxnRegionExists, vxnRegionList, vxnRegionData, rswap } from './region';
+import { pageConfig } from './pages';
 import type { PageConfig } from './page-config';
 
 export interface SeoRow {
@@ -75,7 +76,7 @@ export function vxnSeoOrigin(): string {
   const env =
     process.env.NEXT_PUBLIC_SITE_ORIGIN ||
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '');
-  return (env || 'https://valunxtcapital.com').replace(/\/+$/, '');
+  return (env || 'https://valunxt.com').replace(/\/+$/, '');
 }
 
 /**
@@ -178,12 +179,25 @@ export async function buildMetadata(page: PageConfig, region: string): Promise<M
   // Country editions: tell search engines that this page exists once per
   // market, and which one this URL is. x-default points at the gateway, which
   // routes the visitor to their own edition.
-  const regionPath = String(page.path ?? '/') || '/';
+  //
+  // The address inside a market, without the market: a home page declares its
+  // own prefix ('/en-ae/'), and swapping a market onto that gave /en-in/en-ae/.
+  const declared = String(page.path ?? '/') || '/';
+  const first = declared.split('/')[1] ?? '';
+  const regionPath = vxnRegionExists(first) ? declared.slice(first.length + 1) || '/' : declared;
+  // Only markets that publish a page at this address. A page restricted to some
+  // markets still has a twin wherever the registry itself declares the address
+  // (the UAE's /services/research-intelligence/ and India's).
+  const markets = vxnRegionList().filter(
+    (r) => !page.regions || page.regions.includes(r.slug) || pageConfig(regionPath) !== null,
+  );
   const languages: Record<string, string> = {};
-  for (const r of vxnRegionList()) {
-    languages[r.lang] = origin + rswap(r.slug, regionPath);
+  if (markets.length > 1) {
+    for (const r of markets) {
+      languages[r.lang] = origin + rswap(r.slug, regionPath);
+    }
+    languages['x-default'] = origin + BASE + '/';
   }
-  languages['x-default'] = origin + BASE + '/';
 
   const meta: Metadata = {
     title: seo.title,
@@ -192,7 +206,7 @@ export async function buildMetadata(page: PageConfig, region: string): Promise<M
     robots: seo.robots,
     alternates: {
       canonical: seo.canonical,
-      languages,
+      ...(markets.length > 1 ? { languages } : {}),
     },
     openGraph: {
       locale: vxnRegionData(region).lang.replace('-', '_'),

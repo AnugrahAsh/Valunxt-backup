@@ -50,6 +50,13 @@ export interface PageConfig {
   hero_image?: string;
   /** The page's own (unprefixed) path, e.g. '/services/'. */
   path: string;
+  /**
+   * The markets that publish this page, when not every market does — the UAE
+   * services section, for one. Left unset, the page is in every edition. The
+   * hreflang alternates read it, so a UAE-only page no longer names an India
+   * URL that answers 404.
+   */
+  regions?: string[];
   /** Only pages outside the CMS set this (the 404 template). */
   robots?: string;
 }

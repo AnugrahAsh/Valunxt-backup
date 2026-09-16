@@ -549,9 +549,11 @@ export default function HomeAeBody({ page, region }: { page: PageConfig; region:
       								))}
       							</nav>
       						</div>
-      						{/* The question band (20260911; rebuilt light and static 20260914).
-      						    It follows the six services because every question it answers is
-      						    one of theirs. UAE only. */}
+      						{/* The question band (20260911; rebuilt 20260916 as the reel of the
+      						    supplied recording: labels, a dropping dot, a typed question and a
+      						    sliding answer over the practice photograph). It follows the six
+      						    services because every question it answers is one of theirs. UAE
+      						    only. */}
       						<UaeAnswerBand region={region} />
       						{/* The feature bands (impact, mosaic; the spotlight came off on 20260911
       						    and the careers band on 20260915), between the Answer band and the

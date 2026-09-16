@@ -6764,3 +6764,123 @@ form.elementor-form button[type="submit"],
   text-transform: none !important;
   letter-spacing: 0.02em !important;
 }
+
+/* ==========================================================================
+   THE SITE'S SCROLL MOTION (20260916) — components/layout/SiteMotion.tsx
+   Built to the supplied recording (animation reference.mp4): headings a
+   line at a time through a mask, copy out of a blur, pictures and cards
+   rising, buttons a beat behind, the hero coming up on load, and the larger
+   pictures drifting against the scroll.
+
+   THE SAFETY RULE: nothing here hides anything unless the element carries
+   data-reveal-state="pending", which only that engine sets, and it takes
+   both marks off again once an arrival has played. With no script, a
+   blocked bundle or reduced motion, the page is exactly as it was.
+   ========================================================================== */
+
+/* ---- Lines: every word wrapped, each line rising through its own clip ----
+   The wrapper is an inline-block so the inner span can move, and it clips
+   with clip-path rather than overflow, which would move its baseline to its
+   bottom edge and knock the word out of line with its neighbours. The clip
+   runs .2em over the top and .25em under, for the ascenders and
+   descenders of a 1.08 line-height heading. */
+.vxn-w {
+  display: inline-block;
+}
+
+[data-reveal='lines'][data-reveal-state] .vxn-w {
+  clip-path: inset(-.2em -.08em -.25em -.08em);
+}
+
+.vxn-w__i {
+  display: inline-block;
+}
+
+[data-reveal='lines'][data-reveal-state='pending'] .vxn-w__i {
+  transform: translateY(140%);
+}
+
+[data-reveal='lines'][data-reveal-state='in'] .vxn-w__i {
+  transform: none;
+  transition: transform .85s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: calc(var(--vxn-d, 0ms) + var(--vxn-line, 0) * 95ms);
+}
+
+/* ---- Blur: paragraphs, list items, small lines -------------------------- */
+[data-reveal='blur'][data-reveal-state='pending'] {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(14px);
+}
+
+[data-reveal='blur'][data-reveal-state='in'] {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  transition: opacity .8s ease, filter .8s ease, transform .8s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: calc(var(--vxn-d, 0ms) + 140ms);
+}
+
+/* ---- Rise: pictures, cards, the panels a band marks itself -------------- */
+[data-reveal='rise'][data-reveal-state='pending'] {
+  opacity: 0;
+  transform: translateY(56px);
+}
+
+[data-reveal='rise'][data-reveal-state='in'] {
+  opacity: 1;
+  transform: none;
+  transition: opacity .9s ease, transform 1s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: var(--vxn-d, 0ms);
+}
+
+/* ---- Rise, small: the buttons, a beat behind their copy ------------------ */
+[data-reveal='rise-sm'][data-reveal-state='pending'] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+[data-reveal='rise-sm'][data-reveal-state='in'] {
+  opacity: 1;
+  transform: none;
+  transition: opacity .7s ease, transform .7s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: calc(var(--vxn-d, 0ms) + 240ms);
+}
+
+/* ---- Fade: the first block coming up on a fresh load --------------------- */
+[data-reveal='fade'][data-reveal-state='pending'] {
+  opacity: 0;
+}
+
+[data-reveal='fade'][data-reveal-state='in'] {
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+/* ---- Elementor's replay, voided ----------------------------------------
+   A widget the engine took over (its .elementor-invisible removed, classed
+   vxn-took) can still be handed `animated <name>` by Elementor's frontend
+   when its waypoint fires; without this it would blink and slide a second
+   time, already on screen. */
+.vxn-took.animated,
+.vxn-took.animated-fast,
+.vxn-took.animated-slow {
+  animation: none !important;
+  opacity: 1;
+}
+
+/* ---- Drift: the larger pictures against the scroll ----------------------
+   --vxn-px is written by the engine each frame from the picture's place in
+   the viewport, in the sign it was given; a picture inside a clipping
+   frame is scaled a little so its edges never show. */
+[data-reveal-drift] {
+  transform: translate3d(0, var(--vxn-px, 0px), 0) scale(var(--vxn-px-scale, 1));
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal-drift] {
+    transform: none;
+    will-change: auto;
+  }
+}

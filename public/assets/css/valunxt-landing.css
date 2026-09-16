@@ -2605,6 +2605,8 @@
   border-top: 1px solid rgba(255, 255, 255, .28);
 }
 
+/* Under the rule: the services block on the left and the social marks on
+   the right (the positioning line that stood here went on 20260916). */
 .vxn-foot__mid {
   display: flex;
   flex-wrap: wrap;
@@ -2613,12 +2615,8 @@
   gap: 24px 48px;
 }
 
-.vxn-foot__blurb {
-  margin: 0;
-  max-width: 66ch;
-  color: rgba(255, 255, 255, .94);
-  font-size: clamp(15px, 1.2vw, 17px);
-  line-height: 1.62;
+.vxn-foot__mid .vxn-foot__social {
+  margin-left: auto;
 }
 
 /* The social widget's own stylesheet sizes and colours these; on this ground
@@ -2656,12 +2654,12 @@
   opacity: .72;
 }
 
-/* The six services (20260912), one row under the positioning line: a small
-   uppercase label, then the names. No rule above it and a short margin, on
-   client feedback the same day. Two classes on the list and the label, over
-   the kit's list and span rules. */
+/* The six services (20260912), one row under the rule: a small uppercase
+   label, then the names. Two classes on the list and the label, over the
+   kit's list and span rules. */
 .vxn-foot__services {
-  margin-top: clamp(18px, 2vw, 28px);
+  margin: 0;
+  min-width: 0;
 }
 
 .vxn-foot .vxn-foot__servicesTitle {
@@ -2767,6 +2765,10 @@
 
   .vxn-foot__mid {
     flex-direction: column;
+  }
+
+  .vxn-foot__mid .vxn-foot__social {
+    margin-left: 0;
   }
 
   /* Three and three: six names on one row need about 1100px. */
@@ -3063,530 +3065,430 @@
 
 /* --------------------------------------------------------------------------
    17. .vxn-answer — "Your Questions, Answered", the question band
-   components/sections/UaeAnswerBand.tsx
+   components/sections/UaeAnswerBand.tsx, UaeAnswerStage.tsx
 
-   REBUILT 20260915 to the supplied reference, a blue grid card measured off
-   the 800 x 600 original (card 720 x 420 on six 120px columns and three 140px
-   rows): the logo centred in the first cell; a photograph cut into six tiles
-   across the middle four columns, its box's top-right and bottom-left cells
-   left blue; the title beside the lower tiles; the corner cell framed on its
-   left and foot with the nav over a hairline and the call under it; a text
-   badge turning on the photograph's right edge; and a foot row of figures,
-   each a number over a 58% hairline over a caption. Here the foot row carries
-   the six questions, one per column.
+   REBUILT 20260916 to the supplied recording (vxn-answer-section.mp4, a
+   736 x 414 reel): a column of labels on the left, the lit one dark and the
+   rest pale, a coloured dot beside the lit label that drops to the next as
+   the reel turns, and on the right a rounded panel (340 x 378 of the 736
+   frame, radius 22) whose photograph changes with the label and carries two
+   glass cards, the first offset right (its left edge 15% in, its right 13%)
+   and the second offset left (8% and 9%) and overlapping the first's foot,
+   the first typed out and the second sliding up. Measured off the frame:
+   the labels 40px on a 62px pitch (1.5), the dot 8px, the cards white at
+   about 80% over a blur with a 14px radius and 9px type; all of it scaled
+   to the container here through cqw.
 
-   WHERE IT DEPARTS FROM THE REFERENCE, on purpose:
-   - The fill is the brand gradient (#1436D8 to #08248F) where the reference
-     is a flat #0D52DB, on instruction.
-   - The two picture rows are about as tall as the columns are wide (16.4cqw,
-     about 250px at 1520) where the reference's are 140:120, so the card,
-     about 740px at 1520, fits a 1901 x 867 window under the pinned header.
-     Switch: --row to 19.4cqw.
-   - The title is 46px at most, not the reference's scaled 70px: it is three
-     times the length of "Innovation Inside" and holds two lines in its cell.
-   - The sentence sits under the title, not at the foot's left, because the
-     foot row holds six questions where the reference has three figures.
-   - The call is the site's one pill in its inverse finish, not the
-     reference's letter-spaced text, per the one-CTA rule.
-   - No share icon: there is nothing on the page for it to do.
+   THE HEAD ROW above the reel (eyebrow and title left, sentence and pill
+   right) is the band's own, kept from the earlier editions so no copy went.
+   Its columns are the reel's, so the sentence and pill stand over the
+   panel's left edge and the title over the labels.
+
+   TIGHTENED 20260916 (client): the panel is no taller than the six labels
+   need, so no white band opens above or below the list; the two cards
+   stack with one gap and one inset instead of stepping and overlapping;
+   the "Auto play" switch is not rendered (the reel still plays itself).
+
+   WHERE IT DEPARTS FROM THE RECORDING, on purpose:
+   - Six labels, not four, and they are the practices; the cards carry a
+     question and the practice's own sentence, not a mail thread.
+   - The recording's opening toggle ("Auto Pilot") is not shown; the reel
+     plays itself, and a pointer on the panel or a press on a label holds it.
+   - The ground is the page's white, not the recording's grey wash, so the
+     band sits with its neighbours; the lit label takes the site's ink.
+   - The call is the site's one pill, per the one-CTA rule.
 
    SPECIFICITY. The market scale sizes h2 at (0,1,2) with !important, so the
-   title is sized through two classes; `.elementor-kit-5 a` paints links white
-   and is asserted over the same way; the theme's list reset is cleared on the
-   <ol>. `.elementor-kit-5 img` rounds every image, `.elementor img` sets
-   height auto and the reset caps width at 100%: the tiles' slices clear all
-   three, or each tile would show the whole photograph squeezed into itself.
+   title is sized through two classes; `.elementor-kit-5 a` paints links
+   white and is asserted over the same way; the theme paints a focused
+   <button> navy and is asserted over on the labels and the switch;
+   `.elementor-kit-5 img` rounds every image, `.elementor img` sets height
+   auto and the reset caps width at 100%: the photographs clear all three.
    -------------------------------------------------------------------------- */
 .vxn-answer {
-  /* Even head and foot since the glow came off (20260915). */
-  padding: clamp(40px, 4vw, 64px) 0;
+  padding: clamp(48px, 5vw, 84px) 0;
   background: #FFFFFF;
 }
 
-/* The page's inset (section 15), and the container the card's cqw read. */
+/* The page's inset (section 15), and the container the reel's cqw read. */
 .vxn-answer__inner {
   max-width: min(1520px, calc(100% - var(--vxn-gutter, clamp(16px, 4vw, 48px)) * 2));
   margin: 0 auto;
   container-type: inline-size;
 }
 
-.vxn-answer__card {
-  --row: clamp(206px, 16.4cqw, 262px);
-  --pad: clamp(20px, 2.2cqw, 34px);
-  --line: rgba(255, 255, 255, .2);
-  position: relative;
-  isolation: isolate;
+/* ---- The head row ------------------------------------------------------------ */
+.vxn-answer__head {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  /* The two picture rows share one height, the larger of --row and whatever
-     the title cell needs, so every tile is the same size and the slices of
-     the photograph meet edge to edge. */
-  grid-template-rows: minmax(var(--row), 1fr) minmax(var(--row), 1fr) auto;
-  color: #FFFFFF;
-  background:
-    radial-gradient(80% 110% at 0% 0%, rgba(58, 118, 255, .34) 0%, rgba(58, 118, 255, 0) 62%),
-    linear-gradient(135deg, #1436D8 0%, #0B2DBE 55%, #08248F 100%);
-  /* ROUNDED, AND NO GLOW (client, 20260915). The card already ran on the
-     page's container, 191 to 1711 at 1901 like every other band, but the
-     reference's blue glow spread about 100px past its sides and bottom and
-     made it read wider than the rest; it is gone. The radius is the 24px the
-     page's other cards take, and overflow clips the corner tiles to it. */
-  border-radius: 24px;
-  overflow: hidden;
-}
-
-/* ---- The logo cell ---------------------------------------------------------
-   The wordmark's x where the reference has its "VI", centred in the cell and
-   the same share of it (46 of 253px). */
-.vxn-answer__mark {
-  grid-area: 1 / 1;
-  place-self: center;
-  display: block;
-  width: clamp(30px, 3cqw, 46px);
-  color: #FFFFFF;
-  line-height: 0;
-}
-
-.vxn-answer__mark svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* ---- The photograph ---------------------------------------------------------
-   Every tile holds the whole picture at four columns by two rows and moves it
-   by its own place in that box, so the six crops are one image. */
-.vxn-answer__tile {
-  position: relative;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.vxn-answer__tile[data-y='0'] { grid-row: 1; }
-.vxn-answer__tile[data-y='1'] { grid-row: 2; }
-.vxn-answer__tile[data-x='0'] { grid-column: 2; }
-.vxn-answer__tile[data-x='1'] { grid-column: 3; }
-.vxn-answer__tile[data-x='2'] { grid-column: 4; }
-.vxn-answer__tile[data-x='3'] { grid-column: 5; }
-
-.vxn-answer .vxn-answer__shot {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 400%;
-  max-width: none !important;
-  height: 200% !important;
-  object-fit: cover;
-  object-position: 50% 42%;
-  border-radius: 0 !important;
-  /* The img box is the photograph's box in every tile, so scaling about its
-     centre scales all six about one point and the picture stays whole. */
-  transform-origin: 50% 50%;
-}
-
-.vxn-answer__tile[data-x='1'] .vxn-answer__shot { left: -100%; }
-.vxn-answer__tile[data-x='2'] .vxn-answer__shot { left: -200%; }
-.vxn-answer__tile[data-x='3'] .vxn-answer__shot { left: -300%; }
-.vxn-answer__tile[data-y='1'] .vxn-answer__shot { top: -100%; }
-
-/* The seams: a light hairline wherever two tiles meet, as in the reference. */
-.vxn-answer__tile--l::after,
-.vxn-answer__tile--t::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  background: rgba(255, 255, 255, .5);
-  pointer-events: none;
-}
-
-.vxn-answer__tile--l::after {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 1px;
-}
-
-.vxn-answer__tile--t::before {
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-}
-
-/* ---- The framed corner cell -------------------------------------------------
-   Framed on its left and its foot only, as the reference's nav cell is. The
-   eyebrow takes the nav's place at the head (the nav starts 18% down), the
-   hairline sits at 71% and the call is centred about 85% down. */
-.vxn-answer__frame {
-  grid-area: 1 / 6;
-  border-left: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  pointer-events: none;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 46%);
+  gap: 24px clamp(32px, 4cqw, 72px);
+  align-items: end;
 }
 
 .vxn-answer__eyebrow {
-  grid-area: 1 / 6;
-  align-self: start;
-  padding: calc(var(--row) * .17) var(--pad) 0;
-  color: rgba(255, 255, 255, .9);
+  display: block;
+  margin: 0 0 14px;
+  color: #0B2DBE;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: .16em;
-  line-height: 1.6;
   text-transform: uppercase;
+  line-height: 1.2;
 }
 
-.vxn-answer__ask {
-  grid-area: 1 / 6;
-  align-self: end;
-  justify-self: center;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: clamp(12px, 1.1cqw, 16px);
-  padding-bottom: calc(var(--row) * .07);
-}
-
-/* The hairline between the nav and the call, as wide as the call. */
-.vxn-answer__ask::before {
-  content: "";
-  display: block;
-  height: 1px;
-  background: rgba(255, 255, 255, .34);
-}
-
-/* ---- The title cell ---------------------------------------------------------- */
-.vxn-answer__head {
-  grid-area: 2 / 1 / 3 / 3;
-  align-self: center;
-  padding: clamp(18px, 1.6cqw, 26px) clamp(14px, 1.3cqw, 20px) clamp(18px, 1.6cqw, 26px) var(--pad);
-}
-
-/* 44px at most: "Question on Your Mind" is 421px there and the cell leaves
-   about 450, so the title keeps to the reference's two lines. At 46px it
-   broke to three and the two picture rows grew to 292px. */
 .vxn-answer .vxn-answer__title {
-  margin: 0 0 clamp(12px, 1.1cqw, 18px);
-  color: #FFFFFF !important;
-  font-size: clamp(30px, 2.9cqw, 44px) !important;
+  margin: 0;
+  color: #0B1633 !important;
+  font-size: clamp(30px, 3cqw, 46px) !important;
   font-weight: 400 !important;
   line-height: 1.08 !important;
   letter-spacing: -.012em;
+  max-width: 18ch;
+}
+
+.vxn-answer__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .vxn-answer .vxn-answer__lede {
-  margin: 0;
-  max-width: 44ch;
-  color: rgba(255, 255, 255, .84);
+  margin: 0 0 20px;
+  max-width: 46ch;
+  color: #4B5567;
   font-size: clamp(15px, 1.1cqw, 17px);
   line-height: 1.55 !important;
 }
 
-/* ---- The badge ---------------------------------------------------------------
-   Centred on the line between the fifth and sixth columns, halfway down the
-   second row: the photograph's right edge, as in the reference. Only the
-   ring turns; the arrow in it points at the questions. */
-.vxn-answer__badge {
-  grid-area: 2 / 5 / 3 / 7;
-  place-self: center;
-  z-index: 2;
-  width: clamp(112px, 9.4cqw, 142px);
-  aspect-ratio: 1;
-  pointer-events: none;
-  /* The half over the photograph is white on pale sand and sky; the shadow
-     is what holds the letters there. */
-  filter: drop-shadow(0 1px 7px rgba(4, 18, 72, .6));
-}
-
-.vxn-answer__badge svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.vxn-answer__ring {
-  transform-origin: 70px 70px;
-  animation: vxn-answer-turn 24s linear infinite;
-}
-
-.vxn-answer__ring text {
-  fill: #FFFFFF;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-.vxn-answer__down {
-  fill: none;
-  stroke: #FFFFFF;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-@keyframes vxn-answer-turn {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* ---- The foot row: six figures, each a question ----------------------------- */
-.vxn-answer .vxn-answer__list {
-  grid-area: 3 / 1 / 4 / 7;
+/* ---- The reel ---------------------------------------------------------------- */
+.vxn-answer__stage {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 46%);
+  gap: clamp(32px, 4cqw, 72px);
+  align-items: center;
+  margin-top: clamp(28px, 2.6cqw, 44px);
+}
+
+.vxn-answer__side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+/* The list: no marker, no theme reset, room on the left for nothing (the
+   dot sits in the lit label's own indent, as in the recording). */
+.vxn-answer .vxn-answer__list {
+  position: relative;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .vxn-answer .vxn-answer__item {
-  display: flex;
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 
-.vxn-answer .vxn-answer__row {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: clamp(24px, 2.2cqw, 36px) clamp(14px, 1.3cqw, 22px) clamp(28px, 2.6cqw, 42px) var(--pad);
-  color: #FFFFFF !important;
-  text-decoration: none !important;
-  outline: none;
-}
-
-.vxn-answer .vxn-answer__num {
+/* Each label is a button: the theme's button skin is cleared and the
+   focused-button navy is asserted over. The lit one takes the ink and an
+   indent the dot sits in. */
+.vxn-answer .vxn-answer__label {
   display: block;
-  color: #FFFFFF;
-  font-size: clamp(38px, 3.5cqw, 54px);
-  /* Regular, like the rest of the page's Sanomat (it was Light). */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  color: #B8BEC9 !important;
+  font-family: inherit;
+  font-size: clamp(26px, 2.75cqw, 42px);
   font-weight: 400;
-  line-height: 1;
-  letter-spacing: -.02em;
-  font-variant-numeric: tabular-nums;
-  transition: color .35s var(--vxn-ease);
+  line-height: 1.5;
+  letter-spacing: -.01em;
+  text-align: left;
+  text-transform: none;
+  box-shadow: none;
+  cursor: pointer;
+  transition: color .45s var(--vxn-ease), padding .55s var(--vxn-ease);
 }
 
-.vxn-answer .vxn-answer__rule {
+.vxn-answer .vxn-answer__label:hover {
+  color: #6B7382 !important;
+}
+
+.vxn-answer .vxn-answer__label.is-on {
+  color: #0B1633 !important;
+  padding-left: 1.15em;
+}
+
+.vxn-answer .vxn-answer__label:focus-visible {
+  outline: 2px solid #0B2DBE;
+  outline-offset: 4px;
+}
+
+/* The dot: lands on the lit label's middle, and the curve overshoots so it
+   bounces as the recording's does; recoloured as it goes. */
+.vxn-answer__dot {
+  position: absolute;
+  left: .12em;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #1D5CFF;
+  transform: translateY(-50%);
+  transition: top .6s cubic-bezier(.34, 1.56, .64, 1), background-color .4s ease, box-shadow .4s ease;
+  pointer-events: none;
+  font-size: clamp(26px, 2.75cqw, 42px);
+}
+
+/* ---- The panel -------------------------------------------------------------- */
+/* The panel is as tall as the six labels (6 x 1.5 x the label size), no
+   more: the reel's two rows sit level. */
+.vxn-answer__panel {
+  position: relative;
+  isolation: isolate;
+  min-height: clamp(380px, 25cqw, 400px);
+  border-radius: 28px;
+  overflow: hidden;
+  background: #0B1633;
+}
+
+.vxn-answer__photos {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Each photograph fills the panel and clears the theme's image rules; the
+   lit one is shown and drifts a little larger over its scene. */
+.vxn-answer .vxn-answer__photo {
+  position: absolute;
+  inset: 0;
   display: block;
-  width: 58%;
-  height: 2px;
-  margin: clamp(14px, 1.3cqw, 20px) 0;
-  background: rgba(255, 255, 255, .26);
-  transition: width .55s var(--vxn-ease), background-color .35s var(--vxn-ease);
+  width: 100%;
+  max-width: none !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: 50% 50%;
+  border-radius: 0 !important;
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity .8s ease, transform .8s ease;
+}
+
+.vxn-answer .vxn-answer__photo[data-on] {
+  opacity: 1;
+  transform: scale(1.08);
+  transition: opacity .8s ease, transform 9s linear;
+}
+
+/* A faint wash so the glass cards read on a bright picture. */
+.vxn-answer__photos::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 22, 51, .04) 0%, rgba(11, 22, 51, .18) 100%);
+  pointer-events: none;
+}
+
+/* The two cards: a column centred in the panel on one inset, one gap
+   between them (the recording's step and overlap went on 20260916, on
+   client instruction). Each rises when its turn comes. */
+.vxn-answer__cards {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: clamp(20px, 3cqw, 40px) clamp(20px, 2.6cqw, 36px);
+}
+
+.vxn-answer__card {
+  border-radius: 18px;
+  padding: clamp(16px, 1.6cqw, 24px) clamp(18px, 1.8cqw, 26px);
+  background: rgba(255, 255, 255, .82);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, .7);
+  box-shadow: 0 18px 40px -18px rgba(4, 18, 72, .45);
+  color: #0B1633;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .5s var(--vxn-ease), transform .6s var(--vxn-ease);
+}
+
+.vxn-answer__card[data-on] {
+  opacity: 1;
+  transform: none;
+}
+
+.vxn-answer__card--q,
+.vxn-answer__card--a {
+  margin: 0;
+  position: relative;
+}
+
+.vxn-answer__from {
+  display: block;
+  margin: 0 0 8px;
+  color: #5B6478;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  line-height: 1.2;
 }
 
 .vxn-answer .vxn-answer__q {
-  display: block;
-  color: #FFFFFF;
-  font-size: clamp(15px, 1.1cqw, 17px);
-  line-height: 1.4;
-  transition: color .35s var(--vxn-ease);
+  margin: 0;
+  min-height: 1.5em;
+  font-size: clamp(15px, 1.15cqw, 18px);
+  line-height: 1.5 !important;
+  color: #0B1633;
 }
 
-/* The practice names share one line along the foot, whatever the questions
-   above them wrap to. */
-.vxn-answer .vxn-answer__svc {
-  display: block;
-  margin-top: auto;
-  padding-top: 12px;
-  color: rgba(255, 255, 255, .66);
-  font-size: 13px;
-  line-height: 1.35;
+.vxn-answer__caret {
+  display: inline-block;
+  width: 2px;
+  height: .95em;
+  margin-left: 2px;
+  vertical-align: -.12em;
+  background: #1D5CFF;
+  animation: vxn-answer-blink 1s steps(2, start) infinite;
 }
 
-/* Pointed at: the hairline runs the width of the column. */
-.vxn-answer .vxn-answer__row:hover .vxn-answer__rule,
-.vxn-answer .vxn-answer__row:focus-visible .vxn-answer__rule {
-  width: 100%;
-  background: #FFFFFF;
+.vxn-answer__stage:not([data-phase='typing']) .vxn-answer__caret {
+  display: none;
 }
 
-.vxn-answer .vxn-answer__row:hover .vxn-answer__num,
-.vxn-answer .vxn-answer__row:hover .vxn-answer__q,
-.vxn-answer .vxn-answer__row:focus-visible .vxn-answer__num,
-.vxn-answer .vxn-answer__row:focus-visible .vxn-answer__q {
-  color: #CFE0FF;
+@keyframes vxn-answer-blink {
+  to { opacity: 0; }
 }
 
-.vxn-answer .vxn-answer__row:focus-visible {
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .85);
+.vxn-answer .vxn-answer__a {
+  margin: 0;
+  font-size: clamp(14px, 1.05cqw, 16px);
+  line-height: 1.55 !important;
+  color: #2B3446;
 }
 
-/* ---- Arrival -------------------------------------------------------------------
-   Visible by default; hidden only while UaeBandMotion.tsx marks a tile
-   pending. The top row opens downward and the lower row upward, 90ms apart,
-   so the picture assembles on the seam between them, settling from a slight
-   zoom. */
-.vxn-answer__tile[data-anim='pending'][data-y='0'] {
-  clip-path: inset(0 0 100% 0);
+.vxn-answer .vxn-answer__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  color: #0B2DBE !important;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
 }
 
-.vxn-answer__tile[data-anim='pending'][data-y='1'] {
-  clip-path: inset(100% 0 0 0);
+.vxn-answer .vxn-answer__more:hover,
+.vxn-answer .vxn-answer__more:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.vxn-answer__tile[data-anim='pending'] .vxn-answer__shot {
-  transform: scale(1.12);
-}
-
-.vxn-answer__tile[data-anim='in'] {
-  clip-path: inset(0 0 0 0);
-  transition: clip-path .95s cubic-bezier(.65, 0, .35, 1) var(--vxn-anim-d, 0ms);
-}
-
-.vxn-answer__tile[data-anim='in'] .vxn-answer__shot {
-  transform: none;
-  transition: transform 1.5s var(--vxn-ease) var(--vxn-anim-d, 0ms);
-}
-
-/* ---- Laptops: the corner cell takes the empty column beside it -------------
-   One column is 211px at 1366, which still seats the 195px pill; at 1300 it
-   left 3px a side. From 1240 to 1339 the eyebrow, the frame and the pill
-   run across the fifth and sixth columns, and the grid is otherwise the
-   reference's. */
-@media (min-width: 1240px) and (max-width: 1339px) {
-
-  .vxn-answer__frame,
-  .vxn-answer__eyebrow,
-  .vxn-answer__ask {
-    grid-column: 5 / 7;
-  }
-}
-
-/* ---- Narrower: the copy over the picture, the questions in threes ----------
-   Below 1240px the card stacks on four columns: eyebrow, title, sentence and
-   pill across the top, the six tiles staggered on the same four-by-two box
-   (now the card's full width), the badge on the corner where the top row
-   ends, then the questions in two rows of three. */
-@media (max-width: 1239px) {
-
-  .vxn-answer__card {
-    --tile: clamp(96px, 17cqw, 210px);
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-rows: auto auto auto var(--tile) var(--tile) auto;
-  }
-
-  .vxn-answer__mark,
-  .vxn-answer__frame {
-    display: none;
-  }
-
-  .vxn-answer__eyebrow {
-    grid-area: 1 / 1 / 2 / 5;
-    padding: clamp(28px, 4cqw, 44px) var(--pad) 0;
-  }
-
-  .vxn-answer__head {
-    grid-area: 2 / 1 / 3 / 5;
-    align-self: start;
-    padding: 12px var(--pad) 0;
-  }
-
-  .vxn-answer .vxn-answer__lede {
-    max-width: 60ch;
-  }
-
-  .vxn-answer__ask {
-    grid-area: 3 / 1 / 4 / 5;
-    justify-self: start;
-    align-self: start;
-    padding: clamp(20px, 2.6cqw, 28px) var(--pad) clamp(28px, 4cqw, 44px);
-  }
-
-  .vxn-answer__ask::before {
-    display: none;
-  }
-
-  .vxn-answer__tile[data-y='0'] { grid-row: 4; }
-  .vxn-answer__tile[data-y='1'] { grid-row: 5; }
-  .vxn-answer__tile[data-x='0'] { grid-column: 1; }
-  .vxn-answer__tile[data-x='1'] { grid-column: 2; }
-  .vxn-answer__tile[data-x='2'] { grid-column: 3; }
-  .vxn-answer__tile[data-x='3'] { grid-column: 4; }
-
-  .vxn-answer__badge {
-    grid-area: 4 / 3 / 6 / 5;
-    width: clamp(88px, 13cqw, 132px);
-  }
-
-  .vxn-answer .vxn-answer__list {
-    grid-area: 6 / 1 / 7 / 5;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-/* Phones: one question to a line, the number beside its words. */
-@media (max-width: 640px) {
-
-  .vxn-answer__card {
-    --tile: 22cqw;
-  }
-
-  .vxn-answer .vxn-answer__list {
+/* ---- Tablets: the reel stacks, panel under the list --------------------------- */
+@media (max-width: 1100px) {
+  .vxn-answer__stage {
     grid-template-columns: minmax(0, 1fr);
-    padding: 10px 0 14px;
   }
 
-  .vxn-answer .vxn-answer__row {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: start;
-    column-gap: 16px;
-    row-gap: 6px;
-    padding: 16px var(--pad);
+  .vxn-answer__panel {
+    min-height: clamp(400px, 52cqw, 480px);
   }
 
-  .vxn-answer .vxn-answer__item + .vxn-answer__item .vxn-answer__row {
-    border-top: 1px solid var(--line);
+  .vxn-answer .vxn-answer__label {
+    font-size: clamp(24px, 3.4cqw, 34px);
   }
 
-  .vxn-answer .vxn-answer__num {
-    grid-row: 1 / span 2;
-    min-width: 2ch;
-    font-size: 30px;
-  }
-
-  .vxn-answer .vxn-answer__rule {
-    display: none;
-  }
-
-  .vxn-answer .vxn-answer__q,
-  .vxn-answer .vxn-answer__svc {
-    grid-column: 2;
-  }
-
-  .vxn-answer .vxn-answer__svc {
-    margin: 0;
-    padding: 0;
+  .vxn-answer__dot {
+    font-size: clamp(24px, 3.4cqw, 34px);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-
-  .vxn-answer__ring {
-    animation: none;
+@media (max-width: 900px) {
+  .vxn-answer__head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
   }
 
-  .vxn-answer__tile[data-anim] {
-    clip-path: none !important;
-    transition: none !important;
+  .vxn-answer .vxn-answer__title {
+    max-width: none;
+  }
+}
+
+/* ---- Phones ------------------------------------------------------------------ */
+@media (max-width: 640px) {
+  .vxn-answer {
+    padding: 40px 0;
   }
 
-  .vxn-answer__tile[data-anim] .vxn-answer__shot {
-    transform: none !important;
-    transition: none !important;
+  .vxn-answer .vxn-answer__label {
+    font-size: 24px;
+    line-height: 1.45;
   }
 
-  .vxn-answer .vxn-answer__rule,
-  .vxn-answer .vxn-answer__num,
+  .vxn-answer__dot {
+    width: 10px;
+    height: 10px;
+    font-size: 24px;
+  }
+
+  .vxn-answer__panel {
+    min-height: 0;
+    border-radius: 22px;
+  }
+
+  /* The cards sit in the flow so the panel grows to whatever the answer
+     needs; the photograph still fills behind them. */
+  .vxn-answer__cards {
+    position: relative;
+    inset: auto;
+    gap: 12px;
+    padding: 24px 16px;
+  }
+
+  .vxn-answer__card {
+    border-radius: 14px;
+  }
+
   .vxn-answer .vxn-answer__q {
+    min-height: 0;
+  }
+}
+
+/* ---- Reduced motion ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .vxn-answer__dot,
+  .vxn-answer .vxn-answer__label {
     transition: none;
   }
+
+  .vxn-answer .vxn-answer__photo,
+  .vxn-answer .vxn-answer__photo[data-on] {
+    transform: none;
+    transition: opacity .3s ease;
+  }
+
+  .vxn-answer__card {
+    transform: none;
+    transition: opacity .3s ease;
+  }
+
+  .vxn-answer__caret {
+    animation: none;
+  }
 }
+
 
 /* --------------------------------------------------------------------------
    19. .vxn-figs — the figures band (20260912)

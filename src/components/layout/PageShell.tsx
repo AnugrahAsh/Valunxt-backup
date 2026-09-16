@@ -26,6 +26,7 @@ import Header3134 from './Header3134';
 import Header3837 from './Header3837';
 import FooterUae from './FooterUae';
 import CookieConsent from './CookieConsent';
+import SiteMotion from './SiteMotion';
 import SiteScripts from './SiteScripts';
 
 function SiteHeader({
@@ -90,6 +91,11 @@ export default function PageShell({
         <div id="scroll-to-top-text">top</div>
       </div>
       <CookieConsent region={region} />
+      {/* The site's scroll motion (20260916): headings a line at a time, copy
+          out of a blur, pictures rising and drifting. Before SiteScripts so
+          it takes Elementor's entrance animations over before that replay
+          runs. Renders nothing. */}
+      <SiteMotion />
       <SiteScripts page={page} region={region} />
     </>
   );

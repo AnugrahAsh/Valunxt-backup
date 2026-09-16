@@ -19,7 +19,7 @@
  *
  *   reveal   .vxn-figs__lead, each .vxn-figs__stat and each .vxn-post__card
  *            arrive in sequence, 90ms apart within their group; since
- *            20260915 so do the answer card's six tiles, the expertise
+ *            20260915 so do the expertise
  *            band's copy and its photograph (the stylesheet draws each
  *            arrival: the tiles open by clip-path, the rest rise or slide).
  *   count    every [data-vxn-count] rolls from zero to its own value over
@@ -41,7 +41,6 @@ import { useEffect } from 'react';
 const GROUPS = [
   '.vxn-figs__lead, .vxn-figs__stat',
   '.vxn-post__card',
-  '.vxn-answer__tile',
   '.vxn-mosaic__card',
   '.vxn-xp__copy > *',
   '.vxn-xp__art',

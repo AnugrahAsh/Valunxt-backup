@@ -20,7 +20,8 @@ import Script from 'next/script';
 import { headers } from 'next/headers';
 import { vxnSeoOrigin } from '@/lib/seo';
 import { BASE, vxnRegionData } from '@/lib/region';
-import { pageConfig, resolveRequest } from '@/lib/pages';
+import { blogArticleSlug, pageConfig, resolveRequest } from '@/lib/pages';
+import { publishedPostExists } from '@/lib/blog/db';
 import { UAE_FACE_CLASS, UAE_FACE_CSS, withUaeFace } from '@/lib/uae-typography';
 import HeadAssets, { SiteFavicons } from '@/components/layout/HeadAssets';
 import { PRELOADER_GATE_SCRIPT } from '@/components/layout/Preloader';
@@ -154,6 +155,22 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     );
   }
 
+  /* /blogs/<slug>/ resolves to the declaration every article shares, which
+     resolveRequest can produce without a database. A slug with no published
+     post behind it renders the 404 body instead, and that body wants the 404
+     template's stylesheets — so the one thing the registry cannot answer is
+     asked here, and nowhere else. */
+  const article = blogArticleSlug(path);
+  let resolved = page;
+  if (article) {
+    try {
+      if (!(await publishedPostExists(article))) resolved = null;
+    } catch {
+      // No database: the route 404s too, so the 404 chrome is the right answer.
+      resolved = null;
+    }
+  }
+
   /* A URL the registry has never heard of — a 404, or a page created in the
      admin panel — still renders in the market it was asked for, so under
      /en-ae/ it takes the UAE face like every registered page — and since
@@ -161,7 +178,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
      resolveRequest has already decorated, so this line changes nothing else. The
      head keeps the 404 template's stylesheets and the body keeps the CMS class
      list, exactly as before. */
-  const doc = withUaeFace(page ?? { ...FALLBACK, body: CMS_BODY_CLASS }, region);
+  const doc = withUaeFace(resolved ?? { ...FALLBACK, body: CMS_BODY_CLASS }, region);
 
   return (
     /* suppressHydrationWarning on both: the intro gate below adds a class to

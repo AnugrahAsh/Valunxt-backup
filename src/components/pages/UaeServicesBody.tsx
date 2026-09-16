@@ -63,7 +63,7 @@
  * THE STYLESHEET IS A TEMPLATE LITERAL. No backtick inside it, ever: one ends
  * the string and the build fails with "Expected a semicolon".
  */
-import BLOG_CATALOG from '@/data/blog-catalog';
+import type { BlogCard } from '@/lib/blog/types';
 import Html from '@/components/Html';
 import { rurl, vxnRegionData, vxnServiceName, vxnServices } from '@/lib/region';
 import CtaArrow from '@/components/ui/CtaArrow';
@@ -319,14 +319,14 @@ const CSS = `
 }
 `;
 
-/** The four newest posts, in the catalog's order. */
-const POSTS = Object.entries(BLOG_CATALOG).slice(0, 4);
-
 export default function UaeServicesBody({
   region,
+  posts = [],
 }: {
   page: PageConfig;
   region: string;
+  /** The four newest published posts, read from the database by the route. */
+  posts?: BlogCard[];
 }) {
   const services = vxnServices(region);
   const market = vxnRegionData(region);
@@ -470,10 +470,10 @@ export default function UaeServicesBody({
               </div>
 
               <div className="sx-rail">
-                {POSTS.map(([slug, post]) => (
-                  <a className="sx-post" href={rurl(region, `/blogs/${slug}/`)} key={slug}>
+                {posts.map((post) => (
+                  <a className="sx-post" href={rurl(region, `/blogs/${post.slug}/`)} key={post.slug}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={post.img} alt="" loading="lazy" />
+                    <img src={post.cover_image} alt={post.cover_alt} loading="lazy" />
                     <span className="sx-post__tag">{post.category}</span>
                     <span className="sx-post__panel">
                       <span className="sx-post__meta">

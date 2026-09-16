@@ -71,7 +71,7 @@ Where the PHP build had several near-identical files, there is now one route:
 
 | Was                                        | Is now |
 | ------------------------------------------ | ------ |
-| 4 × `blogs/<slug>/index.php`               | [`app/[region]/blogs/[slug]/page.tsx`](src/app/[region]/blogs/[slug]/page.tsx) + [`src/data/articles.ts`](src/data/articles.ts) |
+| 4 × `blogs/<slug>/index.php`               | [`app/[region]/blogs/[slug]/page.tsx`](src/app/[region]/blogs/[slug]/page.tsx), served from the database |
 | 5 × `research/<slug>/index.php`            | [`app/[region]/research/[slug]/page.tsx`](src/app/[region]/research/[slug]/page.tsx) + the page registry |
 | 4 × service pages, 4 × group company pages | still one component each — their bodies genuinely differ |
 | Pages created in the admin panel           | [`app/[region]/[...slug]/page.tsx`](src/app/[region]/[...slug]/page.tsx), served from the database |
@@ -114,11 +114,13 @@ and tab icon.
 | Sign in             | `/admin/` |
 | Dashboard           | `/admin/dashboard` |
 | Enquiries           | `/admin/enquiries` (`?q=` pre-filters) |
+| Blog & Insights     | `/admin/blogs` (`?q=`, `?s=` status, `?c=` category) |
+| Post editor         | `/admin/blogs/edit?id=N` or `?new=1` |
 | Pages & SEO         | `/admin/pages` |
 | Page editor         | `/admin/pages/edit?id=N` or `?new=1` |
 | Sitemap settings    | `/admin/sitemap` |
 | Account settings    | `/admin/settings` — name, email, password |
-| Search              | `/admin/search?q=` — enquiries and pages |
+| Search              | `/admin/search?q=` — enquiries, pages and posts |
 
 Default credentials, seeded into an empty `users` table on first connection:
 `admin@valunxtcapital.com` / `Admin@123` — the sign-in screen prefills and prints
@@ -132,8 +134,8 @@ no server-side session store to keep. Existing accounts keep working: PHP's
 **Which pages it lists.** Pages & SEO lists every page the website publishes, in
 both markets, and nothing else. The list is derived from the registries the
 routes answer from ([`src/lib/site-pages.ts`](src/lib/site-pages.ts)): the page
-registry, the article list, and the UAE services registry with its thirty-three
-sub-pages. A page added in code appears in the panel on its own; a page taken out
+registry and the UAE services registry with its thirty-three sub-pages. A page
+added in code appears in the panel on its own; a page taken out
 of the code is removed from the panel and the sitemap (pages created in the panel
 are never removed). The unlinked real estate module under `/real-estate/` and
 pages that 404 until their data exists (leadership, track record) are left out on
@@ -169,6 +171,45 @@ route instead — through the same shared page-hero + subscribe body the scaffol
 file used. The page is live the moment it is saved, with no redeploy, which is
 what the scaffolding was reaching for.
 
+### Blog & Insights
+
+The articles at `/blogs/` are rows in `blog_posts`, not pages in the code. The
+whole flow is the panel: write a post, publish it, and it is on the site; delete
+it and it is gone from the site. Nothing is duplicated in the front end.
+
+One module owns the table ([`src/lib/blog/db.ts`](src/lib/blog/db.ts)) — the
+panel writes through it and the public pages read through it — and one file holds
+the record shape, the slug rule and the validation both sides apply
+([`types.ts`](src/lib/blog/types.ts)), so a field cannot be accepted in the
+editor and rejected on the server. The table bootstraps itself on first use, as
+the rest of the schema does.
+
+Four surfaces render posts, all from the same query and the same card component
+([`BlogLoopCard.tsx`](src/components/pages/BlogLoopCard.tsx)): the `/blogs/`
+grid, `/blogs/<slug>/`, the Insights carousel that closes each market's home
+page, and the strip on the UAE services index. They used to be four hand-written
+copies of the same four posts, which is why the home carousel stamped every card
+"July 11, 2026" whatever it linked to.
+
+A post carries what the two pages show — title, slug, category, excerpt, body,
+cover image and alt text, byline, publish date — plus its own meta title,
+description, keywords and share image, and two switches: **Featured**, which pins
+it to the top of the listing, and **Include in sitemap**. A draft, or a post
+dated in the future, is not listed, not in the sitemap, and its URL answers 404.
+Covers can be uploaded from the editor; they are written to
+`public/assets/content/uploads/blogs/`.
+
+Articles are not `pages` rows and are not in
+[`site-pages.ts`](src/lib/site-pages.ts) — the sitemap reads them straight from
+the table, one entry per market with hreflang alternates, and the declaration
+every article renders in (its stylesheets and body class) is derived in
+[`pages.ts`](src/lib/pages.ts) rather than declared per post.
+
+Existing installs carry their four launch articles over with
+`node scripts/seed-blog-posts.mjs`, which inserts them if their slugs are not
+already in the table. Once every environment has been seeded, that script can be
+deleted.
+
 ---
 
 ## Configuration
@@ -200,7 +241,7 @@ localhost/XAMPP when served from `localhost`, the Hostinger database otherwise.
 | `includes/scripts.php`                | [`SiteScripts`](src/components/layout/SiteScripts.tsx) |
 | `includes/preloader.php`              | [`Preloader`](src/components/layout/Preloader.tsx) |
 | `includes/partials/*`                 | `src/components/layout/`, `src/components/sections/` |
-| `includes/blog-catalog.php`           | [`src/data/blog-catalog.ts`](src/data/blog-catalog.ts) |
+| `includes/blog-catalog.php`           | the `blog_posts` table ([`src/lib/blog/`](src/lib/blog/db.ts)) |
 | `data/leadership.php` etc.            | `src/data/leadership.ts`, `testimonials.ts`, `track-record.ts` |
 | `data/seo/seo-map.php`                | [`src/data/seo-map.json`](src/data/seo-map.json) |
 | `form-handler.php`                    | [`src/app/form-handler/route.ts`](src/app/form-handler/route.ts) |

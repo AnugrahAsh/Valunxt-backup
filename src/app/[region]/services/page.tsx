@@ -12,8 +12,10 @@ import PageShell from '@/components/layout/PageShell';
 import ServicesBody from '@/components/pages/ServicesBody';
 import UaeServicesBody from '@/components/pages/UaeServicesBody';
 import { buildMetadata } from '@/lib/seo';
+import { publishedCards } from '@/lib/blog/db';
 import { requirePageConfig } from '@/lib/pages';
 import { vxnRegion } from '@/lib/region';
+import type { BlogCard } from '@/lib/blog/types';
 import type { PageConfig } from '@/lib/page-config';
 
 const PATH = '/services/';
@@ -48,13 +50,24 @@ export default async function ServicesPage({ params }: Params) {
   const region = vxnRegion(raw);
   const page = configFor(region);
 
+  /* The UAE index closes on the four newest Insights posts, which the admin
+     panel manages; the India index does not carry the strip. */
+  let posts: BlogCard[] = [];
+  if (region === 'en-ae') {
+    try {
+      posts = await publishedCards(4);
+    } catch {
+      // The strip is an extra; the index still renders without it.
+    }
+  }
+
   return (
     <PageShell page={page} region={region}>
       {region === 'en-ae' ? (
         <>
           {/* No PageHeroSection: UaeServicesBody opens on its own banner, the
               same one the six written service pages use. */}
-          <UaeServicesBody page={page} region={region} />
+          <UaeServicesBody page={page} region={region} posts={posts} />
         </>
       ) : (
         <ServicesBody page={page} region={region} />

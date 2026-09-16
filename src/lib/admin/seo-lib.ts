@@ -34,6 +34,7 @@ import {
   seoMapPath,
   syncSitePages,
 } from './seo-import';
+import { publishedSlugs } from '@/lib/blog/db';
 import { publicFilesIn } from '@/lib/public-files';
 import { vxnRegionData, vxnRegionList, type RegionSlug } from '@/lib/region';
 import {
@@ -389,6 +390,46 @@ export function seoSitemapUrls(row: PageRow, site: string): SitemapUrl[] {
   return place.regions.map((region) => ({ loc: site + marketPath(region, place.path), region, alternates }));
 }
 
+/**
+ * The sitemap entries for the published blog posts.
+ *
+ * Articles are rows in `blog_posts`, not pages in the code, so they are not in
+ * sitePages() and have no `pages` row to be listed from. Every market publishes
+ * /blogs/, so each post is listed once per market with the others as its
+ * hreflang alternates — the same treatment a shared page gets above.
+ */
+async function blogSitemapUrls(site: string): Promise<Array<SitemapUrl & { lastmod: string }>> {
+  let posts: Awaited<ReturnType<typeof publishedSlugs>> = [];
+  try {
+    posts = await publishedSlugs();
+  } catch {
+    // No blog table yet, or no database: the rest of the sitemap still writes.
+    return [];
+  }
+
+  const regions = vxnRegionList();
+  const out: Array<SitemapUrl & { lastmod: string }> = [];
+
+  for (const post of posts) {
+    const path = `/blogs/${post.slug}/`;
+    const alternates: Array<[string, string]> =
+      regions.length > 1
+        ? [
+            ...regions.map((r): [string, string] => [r.lang, site + marketPath(r.slug, path)]),
+            ['x-default', site + path],
+          ]
+        : [];
+    const stamp = String(post.updated_at ?? '');
+    const lastmod = /^\d{4}-\d{2}-\d{2}/.test(stamp)
+      ? stamp.slice(0, 10)
+      : new Date().toISOString().slice(0, 10);
+    for (const r of regions) {
+      out.push({ loc: site + marketPath(r.slug, path), region: r.slug, alternates, lastmod });
+    }
+  }
+  return out;
+}
+
 function xmlEscape(s: string): string {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -431,6 +472,21 @@ export async function seoGenerateSitemap(
       count++;
     }
   }
+
+  // The blog articles, which live in their own table rather than in `pages`.
+  for (const u of await blogSitemapUrls(site)) {
+    xml += '    <url>\n';
+    xml += `        <loc>${xmlEscape(u.loc)}</loc>\n`;
+    for (const [lang, href] of u.alternates) {
+      xml += `        <xhtml:link rel="alternate" hreflang="${xmlEscape(lang)}" href="${xmlEscape(href)}" />\n`;
+    }
+    xml += `        <lastmod>${u.lastmod}</lastmod>\n`;
+    xml += '        <changefreq>monthly</changefreq>\n';
+    xml += '        <priority>0.6</priority>\n';
+    xml += '    </url>\n';
+    count++;
+  }
+
   xml += '</urlset>\n';
 
   const target = seoSitemapPath();

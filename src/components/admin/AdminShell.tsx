@@ -19,7 +19,14 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Icon, { type IconName } from './Icon';
 import { ADMIN_LOGO_WHITE, adminUrl, brandText, siteUrl, userInitials } from '@/lib/admin/config';
 
-export type AdminNavKey = 'dashboard' | 'enquiries' | 'pages' | 'sitemap' | 'settings' | 'none';
+export type AdminNavKey =
+  | 'dashboard'
+  | 'enquiries'
+  | 'blogs'
+  | 'pages'
+  | 'sitemap'
+  | 'settings'
+  | 'none';
 
 /** What the shell shows of the signed-in user. */
 export interface ShellUser {
@@ -41,6 +48,7 @@ const NAV: Array<{ label: string; items: NavItem[] }> = [
   {
     label: 'Content & SEO',
     items: [
+      ['blogs', 'Blog & Insights', adminUrl('blogs'), 'bookOpen'],
       ['pages', 'Pages & SEO', adminUrl('pages'), 'pages'],
       ['sitemap', 'Sitemap', adminUrl('sitemap'), 'globe'],
     ],
@@ -179,8 +187,8 @@ export default function AdminShell({
               type="search"
               name="q"
               defaultValue={query}
-              placeholder="Search enquiries and pages…"
-              aria-label="Search enquiries and pages"
+              placeholder="Search enquiries, pages and posts…"
+              aria-label="Search enquiries, pages and posts"
               autoComplete="off"
             />
             <span className="kbd" aria-hidden="true">

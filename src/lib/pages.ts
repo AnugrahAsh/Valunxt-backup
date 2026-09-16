@@ -82,6 +82,79 @@ function derivedPage(region: string, rest: string): PageConfig | null {
   return sub ? uaeSubServiceConfig(service, sub) : null;
 }
 
+/* ---- Blog articles -------------------------------------------------------
+ *
+ * /blogs/<slug>/ pages are rows in `blog_posts`, not entries in the registry —
+ * an article added in the admin panel is live the moment it is saved, and a
+ * route cannot appear at runtime. But the root layout resolves the page for a
+ * request itself, to emit the stylesheets into <head> and the class list onto
+ * <body>; a path the registry has never heard of gets the 404 template's, which
+ * loads a sheet the article does not want (8623) and puts `error404
+ * no-page-header` on the body.
+ *
+ * So the declaration every article shares is derived here instead, the way the
+ * UAE services section is. It is the same for every post — only the title,
+ * description and share image differ, and those come from the row — so it can
+ * be produced without touching the database, which resolveRequest could not do
+ * in any case.
+ * ------------------------------------------------------------------------ */
+
+/** The stable WordPress-style post id an article's body class carries. */
+export function blogPostId(slug: string): number {
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) | 0;
+  return 1900 + (Math.abs(h) % 100);
+}
+
+/**
+ * The declaration a published article renders in — the shape the four static
+ * /blogs/<slug>/ entries had in src/data/page-configs.json.
+ *
+ * `over` carries what only the database knows: the row's meta title, its
+ * description, its share image and, for a draft, its robots directive.
+ */
+export function blogArticleConfig(slug: string, over: Partial<PageConfig> = {}): PageConfig {
+  const id = blogPostId(slug);
+  return {
+    title: 'Valunxt',
+    og_image: '/assets/content/uploads/2025/03/valunxt-og.png',
+    body:
+      `wp-singular post-template-default single single-post postid-${id} single-format-standard ` +
+      'wp-custom-logo wp-embed-responsive wp-theme-execor full header-layout-logo-menu has-page-header ' +
+      'no-middle-header responsive-layout has-post-thumbnail single-post-one-column vamtam-is-elementor ' +
+      'elementor-active elementor-pro-active vamtam-wc-cart-empty wc-product-gallery-slider-active ' +
+      `vamtam-font-smoothing layout-full elementor-default elementor-kit-5 elementor-page elementor-page-${id}`,
+    post_css: ['5', '3837', '2094', '4557'],
+    header: '3837',
+    footer: '2094',
+    canvas: false,
+    post_id: id,
+    active_nav: ['/blogs/'],
+    inline_css: '',
+    path: `/blogs/${slug}/`,
+    ...over,
+  };
+}
+
+/** '/blogs/<slug>/' — one segment beneath the listing, and nothing else. */
+function blogArticlePath(rest: string): string | null {
+  const parts = rest.split('/').filter(Boolean);
+  return parts.length === 2 && parts[0] === 'blogs' ? parts[1] : null;
+}
+
+/**
+ * The article slug a full request path asks for, market prefix and all, or
+ * null. The root layout uses it to tell an article apart from any other URL,
+ * because the declaration blogArticleConfig() hands back is the same whether or
+ * not a post exists behind the slug — and a slug with no post renders the 404
+ * body, which wants the 404 template's stylesheets rather than an article's.
+ */
+export function blogArticleSlug(path: string): string | null {
+  const norm = normalisePath(path);
+  const first = norm.split('/')[1] ?? '';
+  return blogArticlePath(vxnRegionExists(first) ? norm.slice(first.length + 1) || '/' : norm);
+}
+
 /**
  * Resolve a full request path (region prefix included) to the page that answers
  * it, plus the market it was requested in.
@@ -102,11 +175,19 @@ export function resolveRequest(path: string): { region: string; page: PageConfig
     /* Derived pages are tried first: /services/research-intelligence/ has a
        registry entry for India, and the UAE publishes a different page at the
        same path. */
-    const page = derivedPage(first, rest) ?? CONFIGS[rest] ?? null;
+    const article = blogArticlePath(rest);
+    const page =
+      derivedPage(first, rest) ??
+      CONFIGS[rest] ??
+      (article ? blogArticleConfig(article) : null);
     return { region: first, page: uaeType(page, first, rest) };
   }
 
-  return { region: vxnRegion(null), page: CONFIGS[norm] ?? null };
+  const articleAtRoot = blogArticlePath(norm);
+  return {
+    region: vxnRegion(null),
+    page: CONFIGS[norm] ?? (articleAtRoot ? blogArticleConfig(articleAtRoot) : null),
+  };
 }
 
 /**

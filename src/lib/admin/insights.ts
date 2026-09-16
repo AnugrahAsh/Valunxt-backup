@@ -11,6 +11,8 @@ import { adminUrl } from './config';
 import { query } from './db';
 import { localStamp, utcStamp } from './format';
 import { seoSetting, seoStats, type SeoStats } from './seo-lib';
+import { listPosts } from '@/lib/blog/db';
+import type { BlogPost } from '@/lib/blog/types';
 
 export interface EnquiryRow {
   id: number;
@@ -187,6 +189,7 @@ export interface SearchPageRow {
 export interface SearchResults {
   enquiries: EnquiryRow[];
   pages: SearchPageRow[];
+  posts: BlogPost[];
 }
 
 /** A LIKE pattern for a free-text term, with its wildcards escaped. */
@@ -194,7 +197,7 @@ function likePattern(term: string): string {
   return '%' + term.replace(/[\\%_]/g, (c) => '\\' + c) + '%';
 }
 
-/** Enquiries and pages matching `term`. Throws if MySQL is unreachable. */
+/** Enquiries, pages and posts matching `term`. Throws if MySQL is unreachable. */
 export async function searchPanel(term: string, limit = 25): Promise<SearchResults> {
   const like = likePattern(term);
   const lim = Math.max(1, Math.trunc(limit));
@@ -217,5 +220,14 @@ export async function searchPanel(term: string, limit = 25): Promise<SearchResul
     [like, like, like]
   );
 
-  return { enquiries, pages };
+  // Posts are their own table, and their own screen (listPosts applies the same
+  // LIKE across title, slug, category and excerpt).
+  let posts: BlogPost[] = [];
+  try {
+    posts = (await listPosts({ q: term })).slice(0, lim);
+  } catch {
+    // No blog table yet: the other two sets are still worth showing.
+  }
+
+  return { enquiries, pages, posts };
 }

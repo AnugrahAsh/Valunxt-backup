@@ -21,15 +21,17 @@
  *   'en-ae/services/…'      a page only the UAE publishes
  *
  * DELIBERATELY ABSENT: the 404 template; pages that answer 404 until their data
- * file is filled in (about/leadership, track-record); and the real estate module
+ * file is filled in (about/leadership, track-record); the real estate module
  * under /<market>/real-estate/, which is published unlinked and kept out of the
- * sitemap until the practice launches (src/real-estate/lib/seo.ts).
+ * sitemap until the practice launches (src/real-estate/lib/seo.ts); and the
+ * blog articles at /blogs/<slug>/, which are rows in `blog_posts` rather than
+ * pages in the code — the Blog & Insights screen manages them, and the sitemap
+ * reads them straight from the table (lib/admin/seo-lib.ts).
  */
 import 'server-only';
 import crypto from 'node:crypto';
 
 import rawConfigs from '@/data/page-configs.json';
-import ARTICLES from '@/data/articles';
 import LEADERSHIP from '@/data/leadership';
 import TRACK_RECORD from '@/data/track-record';
 import { uaeServiceIsWritten, uaeSubServiceBody } from '@/components/pages/uae-services';
@@ -160,8 +162,6 @@ function build(): SitePage[] {
     const slug = key.replace(/^\/+|\/+$/g, '');
     if (slug === '' || slug === '404' || (REGION_SLUGS as string[]).includes(slug)) continue;
     if (unpublishedPlaceholder(slug)) continue;
-    // A blog URL needs its article as well as its declaration (blogs/[slug]).
-    if (slug.startsWith('blogs/') && !ARTICLES[slug.slice('blogs/'.length)]) continue;
     const path = `/${slug}/`;
     const regions = REGION_SLUGS.filter((r) => !(r === 'en-ae' && uaePaths.has(path)));
     if (regions.length) shared.push(page(slug, path, regions, sectionFor(slug), cfg));

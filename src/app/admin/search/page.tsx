@@ -1,8 +1,8 @@
 /**
  * Admin — Search.
  *
- * Where the top-bar search box goes: enquiries and pages matching the term,
- * each linking to the screen that manages it.
+ * Where the top-bar search box goes: enquiries, pages and blog posts matching
+ * the term, each linking to the screen that manages it.
  *
  * New to the Next.js build. The PHP top bar had the box (and a Ctrl K hint)
  * but nothing behind it.
@@ -19,6 +19,8 @@ import { formatDateTime, localStamp } from '@/lib/admin/format';
 import { enquiryWho, searchPanel, type SearchResults } from '@/lib/admin/insights';
 import { seoMarketLinks, seoPlacement } from '@/lib/admin/seo-lib';
 import { currentUser } from '@/lib/admin/session';
+import { blogDateLong } from '@/lib/blog/types';
+import { vxnRegionList } from '@/lib/region';
 
 export const metadata: Metadata = {
   title: 'Search — Valunxt Admin',
@@ -26,6 +28,9 @@ export const metadata: Metadata = {
 };
 
 const MIN_TERM = 2;
+
+/** The first market's address for a post — where "View" opens it. */
+const FIRST_REGION = vxnRegionList()[0]?.slug ?? 'en-in';
 
 const SOURCE_PILL: Record<string, string> = {
   Contact: 'new',
@@ -70,7 +75,7 @@ export default async function SearchPage({
       loadError = 'Search is unavailable. Please ensure MySQL is running.';
     }
   }
-  const found = results ? results.enquiries.length + results.pages.length : 0;
+  const found = results ? results.enquiries.length + results.pages.length + results.posts.length : 0;
 
   return (
     <AdminShell active="none" user={user} query={q}>
@@ -81,11 +86,11 @@ export default async function SearchPage({
         <h1>{q ? <>Results for &ldquo;{q}&rdquo;</> : 'Search'}</h1>
         <p>
           {!q
-            ? 'Find enquiries by name, email, company, phone or source, and pages by title or slug.'
+            ? 'Find enquiries by name, email, company, phone or source, pages by title or slug, and posts by title, slug or category.'
             : q.length < MIN_TERM
               ? `Enter at least ${MIN_TERM} characters to search.`
               : results
-                ? `${found} result${found === 1 ? '' : 's'} across enquiries and pages.`
+                ? `${found} result${found === 1 ? '' : 's'} across enquiries, pages and posts.`
                 : ''}
         </p>
       </div>
@@ -246,6 +251,98 @@ export default async function SearchPage({
                             </div>
                           </td>
                         </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </section>
+
+          <section className="panel" style={{ marginTop: 20 }}>
+            <div className="panel-head">
+              <h3>
+                Posts <span className="count-chip">{results.posts.length}</span>
+              </h3>
+              <a href={adminUrl('blogs') + '?q=' + encodeURIComponent(q)} className="link">
+                Open in Blog &amp; Insights
+                <Icon name="arrowRight" size={14} stroke={2.4} />
+              </a>
+            </div>
+            <div className="panel-body flush">
+              {results.posts.length === 0 ? (
+                <div className="empty-state compact">
+                  <p>No posts match &ldquo;{q}&rdquo;.</p>
+                </div>
+              ) : (
+                <div className="table-wrap">
+                  <table className="data">
+                    <thead>
+                      <tr>
+                        <th>Post</th>
+                        <th>Address</th>
+                        <th>Published</th>
+                        <th>Status</th>
+                        <th className="right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {results.posts.map((post) => {
+                        const path = `/${FIRST_REGION}/blogs/${post.slug}/`;
+                        return (
+                          <tr key={post.id}>
+                            <td className="title-cell">
+                              <a href={adminUrl('blogs/edit') + '?id=' + post.id}>
+                                {highlight(post.title, q)}
+                              </a>
+                              {post.category ? (
+                                <span className="sub">{highlight(post.category, q)}</span>
+                              ) : null}
+                            </td>
+                            <td className="slug-cell">
+                              <span className="addr">{highlight(`/blogs/${post.slug}/`, q)}</span>
+                            </td>
+                            <td className="nowrap">
+                              {post.published_at ? (
+                                <time dateTime={post.published_at}>
+                                  {blogDateLong(post.published_at)}
+                                </time>
+                              ) : (
+                                <span className="counter-of">Not dated</span>
+                              )}
+                            </td>
+                            <td>
+                              <span className={`pill ${post.status === 'published' ? 'ok' : 'off'}`}>
+                                <span className="pill-dot" />
+                                {post.status === 'published' ? 'Published' : 'Draft'}
+                              </span>
+                            </td>
+                            <td>
+                              <div className="row-actions">
+                                {post.status === 'published' ? (
+                                  <a
+                                    className="icon-btn"
+                                    href={path}
+                                    target="_blank"
+                                    rel="noopener"
+                                    title={`View ${path}`}
+                                    aria-label={`View ${post.title} on the website`}
+                                  >
+                                    <Icon name="external" size={16} />
+                                  </a>
+                                ) : null}
+                                <a
+                                  className="icon-btn"
+                                  href={adminUrl('blogs/edit') + '?id=' + post.id}
+                                  title="Edit post"
+                                  aria-label={`Edit ${post.title}`}
+                                >
+                                  <Icon name="edit" size={16} />
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
                         );
                       })}
                     </tbody>

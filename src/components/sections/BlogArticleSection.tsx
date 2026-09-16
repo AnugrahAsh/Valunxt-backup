@@ -10,7 +10,7 @@ import { BASE, rurl } from '@/lib/region';
 import CtaArrow from '@/components/ui/CtaArrow';
 import { uaePageImage } from '@/lib/uae-page-images';
 import { vxnRequestOrigin } from '@/lib/seo';
-import BLOG_CATALOG from '@/data/blog-catalog';
+import type { BlogCard } from '@/lib/blog/types';
 import Html from '@/components/Html';
 import type { PageConfig } from '@/lib/page-config';
 
@@ -102,10 +102,13 @@ export default async function BlogArticleSection({
   article,
   page,
   region,
+  related = [],
 }: {
   article: Article;
   page: PageConfig;
   region: string;
+  /** The other published posts, for the sidebar's "Related Insights" rail. */
+  related?: BlogCard[];
 }) {
   const cat = article.category ?? 'Insights';
   const topics = article.topics ?? [cat];
@@ -124,10 +127,6 @@ export default async function BlogArticleSection({
   const shareTw =
     'https://twitter.com/intent/tweet?url=' + enc + '&text=' + encodeURIComponent(article.title);
   const shareMl = 'mailto:?subject=' + encodeURIComponent(article.title) + '&body=' + enc;
-
-  const related = Object.entries(BLOG_CATALOG)
-    .filter(([slug]) => slug !== article.slug)
-    .slice(0, 3);
 
   return (
     <>
@@ -227,14 +226,14 @@ export default async function BlogArticleSection({
                   <div className="vxn-side-block" style={{ borderBottom: 0 }}>
                     <div className="vxn-side-label">Related Insights</div>
                     <div className="vxn-side-related">
-                      {related.map(([slug, meta]) => (
-                        <a className="vxn-rel" href={rurl(region, `/blogs/${slug}/`)} key={slug}>
+                      {related.map((item) => (
+                        <a className="vxn-rel" href={rurl(region, `/blogs/${item.slug}/`)} key={item.slug}>
                           <div className="vxn-rel__thumb">
                             <span className="vxn-rel__badge">Article</span>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={uaePageImage(region, `blogs/${slug}`, BASE + meta.img)} alt={meta.title} loading="lazy" />
+                            <img src={uaePageImage(region, `blogs/${item.slug}`, BASE + item.cover_image)} alt={item.cover_alt || item.title} loading="lazy" />
                           </div>
-                          <div className="vxn-rel__title">{meta.title}</div>
+                          <div className="vxn-rel__title">{item.title}</div>
                         </a>
                       ))}
                     </div>

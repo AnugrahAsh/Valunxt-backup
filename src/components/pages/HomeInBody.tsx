@@ -8,13 +8,23 @@
 import { rimg } from '@/lib/region-assets';
 import { BASE, rurl } from '@/lib/region';
 import { vxnMarkets, vxnOffice } from '@/lib/site-data';
+import BlogLoopCard from './BlogLoopCard';
+import type { BlogCard } from '@/lib/blog/types';
 import type { PageConfig } from '@/lib/page-config';
 import { LogoXClipDefs } from '@/components/brand/LogoX';
 import HomeIndustriesRow from '@/components/sections/HomeIndustriesRow';
 import UaeReadyBand from '@/components/sections/UaeReadyBand';
 import UaeSubscribeBand from '@/components/sections/UaeSubscribeBand';
 
-export default function HomeInBody({ page, region }: { page: PageConfig; region: string }) {
+export default function HomeInBody({
+  region,
+  posts = [],
+}: {
+  page: PageConfig;
+  region: string;
+  /** The four newest published posts, read from the database by the route. */
+  posts?: BlogCard[];
+}) {
   return (
     <>
       {/* One definition of the wordmark's x, referenced by every card that
@@ -1621,138 +1631,9 @@ export default function HomeInBody({ page, region }: { page: PageConfig; region:
       														}
       													}
       												` }} />
-      												<div data-elementor-type="loop-item" data-elementor-id="1961" className="elementor elementor-1961 swiper-slide e-loop-item e-loop-item-1959 post-1959 post type-post status-publish format-standard has-post-thumbnail hentry category-expert-advice category-industry-insights tag-property tag-taxes" data-elementor-post-type="elementor_library" role="group" aria-roledescription="slide" data-custom-edit-handle="1">
-      													<div className="elementor-element elementor-element-8b3458c animated-fast e-flex e-con-boxed e-con e-parent" data-id="8b3458c" data-element_type="container" data-e-type="container" data-settings={"{\"animation\":\"none\",\"animation_delay\":100}"}>
-      														<div className="e-con-inner">
-      															<div className="elementor-element elementor-element-9b0d8db animated-fast elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="9b0d8db" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\"}"} data-widget_type="theme-post-featured-image.default">
-      																<div className="elementor-widget-container">
-      																	<a href={rurl(region, '/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/')}>
-      																		<img loading="lazy" decoding="async" width={750} height={1024} src={`${BASE}/assets/content/uploads/blogs/blog-1.webp`} className="attachment-large size-large wp-image-1948" alt="" /> </a>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-e4b59e9 e-con-full e-flex e-con e-child" data-id="e4b59e9" data-element_type="container" data-e-type="container">
-      																<div className="elementor-element elementor-element-923a9ab elementor-widget elementor-widget-post-info" data-id="923a9ab" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
-      																	<div className="elementor-widget-container">
-      																		<ul className="elementor-inline-items elementor-icon-list-items elementor-post-info">
-      																			<li className="elementor-icon-list-item elementor-repeater-item-3c380d1 elementor-inline-item" itemProp="datePublished">
-      																				<span className="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
-      																					<time>July 11, 2026</time> </span>
-      																			</li>
-      																		</ul>
-      																	</div>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-74fce07 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="74fce07" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
-      																<div className="elementor-widget-container">
-      																	<h5 className="elementor-heading-title elementor-size-default"><a href={rurl(region, '/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/')}>How High-Net-Worth Investors Build Wealth Through Real Estate</a></h5>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-abced80 vamtam-show-on-hover elementor-widget elementor-widget-theme-post-excerpt" data-id="abced80" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-excerpt.default">
-      																<div className="elementor-widget-container">
-      																	For affluent investors, real estate is a disciplined, multi-decade strategy for compounding capital, generating income, and preserving wealth across cycles. </div>
-      															</div>
-      														</div>
-      													</div>
-      												</div>
-      												<div data-elementor-type="loop-item" data-elementor-id="1961" className="elementor elementor-1961 swiper-slide e-loop-item e-loop-item-1955 post-1955 post type-post status-publish format-standard has-post-thumbnail hentry category-success-story tag-retail-brand-increase tag-sales" data-elementor-post-type="elementor_library" role="group" aria-roledescription="slide" data-custom-edit-handle="1">
-      													<div className="elementor-element elementor-element-8b3458c animated-fast e-flex e-con-boxed e-con e-parent" data-id="8b3458c" data-element_type="container" data-e-type="container" data-settings={"{\"animation\":\"none\",\"animation_delay\":100}"}>
-      														<div className="e-con-inner">
-      															<div className="elementor-element elementor-element-9b0d8db animated-fast elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="9b0d8db" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\"}"} data-widget_type="theme-post-featured-image.default">
-      																<div className="elementor-widget-container">
-      																	<a href={rurl(region, '/blogs/capital-planning-for-large-property-developments/')}>
-      																		<img loading="lazy" decoding="async" width={750} height={1024} src={`${BASE}/assets/content/uploads/blogs/blog-2.webp`} className="attachment-large size-large wp-image-1949" alt="" /> </a>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-e4b59e9 e-con-full e-flex e-con e-child" data-id="e4b59e9" data-element_type="container" data-e-type="container">
-      																<div className="elementor-element elementor-element-923a9ab elementor-widget elementor-widget-post-info" data-id="923a9ab" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
-      																	<div className="elementor-widget-container">
-      																		<ul className="elementor-inline-items elementor-icon-list-items elementor-post-info">
-      																			<li className="elementor-icon-list-item elementor-repeater-item-3c380d1 elementor-inline-item" itemProp="datePublished">
-      																				<span className="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
-      																					<time>July 11, 2026</time> </span>
-      																			</li>
-      																		</ul>
-      																	</div>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-74fce07 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="74fce07" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
-      																<div className="elementor-widget-container">
-      																	<h5 className="elementor-heading-title elementor-size-default"><a href={rurl(region, '/blogs/capital-planning-for-large-property-developments/')}>Capital Planning for Large Property Developments</a></h5>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-abced80 vamtam-show-on-hover elementor-widget elementor-widget-theme-post-excerpt" data-id="abced80" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-excerpt.default">
-      																<div className="elementor-widget-container">
-      																	Large developments rarely fail for lack of a good idea &#8212; they fail for lack of a capital plan mapped across the full lifecycle. </div>
-      															</div>
-      														</div>
-      													</div>
-      												</div>
-      												<div data-elementor-type="loop-item" data-elementor-id="1961" className="elementor elementor-1961 swiper-slide e-loop-item e-loop-item-1953 post-1953 post type-post status-publish format-standard has-post-thumbnail hentry category-success-story tag-property tag-taxes" data-elementor-post-type="elementor_library" role="group" aria-roledescription="slide" data-custom-edit-handle="1">
-      													<div className="elementor-element elementor-element-8b3458c animated-fast e-flex e-con-boxed e-con e-parent" data-id="8b3458c" data-element_type="container" data-e-type="container" data-settings={"{\"animation\":\"none\",\"animation_delay\":100}"}>
-      														<div className="e-con-inner">
-      															<div className="elementor-element elementor-element-9b0d8db animated-fast elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="9b0d8db" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\"}"} data-widget_type="theme-post-featured-image.default">
-      																<div className="elementor-widget-container">
-      																	<a href={rurl(region, '/blogs/why-market-intelligence-matters-before-every-property-investment/')}>
-      																		<img loading="lazy" decoding="async" width={750} height={1024} src={`${BASE}/assets/content/uploads/blogs/blog-3.webp`} className="attachment-large size-large wp-image-1951" alt="" /> </a>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-e4b59e9 e-con-full e-flex e-con e-child" data-id="e4b59e9" data-element_type="container" data-e-type="container">
-      																<div className="elementor-element elementor-element-923a9ab elementor-widget elementor-widget-post-info" data-id="923a9ab" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
-      																	<div className="elementor-widget-container">
-      																		<ul className="elementor-inline-items elementor-icon-list-items elementor-post-info">
-      																			<li className="elementor-icon-list-item elementor-repeater-item-3c380d1 elementor-inline-item" itemProp="datePublished">
-      																				<span className="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
-      																					<time>July 11, 2026</time> </span>
-      																			</li>
-      																		</ul>
-      																	</div>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-74fce07 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="74fce07" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
-      																<div className="elementor-widget-container">
-      																	<h5 className="elementor-heading-title elementor-size-default"><a href={rurl(region, '/blogs/why-market-intelligence-matters-before-every-property-investment/')}>Why Market Intelligence Matters Before Every Property Investment</a></h5>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-abced80 vamtam-show-on-hover elementor-widget elementor-widget-theme-post-excerpt" data-id="abced80" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-excerpt.default">
-      																<div className="elementor-widget-container">
-      																	The best investment decisions are made before the deal, not during it &#8212; independent intelligence turns conviction into evidence. </div>
-      															</div>
-      														</div>
-      													</div>
-      												</div>
-      												<div data-elementor-type="loop-item" data-elementor-id="1961" className="elementor elementor-1961 swiper-slide e-loop-item e-loop-item-1945 post-1945 post type-post status-publish format-standard has-post-thumbnail hentry category-expert-advice tag-business-strategies" data-elementor-post-type="elementor_library" role="group" aria-roledescription="slide" data-custom-edit-handle="1">
-      													<div className="elementor-element elementor-element-8b3458c animated-fast e-flex e-con-boxed e-con e-parent" data-id="8b3458c" data-element_type="container" data-e-type="container" data-settings={"{\"animation\":\"none\",\"animation_delay\":100}"}>
-      														<div className="e-con-inner">
-      															<div className="elementor-element elementor-element-9b0d8db animated-fast elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="9b0d8db" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\"}"} data-widget_type="theme-post-featured-image.default">
-      																<div className="elementor-widget-container">
-      																	<a href={rurl(region, '/blogs/the-future-of-automated-valuation-models-avms/')}>
-      																		<img loading="lazy" decoding="async" width={750} height={1024} src={`${BASE}/assets/content/uploads/blogs/blog-4.webp`} className="attachment-large size-large wp-image-1950" alt="" /> </a>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-e4b59e9 e-con-full e-flex e-con e-child" data-id="e4b59e9" data-element_type="container" data-e-type="container">
-      																<div className="elementor-element elementor-element-923a9ab elementor-widget elementor-widget-post-info" data-id="923a9ab" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
-      																	<div className="elementor-widget-container">
-      																		<ul className="elementor-inline-items elementor-icon-list-items elementor-post-info">
-      																			<li className="elementor-icon-list-item elementor-repeater-item-3c380d1 elementor-inline-item" itemProp="datePublished">
-      																				<span className="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
-      																					<time>July 11, 2026</time> </span>
-      																			</li>
-      																		</ul>
-      																	</div>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-74fce07 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="74fce07" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
-      																<div className="elementor-widget-container">
-      																	<h5 className="elementor-heading-title elementor-size-default"><a href={rurl(region, '/blogs/the-future-of-automated-valuation-models-avms/')}>The Future of Automated Valuation Models (AVMs)</a></h5>
-      																</div>
-      															</div>
-      															<div className="elementor-element elementor-element-abced80 vamtam-show-on-hover elementor-widget elementor-widget-theme-post-excerpt" data-id="abced80" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-excerpt.default">
-      																<div className="elementor-widget-container">
-      																	Automated valuation models are reshaping how quickly property can be valued &#8212; knowing their strengths and limits is essential. </div>
-      															</div>
-      														</div>
-      													</div>
-      												</div>
+      												{posts.map((post, i) => (
+      													<BlogLoopCard key={post.slug} post={post} index={i} region={region} variant="slide" />
+      												))}
       											</div>
       										</div>
       										<div className="swiper-pagination"></div>

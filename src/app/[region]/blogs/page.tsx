@@ -2,7 +2,7 @@
  * /blogs/ — the Insights listing.
  *
  * The cards used to be four hand-written loop items over src/data/blog-catalog.ts.
- * They are now every published row of `blog_posts`, in the order the admin panel
+ * They are now every published row of `vx_posts`, in the order the admin panel
  * puts them in (featured first, then newest); the markup around them is the same
  * captured Elementor page.
  */

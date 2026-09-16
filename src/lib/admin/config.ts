@@ -81,7 +81,7 @@ export const ADMIN_THEME_COLOR = '#0B2DBE';
  * The panel's own stylesheet, served from /public. Bump the query whenever the
  * file changes: public files keep their URL, so browsers may hold the old one.
  */
-export const ADMIN_CSS = '/admin/assets/admin.css?v=20260916a';
+export const ADMIN_CSS = '/admin/assets/admin.css?v=20260916d';
 
 /**
  * The flash-message cookie. Scoped to the panel and readable by script: the

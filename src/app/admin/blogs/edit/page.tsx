@@ -1,9 +1,9 @@
 /**
  * Admin — Blog & Insights editor.
  *
- * Handles both writing a new post (?new=1) and editing an existing one (?id=N),
- * the same way blogs/edit's neighbour pages/edit does. The post is loaded from
- * `blog_posts`; everything else is the editor component.
+ * Handles both writing a new post (?new=1) and editing an existing one (?id=N).
+ * The post is a `vx_posts` row; its author choices are the `vx_authors`
+ * profiles. Everything else is the editor component.
  */
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -13,15 +13,11 @@ import BlogEditor, { type BlogEditorMarket } from '@/components/admin/BlogEditor
 import { FlashErr, FlashOk } from '@/components/admin/Flash';
 import Icon from '@/components/admin/Icon';
 import { adminUrl } from '@/lib/admin/config';
+import { dbStamp, formatDateTime } from '@/lib/admin/format';
 import { csrfToken, currentUser, takeFlash } from '@/lib/admin/session';
 import { seoSiteUrl } from '@/lib/admin/seo-lib';
-import { postById, usedCategories } from '@/lib/blog/db';
-import {
-  BLOG_FALLBACK_COVER,
-  blogDateLong,
-  blogToday,
-  type BlogPostInput,
-} from '@/lib/blog/types';
+import { allAuthors, blogCoverSrc, postById, usedCategories } from '@/lib/blog/db';
+import { blogDateLong, blogToday, type BlogAuthor, type BlogPostInput } from '@/lib/blog/types';
 import { vxnRegionList } from '@/lib/region';
 
 export const metadata: Metadata = {
@@ -29,38 +25,46 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow',
 };
 
-/** A blank post: published today, in the sitemap, with the standard cover. */
+/** A blank post: a draft, in the sitemap, filed under Insights. */
 const NEW_POST: BlogPostInput = {
-  title: '',
   slug: '',
-  category: '',
+  title: '',
   excerpt: '',
-  body: '',
-  cover_image: BLOG_FALLBACK_COVER,
+  body_html: '',
+  cover: '',
   cover_alt: '',
-  author: '',
-  author_role: '',
+  cat: 'Insights',
+  tags: '',
   status: 'draft',
-  featured: 0,
   in_sitemap: 1,
-  published_at: '',
+  featured: 0,
   meta_title: '',
-  meta_description: '',
-  meta_keywords: '',
+  meta_desc: '',
+  keywords: '',
+  focus_kw: '',
+  schema_type: 'BlogPosting',
+  faq_json: '',
+  schema_jsonld: '',
   og_image: '',
+  og_title: '',
+  og_desc: '',
+  tw_card: 'summary_large_image',
+  tw_title: '',
+  tw_desc: '',
+  tw_image: '',
+  canonical: '',
+  robots: 'index, follow',
+  author: '',
+  author_id: null,
+  author_role: '',
+  read_mins: 1,
+  published_at: '',
 };
 
 /** Every market publishes /blogs/, so a post has an address in each. */
-const MARKETS: BlogEditorMarket[] = vxnRegionList().map((r) => ({
-  region: r.slug,
-  label: r.short ?? r.name,
-}));
+const MARKETS: BlogEditorMarket[] = vxnRegionList().map((r) => ({ region: r.slug, label: r.short ?? r.name }));
 
-export default async function BlogEditPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ id?: string; new?: string }>;
-}) {
+export default async function BlogEditPage({ searchParams }: { searchParams: Promise<{ id?: string; new?: string }> }) {
   const user = await currentUser();
   if (!user) redirect(adminUrl(''));
 
@@ -68,7 +72,8 @@ export default async function BlogEditPage({
   const isNew = sp.new !== undefined;
   const id = Number(sp.id ?? 0);
 
-  let form: BlogPostInput = { ...NEW_POST, published_at: blogToday() };
+  let form: BlogPostInput = NEW_POST;
+  let publishDate = blogToday();
   let updatedAt = '';
 
   if (!isNew) {
@@ -84,36 +89,21 @@ export default async function BlogEditPage({
       // reason travels to the list screen in the URL instead.
       redirect(adminUrl('blogs') + '?missing=' + (failed ? 'db' : 'post'));
     }
-    updatedAt = post.updated_at;
-    form = {
-      title: post.title,
-      slug: post.slug,
-      category: post.category,
-      excerpt: post.excerpt,
-      body: post.body,
-      cover_image: post.cover_image,
-      cover_alt: post.cover_alt,
-      author: post.author,
-      author_role: post.author_role,
-      status: post.status,
-      featured: post.featured,
-      in_sitemap: post.in_sitemap,
-      published_at: post.published_at,
-      meta_title: post.meta_title,
-      meta_description: post.meta_description,
-      meta_keywords: post.meta_keywords,
-      og_image: post.og_image,
-    };
+    const { id: _id, created_at: _c, updated_at, seo_score: _s, ...input } = post;
+    form = input;
+    publishDate = post.published_at.slice(0, 10);
+    updatedAt = updated_at;
   }
 
   const flash = await takeFlash();
   const csrf = await csrfToken();
   const site = await seoSiteUrl();
   let categories: string[] = [];
+  let authors: BlogAuthor[] = [];
   try {
-    categories = await usedCategories();
+    [categories, authors] = await Promise.all([usedCategories(), allAuthors()]);
   } catch {
-    /* the standard list is enough to work with */
+    /* the standard lists are enough to work with */
   }
 
   return (
@@ -139,7 +129,7 @@ export default async function BlogEditPage({
               </span>
               {updatedAt ? (
                 <span>
-                  <Icon name="clock" size={14} /> Last saved {updatedAt.replace('T', ' ').slice(0, 16)}
+                  <Icon name="clock" size={14} /> Last saved {formatDateTime(dbStamp(updatedAt))}
                 </span>
               ) : null}
             </>
@@ -156,8 +146,11 @@ export default async function BlogEditPage({
         csrf={csrf}
         site={site}
         initial={form}
+        publishDate={publishDate}
         markets={MARKETS}
         categories={categories}
+        authors={authors.map((a) => ({ id: a.id, name: a.name, title: a.title }))}
+        coverMissing={form.cover.trim() !== '' && blogCoverSrc(form.cover) !== form.cover.trim()}
       />
     </AdminShell>
   );

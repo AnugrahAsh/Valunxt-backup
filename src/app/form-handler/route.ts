@@ -6,13 +6,17 @@
  * validation, records the submission, and returns Elementor-compatible JSON so
  * the widget shows its success/error message exactly as before.
  *
- * Port of form-handler.php.
+ * Every submission becomes a lead in `vx_leads` — the Leads CRM of the
+ * www.valunxt.com database — including newsletter signups, which that panel
+ * recorded as leads too ("Newsletter Subscriber"). A copy also goes to a local
+ * log, so nothing is lost if the database is down.
  */
 import { NextResponse, type NextRequest } from 'next/server';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import { connectWithSchema } from '@/lib/db';
+import { exec } from '@/lib/db';
+import { countryForIp, recordLead } from '@/lib/leads';
 
 const LOG_DIR = path.join(process.cwd(), 'data');
 
@@ -33,6 +37,12 @@ const SOURCE_MAP: Record<string, string> = {
   'accounting-tax': 'Accounting & Tax',
 };
 
+/** What Elementor posts alongside the fields themselves. */
+const ELEMENTOR_META = new Set(['action', 'form_id', 'form_name', 'post_id', 'queried_id', 'referer_title', 'referrer', '_wpnonce']);
+
+/** Field names a person never fills in: a value in one means a bot filled the form. */
+const HONEYPOTS = ['website', 'url', 'hp', 'honeypot', 'fax'];
+
 function fail(message: string, status: number) {
   return NextResponse.json({ success: false, data: { message } }, { status });
 }
@@ -47,6 +57,15 @@ async function append(file: string, line: string) {
   }
 }
 
+const THANKS = NextResponse.json.bind(NextResponse, {
+  success: true,
+  data: {
+    message: 'Thank you for contacting Valunxt. Our advisory team will review your enquiry and respond shortly.',
+    data: [],
+    meta: [],
+  },
+});
+
 export async function POST(req: NextRequest) {
   const form = await req.formData();
 
@@ -59,9 +78,35 @@ export async function POST(req: NextRequest) {
     const key = (m ? m[1] : rawKey).replace(/[^a-zA-Z0-9_\- ]/g, '');
     const text = value.replace(/<[^>]*>/g, '').trim();
     if (m) clean[key] = text;
+    // The widget's own bookkeeping is not something a visitor typed.
+    else if (ELEMENTOR_META.has(key)) continue;
     flat[key] = text;
   }
   const fields = Object.keys(clean).length ? clean : flat;
+
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? req.headers.get('x-real-ip') ?? '';
+  const ua = req.headers.get('user-agent') ?? '';
+  const pagePath = (() => {
+    try {
+      return new URL(req.headers.get('referer') ?? '').pathname;
+    } catch {
+      return '';
+    }
+  })();
+
+  // A filled honeypot: record it the way the imported panel did, answer as if it worked.
+  const trap = HONEYPOTS.filter((h) => (fields[h] ?? '').trim() !== '');
+  if (trap.length) {
+    try {
+      await exec(
+        "INSERT INTO vx_security_events (ts, ip, type, detail, ua, path) VALUES (UTC_TIMESTAMP(), ?, 'form_honeypot', ?, ?, ?)",
+        [ip.slice(0, 45) || null, JSON.stringify(Object.keys(fields)).slice(0, 500), ua.slice(0, 255) || null, '/form-handler/']
+      );
+    } catch {
+      /* best effort */
+    }
+    return THANKS();
+  }
 
   // Basic validation: require at least one non-empty value; validate any
   // email-looking field.
@@ -74,11 +119,6 @@ export async function POST(req: NextRequest) {
   }
   if (!hasValue) return fail('Please fill in the form.', 400);
 
-  const ip =
-    req.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
-    req.headers.get('x-real-ip') ??
-    '';
-
   // Record the submission to a local log (best effort; never blocks).
   await append(
     'form-submissions.log',
@@ -90,58 +130,51 @@ export async function POST(req: NextRequest) {
     }) + '\n'
   );
 
-  // ---- Store lead-capture enquiries in the database ----------------------
   // Lead forms post fields named <prefix>_full_name|email|phone|company. Match
   // by suffix so one code path handles every form (Contact, Free Consultation,
   // homepage/Our Group enquiry).
-  const pick = (suffix: string) => {
-    for (const [k, v] of Object.entries(fields)) {
-      if (v !== '' && k.endsWith(suffix)) return v;
+  const pick = (...suffixes: string[]) => {
+    for (const suffix of suffixes) {
+      for (const [k, v] of Object.entries(fields)) {
+        if (v !== '' && k.toLowerCase().endsWith(suffix)) return v;
+      }
     }
     return '';
   };
-  const fullName = pick('full_name');
-  const phone = pick('phone');
-  const company = pick('company');
-  const email = pick('_email') || pick('email');
+  const fullName = pick('full_name', 'name');
+  const phone = pick('phone', 'mobile', 'tel');
+  const company = pick('company', 'organisation', 'organization');
+  const email = pick('_email', 'email');
+  const message = pick('message', 'comments', 'enquiry', 'details');
+  const service = pick('service', 'service_required', 'interest');
+  const formId = String(form.get('form_id') ?? '');
+  const source = SOURCE_MAP[formId] ?? (formId !== '' ? formId : 'Website');
 
-  // Only record lead-form submissions; skip the email-only newsletter form.
-  if (fullName !== '' || phone !== '' || company !== '') {
-    const formId = String(form.get('form_id') ?? '');
-    const source = SOURCE_MAP[formId] ?? (formId !== '' ? formId : 'Website');
-    const pageUrl = (req.headers.get('referer') ?? '').slice(0, 255);
+  const isLeadForm = fullName !== '' || phone !== '' || company !== '';
+  const isNewsletter = !isLeadForm && email !== '';
 
+  if (isLeadForm || isNewsletter) {
     try {
-      const conn = await connectWithSchema(req.headers.get('host') ?? '');
-      await conn.execute(
-        `INSERT INTO enquiries (full_name, email, phone, company, source, page_url, ip)
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [
-          fullName.slice(0, 160),
-          email.slice(0, 190),
-          phone.slice(0, 60),
-          company.slice(0, 190),
-          source,
-          pageUrl,
-          ip,
-        ]
-      );
-      await conn.end();
+      await recordLead({
+        name: isNewsletter ? 'Newsletter Subscriber' : fullName,
+        email,
+        phone,
+        company,
+        service: isNewsletter ? 'Newsletter' : service || 'General enquiry',
+        message: isNewsletter ? 'Subscribe to Valunxt Insights' : message,
+        page: pagePath,
+        ip,
+        country: req.headers.get('cf-ipcountry') || (await countryForIp(ip)),
+        ua,
+        source: isNewsletter ? 'Newsletter' : source,
+      });
     } catch (e) {
       // Non-fatal: the submission is already captured in the file log above.
       await append('form-errors.log', `${new Date().toISOString()} ${String(e)}\n`);
     }
   }
 
-  return NextResponse.json({
-    success: true,
-    data: {
-      message:
-        'Thank you for contacting Valunxt. Our advisory team will review your enquiry and respond shortly.',
-      data: [],
-      meta: [],
-    },
-  });
+  return THANKS();
 }
 
 export function GET() {

@@ -7,5 +7,9 @@ next-env.d.ts
 data/form-submissions.log
 data/form-errors.log
 
+# Database dumps: they hold password hashes and client data, never commit them.
+data/backups/
+data/imports/
+
 # The admin panel writes these; they are deployment state, not source.
 public/sitemap.xml.bak

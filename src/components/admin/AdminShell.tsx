@@ -19,14 +19,11 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Icon, { type IconName } from './Icon';
 import { ADMIN_LOGO_WHITE, adminUrl, brandText, siteUrl, userInitials } from '@/lib/admin/config';
 
-export type AdminNavKey =
-  | 'dashboard'
-  | 'enquiries'
-  | 'blogs'
-  | 'pages'
-  | 'sitemap'
-  | 'settings'
-  | 'none';
+/**
+ * Which sidebar item is current: a screen's key (a folder under /admin, or a
+ * table-backed screen's key from lib/admin/resources.ts), or 'none'.
+ */
+export type AdminNavKey = string;
 
 /** What the shell shows of the signed-in user. */
 export interface ShellUser {
@@ -35,27 +32,63 @@ export interface ShellUser {
   role: string;
 }
 
-type NavItem = [AdminNavKey, string, string, IconName];
+/** [key, label, href, icon, administrators only] */
+type NavItem = [AdminNavKey, string, string, IconName, boolean?];
 
+/**
+ * The panel's sections, one per module of the imported www.valunxt.com
+ * database: its CMS (posts, authors, page SEO, redirects, sitemap, keywords,
+ * audits), its CRM (leads), its analytics and PageSpeed records, its client
+ * portal, and its security log and accounts.
+ */
 const NAV: Array<{ label: string; items: NavItem[] }> = [
   {
     label: 'Main',
     items: [
-      ['dashboard', 'Dashboard', adminUrl('dashboard'), 'dashboard'],
-      ['enquiries', 'Enquiries', adminUrl('enquiries'), 'message'],
+      ['dashboard', 'Overview', adminUrl('dashboard'), 'dashboard'],
+      ['leads', 'Leads CRM', adminUrl('leads'), 'message'],
     ],
   },
   {
-    label: 'Content & SEO',
+    label: 'Content',
     items: [
       ['blogs', 'Blog & Insights', adminUrl('blogs'), 'bookOpen'],
-      ['pages', 'Pages & SEO', adminUrl('pages'), 'pages'],
+      ['authors', 'Authors', adminUrl('authors'), 'user'],
+    ],
+  },
+  {
+    label: 'SEO',
+    items: [
+      ['pages', 'Page SEO', adminUrl('pages'), 'pages'],
+      ['redirects', 'Redirects', adminUrl('redirects'), 'arrowRight'],
       ['sitemap', 'Sitemap', adminUrl('sitemap'), 'globe'],
+      ['keywords', 'Keywords', adminUrl('keywords'), 'search'],
+      ['seo-audits', 'SEO Audits', adminUrl('seo-audits'), 'checkCircle'],
+    ],
+  },
+  {
+    label: 'Insights',
+    items: [
+      ['analytics', 'Analytics', adminUrl('analytics'), 'chart'],
+      ['performance', 'Performance', adminUrl('performance'), 'trendUp'],
+    ],
+  },
+  {
+    label: 'Client Portal',
+    items: [
+      ['clients', 'Clients', adminUrl('clients'), 'users', true],
+      ['deadlines', 'Deadlines', adminUrl('deadlines'), 'calendar', true],
+      ['portal-users', 'Portal Users', adminUrl('portal-users'), 'user', true],
+      ['portal-activity', 'Portal Activity', adminUrl('portal-activity'), 'clock', true],
     ],
   },
   {
     label: 'System',
-    items: [['settings', 'Settings', adminUrl('settings'), 'settings']],
+    items: [
+      ['security', 'Security', adminUrl('security'), 'shield', true],
+      ['admin-users', 'Admin Users', adminUrl('admin-users'), 'lock', true],
+      ['settings', 'Settings', adminUrl('settings'), 'settings'],
+    ],
   },
 ];
 
@@ -128,7 +161,12 @@ export default function AdminShell({
         </div>
 
         <nav className="sidebar-nav">
-          {NAV.map((group) => (
+          {NAV.map((group) => ({
+            ...group,
+            items: group.items.filter(([, , , , adminOnly]) => !adminOnly || user.role.toLowerCase() === 'admin'),
+          }))
+            .filter((group) => group.items.length)
+            .map((group) => (
             <div className="nav-group" key={group.label}>
               <div className="nav-label">{group.label}</div>
               {group.items.map(([key, label, href, icon]) => (
@@ -187,8 +225,8 @@ export default function AdminShell({
               type="search"
               name="q"
               defaultValue={query}
-              placeholder="Search enquiries, pages and posts…"
-              aria-label="Search enquiries, pages and posts"
+              placeholder="Search leads, posts, pages and clients…"
+              aria-label="Search leads, posts, pages and clients"
               autoComplete="off"
             />
             <span className="kbd" aria-hidden="true">

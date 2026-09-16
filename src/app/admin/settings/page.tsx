@@ -18,6 +18,7 @@ import { adminUrl, brandText, userInitials } from '@/lib/admin/config';
 import { findAccount, type AccountRow } from '@/lib/admin/db';
 import { formatDateTime, localStamp } from '@/lib/admin/format';
 import { changePasswordAction, saveProfileAction } from '@/lib/admin/actions';
+import { isAdmin } from '@/lib/admin/guard';
 import { csrfToken, currentUser, takeFlash } from '@/lib/admin/session';
 
 export const metadata: Metadata = {
@@ -209,6 +210,30 @@ export default async function SettingsPage() {
               </a>
             </div>
           </section>
+
+          {isAdmin(user) ? (
+            <section className="panel" style={{ marginTop: 20 }}>
+              <div className="panel-head">
+                <h3>System</h3>
+              </div>
+              <div className="panel-body flush">
+                <ul className="mini-list">
+                  <li>
+                    <a href={adminUrl('admin-users')}>Admin users</a>
+                    <span className="counter-of">Who can sign in here</span>
+                  </li>
+                  <li>
+                    <a href={adminUrl('site-settings')}>Site settings</a>
+                    <span className="counter-of">Site URL, sitemap stamps, sync state</span>
+                  </li>
+                  <li>
+                    <a href={adminUrl('security')}>Security</a>
+                    <span className="counter-of">Sign-in failures, honeypot, scans</span>
+                  </li>
+                </ul>
+              </div>
+            </section>
+          ) : null}
         </aside>
       </div>
     </AdminShell>

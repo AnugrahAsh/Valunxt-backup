@@ -1,7 +1,21 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
+import { findRedirect } from '@/lib/redirects';
+
 /**
- * Two jobs, both inherited from the PHP build.
+ * Three jobs, after one check.
+ *
+ * The previous site's host. www.valunxt.com is the old address; the site lives
+ * on https://valunxt.com. If the www host is pointed at this deployment, a page
+ * request there is sent once, permanently, to the same path on the main domain
+ * (where job 0 then maps an old path onto its new page), so no page is ever
+ * served, canonicalised or indexed under the old host.
+ *
+ * 0. Redirects managed in the admin panel (vx_redirects), before anything else
+ *    — including the addresses of the previous www.valunxt.com site, so an old
+ *    link or search result lands on the page that replaced it rather than on the
+ *    gateway below, which would forward it to a market that 404s. See
+ *    src/lib/redirects.ts; the table is cached, so this is a Map lookup.
  *
  * 1. The region gateway. The site is published as one edition per market and
  *    the root is not a page any more (index.php did the same). A bare URL — the
@@ -16,6 +30,10 @@ import { NextResponse, type NextRequest } from 'next/server';
  *    class list the theme CSS keys off (body.elementor-page-264 and friends),
  *    and only the root layout may render `<body>`.
  */
+
+/** Hosts the site used to answer on, sent to the main domain. */
+const OLD_HOSTS = new Set(['www.valunxt.com']);
+const MAIN_ORIGIN = 'https://valunxt.com';
 
 const REGIONS = ['en-in', 'en-ae'] as const;
 const DEFAULT_REGION = 'en-in';
@@ -37,8 +55,15 @@ function detectRegion(req: NextRequest): string {
   return DEFAULT_REGION;
 }
 
-export function proxy(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
+
+  // Host, not X-Forwarded-Host: a client can send the latter for any address,
+  // and a cache in front would then keep a redirect from the main domain to itself.
+  const host = (req.headers.get('host') ?? '').trim().toLowerCase().replace(/:\d+$/, '');
+  if (OLD_HOSTS.has(host) && (req.method === 'GET' || req.method === 'HEAD')) {
+    return NextResponse.redirect(`${MAIN_ORIGIN}${pathname}${search}`, 301);
+  }
   const first = pathname.split('/')[1] ?? '';
   const inRegion = (REGIONS as readonly string[]).includes(first);
 
@@ -47,6 +72,18 @@ export function proxy(req: NextRequest) {
     const h = new Headers(req.headers);
     h.set('x-vxn-path', pathname);
     return NextResponse.next({ request: { headers: h } });
+  }
+
+  if (req.method === 'GET' || req.method === 'HEAD') {
+    const rule = await findRedirect(pathname);
+    if (rule) {
+      const target = /^https?:\/\//i.test(rule.to) ? new URL(rule.to) : new URL(rule.to, req.url);
+      // Carry the query string over unless the rule sets its own.
+      if (!target.search && search) target.search = search;
+      const res = NextResponse.redirect(target, rule.code);
+      if (rule.code === 302 || rule.code === 307) res.headers.set('Cache-Control', 'no-store, max-age=0');
+      return res;
+    }
   }
 
   if (!inRegion) {

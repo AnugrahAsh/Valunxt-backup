@@ -1,10 +1,11 @@
 /**
- * Admin dashboard.
+ * Admin — Overview.
  *
- * Port of admin/dashboard.php. The PHP page carried placeholder figures — KPI
- * cards, an eight-month chart and an activity feed that described no real
- * event. Every figure is now read from the panel's own tables (see
- * lib/admin/insights.ts), so the dashboard agrees with the screens it links to.
+ * Every figure is a query against the imported www.valunxt.com database (see
+ * lib/admin/insights.ts): leads from the CRM, posts, page SEO and redirects
+ * from the CMS, the client portal's clients and deadlines, the security log,
+ * the sitemap history and the analytics the previous panel collected. Nothing
+ * here is a placeholder, and every card links to the screen that manages it.
  */
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -12,25 +13,24 @@ import type { Metadata } from 'next';
 import AdminShell from '@/components/admin/AdminShell';
 import Icon, { type IconName } from '@/components/admin/Icon';
 import { adminUrl, brandText } from '@/lib/admin/config';
-import { formatCount, formatDate, formatDateTime, localStamp, timeAgo } from '@/lib/admin/format';
-import { dashboardData, enquiryWho, type DashboardData } from '@/lib/admin/insights';
+import { dbStamp, formatCount, formatDate, formatDateTime, timeAgo } from '@/lib/admin/format';
+import { isAdmin } from '@/lib/admin/guard';
+import { dashboardData, leadWho, type DashboardData } from '@/lib/admin/insights';
 import { currentUser } from '@/lib/admin/session';
+import { LEAD_STATUS_LABEL, LEAD_STATUS_PILL } from '@/lib/leads';
 
 export const metadata: Metadata = {
-  title: 'Dashboard — Valunxt Admin',
+  title: 'Overview — Valunxt Admin',
   robots: 'noindex, nofollow',
 };
 
-const SOURCE_PILL: Record<string, string> = {
-  Contact: 'new',
-  'Free Consultation': 'wait',
-  Enquiry: 'ok',
-};
-
 const ACTIVITY_ICON: Record<string, [IconName, string]> = {
-  enquiry: ['message', ''],
+  lead: ['message', ''],
+  post: ['bookOpen', 'violet'],
   page: ['edit', 'violet'],
   sitemap: ['globe', 'green'],
+  security: ['shield', 'sky'],
+  portal: ['users', 'green'],
 };
 
 type Trend = { dir: 'up' | 'down' | 'flat'; text: string; muted?: string };
@@ -54,29 +54,55 @@ function TrendLine({ trend }: { trend: Trend }) {
   );
 }
 
+/** Days from today (UTC) to a 'YYYY-MM-DD' date; negative when past. */
+function daysUntil(date: string, now = new Date()): number {
+  const d = Date.UTC(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 1, Number(date.slice(8, 10)));
+  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return Math.round((d - today) / 86400000);
+}
+
 export default async function DashboardPage() {
   const user = await currentUser();
   if (!user) redirect(adminUrl(''));
 
   let data: DashboardData | null = null;
+  let error = '';
   try {
     data = await dashboardData();
-  } catch {
-    /* MySQL unavailable — the cards render dashes and a notice explains why */
+  } catch (e) {
+    error = String(e).slice(0, 200);
   }
 
+  const admin = isAdmin(user);
   const firstName = brandText(user.name).split(' ')[0];
   const now = new Date();
-  const e = data?.enquiries;
-  const pages = data?.pages;
   const maxMonth = Math.max(0, ...(data?.months ?? []).map((m) => m.count));
-  const thisMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const thisMonthKey = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}`;
+
+  const card = (
+    href: string,
+    icon: IconName,
+    tone: string,
+    label: string,
+    value: string,
+    foot: React.ReactNode,
+    feature = false
+  ) => (
+    <a className={'stat-card as-link' + (feature ? ' feature' : '')} href={href}>
+      <div className={`ico ${tone}`}>
+        <Icon name={icon} size={22} />
+      </div>
+      <div className="label">{label}</div>
+      <div className="value">{value}</div>
+      {foot}
+    </a>
+  );
 
   return (
     <AdminShell active="dashboard" user={user}>
       <div className="page-head">
         <div className="crumbs">
-          Home <span className="sep">/</span> Dashboard
+          Home <span className="sep">/</span> Overview
         </div>
         <h1>Welcome back, {firstName} 👋</h1>
         <p>Here&rsquo;s what&rsquo;s happening across Valunxt today.</p>
@@ -86,136 +112,174 @@ export default async function DashboardPage() {
         <div className="flash err" role="alert">
           <Icon name="alertCircle" />
           <span className="flash-text">
-            Could not load the dashboard figures. Please ensure MySQL is running, then reload.
+            Could not load the dashboard figures. Please ensure MySQL is running, then reload.{error ? ` (${error})` : ''}
           </span>
         </div>
       ) : null}
 
-      {/* KPI cards */}
       <section className="stat-grid">
-        <div className="stat-card feature">
-          <div className="ico">
-            <Icon name="message" size={22} />
-          </div>
-          <div className="label">Total Enquiries</div>
-          <div className="value">{e ? formatCount(e.total) : '—'}</div>
-          <div className="trend">
-            {e ? (
-              <>
-                <Icon name="clock" size={14} stroke={2.4} />
-                {formatCount(e.last30)} <span className="muted">in the last 30 days</span>
-              </>
-            ) : (
-              <span className="muted">Unavailable</span>
-            )}
-          </div>
-        </div>
-
-        <div className="stat-card">
-          <div className="ico sky">
-            <Icon name="users" size={22} />
-          </div>
-          <div className="label">Enquiries, Last 30 Days</div>
-          <div className="value">{e ? formatCount(e.last30) : '—'}</div>
-          {e ? <TrendLine trend={periodTrend(e.last30, e.prev30)} /> : <div className="trend flat">—</div>}
-        </div>
-
-        <div className="stat-card">
-          <div className="ico green">
-            <Icon name="file" size={22} />
-          </div>
-          <div className="label">Published Pages</div>
-          <div className="value">
-            {pages ? formatCount(pages.published) : '—'}
-            {pages ? <span className="value-of">/ {formatCount(pages.total)}</span> : null}
-          </div>
-          {pages ? (
-            <div className={`trend ${pages.draft ? 'flat' : 'up'}`}>
-              <Icon name={pages.draft ? 'edit' : 'checkCircle'} size={14} stroke={2.4} />
-              {pages.draft ? (
-                <>
-                  {pages.draft} <span className="muted">draft{pages.draft === 1 ? '' : 's'}</span>
-                </>
-              ) : (
-                <>
-                  All live <span className="muted">no drafts</span>
-                </>
-              )}
+        {card(
+          adminUrl('leads'),
+          'message',
+          '',
+          'Leads',
+          data ? formatCount(data.leads.total) : '—',
+          data ? (
+            <div className="trend">
+              <Icon name="clock" size={14} stroke={2.4} />
+              {formatCount(data.leads.open)} <span className="muted">open in the pipeline</span>
             </div>
           ) : (
             <div className="trend flat">—</div>
-          )}
-        </div>
-
-        <div className="stat-card">
-          <div className="ico violet">
-            <Icon name="globe" size={22} />
-          </div>
-          <div className="label">Pages in Sitemap</div>
-          <div className="value">{pages ? formatCount(pages.sitemap) : '—'}</div>
-          <div className="trend flat">
-            <Icon name="refresh" size={14} stroke={2.4} />
-            {data?.sitemap.generatedAt ? (
-              <>
-                Generated <span className="muted">{formatDate(data.sitemap.generatedAt)}</span>
-              </>
-            ) : (
-              <span className="muted">Not generated yet</span>
-            )}
-          </div>
-        </div>
+          ),
+          true
+        )}
+        {card(
+          adminUrl('leads'),
+          'trendUp',
+          'sky',
+          'Leads, Last 30 Days',
+          data ? formatCount(data.leads.last30) : '—',
+          data ? <TrendLine trend={periodTrend(data.leads.last30, data.leads.prev30)} /> : <div className="trend flat">—</div>
+        )}
+        {card(
+          adminUrl('blogs'),
+          'bookOpen',
+          'violet',
+          'Published Posts',
+          data ? formatCount(data.posts.published) : '—',
+          data ? (
+            <div className="trend flat">
+              <Icon name="edit" size={14} stroke={2.4} />
+              {data.posts.draft} <span className="muted">draft{data.posts.draft === 1 ? '' : 's'} · {data.authors} author{data.authors === 1 ? '' : 's'}</span>
+            </div>
+          ) : (
+            <div className="trend flat">—</div>
+          )
+        )}
+        {card(
+          adminUrl('pages'),
+          'file',
+          'green',
+          'Published Pages',
+          data ? formatCount(data.pages.published) : '—',
+          data ? (
+            <div className="trend flat">
+              <Icon name="globe" size={14} stroke={2.4} />
+              {data.sitemap.urlCount} <span className="muted">sitemap URLs{data.sitemap.generatedAt ? ` · ${formatDate(data.sitemap.generatedAt)}` : ''}</span>
+            </div>
+          ) : (
+            <div className="trend flat">—</div>
+          )
+        )}
       </section>
 
-      {/* Chart + activity */}
+      <section className="stat-grid" style={{ marginTop: 16 }}>
+        {card(
+          adminUrl('redirects'),
+          'arrowRight',
+          'sky',
+          'Active Redirects',
+          data ? formatCount(data.redirects.active) : '—',
+          data ? (
+            <div className="trend flat">
+              <span className="muted">of {data.redirects.total} rules</span>
+            </div>
+          ) : null
+        )}
+        {admin
+          ? card(
+              adminUrl('clients'),
+              'users',
+              'green',
+              'Portal Clients',
+              data ? formatCount(data.portal.clients) : '—',
+              data ? (
+                <div className="trend flat">
+                  <span className="muted">
+                    {data.portal.active} active · {data.portal.openRequests} open document request{data.portal.openRequests === 1 ? '' : 's'}
+                  </span>
+                </div>
+              ) : null
+            )
+          : null}
+        {card(
+          adminUrl('analytics'),
+          'chart',
+          'violet',
+          'Recorded Page Views',
+          data ? formatCount(data.analytics.hits) : '—',
+          data ? (
+            <div className="trend flat">
+              <span className="muted">
+                {data.analytics.sessions} sessions
+                {data.analytics.first ? ` · ${formatDate(dbStamp(data.analytics.first))} – ${formatDate(dbStamp(data.analytics.last))}` : ''}
+              </span>
+            </div>
+          ) : null
+        )}
+        {admin
+          ? card(
+              adminUrl('security'),
+              'shield',
+              data && data.security.loginFails30 ? 'violet' : 'green',
+              'Security Events, 30 Days',
+              data ? formatCount(data.security.last30) : '—',
+              data ? (
+                <div className="trend flat">
+                  <span className="muted">
+                    {data.security.loginFails30} failed sign-in{data.security.loginFails30 === 1 ? '' : 's'} · {data.admins} admin account{data.admins === 1 ? '' : 's'}
+                  </span>
+                </div>
+              ) : null
+            )
+          : null}
+      </section>
+
       <section className="panel-grid">
         <div className="panel">
           <div className="panel-head">
             <div>
-              <h3>Enquiries Overview</h3>
-              <div className="panel-sub">Submissions per month, last 8 months</div>
+              <h3>Leads Overview</h3>
+              <div className="panel-sub">Leads per month, last 8 months</div>
             </div>
-            <a href={adminUrl('enquiries')} className="link">
-              View enquiries
+            <a href={adminUrl('leads')} className="link">
+              Leads CRM
               <Icon name="arrowRight" size={14} stroke={2.4} />
             </a>
           </div>
           <div className="panel-body">
             <div className={'chart' + (maxMonth === 0 ? ' is-empty' : '')}>
               {(data?.months ?? []).map((m, i) => (
-                <div
-                  className={'bar-col' + (m.key === thisMonthKey ? ' current' : '')}
-                  key={m.key}
-                  title={`${m.label}: ${m.count} enquir${m.count === 1 ? 'y' : 'ies'}`}
-                >
+                <div className={'bar-col' + (m.key === thisMonthKey ? ' current' : '')} key={m.key} title={`${m.label}: ${m.count} lead${m.count === 1 ? '' : 's'}`}>
                   <div className="bar-track">
                     <div
                       className="bar"
                       data-n={m.count}
-                      style={{
-                        height: maxMonth ? `${Math.max(3, (m.count / maxMonth) * 100)}%` : '3%',
-                        animationDelay: `${i * 60}ms`,
-                      }}
+                      style={{ height: maxMonth ? `${Math.max(3, (m.count / maxMonth) * 100)}%` : '3%', animationDelay: `${i * 60}ms` }}
                     />
                   </div>
                   <span className="m">{m.label}</span>
                 </div>
               ))}
-              {maxMonth === 0 ? (
-                <div className="chart-empty">
-                  {data ? 'No enquiries in the last 8 months.' : 'Figures unavailable.'}
-                </div>
-              ) : null}
+              {maxMonth === 0 ? <div className="chart-empty">{data ? 'No leads in the last 8 months.' : 'Figures unavailable.'}</div> : null}
             </div>
+            {data && data.sources.length ? (
+              <ul className="source-list">
+                {data.sources.map((s) => (
+                  <li key={s.source}>
+                    <span>{s.source}</span>
+                    <span className="count-chip">{s.n}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </div>
         </div>
 
         <div className="panel">
           <div className="panel-head">
             <h3>Recent Activity</h3>
-            <a href={adminUrl('pages')} className="link">
-              Pages &amp; SEO
-              <Icon name="arrowRight" size={14} stroke={2.4} />
-            </a>
           </div>
           <div className="panel-body">
             {data && data.activity.length ? (
@@ -249,72 +313,92 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      {/* Latest enquiries table */}
-      <section className="panel" style={{ marginTop: 20 }}>
-        <div className="panel-head">
-          <h3>Latest Enquiries</h3>
-          <a href={adminUrl('enquiries')} className="link">
-            Manage enquiries
-            <Icon name="arrowRight" size={14} stroke={2.4} />
-          </a>
-        </div>
-        <div className="panel-body flush">
-          <div className="table-wrap">
-            <table className="data">
-              <thead>
-                <tr>
-                  <th>Ref</th>
-                  <th>Client</th>
-                  <th>Email</th>
-                  <th>Source</th>
-                  <th>Received</th>
-                  <th className="right">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {!data || data.latest.length === 0 ? (
+      <section className={admin ? 'panel-grid' : ''} style={{ marginTop: 20 }}>
+        <div className="panel">
+          <div className="panel-head">
+            <h3>Latest Leads</h3>
+            <a href={adminUrl('leads')} className="link">
+              Manage leads
+              <Icon name="arrowRight" size={14} stroke={2.4} />
+            </a>
+          </div>
+          <div className="panel-body flush">
+            <div className="table-wrap">
+              <table className="data">
+                <thead>
                   <tr>
-                    <td colSpan={6} className="muted-cell">
-                      {data
-                        ? 'No enquiries yet. Submissions from the website forms appear here.'
-                        : 'Enquiries unavailable.'}
-                    </td>
+                    <th>Lead</th>
+                    <th>Service</th>
+                    <th>Stage</th>
+                    <th>Received</th>
                   </tr>
-                ) : (
-                  data.latest.map((row) => (
-                    <tr key={row.id}>
-                      <td className="strong nowrap">ENQ-{String(row.id).padStart(4, '0')}</td>
-                      <td>{enquiryWho(row)}</td>
-                      <td>
-                        {row.email ? (
-                          <a className="link" href={`mailto:${row.email}`}>
-                            {row.email}
-                          </a>
-                        ) : (
-                          '—'
-                        )}
-                      </td>
-                      <td>
-                        <span className={`pill ${SOURCE_PILL[row.source] ?? 'new'}`}>
-                          {row.source !== '' ? row.source : 'Website'}
-                        </span>
-                      </td>
-                      <td className="nowrap">{formatDateTime(localStamp(row.created_at))}</td>
-                      <td className="right">
-                        <a
-                          href={adminUrl('enquiries') + (row.email ? '?q=' + encodeURIComponent(row.email) : '')}
-                          className="btn sm"
-                        >
-                          View
-                        </a>
+                </thead>
+                <tbody>
+                  {!data || data.latest.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="muted-cell">
+                        {data ? 'No leads yet. Submissions from the website forms appear here.' : 'Leads unavailable.'}
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    data.latest.map((l) => (
+                      <tr key={l.id}>
+                        <td className="title-cell">
+                          <a href={adminUrl('leads/view') + '?id=' + l.id}>{leadWho(l)}</a>
+                          <span className="sub">{l.email}</span>
+                        </td>
+                        <td>{l.service || l.source || '—'}</td>
+                        <td>
+                          <span className={`pill ${LEAD_STATUS_PILL[l.status] ?? 'new'}`}>
+                            {LEAD_STATUS_LABEL[l.status as keyof typeof LEAD_STATUS_LABEL] ?? l.status}
+                          </span>
+                        </td>
+                        <td className="nowrap">{formatDateTime(dbStamp(l.created_at))}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+
+        {admin ? (
+          <div className="panel">
+            <div className="panel-head">
+              <h3>Upcoming Client Deadlines</h3>
+              <a href={adminUrl('deadlines') + '?status=pending'} className="link">
+                All deadlines
+                <Icon name="arrowRight" size={14} stroke={2.4} />
+              </a>
+            </div>
+            <div className="panel-body flush">
+              {data && data.deadlines.length ? (
+                <ul className="mini-list">
+                  {data.deadlines.map((d) => {
+                    const days = daysUntil(d.due_date, now);
+                    return (
+                      <li key={d.id}>
+                        <a href={adminUrl('clients/view') + '?id=' + d.client_id}>
+                          {d.type}
+                          {d.period ? ` · ${d.period}` : ''}
+                        </a>
+                        <span className="counter-of">{d.client}</span>
+                        <span className={`pill ${days < 0 ? 'warnp' : days <= 14 ? 'wait' : 'ok'}`}>
+                          {days < 0 ? `${-days}d overdue` : days === 0 ? 'Due today' : `in ${days}d`}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <div className="empty-state compact">
+                  <p>{data ? 'No pending deadlines.' : 'Deadlines unavailable.'}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : null}
       </section>
     </AdminShell>
   );

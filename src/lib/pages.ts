@@ -84,7 +84,7 @@ function derivedPage(region: string, rest: string): PageConfig | null {
 
 /* ---- Blog articles -------------------------------------------------------
  *
- * /blogs/<slug>/ pages are rows in `blog_posts`, not entries in the registry —
+ * /blogs/<slug>/ pages are rows in `vx_posts`, not entries in the registry —
  * an article added in the admin panel is live the moment it is saved, and a
  * route cannot appear at runtime. But the root layout resolves the page for a
  * request itself, to emit the stylesheets into <head> and the class list onto

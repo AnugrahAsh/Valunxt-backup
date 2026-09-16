@@ -25,9 +25,12 @@ import { formatDateTime, utcStamp } from '@/lib/admin/format';
 import { csrfToken, currentUser, takeFlash } from '@/lib/admin/session';
 import { pagesOpAction } from '@/lib/admin/actions';
 import {
+  SITEMAP_COUNT_KEY,
+  SITEMAP_GENERATED_KEY,
   seoMarketLinks,
   seoPageDefaults,
   seoPagesList,
+  seoLegacyReplacement,
   seoPlacement,
   seoSetting,
   seoSitemapStale,
@@ -39,7 +42,7 @@ import { vxnRegionList } from '@/lib/region';
 import { sectionLabel } from '@/lib/site-pages';
 
 export const metadata: Metadata = {
-  title: 'Pages & SEO — Valunxt Admin',
+  title: 'Page SEO — Valunxt Admin',
   robots: 'noindex, nofollow',
 };
 
@@ -111,7 +114,7 @@ export default async function AdminPagesPage({
   };
 
   let all: PageRow[] = [];
-  let stats: SeoStats = { total: 0, published: 0, draft: 0, sitemap: 0, noindex: 0 };
+  let stats: SeoStats = { total: 0, published: 0, draft: 0, sitemap: 0, noindex: 0, legacy: 0 };
   let loadError = '';
   let generatedAt = '';
   let urlCount = 0;
@@ -119,8 +122,8 @@ export default async function AdminPagesPage({
   try {
     stats = await seoStats();
     all = await seoPagesList(q, market);
-    generatedAt = await seoSetting('sitemap_generated_at', '');
-    urlCount = Number(await seoSetting('sitemap_url_count', '0'));
+    generatedAt = await seoSetting(SITEMAP_GENERATED_KEY, '');
+    urlCount = Number(await seoSetting(SITEMAP_COUNT_KEY, '0'));
     stale = await seoSitemapStale();
   } catch {
     loadError = 'Could not load pages. Please ensure MySQL is running.';
@@ -139,9 +142,9 @@ export default async function AdminPagesPage({
     <AdminShell active="pages" user={user}>
       <div className="page-head">
         <div className="crumbs">
-          Home <span className="sep">/</span> Pages &amp; SEO
+          Home <span className="sep">/</span> Page SEO
         </div>
-        <h1>Pages &amp; SEO</h1>
+        <h1>Page SEO</h1>
         <p>
           Manage the title, meta tags, canonical URL and robots directive for every page the website
           publishes, in India and the UAE.
@@ -165,6 +168,17 @@ export default async function AdminPagesPage({
               Update sitemap
             </button>
           </form>
+        </div>
+      ) : null}
+
+      {stats.legacy && !loadError ? (
+        <div className="notice" role="status">
+          <Icon name="alertCircle" />
+          <span className="notice-text">
+            {stats.legacy} SEO record{stats.legacy === 1 ? '' : 's'} came from the previous www.valunxt.com site. Each
+            names the page that replaced it; copy anything worth keeping onto that page, then delete the record. Nothing is
+            applied to the live pages until you do.
+          </span>
         </div>
       ) : null}
 
@@ -284,11 +298,16 @@ export default async function AdminPagesPage({
                       const noindex = String(r.robots_meta ?? '').startsWith('noindex');
                       const published = r.status === 'published';
                       const deletable = !place.builtIn || !place.exists;
+                      const replacement = place.legacy ? seoLegacyReplacement(r) : null;
                       return (
                         <tr key={r.id}>
                           <td className="title-cell">
-                            <a href={adminUrl('pages/edit') + '?id=' + r.id}>{r.title}</a>
-                            {!place.exists ? (
+                            <a href={adminUrl('pages/edit') + '?id=' + r.id}>{r.title || r.slug}</a>
+                            {place.legacy ? (
+                              <span className="sub is-warn">
+                                Previous site (www.valunxt.com){replacement ? ` · now ${replacement.name}` : ''}
+                              </span>
+                            ) : !place.exists ? (
                               <span className="sub is-danger">No longer on the website</span>
                             ) : place.site ? (
                               <span className="sub">{sectionLabel(place.site.section)}</span>

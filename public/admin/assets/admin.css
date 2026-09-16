@@ -3184,3 +3184,477 @@ a.market-chip:hover {
     font: 400 13px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     tab-size: 2;
 }
+
+/* ==========================================================================
+   Imported database modules (20260916)
+   Leads CRM, the table-backed screens (clients, redirects, authors, logs…),
+   analytics, security, and the structured-data fields of the post and page
+   editors. Built from the tokens and parts above; this block adds only the
+   pieces those screens introduced.
+   ========================================================================== */
+
+/* ---- A second line under any table cell, as under a title cell ------------ */
+table.data td .sub {
+    display: block;
+    margin-top: 3px;
+    font-weight: 400;
+    font-size: 12.5px;
+    color: var(--muted);
+}
+
+/* ---- A cover preview that explains a missing file ---------------------- */
+.cover-preview.is-empty span {
+    max-width: 34ch;
+    padding: 0 16px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* ---- Stat cards that open their screen --------------------------------- */
+a.stat-card.as-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+a.stat-card.as-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--brand-ring);
+}
+
+.page-head .head-sub {
+    font-weight: 400;
+    color: var(--muted);
+}
+
+/* ---- Panel copy ---------------------------------------------------------- */
+.panel-lede {
+    margin: 0 0 14px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.panel-subhead {
+    margin: 26px 0 6px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.panel-grid.three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* ---- Fields -------------------------------------------------------------- */
+.fld .check,
+label.check {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+}
+
+.check input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--brand);
+    cursor: pointer;
+}
+
+.fld .req {
+    color: var(--danger);
+}
+
+.fld input[type="number"],
+.fld input[type="tel"],
+.fld input[type="datetime-local"] {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    color: var(--ink);
+    font: 400 14px var(--font);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.fld input[type="number"]:focus,
+.fld input[type="tel"]:focus,
+.fld input[type="datetime-local"]:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px var(--brand-ring);
+}
+
+.fld textarea.code-area,
+textarea.code-area {
+    width: 100%;
+    min-height: 150px;
+    padding: 12px 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--card-soft);
+    color: var(--ink);
+    font: 400 12.5px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    resize: vertical;
+    tab-size: 2;
+}
+
+textarea.code-area.is-invalid {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px var(--danger-tint);
+}
+
+.readonly-value {
+    min-height: 44px;
+    padding: 11px 14px;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--card-soft);
+    color: var(--text);
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.btn.block {
+    width: 100%;
+    justify-content: center;
+}
+
+/* A collapsible group of optional fields. */
+details.field-group {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    background: var(--card-soft);
+}
+
+details.field-group > summary {
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+/* ---- Repeaters (FAQ, JSON-LD) ------------------------------------------- */
+.repeater {
+    display: grid;
+    gap: 12px;
+    justify-items: start;
+}
+
+.repeater > .repeater-item,
+.repeater > .repeater-empty,
+.repeater > .hint {
+    justify-self: stretch;
+}
+
+.repeater-empty {
+    padding: 14px 16px;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-sm);
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.repeater-item {
+    padding: 14px 16px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--card-soft);
+}
+
+.repeater-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.repeater-sub {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+/* ---- Table cells --------------------------------------------------------- */
+.cell-code {
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: var(--card-soft);
+    border: 1px solid var(--line);
+    font: 400 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+}
+
+.cell-pre {
+    margin: 0;
+    max-height: 420px;
+    overflow: auto;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--card-soft);
+    border: 1px solid var(--line);
+    font: 400 12px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.title-cell .sub.is-warn {
+    color: var(--warning);
+}
+
+.prewrap {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+/* ---- Record detail -------------------------------------------------------- */
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px 24px;
+    margin: 0;
+}
+
+.detail-grid > div {
+    min-width: 0;
+}
+
+.detail-grid > .full {
+    grid-column: 1 / -1;
+}
+
+.detail-grid dt {
+    margin-bottom: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--faint);
+}
+
+.detail-grid dd {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+}
+
+/* ---- Compact lists -------------------------------------------------------- */
+.mini-list,
+.source-list,
+.hbar-list,
+.note-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mini-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+}
+
+.mini-list li:last-child {
+    border-bottom: 0;
+}
+
+.mini-list li > a {
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.mini-list li > a:hover {
+    color: var(--brand);
+}
+
+.mini-list li > :last-child {
+    margin-left: auto;
+}
+
+.source-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.source-list li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 6px 5px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 12.5px;
+    color: var(--text);
+}
+
+/* ---- Horizontal bars (analytics breakdowns) ------------------------------- */
+.hbar-list {
+    display: grid;
+    gap: 12px;
+}
+
+.hbar-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: var(--ink);
+}
+
+.hbar-label > span:first-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hbar-track {
+    height: 7px;
+    border-radius: 999px;
+    background: var(--brand-tint);
+    overflow: hidden;
+}
+
+.hbar {
+    height: 100%;
+    border-radius: inherit;
+    background: var(--brand-grad);
+}
+
+/* ---- Segmented links (ranges) --------------------------------------------- */
+.segmented {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+}
+
+.segmented .seg {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    transition: background-color 0.16s ease, color 0.16s ease;
+}
+
+.segmented .seg:hover {
+    background: var(--card-soft);
+    color: var(--ink);
+}
+
+.segmented .seg.is-on {
+    background: var(--brand);
+    color: #fff;
+}
+
+/* ---- Lead notes and stages ------------------------------------------------ */
+.note-list {
+    margin-top: 20px;
+    display: grid;
+    gap: 12px;
+}
+
+.note-list li {
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--card-soft);
+    font-size: 14px;
+    color: var(--ink);
+}
+
+.note-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.note-meta form {
+    margin: 0;
+}
+
+.stage-list {
+    display: grid;
+    gap: 8px;
+}
+
+.stage-list form {
+    margin: 0;
+}
+
+.stage-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--card);
+    color: var(--success);
+    cursor: pointer;
+    transition: border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.stage-btn:hover {
+    border-color: var(--line-strong);
+    background: var(--card-soft);
+}
+
+.stage-btn.is-current {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px var(--brand-ring);
+}
+
+@media (max-width: 1100px) {
+    .panel-grid.three {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mini-list li > :last-child {
+        margin-left: 0;
+    }
+}

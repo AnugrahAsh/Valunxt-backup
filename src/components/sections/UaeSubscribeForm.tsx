@@ -14,8 +14,8 @@
  *
  * Fifteen lines of fetch is the whole fix, and it owes nothing to a plugin's
  * internals. /form-handler/ is the same endpoint every other form on the site
- * uses; it takes form_fields[<id>], logs the submission, and deliberately skips
- * the enquiries insert for an email-only newsletter form.
+ * uses; it takes form_fields[<id>], logs the submission, and records an
+ * email-only signup as a "Newsletter" lead in the Leads CRM.
  *
  * The market goes into form_id and post_id (uae-insights / uae-home as before,
  * in-insights / in-home for India), so the log says which home page a

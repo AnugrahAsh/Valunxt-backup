@@ -7,9 +7,9 @@
  * purpose — it could not know where a host wanted its leads to go, so it fell
  * back to a `mailto:` rather than silently dropping one. This site has an
  * endpoint: /form-handler/, the route that replaced form-handler.php. It records
- * every submission to data/form-submissions.log and writes the lead ones to the
- * `enquiries` table the admin panel reads, so a real estate enquiry arrives in
- * the same inbox as one from Contact or Free Consultation.
+ * every submission to data/form-submissions.log and writes it to `vx_leads`,
+ * the table the admin panel's Leads CRM reads, so a real estate enquiry arrives
+ * in the same inbox as one from Contact or Free Consultation.
  *
  * FIELD NAMES ARE LOAD-BEARING. form-handler matches by suffix — `full_name`,
  * `phone`, `company`, `email` — so a field called `name` would be logged but

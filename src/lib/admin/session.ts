@@ -17,11 +17,23 @@ import 'server-only';
 import crypto from 'node:crypto';
 import { cookies } from 'next/headers';
 
+import { sql } from '@/lib/db';
 import { ADMIN_FLASH_COOKIE, ADMIN_FLASH_PATH } from './config';
 
 const COOKIE = 'vxn_admin';
 const MAX_AGE = 60 * 60 * 8; // eight hours, as a working day
 const REMEMBER_AGE = 60 * 60 * 24 * 30; // "Remember me": thirty days
+
+/**
+ * Part of what every session cookie is signed with. Changing it signs every
+ * administrator out.
+ *
+ * It moved to 'vx_users' when the accounts moved from the project's `users`
+ * table into the imported `vx_users` (20260916). A cookie carries the account
+ * id, and ids were renumbered by that move — an old cookie naming id 1 would
+ * otherwise have resolved to whichever account holds id 1 now.
+ */
+const SESSION_SCOPE = 'vx_users';
 
 export interface AdminUser {
   id: number;
@@ -37,17 +49,26 @@ interface SessionPayload extends AdminUser {
 }
 
 function secret(): string {
-  return (
-    process.env.ADMIN_SESSION_SECRET ??
-    // A deployment without an explicit secret still gets a stable one derived
-    // from the database password, so sessions survive a restart. Set
-    // ADMIN_SESSION_SECRET in .env.local for anything public-facing.
-    'vxn-admin-' + (process.env.DB_PASS ?? 'local-development-only')
-  );
+  const explicit = (process.env.ADMIN_SESSION_SECRET ?? '').trim();
+  if (explicit !== '') return explicit;
+  // A deployment without an explicit secret still gets a stable one derived
+  // from the database password, so sessions survive a restart. Set
+  // ADMIN_SESSION_SECRET in .env.local for anything public-facing.
+  const dbPass = process.env.DB_PASS ?? '';
+  if (dbPass !== '') return 'vxn-admin-' + dbPass;
+  // With neither, the key would be a string printed in this file, and anyone
+  // could sign a session cookie. Development only.
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('ADMIN_SESSION_SECRET is not set: the admin panel cannot sign sessions (see .env.example).');
+  }
+  return 'vxn-admin-local-development-only';
 }
 
 function sign(payload: string): string {
-  return crypto.createHmac('sha256', secret()).update(payload).digest('base64url');
+  return crypto
+    .createHmac('sha256', secret())
+    .update(SESSION_SCOPE + ':' + payload)
+    .digest('base64url');
 }
 
 function safeEqual(a: string, b: string): boolean {
@@ -91,12 +112,36 @@ async function writeSession(user: AdminUser, remember: boolean): Promise<void> {
   });
 }
 
-/** The currently signed-in user, or null. */
+/**
+ * The currently signed-in user, or null.
+ *
+ * The cookie proves who signed in; the account table says whether they still
+ * may. An administrator deleted under Admin Users, or whose email was changed
+ * by someone else, is signed out on their next request rather than when their
+ * cookie expires. The name and role come from the table too, so a role change
+ * applies at once.
+ *
+ * When the database cannot be reached the cookie is trusted as it stands, so a
+ * signed-in administrator sees each screen's own "MySQL is not running" notice
+ * instead of being bounced to the sign-in form, which cannot work either.
+ */
 export async function currentUser(): Promise<AdminUser | null> {
   const c = await cookies();
   const raw = c.get(COOKIE)?.value;
   const data = raw ? decode(raw) : null;
-  return data ? { id: data.id, name: data.name, email: data.email, role: data.role } : null;
+  if (!data) return null;
+
+  try {
+    const rows = await sql<{ id: number; name: string; email: string; role: string }>(
+      'SELECT id, name, email, role FROM vx_users WHERE id = ? LIMIT 1',
+      [data.id]
+    );
+    const row = rows[0];
+    if (!row || String(row.email).toLowerCase() !== String(data.email).toLowerCase()) return null;
+    return { id: Number(row.id), name: row.name, email: row.email, role: row.role };
+  } catch {
+    return { id: data.id, name: data.name, email: data.email, role: data.role };
+  }
 }
 
 /** Store the authenticated user. "Remember me" keeps the session for thirty days. */

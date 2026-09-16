@@ -19,14 +19,20 @@ export interface Article {
   title: string;
   category?: string;
   hero_image?: string;
+  /** The cover's alt text; the hero is a CSS background, so it is exposed as a label. */
+  hero_alt?: string;
   author?: string;
   author_role?: string;
+  /** The author profile's photo, when it has one; the initial otherwise. */
+  author_avatar?: string;
   /** The article body, as HTML. */
   body: string;
   read_time?: string;
   topics?: string[];
   date?: string;
   date_iso?: string;
+  /** Question and answer pairs, shown after the body. */
+  faq?: Array<{ q: string; a: string }>;
 }
 
 const CSS = `
@@ -86,6 +92,17 @@ const CSS = `
 .vxn-rel__title{font-family:"Forum",serif;font-size:16px;line-height:1.3;color:#0E355F;margin-top:10px;transition:color .2s;}
 .vxn-rel:hover .vxn-rel__title{color:#0B2DBE;}
 
+/* The avatar when the author profile has a photo. */
+.vxn-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;}
+/* An article's FAQ (vx_posts.faq_json): the content column's own type, a rule between questions. */
+.vxn-art-faq{margin:48px 0 0;padding-top:8px;border-top:1px solid #e7e2d9;}
+.vxn-art-faq__item{border-bottom:1px solid #e7e2d9;}
+.vxn-art-faq__item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:20px 0;font-weight:600;font-size:17px;line-height:1.45;color:#0E355F;}
+.vxn-art-faq__item summary::-webkit-details-marker{display:none;}
+.vxn-art-faq__item summary::after{content:"+";flex:0 0 auto;font-size:22px;line-height:1;color:#0B2DBE;transition:transform .2s;}
+.vxn-art-faq__item[open] summary::after{transform:rotate(45deg);}
+.vxn-art-faq__a{padding:0 0 22px;color:#3d4a56;font-size:16px;line-height:1.75;}
+
 @media(max-width:960px){
   .vxn-art-wrap{grid-template-columns:1fr;gap:44px;}
   .vxn-art-side{position:static;}
@@ -111,7 +128,7 @@ export default async function BlogArticleSection({
   related?: BlogCard[];
 }) {
   const cat = article.category ?? 'Insights';
-  const topics = article.topics ?? [cat];
+  const topics = article.topics?.length ? article.topics : [cat];
   const author = article.author ?? 'Valunxt Research Team';
   const arole = article.author_role ?? 'Insights & Analysis Desk';
   const initial = author.trim().slice(0, 1).toUpperCase() || 'V';
@@ -156,12 +173,24 @@ export default async function BlogArticleSection({
               <div
                 className="vxn-art-hero__media"
                 style={{ backgroundImage: `url('${hero}')` }}
+                {...(article.hero_alt ? { role: 'img', 'aria-label': article.hero_alt } : {})}
               />
             </header>
 
             <div className="vxn-art-wrap">
               <div className="vxn-art-main">
                 <Html className="vxn-art-content" html={article.body} />
+                {article.faq?.length ? (
+                  <section className="vxn-art-content vxn-art-faq" aria-labelledby="vxn-art-faq-title">
+                    <h2 id="vxn-art-faq-title">Frequently Asked Questions</h2>
+                    {article.faq.map((f, i) => (
+                      <details className="vxn-art-faq__item" key={i}>
+                        <summary>{f.q}</summary>
+                        <div className="vxn-art-faq__a">{f.a}</div>
+                      </details>
+                    ))}
+                  </section>
+                ) : null}
               </div>
 
               <aside className="vxn-art-side">
@@ -177,7 +206,12 @@ export default async function BlogArticleSection({
                 ) : null}
                 <div className="vxn-side-author">
                   <div className="vxn-avatar">
-                    <span>{initial}</span>
+                    {article.author_avatar ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img src={article.author_avatar} alt="" loading="lazy" />
+                    ) : (
+                      <span>{initial}</span>
+                    )}
                   </div>
                   <div>
                     <div className="vxn-side-author__name">{author}</div>

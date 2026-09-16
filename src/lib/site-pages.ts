@@ -1,10 +1,10 @@
 /**
  * Every page the website publishes, market by market.
  *
- * The admin panel lists these under Pages & SEO, keeps one `pages` row for
+ * The admin panel lists these under Page SEO, keeps one `vx_page_seo` row for
  * each, and builds sitemap.xml from them. They are derived from the registries
- * the routes themselves answer from — the page registry, the article list, the
- * UAE services registry and its written bodies — so a page added in code shows
+ * the routes themselves answer from — the page registry, the UAE services
+ * registry and its written bodies — so a page added in code shows
  * up here without being declared a second time, and a page taken out of the
  * code drops out of the panel and the sitemap with it.
  *
@@ -24,7 +24,7 @@
  * file is filled in (about/leadership, track-record); the real estate module
  * under /<market>/real-estate/, which is published unlinked and kept out of the
  * sitemap until the practice launches (src/real-estate/lib/seo.ts); and the
- * blog articles at /blogs/<slug>/, which are rows in `blog_posts` rather than
+ * blog articles at /blogs/<slug>/, which are rows in `vx_posts` rather than
  * pages in the code — the Blog & Insights screen manages them, and the sitemap
  * reads them straight from the table (lib/admin/seo-lib.ts).
  */

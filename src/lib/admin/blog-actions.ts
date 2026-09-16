@@ -1,23 +1,23 @@
 'use server';
 
 /**
- * Every write the Blog & Insights screens perform.
+ * Every write the Blog & Insights screens perform, on `vx_posts`.
  *
- * Same shape as the Pages actions in lib/admin/actions.ts — validate, act, set
- * a flash, redirect — so the two content modules behave identically: the same
- * CSRF check, the same post-redirect-get, and the same sitemap regeneration
- * after anything that changes what search engines can see.
+ * Same shape as the page actions beside it — check who is asking, validate,
+ * act, set a flash, redirect — and the same sitemap regeneration after
+ * anything that changes what search engines can see.
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 
 import { adminUrl } from './config';
-import { csrfOk, currentUser, setFlash, type AdminUser } from './session';
+import { requestOrigin, requireCsrf, requireUser, safeBack } from './guard';
+import { csrfOk, setFlash } from './session';
 import { seoRegenerate } from './seo-lib';
 import {
+  authorById,
   createPost,
   deletePost,
   postById,
@@ -29,7 +29,11 @@ import {
 } from '@/lib/blog/db';
 import {
   BLOG_LIMITS,
+  BLOG_ROBOTS,
+  BLOG_SCHEMA_TYPES,
+  BLOG_TWITTER_CARDS,
   blogNormalizeDate,
+  blogReadMinutes,
   blogSlugify,
   validateBlogPost,
   type BlogErrors,
@@ -49,28 +53,6 @@ const UPLOAD_TYPES: Record<string, string> = {
   'image/avif': '.avif',
   'image/gif': '.gif',
 };
-
-/** Scheme + host of the panel request, so generated URLs match the site. */
-async function requestOrigin(): Promise<string> {
-  const h = await headers();
-  const host = h.get('x-forwarded-host') ?? h.get('host') ?? '';
-  if (!host) return '';
-  const proto =
-    h.get('x-forwarded-proto') ??
-    (host.startsWith('localhost') || host.startsWith('127.') ? 'http' : 'https');
-  return `${proto}://${host}`;
-}
-
-/**
- * The signed-in administrator, or a redirect to the sign-in screen. A Server
- * Action is an endpoint anyone can post to, not only the screen that renders
- * its form, so every action that writes checks this first.
- */
-async function requireUser(): Promise<AdminUser> {
-  const user = await currentUser();
-  if (!user) redirect(adminUrl(''));
-  return user;
-}
 
 /** The public pages that render from the blog table. */
 function revalidateBlog() {
@@ -95,18 +77,14 @@ async function regenerateSitemap(): Promise<string> {
 export interface BlogFormState {
   errors?: BlogErrors;
   /** What was submitted, so a rejected form comes back filled in. */
-  values?: Partial<BlogPostInput> & { id?: number };
+  values?: Partial<BlogPostInput> & { id?: number; publish_date?: string };
 }
 
 /** Save an uploaded cover image into /public, returning its site-root URL. */
 async function storeCover(file: File, slug: string): Promise<{ url: string; error: string }> {
   const ext = UPLOAD_TYPES[file.type];
-  if (!ext) {
-    return { url: '', error: 'The cover image must be a WebP, JPEG, PNG, AVIF or GIF file.' };
-  }
-  if (file.size > MAX_UPLOAD_BYTES) {
-    return { url: '', error: 'The cover image must be 5 MB or smaller.' };
-  }
+  if (!ext) return { url: '', error: 'The cover image must be a WebP, JPEG, PNG, AVIF or GIF file.' };
+  if (file.size > MAX_UPLOAD_BYTES) return { url: '', error: 'The cover image must be 5 MB or smaller.' };
 
   const name = `${blogSlugify(slug) || 'post'}-${Date.now().toString(36)}${ext}`;
   const dir = path.join(process.cwd(), UPLOAD_DIR);
@@ -119,10 +97,38 @@ async function storeCover(file: File, slug: string): Promise<{ url: string; erro
   return { url: `${UPLOAD_URL}/${name}`, error: '' };
 }
 
-export async function saveBlogAction(
-  _prev: BlogFormState | null,
-  form: FormData
-): Promise<BlogFormState> {
+/** FAQ pairs posted as faq_q[] / faq_a[]; a pair missing either half is dropped. */
+function faqFrom(form: FormData): string {
+  const qs = form.getAll('faq_q').map((v) => String(v).trim());
+  const as = form.getAll('faq_a').map((v) => String(v).trim());
+  const out: Array<{ q: string; a: string }> = [];
+  for (let i = 0; i < Math.max(qs.length, as.length); i++) {
+    if (qs[i] && as[i]) out.push({ q: qs[i], a: as[i] });
+  }
+  return out.length ? JSON.stringify(out) : '';
+}
+
+/** JSON-LD blocks posted as schema_block[], stored as the imported panel stored them. */
+function schemaFrom(form: FormData): string {
+  const blocks = form
+    .getAll('schema_block')
+    .map((b) => String(b).trim())
+    .filter((b) => b !== '');
+  return blocks.length ? JSON.stringify(blocks) : '';
+}
+
+/**
+ * The stored publish timestamp for a submitted date: the post's own time of day
+ * when the date is unchanged, midnight UTC for a new date, empty for none.
+ */
+function publishStamp(date: string, previous: string): string {
+  const d = blogNormalizeDate(date);
+  if (!d) return '';
+  if (previous.slice(0, 10) === d && /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(previous)) return previous;
+  return `${d} 00:00:00`;
+}
+
+export async function saveBlogAction(_prev: BlogFormState | null, form: FormData): Promise<BlogFormState> {
   await requireUser();
 
   const isNew = String(form.get('mode') ?? '') === 'new';
@@ -133,43 +139,15 @@ export async function saveBlogAction(
   }
 
   const s = (k: string) => String(form.get(k) ?? '').trim();
-  const status: BlogStatus = s('status') === 'published' ? 'published' : 'draft';
-
-  const values: BlogPostInput = {
-    title: s('title').slice(0, BLOG_LIMITS.title),
-    slug: blogSlugify(s('slug') !== '' ? s('slug') : s('title')),
-    category: s('category').slice(0, BLOG_LIMITS.category),
-    excerpt: s('excerpt'),
-    // The body is HTML the editor composed; it is never trimmed of its markup.
-    body: String(form.get('body') ?? '').trim(),
-    cover_image: s('cover_image').slice(0, BLOG_LIMITS.cover_image),
-    cover_alt: s('cover_alt').slice(0, BLOG_LIMITS.cover_alt),
-    author: s('author').slice(0, BLOG_LIMITS.author),
-    author_role: s('author_role').slice(0, BLOG_LIMITS.author_role),
-    status,
-    featured: form.get('featured') ? 1 : 0,
-    in_sitemap: form.get('in_sitemap') ? 1 : 0,
-    published_at: blogNormalizeDate(s('published_at')),
-    meta_title: s('meta_title').slice(0, BLOG_LIMITS.meta_title),
-    meta_description: s('meta_description'),
-    meta_keywords: s('meta_keywords').slice(0, BLOG_LIMITS.meta_keywords),
-    og_image: s('og_image').slice(0, BLOG_LIMITS.og_image),
-  };
-
-  // A date that was submitted but is not a real one must be reported, not
-  // silently blanked — blogNormalizeDate returns '' for both.
-  const rawDate = s('published_at');
-  if (rawDate !== '' && values.published_at === '') values.published_at = rawDate;
+  const pick = <T extends readonly string[]>(value: string, allowed: T, fallback: T[number]): T[number] =>
+    (allowed as readonly string[]).includes(value) ? (value as T[number]) : fallback;
 
   let existing = null;
   if (!isNew) {
     try {
       existing = await postById(id);
     } catch {
-      return {
-        errors: { general: 'Could not reach the database. Please ensure MySQL is running.' },
-        values: { ...values, id },
-      };
+      return { errors: { general: 'Could not reach the database. Please ensure MySQL is running.' } };
     }
     if (!existing) {
       await setFlash({ err: 'That post no longer exists.' });
@@ -177,7 +155,64 @@ export async function saveBlogAction(
     }
   }
 
-  const errors: BlogErrors = validateBlogPost(values);
+  const status: BlogStatus = s('status') === 'published' ? 'published' : 'draft';
+  const publishDate = s('publish_date');
+  const authorId = Number(s('author_id')) || null;
+  const body = String(form.get('body_html') ?? '').trim();
+
+  const values: BlogPostInput = {
+    title: s('title'),
+    slug: blogSlugify(s('slug') !== '' ? s('slug') : s('title')),
+    excerpt: s('excerpt'),
+    body_html: body,
+    cover: s('cover').slice(0, BLOG_LIMITS.cover),
+    cover_alt: s('cover_alt').slice(0, BLOG_LIMITS.cover_alt),
+    cat: s('cat') || 'Insights',
+    tags: s('tags')
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean)
+      .join(', '),
+    status,
+    in_sitemap: form.get('in_sitemap') ? 1 : 0,
+    featured: form.get('featured') ? 1 : 0,
+    meta_title: s('meta_title'),
+    meta_desc: s('meta_desc'),
+    keywords: s('keywords'),
+    focus_kw: s('focus_kw'),
+    schema_type: pick(s('schema_type'), BLOG_SCHEMA_TYPES.map(([v]) => v), 'BlogPosting'),
+    faq_json: faqFrom(form),
+    schema_jsonld: schemaFrom(form),
+    og_image: s('og_image'),
+    og_title: s('og_title'),
+    og_desc: s('og_desc'),
+    tw_card: pick(s('tw_card'), BLOG_TWITTER_CARDS, 'summary_large_image'),
+    tw_title: s('tw_title'),
+    tw_desc: s('tw_desc'),
+    tw_image: s('tw_image'),
+    canonical: s('canonical'),
+    robots: pick(s('robots'), BLOG_ROBOTS, 'index, follow'),
+    author: '',
+    author_id: authorId,
+    author_role: s('author_role'),
+    read_mins: blogReadMinutes(body),
+    published_at: publishStamp(publishDate, existing?.published_at ?? ''),
+  };
+
+  const errors: BlogErrors = validateBlogPost(values, publishDate);
+
+  // The byline follows the author profile; the text column keeps its name.
+  if (authorId) {
+    try {
+      const author = await authorById(authorId);
+      if (!author) errors.author_id = 'That author no longer exists. Choose another.';
+      else values.author = author.name.slice(0, 120);
+    } catch {
+      errors.general = 'Could not reach the database. Please ensure MySQL is running.';
+    }
+  } else {
+    values.author = (existing?.author || 'Valunxt').slice(0, 120);
+  }
 
   if (!errors.slug) {
     try {
@@ -189,30 +224,26 @@ export async function saveBlogAction(
     }
   }
 
-  /* The upload replaces the path field when a file was chosen.
-     It runs even when the post is about to be rejected, on purpose: a file
-     input does not survive the re-render a rejected save causes, so waiting
-     until the post is valid loses the picture the editor chose without saying
-     so. Storing it now and handing the path back in `values` means the form
-     returns with the new cover already set, and the next save keeps it. */
+  /* The upload replaces the path field when a file was chosen. It runs even when
+     the post is about to be rejected, on purpose: a file input does not survive
+     the re-render a rejected save causes, so waiting until the post is valid
+     would lose the picture without saying so. Storing it now and handing the
+     path back in `values` means the form returns with the new cover set. */
   const file = form.get('cover_file');
   if (file instanceof File && file.size > 0) {
     const stored = await storeCover(file, values.slug || values.title);
-    if (stored.error) errors.cover_image = stored.error;
-    else values.cover_image = stored.url;
+    if (stored.error) errors.cover = stored.error;
+    else values.cover = stored.url;
   }
 
-  if (Object.keys(errors).length) return { errors, values: { ...values, id } };
+  if (Object.keys(errors).length) return { errors, values: { ...values, id, publish_date: publishDate } };
 
   try {
     if (isNew) {
       const newId = await createPost(values);
       const warning = await regenerateSitemap();
       revalidateBlog();
-      await setFlash({
-        ok: `Post “${values.title}” created at /blogs/${values.slug}/.`,
-        err: warning || undefined,
-      });
+      await setFlash({ ok: `Post “${values.title}” created at /blogs/${values.slug}/.`, err: warning || undefined });
       redirect(adminUrl('blogs/edit') + '?id=' + newId);
     }
 
@@ -236,7 +267,7 @@ export async function saveBlogAction(
     if (e && typeof e === 'object' && 'digest' in e) throw e;
     return {
       errors: { general: 'The post could not be saved: ' + String(e) },
-      values: { ...values, id },
+      values: { ...values, id, publish_date: publishDate },
     };
   }
 }
@@ -248,14 +279,8 @@ export async function blogOpAction(form: FormData) {
 
   const op = String(form.get('op') ?? '');
   const id = Number(form.get('id') ?? 0);
-  // Only ever back into the panel: the field comes from the browser.
-  const backField = String(form.get('back') ?? '');
-  const back = backField.startsWith(adminUrl('')) ? backField : adminUrl('blogs');
-
-  if (!(await csrfOk(String(form.get('csrf') ?? '')))) {
-    await setFlash({ err: 'Your session expired. Please try again.' });
-    redirect(back);
-  }
+  const back = safeBack(form.get('back'), adminUrl('blogs'));
+  await requireCsrf(form, back);
 
   try {
     if (op === 'delete') {
@@ -264,9 +289,7 @@ export async function blogOpAction(form: FormData) {
         await setFlash({ err: 'That post no longer exists.' });
       } else if (await deletePost(id)) {
         await regenerateSitemap();
-        await setFlash({
-          ok: `“${post.title}” deleted. It no longer appears on the website.`,
-        });
+        await setFlash({ ok: `“${post.title}” deleted. It no longer appears on the website.` });
       } else {
         await setFlash({ err: 'That post could not be deleted.' });
       }
@@ -301,8 +324,9 @@ export async function blogOpAction(form: FormData) {
       if (!post) {
         await setFlash({ err: 'That post no longer exists.' });
       } else {
+        const { id: _omit, created_at: _c, updated_at: _u, seo_score: _s, ...input } = post;
         const copyId = await createPost({
-          ...post,
+          ...input,
           title: `${post.title} (copy)`.slice(0, BLOG_LIMITS.title),
           slug: await uniqueSlug(post.slug),
           status: 'draft',

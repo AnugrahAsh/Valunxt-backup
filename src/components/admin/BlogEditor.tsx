@@ -1,16 +1,16 @@
 'use client';
 
 /**
- * The Blog & Insights editor: one form for both adding and editing a post.
+ * The Blog & Insights editor: one form for writing and editing a `vx_posts` row.
  *
- * Laid out like the Pages editor it sits beside — the fields in the left
- * column, publishing and the live Google preview on the right — and built from
- * the same panel, field and button classes, so the two content screens are the
- * same screen with different fields.
+ * Laid out like the www.valunxt.com panel's post form it replaces — the post
+ * and its structured data on the left, publishing and SEO on the right — and
+ * built from the Pages editor's panel, field and button classes, so the content
+ * screens read as one module.
  *
  * The submit is a Server Action, so the form still works with JavaScript
- * disabled; everything here (the slug suggestion, the counters, the preview,
- * the cover thumbnail) only adds the live feedback on top.
+ * disabled; the slug suggestion, the counters, the preview and the repeaters
+ * only add live feedback on top.
  */
 import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
@@ -18,16 +18,20 @@ import { useFormStatus } from 'react-dom';
 import ConfirmSubmit from './ConfirmSubmit';
 import Icon from './Icon';
 import RichTextEditor from './RichTextEditor';
+import { FaqRepeater, SchemaRepeater } from './StructuredDataFields';
+import { useSubmitRound } from './useSubmitRound';
 import { blogOpAction, saveBlogAction, type BlogFormState } from '@/lib/admin/blog-actions';
 import { ADMIN_MARK, adminUrl } from '@/lib/admin/config';
 import {
   BLOG_CATEGORIES,
-  BLOG_DEFAULT_AUTHOR,
   BLOG_DEFAULT_AUTHOR_ROLE,
   BLOG_LIMITS,
+  BLOG_ROBOTS,
+  BLOG_SCHEMA_TYPES,
   blogAutoMetaTitle,
   blogDateLong,
   blogPlainText,
+  blogReadMinutes,
   blogSlugify,
   type BlogPostInput,
 } from '@/lib/blog/types';
@@ -37,12 +41,18 @@ export interface BlogEditorMarket {
   label: string;
 }
 
-function SaveButton({ isNew }: { isNew: boolean }) {
+export interface BlogEditorAuthor {
+  id: number;
+  name: string;
+  title: string;
+}
+
+function SaveButton({ isNew, block }: { isNew: boolean; block?: boolean }) {
   const { pending } = useFormStatus();
   return (
-    <button type="submit" className="btn primary" disabled={pending}>
+    <button type="submit" className={'btn primary' + (block ? ' block' : '')} disabled={pending}>
       <Icon name="save" size={16} />
-      {pending ? 'Saving…' : isNew ? 'Create Post' : 'Save Post'}
+      {pending ? 'Saving…' : isNew ? 'Create Post' : 'Save'}
     </button>
   );
 }
@@ -53,8 +63,11 @@ export default function BlogEditor({
   csrf,
   site,
   initial,
+  publishDate,
   markets,
   categories,
+  authors,
+  coverMissing = false,
 }: {
   isNew: boolean;
   id: number;
@@ -62,78 +75,79 @@ export default function BlogEditor({
   /** The public site URL, e.g. https://valunxt.com */
   site: string;
   initial: BlogPostInput;
+  /** 'YYYY-MM-DD' of initial.published_at, or today for a new post. */
+  publishDate: string;
   /** Where the post is published — every market publishes /blogs/. */
   markets: BlogEditorMarket[];
   /** Categories already in use, merged with the standard list. */
   categories: string[];
+  authors: BlogEditorAuthor[];
+  /** The saved cover names a file public/ does not have (an imported post's). */
+  coverMissing?: boolean;
 }) {
   const [state, action] = useActionState<BlogFormState | null, FormData>(saveBlogAction, null);
   const errors = state?.errors ?? {};
   const v = { ...initial, ...(state?.values ?? {}) } as BlogPostInput;
+  // Remounts the uncontrolled selects after a rejected save (see useSubmitRound).
+  const round = useSubmitRound(state);
 
   const [title, setTitle] = useState(v.title);
   const [slug, setSlug] = useState(v.slug);
   const [excerpt, setExcerpt] = useState(v.excerpt);
-  const [body, setBody] = useState(v.body);
-  const [cover, setCover] = useState(v.cover_image);
+  const [body, setBody] = useState(v.body_html);
+  const [cover, setCover] = useState(v.cover);
+  // The cover path whose file could not be loaded: its preview explains instead.
+  const [brokenCover, setBrokenCover] = useState(coverMissing ? v.cover : '');
   const [status, setStatus] = useState(v.status);
   const [metaTitle, setMetaTitle] = useState(v.meta_title);
-  const [metaDesc, setMetaDesc] = useState(v.meta_description);
-  const [publishedAt, setPublishedAt] = useState(v.published_at);
+  const [metaDesc, setMetaDesc] = useState(v.meta_desc);
+  const [date, setDate] = useState(publishDate);
+  const [authorId, setAuthorId] = useState(v.author_id ? String(v.author_id) : '');
   const [uploadName, setUploadName] = useState('');
   const slugTouched = useRef(!isNew && v.slug !== '');
   const formRef = useRef<HTMLFormElement>(null);
 
   // Keep the fields in step when the action returns with validation errors.
   useEffect(() => {
-    const returned = state?.values;
-    if (!returned) return;
-    setTitle(String(returned.title ?? ''));
-    setSlug(String(returned.slug ?? ''));
-    setExcerpt(String(returned.excerpt ?? ''));
-    setBody(String(returned.body ?? ''));
-    setCover(String(returned.cover_image ?? ''));
-    setMetaTitle(String(returned.meta_title ?? ''));
-    setMetaDesc(String(returned.meta_description ?? ''));
-    setPublishedAt(String(returned.published_at ?? ''));
-    if (returned.status) setStatus(returned.status);
-    /* A rejected save still stored any file that was chosen, and hands its path
-       back above — so the pending-upload note has nothing left to announce, and
-       the file input itself is empty again after the re-render. */
+    const r = state?.values;
+    if (!r) return;
+    setTitle(String(r.title ?? ''));
+    setSlug(String(r.slug ?? ''));
+    setExcerpt(String(r.excerpt ?? ''));
+    setBody(String(r.body_html ?? ''));
+    setCover(String(r.cover ?? ''));
+    setMetaTitle(String(r.meta_title ?? ''));
+    setMetaDesc(String(r.meta_desc ?? ''));
+    setDate(String(r.publish_date ?? ''));
+    setAuthorId(r.author_id ? String(r.author_id) : '');
+    if (r.status) setStatus(r.status);
+    // A rejected save still stored any chosen file and handed its path back.
     setUploadName('');
   }, [state]);
 
-  // A rejected save is reported at the top of the form, far above the button
-  // that was pressed: bring the first field at fault into view.
+  // A rejected save is reported at the top of the form: bring the first field at fault into view.
   useEffect(() => {
     if (!state?.errors || !Object.keys(state.errors).length) return;
     const form = formRef.current;
-    const target =
-      form?.querySelector<HTMLElement>('.is-invalid') ?? form?.querySelector<HTMLElement>('.flash.err');
+    const target = form?.querySelector<HTMLElement>('.is-invalid') ?? form?.querySelector<HTMLElement>('.flash.err');
     if (!target) return;
     target.scrollIntoView({ block: 'center', behavior: 'smooth' });
     if (target.matches('input, textarea, select')) target.focus({ preventScroll: true });
   }, [state]);
 
   const liveSlug = slug.trim() || blogSlugify(title);
-  const publicPaths = markets.map((m) => ({
-    ...m,
-    path: `/${m.region}/blogs/${liveSlug ? liveSlug + '/' : ''}`,
-  }));
-  const canonical = site + (publicPaths[0]?.path ?? '/blogs/');
+  const publicPaths = markets.map((m) => ({ ...m, path: `/${m.region}/blogs/${liveSlug ? liveSlug + '/' : ''}` }));
+  const uaePath = publicPaths.find((p) => p.region === 'en-ae') ?? publicPaths[0];
+  const canonical = site + (uaePath?.path ?? '/blogs/');
 
   const autoTitle = useMemo(() => blogAutoMetaTitle(title), [title]);
   const autoExcerpt = useMemo(() => blogPlainText(body).slice(0, 180), [body]);
-
   const shownTitle = metaTitle.trim() || autoTitle;
   const effectiveDesc = metaDesc.trim() || excerpt.trim() || autoExcerpt;
-  const shownDesc =
-    effectiveDesc || 'Add an excerpt or meta description to control the snippet Google shows.';
+  const selectedAuthor = authors.find((a) => String(a.id) === authorId);
 
-  const counterClass = (len: number, min: number, max: number) => {
-    if (!len) return 'counter';
-    return 'counter ' + (len > max ? 'over' : len < min ? 'warn' : 'ok');
-  };
+  const counterClass = (len: number, min: number, max: number) =>
+    !len ? 'counter' : 'counter ' + (len > max ? 'over' : len < min ? 'warn' : 'ok');
 
   const allCategories = Array.from(new Set([...BLOG_CATEGORIES, ...categories])).sort();
 
@@ -143,6 +157,7 @@ export default function BlogEditor({
         {errors[key]}
       </div>
     ) : null;
+  const invalid = (key: keyof typeof errors) => (errors[key] ? 'is-invalid' : undefined);
 
   return (
     <>
@@ -159,14 +174,12 @@ export default function BlogEditor({
         ) : Object.keys(errors).length ? (
           <div className="flash err" role="alert">
             <Icon name="alertCircle" />
-            <span className="flash-text">
-              The post was not saved. Correct the highlighted fields below and try again.
-            </span>
+            <span className="flash-text">The post was not saved. Correct the highlighted fields below and try again.</span>
           </div>
         ) : null}
 
         <div className="panel-grid editor-grid">
-          {/* Left column: the post itself */}
+          {/* ---- Left: the post and its structured data ---- */}
           <div>
             <section className="panel">
               <div className="panel-head">
@@ -182,118 +195,96 @@ export default function BlogEditor({
                       type="text"
                       id="title"
                       name="title"
-                      className={errors.title ? 'is-invalid' : undefined}
+                      className={invalid('title')}
                       aria-invalid={errors.title ? true : undefined}
                       value={title}
                       maxLength={BLOG_LIMITS.title}
                       required
-                      placeholder="e.g. How High-Net-Worth Investors Build Wealth Through Real Estate"
+                      placeholder="e.g. VAT Refunds in the UAE: A Practical Guide"
                       onChange={(e) => {
                         setTitle(e.target.value);
                         if (!slugTouched.current) setSlug(blogSlugify(e.target.value));
                       }}
                     />
                     {fieldError('title')}
-                    <div className="hint">
-                      The headline on the article page, the Insights card and the browser tab.
-                    </div>
                   </div>
 
-                  <div className="fld full">
-                    <label htmlFor="slug">URL Slug</label>
-                    <div className="prefix-input">
-                      <span className="px">{site}/&hellip;/blogs/</span>
-                      <input
-                        type="text"
-                        id="slug"
-                        name="slug"
-                        className={errors.slug ? 'is-invalid' : undefined}
-                        aria-invalid={errors.slug ? true : undefined}
-                        value={slug}
-                        maxLength={BLOG_LIMITS.slug}
-                        placeholder="how-to-start-a-business"
-                        onChange={(e) => {
-                          slugTouched.current = true;
-                          setSlug(e.target.value);
-                        }}
-                        onBlur={(e) => setSlug(blogSlugify(e.target.value))}
-                      />
-                    </div>
+                  <div className="fld">
+                    <label htmlFor="slug">Slug</label>
+                    <input
+                      type="text"
+                      id="slug"
+                      name="slug"
+                      className={invalid('slug')}
+                      aria-invalid={errors.slug ? true : undefined}
+                      value={slug}
+                      maxLength={BLOG_LIMITS.slug}
+                      placeholder="vat-refunds-guide"
+                      onChange={(e) => {
+                        slugTouched.current = true;
+                        setSlug(e.target.value);
+                      }}
+                      onBlur={(e) => setSlug(blogSlugify(e.target.value))}
+                    />
                     {fieldError('slug')}
                     <div className="hint">
-                      Published at{' '}
-                      {publicPaths.map((m, i) => (
-                        <span key={m.region}>
-                          {i > 0 ? (i === publicPaths.length - 1 ? ' and ' : ', ') : ''}
-                          <code>{m.path}</code>
-                        </span>
-                      ))}
-                      . Letters, numbers and hyphens only.
-                      {isNew ? '' : ' Changing it changes the post’s address — the old one will 404.'}
+                      URL: <code>/blogs/{liveSlug || 'slug'}/</code>
+                      {isNew ? '' : ' — changing it breaks the old address unless you add a redirect.'}
                     </div>
                   </div>
 
                   <div className="fld">
-                    <label htmlFor="category">Category</label>
+                    <label htmlFor="cat">Category</label>
                     <input
                       type="text"
-                      id="category"
-                      name="category"
+                      id="cat"
+                      name="cat"
                       list="blogCategories"
-                      defaultValue={v.category}
-                      maxLength={BLOG_LIMITS.category}
-                      placeholder="Real Estate Wealth"
+                      className={invalid('cat')}
+                      defaultValue={v.cat}
+                      maxLength={BLOG_LIMITS.cat}
+                      placeholder="Corporate Tax"
                     />
                     <datalist id="blogCategories">
                       {allCategories.map((c) => (
                         <option value={c} key={c} />
                       ))}
                     </datalist>
-                    <div className="hint">Shown above the headline on the article page.</div>
-                  </div>
-
-                  <div className="fld">
-                    <label htmlFor="published_at">Publish Date</label>
-                    <input
-                      type="date"
-                      id="published_at"
-                      name="published_at"
-                      className={errors.published_at ? 'is-invalid' : undefined}
-                      aria-invalid={errors.published_at ? true : undefined}
-                      value={publishedAt}
-                      onChange={(e) => setPublishedAt(e.target.value)}
-                    />
-                    {fieldError('published_at')}
-                    <div className="hint">
-                      {publishedAt
-                        ? `Stamped “${blogDateLong(publishedAt)}”. A future date keeps the post off the site until then.`
-                        : 'The date stamped on the card and the article.'}
-                    </div>
+                    {fieldError('cat')}
                   </div>
 
                   <div className="fld full">
                     <label htmlFor="excerpt">
-                      Excerpt{' '}
-                      <span className={counterClass(excerpt.length, 80, BLOG_LIMITS.excerpt)}>
-                        {excerpt.length}
-                      </span>
+                      Excerpt <span className={counterClass(excerpt.length, 80, 320)}>{excerpt.length}</span>
                     </label>
                     <textarea
                       id="excerpt"
                       name="excerpt"
-                      className={errors.excerpt ? 'is-invalid' : undefined}
-                      aria-invalid={errors.excerpt ? true : undefined}
+                      className={invalid('excerpt')}
                       rows={3}
                       maxLength={BLOG_LIMITS.excerpt}
                       value={excerpt}
-                      placeholder={autoExcerpt || 'One or two sentences shown on the Insights card.'}
+                      placeholder={autoExcerpt || 'One or two sentences used on listing cards and as the default meta description.'}
                       onChange={(e) => setExcerpt(e.target.value)}
                     />
                     {fieldError('excerpt')}
-                    <div className="hint">
-                      Shown beneath the headline on the Insights listing, and used as the meta
-                      description when that field is left blank.
-                    </div>
+                  </div>
+
+                  <div className="fld full">
+                    <label htmlFor="tags">
+                      Tags <span style={{ fontWeight: 400, color: 'var(--muted)' }}>(optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="tags"
+                      name="tags"
+                      className={invalid('tags')}
+                      defaultValue={v.tags}
+                      maxLength={BLOG_LIMITS.tags}
+                      placeholder="vat, penalties, startups"
+                    />
+                    {fieldError('tags')}
+                    <div className="hint">Comma-separated. Shown as the article&rsquo;s topics; the category is used when empty.</div>
                   </div>
                 </div>
               </div>
@@ -301,118 +292,48 @@ export default function BlogEditor({
 
             <section className="panel" style={{ marginTop: 20 }}>
               <div className="panel-head">
-                <h3>Article</h3>
+                <h3>Text Editor for Blog Details Page</h3>
               </div>
               <div className="panel-body">
-                <RichTextEditor
-                  name="body"
-                  initialHtml={initial.body}
-                  invalid={Boolean(errors.body)}
-                  onChange={setBody}
-                />
-                {fieldError('body')}
+                <RichTextEditor name="body_html" initialHtml={initial.body_html} invalid={Boolean(errors.body_html)} onChange={setBody} />
+                {fieldError('body_html')}
+                <div className="hint">Estimated {blogReadMinutes(body)} min read, stored with the post.</div>
               </div>
             </section>
 
             <section className="panel" style={{ marginTop: 20 }}>
               <div className="panel-head">
-                <h3>Search Engine Metadata</h3>
+                <h3>Schema &amp; Structured Data</h3>
               </div>
               <div className="panel-body">
+                <p className="panel-lede">
+                  Every article publishes its own <code>{v.schema_type || 'BlogPosting'}</code> and{' '}
+                  <code>BreadcrumbList</code> JSON-LD automatically, unless a block below already declares that type.
+                </p>
                 <div className="form-grid">
-                  <div className="fld full">
-                    <label htmlFor="meta_title">
-                      Meta Title{' '}
-                      <span className={counterClass(shownTitle.length, 50, 60)}>
-                        {shownTitle.length}
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      id="meta_title"
-                      name="meta_title"
-                      className={errors.meta_title ? 'is-invalid' : undefined}
-                      aria-invalid={errors.meta_title ? true : undefined}
-                      value={metaTitle}
-                      maxLength={BLOG_LIMITS.meta_title}
-                      placeholder={autoTitle}
-                      onChange={(e) => setMetaTitle(e.target.value)}
-                    />
-                    {fieldError('meta_title')}
-                    <div className="hint">
-                      Recommended 50–60 characters. Leave blank to use &ldquo;{autoTitle}&rdquo;.
-                    </div>
-                  </div>
-
-                  <div className="fld full">
-                    <label htmlFor="meta_description">
-                      Meta Description{' '}
-                      <span className={counterClass(effectiveDesc.length, 150, 160)}>
-                        {effectiveDesc.length}
-                      </span>
-                    </label>
-                    <textarea
-                      id="meta_description"
-                      name="meta_description"
-                      className={errors.meta_description ? 'is-invalid' : undefined}
-                      aria-invalid={errors.meta_description ? true : undefined}
-                      rows={3}
-                      maxLength={BLOG_LIMITS.meta_description}
-                      value={metaDesc}
-                      placeholder={excerpt.trim() || autoExcerpt || 'A short summary for search results.'}
-                      onChange={(e) => setMetaDesc(e.target.value)}
-                    />
-                    {fieldError('meta_description')}
-                    <div className="hint">
-                      Recommended 150–160 characters. Leave blank to use the excerpt.
-                    </div>
-                  </div>
-
-                  <div className="fld full">
-                    <label htmlFor="meta_keywords">
-                      Meta Keywords{' '}
-                      <span style={{ fontWeight: 400, color: 'var(--muted)' }}>(optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="meta_keywords"
-                      name="meta_keywords"
-                      className={errors.meta_keywords ? 'is-invalid' : undefined}
-                      aria-invalid={errors.meta_keywords ? true : undefined}
-                      defaultValue={v.meta_keywords}
-                      maxLength={BLOG_LIMITS.meta_keywords}
-                      placeholder="real estate advisory, capital markets, dubai"
-                    />
-                    {fieldError('meta_keywords')}
-                    <div className="hint">
-                      Comma-separated. Most search engines ignore this tag, so it is safe to leave
-                      empty.
-                    </div>
-                  </div>
-
-                  <div className="fld full">
-                    <label htmlFor="og_image">
-                      Social Share Image{' '}
-                      <span style={{ fontWeight: 400, color: 'var(--muted)' }}>(optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="og_image"
-                      name="og_image"
-                      className={errors.og_image ? 'is-invalid' : undefined}
-                      aria-invalid={errors.og_image ? true : undefined}
-                      defaultValue={v.og_image}
-                      maxLength={BLOG_LIMITS.og_image}
-                      placeholder="Defaults to the cover image"
-                    />
-                    {fieldError('og_image')}
-                    <div className="hint">
-                      What LinkedIn and X show when the article is shared.
-                    </div>
+                  <div className="fld">
+                    <label htmlFor="schema_type">Article type</label>
+                    <select key={round} id="schema_type" name="schema_type" defaultValue={v.schema_type || 'BlogPosting'}>
+                      {BLOG_SCHEMA_TYPES.map(([value, label]) => (
+                        <option value={value} key={value}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
-              </div>
 
+                <h4 className="panel-subhead">FAQ (rich result)</h4>
+                <p className="panel-lede">
+                  Question and answer pairs render as a visible FAQ at the end of the article and publish a{' '}
+                  <code>FAQPage</code> schema. Rows with an empty question or answer are ignored.
+                </p>
+                <FaqRepeater initial={v.faq_json} resetToken={state} />
+
+                <h4 className="panel-subhead">Custom schema (JSON-LD)</h4>
+                <p className="panel-lede">Optional extra blocks. Each must be valid JSON; empty blocks are ignored.</p>
+                <SchemaRepeater initial={v.schema_jsonld} resetToken={state} invalid={errors.schema} />
+              </div>
               <div className="form-actions">
                 <SaveButton isNew={isNew} />
                 <a href={adminUrl('blogs')} className="btn">
@@ -422,13 +343,7 @@ export default function BlogEditor({
                   <>
                     <span className="spacer" />
                     {publicPaths.map((m) => (
-                      <a
-                        key={m.region}
-                        href={m.path}
-                        target="_blank"
-                        rel="noopener"
-                        className="btn sm"
-                      >
+                      <a key={m.region} href={m.path} target="_blank" rel="noopener" className="btn sm">
                         View in {m.label}
                         <Icon name="arrowUpRight" size={14} />
                       </a>
@@ -439,183 +354,336 @@ export default function BlogEditor({
             </section>
           </div>
 
-          {/* Right column: publishing, the cover, the preview */}
+          {/* ---- Right: publishing and SEO ---- */}
           <div>
             <section className="panel">
               <div className="panel-head">
                 <h3>Publish</h3>
+                <span className={`pill ${status === 'published' ? 'ok' : 'off'}`}>
+                  <span className="pill-dot" />
+                  {status === 'published' ? 'Published' : 'Draft'}
+                </span>
               </div>
               <div className="panel-body">
                 <div className="form-grid">
-                  <div className="fld full">
+                  <div className="fld">
                     <label htmlFor="status">Status</label>
+                    {/* Uncontrolled, like every select here: after a rejected save React
+                        resets the form, which puts a controlled select back on the option it
+                        first rendered while its state still says otherwise. The state only
+                        drives the pill and the hint. */}
                     <select
+                      key={round}
                       id="status"
                       name="status"
-                      value={status}
+                      defaultValue={v.status}
                       onChange={(e) => setStatus(e.target.value as BlogPostInput['status'])}
                     >
                       <option value="published">Published</option>
-                      <option value="draft">Draft (not on the website)</option>
+                      <option value="draft">Draft</option>
                     </select>
+                  </div>
+                  <div className="fld">
+                    <label htmlFor="publish_date">Publish date</label>
+                    <input
+                      type="date"
+                      id="publish_date"
+                      name="publish_date"
+                      className={invalid('published_at')}
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                    />
+                  </div>
+                  <div className="fld full">
+                    {fieldError('published_at')}
                     <div className="hint">
                       {status === 'published'
-                        ? 'Live on /blogs/ and listed in sitemap.xml.'
-                        : 'Kept out of the listing, the sitemap and the article route.'}
+                        ? date
+                          ? `Live from ${blogDateLong(date)}. A future date keeps it off the site until then.`
+                          : 'A published post needs a date.'
+                        : 'Drafts are kept off the listing, the sitemap and the article route.'}
                     </div>
                   </div>
 
                   <div className="fld full">
-                    <label style={{ justifyContent: 'flex-start', gap: 10, cursor: 'pointer' }}>
-                      <input
-                        type="checkbox"
-                        name="featured"
-                        value="1"
-                        defaultChecked={Number(v.featured) === 1}
-                        style={{ width: 'auto', accentColor: 'var(--brand)' }}
-                      />
+                    <label className="check">
+                      <input type="checkbox" name="featured" value="1" defaultChecked={Number(v.featured) === 1} />
                       Featured post
                     </label>
-                    <div className="hint">Pins the post to the top of the Insights listing.</div>
+                    <div className="hint">Pins this article to the top of the Insights listing.</div>
                   </div>
-
                   <div className="fld full">
-                    <label style={{ justifyContent: 'flex-start', gap: 10, cursor: 'pointer' }}>
-                      <input
-                        type="checkbox"
-                        name="in_sitemap"
-                        value="1"
-                        defaultChecked={Number(v.in_sitemap) === 1}
-                        style={{ width: 'auto', accentColor: 'var(--brand)' }}
-                      />
-                      Include in sitemap.xml
+                    <label className="check">
+                      <input type="checkbox" name="in_sitemap" value="1" defaultChecked={Number(v.in_sitemap) === 1} />
+                      Include in sitemap
                     </label>
+                    <div className="hint">
+                      Lists this URL in <code>sitemap.xml</code> for search engines.
+                    </div>
                   </div>
 
                   <div className="fld full">
-                    <label htmlFor="author">Author</label>
-                    <input
-                      type="text"
-                      id="author"
-                      name="author"
-                      defaultValue={v.author}
-                      maxLength={BLOG_LIMITS.author}
-                      placeholder={BLOG_DEFAULT_AUTHOR}
-                    />
+                    <label htmlFor="author_id">Author</label>
+                    <select
+                      id="author_id"
+                      name="author_id"
+                      key={round}
+                      className={invalid('author_id')}
+                      defaultValue={v.author_id ? String(v.author_id) : ''}
+                      onChange={(e) => setAuthorId(e.target.value)}
+                    >
+                      <option value="">{v.author ? `${v.author} (no profile)` : 'Valunxt (no profile)'}</option>
+                      {authors.map((a) => (
+                        <option value={a.id} key={a.id}>
+                          {a.name}
+                        </option>
+                      ))}
+                    </select>
+                    {fieldError('author_id')}
+                    <div className="hint">
+                      <a className="link" href={adminUrl('authors')} target="_blank" rel="noopener">
+                        Manage author profiles →
+                      </a>{' '}
+                      add a photo, role and bio.
+                    </div>
                   </div>
                   <div className="fld full">
-                    <label htmlFor="author_role">Author Role</label>
+                    <label htmlFor="author_role">
+                      Byline role <span style={{ fontWeight: 400, color: 'var(--muted)' }}>(optional)</span>
+                    </label>
                     <input
                       type="text"
                       id="author_role"
                       name="author_role"
+                      className={invalid('author_role')}
                       defaultValue={v.author_role}
                       maxLength={BLOG_LIMITS.author_role}
-                      placeholder={BLOG_DEFAULT_AUTHOR_ROLE}
+                      placeholder={selectedAuthor?.title || BLOG_DEFAULT_AUTHOR_ROLE}
                     />
-                    <div className="hint">The byline in the article sidebar.</div>
+                    {fieldError('author_role')}
                   </div>
-                </div>
-              </div>
-            </section>
 
-            <section className="panel" style={{ marginTop: 20 }}>
-              <div className="panel-head">
-                <h3>Cover Image</h3>
-              </div>
-              <div className="panel-body">
-                {cover ? (
-                  <div className="cover-preview">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={cover} alt="" />
-                  </div>
-                ) : (
-                  <div className="cover-preview is-empty">
-                    <Icon name="image" size={26} />
-                    <span>No cover image yet</span>
-                  </div>
-                )}
-
-                <div className="form-grid" style={{ marginTop: 14 }}>
                   <div className="fld full">
-                    <label htmlFor="cover_file">Upload a new image</label>
+                    <label htmlFor="cover_file">Cover image</label>
+                    {cover && cover === brokenCover ? (
+                      <div className="cover-preview is-empty">
+                        <Icon name="image" size={26} />
+                        <span>
+                          This image is not on the website yet. The site shows the default cover until it is
+                          uploaded.
+                        </span>
+                      </div>
+                    ) : cover ? (
+                      <div className="cover-preview">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={cover} alt="" onError={() => setBrokenCover(cover)} />
+                      </div>
+                    ) : (
+                      <div className="cover-preview is-empty">
+                        <Icon name="image" size={26} />
+                        <span>No cover image yet</span>
+                      </div>
+                    )}
                     <input
                       type="file"
                       id="cover_file"
                       name="cover_file"
+                      style={{ marginTop: 10 }}
                       accept="image/webp,image/jpeg,image/png,image/avif,image/gif"
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         setUploadName(file ? file.name : '');
                         if (!file) return;
-                        // Release the last preview before replacing it.
                         setCover((prev) => {
                           if (prev.startsWith('blob:')) URL.revokeObjectURL(prev);
                           return URL.createObjectURL(file);
                         });
                       }}
                     />
-                    <div className="hint">
-                      {uploadName
-                        ? `“${uploadName}” will replace the cover when you save.`
-                        : 'WebP, JPEG, PNG, AVIF or GIF, up to 5 MB. Saved into /assets/content/uploads/blogs/.'}
-                    </div>
-                  </div>
-
-                  <div className="fld full">
-                    <label htmlFor="cover_image">…or an existing path</label>
                     <input
                       type="text"
-                      id="cover_image"
-                      name="cover_image"
-                      className={errors.cover_image ? 'is-invalid' : undefined}
-                      aria-invalid={errors.cover_image ? true : undefined}
-                      value={cover.startsWith('blob:') ? v.cover_image : cover}
-                      maxLength={BLOG_LIMITS.cover_image}
-                      placeholder="/assets/content/uploads/blogs/blog-1.webp"
+                      id="cover"
+                      name="cover"
+                      aria-label="Cover image path"
+                      style={{ marginTop: 10 }}
+                      className={invalid('cover')}
+                      value={cover.startsWith('blob:') ? v.cover : cover}
+                      maxLength={BLOG_LIMITS.cover}
+                      placeholder="…or an existing path, e.g. /images/blogs/cms/cover.webp"
                       onChange={(e) => setCover(e.target.value)}
                     />
-                    {fieldError('cover_image')}
+                    {fieldError('cover')}
+                    <div className="hint">
+                      {uploadName ? `“${uploadName}” will replace the cover when you save.` : 'WebP, JPEG, PNG, AVIF or GIF, up to 5 MB.'}
+                    </div>
                   </div>
-
                   <div className="fld full">
-                    <label htmlFor="cover_alt">Alt Text</label>
+                    <label htmlFor="cover_alt">Cover image alt text</label>
                     <input
                       type="text"
                       id="cover_alt"
                       name="cover_alt"
                       defaultValue={v.cover_alt}
                       maxLength={BLOG_LIMITS.cover_alt}
-                      placeholder="Describe what the image shows"
+                      placeholder="Describe what the image shows — defaults to the title"
                     />
-                    <div className="hint">Read out to screen readers in place of the picture.</div>
+                    <div className="hint">Used for the social share image and image SEO, and read out to screen readers.</div>
                   </div>
                 </div>
+              </div>
+              <div className="form-actions">
+                <SaveButton isNew={isNew} />
               </div>
             </section>
 
-            <section className="panel serp-panel" style={{ marginTop: 20 }}>
+            <section className="panel" style={{ marginTop: 20 }}>
               <div className="panel-head">
-                <h3>Google Search Preview</h3>
+                <h3>SEO</h3>
               </div>
               <div className="panel-body">
-                <div className="serp">
-                  <div className="serp-site">
-                    <span className="serp-fav">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={ADMIN_MARK} alt="" width={18} height={18} />
-                    </span>
-                    <span>
-                      <span className="serp-name">Valunxt</span>
-                      <br />
-                      <span className="serp-url">{canonical}</span>
-                    </span>
+                <div className="form-grid">
+                  <div className="fld full">
+                    <label htmlFor="meta_title">
+                      Meta title <span className={counterClass(shownTitle.length, 30, 60)}>{shownTitle.length} / 60</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="meta_title"
+                      name="meta_title"
+                      className={invalid('meta_title')}
+                      value={metaTitle}
+                      maxLength={BLOG_LIMITS.meta_title}
+                      placeholder={`Defaults to “${autoTitle}”`}
+                      onChange={(e) => setMetaTitle(e.target.value)}
+                    />
+                    {fieldError('meta_title')}
                   </div>
-                  <div className="serp-title">{shownTitle}</div>
-                  <div className="serp-desc">{shownDesc}</div>
-                </div>
-                <div className="hint" style={{ marginTop: 12 }}>
-                  Google may rewrite the title or snippet, but this is what you are asking it to show.
+                  <div className="fld full">
+                    <label htmlFor="meta_desc">
+                      Meta description{' '}
+                      <span className={counterClass(effectiveDesc.length, 120, 158)}>{effectiveDesc.length} / 158</span>
+                    </label>
+                    <textarea
+                      id="meta_desc"
+                      name="meta_desc"
+                      className={invalid('meta_desc')}
+                      rows={3}
+                      maxLength={BLOG_LIMITS.meta_desc}
+                      value={metaDesc}
+                      placeholder="Defaults to the excerpt"
+                      onChange={(e) => setMetaDesc(e.target.value)}
+                    />
+                    {fieldError('meta_desc')}
+                  </div>
+                  <div className="fld full">
+                    <label htmlFor="focus_kw">Focus keyword</label>
+                    <input
+                      type="text"
+                      id="focus_kw"
+                      name="focus_kw"
+                      className={invalid('focus_kw')}
+                      defaultValue={v.focus_kw}
+                      maxLength={BLOG_LIMITS.focus_kw}
+                      placeholder="uae vat refund"
+                    />
+                    {fieldError('focus_kw')}
+                  </div>
+                  <div className="fld full">
+                    <label htmlFor="keywords">Keywords</label>
+                    <input
+                      type="text"
+                      id="keywords"
+                      name="keywords"
+                      className={invalid('keywords')}
+                      defaultValue={v.keywords}
+                      maxLength={BLOG_LIMITS.keywords}
+                      placeholder="uae vat refund, fta vat claim"
+                    />
+                    {fieldError('keywords')}
+                  </div>
+                  <div className="fld full">
+                    <label htmlFor="og_image">Social share image (OG)</label>
+                    <input
+                      type="text"
+                      id="og_image"
+                      name="og_image"
+                      className={invalid('og_image')}
+                      defaultValue={v.og_image}
+                      maxLength={BLOG_LIMITS.og_image}
+                      placeholder="Defaults to the cover image"
+                    />
+                    {fieldError('og_image')}
+                  </div>
+                  <div className="fld full">
+                    <label htmlFor="og_title">Social title</label>
+                    <input type="text" id="og_title" name="og_title" defaultValue={v.og_title} maxLength={BLOG_LIMITS.og_title} placeholder="Defaults to the meta title" />
+                    {fieldError('og_title')}
+                  </div>
+                  <div className="fld full">
+                    <label htmlFor="og_desc">Social description</label>
+                    <textarea id="og_desc" name="og_desc" rows={2} defaultValue={v.og_desc} maxLength={BLOG_LIMITS.og_desc} placeholder="Defaults to the meta description" />
+                    {fieldError('og_desc')}
+                  </div>
+
+                  <details className="fld full field-group">
+                    <summary>X (Twitter) card, canonical and robots</summary>
+                    <div className="form-grid" style={{ marginTop: 12 }}>
+                      <div className="fld">
+                        <label htmlFor="tw_card">Card</label>
+                        <select key={round} id="tw_card" name="tw_card" defaultValue={v.tw_card || 'summary_large_image'}>
+                          <option value="summary_large_image">Large image</option>
+                          <option value="summary">Summary</option>
+                        </select>
+                      </div>
+                      <div className="fld">
+                        <label htmlFor="robots">Robots</label>
+                        <select key={round} id="robots" name="robots" defaultValue={v.robots || 'index, follow'}>
+                          {BLOG_ROBOTS.map((r) => (
+                            <option value={r} key={r}>
+                              {r}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="fld full">
+                        <label htmlFor="tw_title">X title</label>
+                        <input type="text" id="tw_title" name="tw_title" defaultValue={v.tw_title} maxLength={BLOG_LIMITS.tw_title} placeholder="Defaults to the social title" />
+                      </div>
+                      <div className="fld full">
+                        <label htmlFor="tw_desc">X description</label>
+                        <textarea id="tw_desc" name="tw_desc" rows={2} defaultValue={v.tw_desc} maxLength={BLOG_LIMITS.tw_desc} placeholder="Defaults to the social description" />
+                      </div>
+                      <div className="fld full">
+                        <label htmlFor="tw_image">X image</label>
+                        <input type="text" id="tw_image" name="tw_image" className={invalid('tw_image')} defaultValue={v.tw_image} maxLength={BLOG_LIMITS.tw_image} placeholder="Defaults to the social share image" />
+                        {fieldError('tw_image')}
+                      </div>
+                      <div className="fld full">
+                        <label htmlFor="canonical">Canonical URL</label>
+                        <input type="text" id="canonical" name="canonical" className={invalid('canonical')} defaultValue={v.canonical} maxLength={BLOG_LIMITS.canonical} placeholder={canonical} />
+                        {fieldError('canonical')}
+                      </div>
+                    </div>
+                  </details>
+
+                  <div className="fld full">
+                    <label>Google preview</label>
+                    <div className="serp">
+                      <div className="serp-site">
+                        <span className="serp-fav">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={ADMIN_MARK} alt="" width={18} height={18} />
+                        </span>
+                        <span>
+                          <span className="serp-name">Valunxt</span>
+                          <br />
+                          <span className="serp-url">{canonical}</span>
+                        </span>
+                      </div>
+                      <div className="serp-title">{shownTitle}</div>
+                      <div className="serp-desc">{effectiveDesc || 'Meta description preview…'}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
@@ -632,8 +700,7 @@ export default function BlogEditor({
           <div className="panel-body">
             <div className="form-actions" style={{ padding: 0, border: 0 }}>
               <span className="form-note">
-                Deleting removes the post from the database and from the website. This cannot be
-                undone.
+                Deleting removes the post from the database and from the website. This cannot be undone.
               </span>
               <span className="spacer" />
               <form action={blogOpAction}>
@@ -641,11 +708,7 @@ export default function BlogEditor({
                 <input type="hidden" name="csrf" value={csrf} />
                 <input type="hidden" name="id" value={id} />
                 <input type="hidden" name="back" value={adminUrl('blogs')} />
-                <ConfirmSubmit
-                  label={`Delete ${title}`}
-                  confirmLabel="Delete this post?"
-                  className="btn ghost-danger"
-                >
+                <ConfirmSubmit label={`Delete ${title}`} confirmLabel="Delete this post?" className="btn ghost-danger">
                   <Icon name="trash" size={15} />
                   Delete post
                 </ConfirmSubmit>

@@ -71,7 +71,7 @@ export default function DisclaimerBody({ page, region }: { page: PageConfig; reg
       				<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-8d72be2 elementor-widget elementor-widget-text-editor" data-id="8d72be2" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
       				<div className="elementor-widget-container">
       									<p><strong>Last updated:</strong> 11 July 2026</p>
-      									<p>The information provided by Valunxt Advisory Services Private Limited (&#8220;Valunxt&#8221;) on valunxtcapital.com is for general informational purposes only. Please read this disclaimer carefully.</p>								</div>
+      									<p>The information provided by Valunxt Advisory Services Private Limited (&#8220;Valunxt&#8221;) on valunxt.com is for general informational purposes only. Please read this disclaimer carefully.</p>								</div>
       				</div>
       				<div className="elementor-element elementor-element-da2627d elementor-widget elementor-widget-heading" data-id="da2627d" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">

@@ -1,23 +1,24 @@
 /**
  * Date and number formatting shared by the admin screens.
  *
- * Two kinds of timestamp reach the panel, and they are not in the same zone:
- *
- *   - Row timestamps (enquiries.created_at, pages.updated_at, users.last_login_at)
- *     are MySQL DATETIMEs written by CURRENT_TIMESTAMP / NOW(), i.e. in the
- *     database server's local time. They arrive as "YYYY-MM-DD HH:MM:SS" and are
- *     read as local time.
- *   - seo_settings.sitemap_generated_at is written by lib/admin/seo-lib.ts from
- *     `new Date().toISOString()`, i.e. in UTC, in the same shape. Read as local
- *     time it showed the sitemap as generated hours earlier or later than it was
- *     (5h30 on an IST machine). utcStamp() reads it as what it is.
+ * Every timestamp in the database is UTC. The imported www.valunxt.com data was
+ * written by a server in UTC, and since the import every connection the site
+ * opens pins its session to UTC (lib/db.ts), so NOW() and CURRENT_TIMESTAMP
+ * write UTC too. Rows arrive as "YYYY-MM-DD HH:MM:SS" with no zone on them;
+ * dbStamp() reads them as what they are, and the browser shows local time.
  */
 
-/** A MySQL DATETIME string in the database's local time. */
+/** A DATETIME read from the database: UTC. */
+export function dbStamp(value: string | null | undefined): Date | null {
+  return utcStamp(value);
+}
+
+/**
+ * Kept for the call sites written before the import, when row timestamps were
+ * in the database server's own zone. They are UTC now; this is dbStamp().
+ */
 export function localStamp(value: string | null | undefined): Date | null {
-  if (!value) return null;
-  const d = new Date(String(value).replace(' ', 'T'));
-  return Number.isNaN(d.getTime()) ? null : d;
+  return utcStamp(value);
 }
 
 /** A "YYYY-MM-DD HH:MM:SS" string written in UTC. */

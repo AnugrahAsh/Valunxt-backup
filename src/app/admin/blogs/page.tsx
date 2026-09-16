@@ -1,7 +1,7 @@
 /**
  * Admin — Blog & Insights.
  *
- * Lists every post in `blog_posts` with its status, category and address, and
+ * Lists every post in `vx_posts` with its status, category and address, and
  * handles the list-level operations: publish / unpublish, feature, duplicate
  * and delete. Editing a post happens in blogs/edit.
  *
@@ -254,7 +254,7 @@ export default async function AdminBlogsPage({
                           <td className="slug-cell">
                             <span className="addr">/blogs/{post.slug}/</span>
                           </td>
-                          <td className="nowrap">{post.category || <span className="counter-of">—</span>}</td>
+                          <td className="nowrap">{post.cat || <span className="counter-of">—</span>}</td>
                           <td className="nowrap">
                             {post.published_at ? (
                               <time dateTime={post.published_at}>{blogDateLong(post.published_at)}</time>

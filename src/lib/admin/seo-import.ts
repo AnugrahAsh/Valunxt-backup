@@ -1,5 +1,5 @@
 /**
- * Keeps the `pages` table in step with the website.
+ * Keeps the page registry (`vx_page_seo`) in step with the website.
  *
  * Two things can move under the panel without passing through it, and both
  * used to leave it wrong:
@@ -7,9 +7,11 @@
  * 1. THE PAGES THE SITE PUBLISHES (lib/site-pages.ts). A page added in code
  *    never reached the table unless someone pressed "Rescan website", and a page
  *    taken out of the code stayed listed — and in the sitemap — for good. So the
- *    published set is fingerprinted (seo_settings.site_pages_hash); when it
+ *    published set is fingerprinted (vx_settings.site_pages_hash); when it
  *    moves, rows are added for new pages and built-in rows whose page is gone are
- *    removed. Pages created in the panel (is_cms = 1) are never removed here.
+ *    removed. Two kinds of row are never removed here: pages created in the panel
+ *    (is_cms = 1), and rows this sync did not create — the page SEO imported from
+ *    the previous www.valunxt.com site, which an administrator retires by hand.
  *
  * 2. src/data/seo-map.json. The panel treats the table as the source and the
  *    map as its output: every save rewrites the file from the table. That only
@@ -17,12 +19,12 @@
  *    revised directly in the repository ("Valunxt" for "VALUNXT Capital", "the
  *    UAE" for "Dubai") while the table kept the PHP-era values. The first save
  *    then put the old copy back on every public page (20260915). So the panel
- *    records the hash of every map it writes (seo_settings.seo_map_hash); when
+ *    records the hash of every map it writes (vx_settings.seo_map_hash); when
  *    the file on disk does not match — edited, pulled, deployed — its values are
  *    imported into the table before anything reads from it.
  *
  * Either change leaves sitemap.xml and the map behind the table, so both set
- * seo_settings.sitemap_stale, which the Pages and Sitemap screens surface with a
+ * vx_settings.sitemap_stale, which the Pages and Sitemap screens surface with a
  * prompt to regenerate. Regenerating here would write repository files from
  * inside a page render.
  *
@@ -49,7 +51,8 @@ export const SITEMAP_STALE_KEY = 'sitemap_stale';
 
 const ROBOTS = ['index, follow', 'noindex, follow', 'index, nofollow', 'noindex, nofollow'];
 
-interface MapRow {
+/** One page's entry in src/data/seo-map.json. */
+export interface MapRow {
   title?: string;
   description?: string;
   canonical?: string;
@@ -57,6 +60,16 @@ interface MapRow {
   keywords?: string;
   og_title?: string;
   og_description?: string;
+  /* Added with the imported schema (20260916). Optional, so a map written before
+     them imports without blanking what the table holds. */
+  og_image?: string;
+  twitter_title?: string;
+  twitter_description?: string;
+  twitter_image?: string;
+  /** JSON-LD blocks, each a JSON document as a string. */
+  schema?: string[];
+  /** FAQ pairs published as FAQPage structured data. */
+  faq?: Array<{ q: string; a: string }>;
 }
 
 /** Absolute path of the front-end SEO map. */
@@ -80,35 +93,50 @@ export function sitePageSource(p: SitePage): string {
 }
 
 /**
+ * Whether this sync owns a row, and so may remove it once its page is gone: a
+ * built-in page's row names what declares the page in file_path (src/…, or the
+ * PHP template for rows kept from the PHP build). Rows imported from the
+ * previous www.valunxt.com site carry none, and are retired by hand.
+ */
+function syncManaged(row: { file_path?: unknown; is_cms?: unknown }): boolean {
+  return Number(row.is_cms) !== 1 && String(row.file_path ?? '') !== '';
+}
+
+/**
  * The meta title a new row stores. Empty when the page's own title is exactly
  * what an empty field falls back to ("<name> | Valunxt"), so the row keeps
  * following the page; the page's title otherwise (the market homes).
  */
-function storedTitle(p: SitePage): string {
-  return p.title === `${p.name} | Valunxt` ? '' : p.title;
+function storedTitle(p: SitePage): string | null {
+  return p.title === `${p.name} | Valunxt` ? null : p.title;
 }
 
 function str(v: unknown): string {
   return String(v ?? '').trim();
 }
 
+/** '' as NULL: the imported schema's optional columns hold NULL for "not set". */
+function nul(v: string): string | null {
+  return v === '' ? null : v;
+}
+
 async function setSetting(pool: mysql.Pool, key: string, value: string): Promise<void> {
-  await pool.query('INSERT INTO seo_settings (k, v) VALUES (?, ?) ON DUPLICATE KEY UPDATE v = VALUES(v)', [
+  await pool.query('INSERT INTO vx_settings (k, v) VALUES (?, ?) ON DUPLICATE KEY UPDATE v = VALUES(v)', [
     key,
     value,
   ]);
 }
 
 async function getSetting(pool: mysql.Pool, key: string): Promise<string> {
-  const [rows] = await pool.query<mysql.RowDataPacket[]>('SELECT v FROM seo_settings WHERE k = ?', [key]);
+  const [rows] = await pool.query<mysql.RowDataPacket[]>('SELECT v FROM vx_settings WHERE k = ?', [key]);
   return String(rows[0]?.v ?? '');
 }
 
 /* ---- 1. The published set ------------------------------------------------ */
 
 /**
- * Add a row for every published page the table lacks, and remove built-in rows
- * whose page the site no longer publishes. Runs when the published set's
+ * Add a row for every published page the table lacks, and remove sync-managed
+ * rows whose page the site no longer publishes. Runs when the published set's
  * fingerprint has moved, or always with `force` (the "Rescan website" button).
  */
 export async function syncSitePages(
@@ -122,26 +150,25 @@ export async function syncSitePages(
   const hash = sitePagesFingerprint();
   if (!force && (await getSetting(pool, SITE_PAGES_HASH_KEY)) === hash) return null;
 
-  const [rows] = await pool.query<mysql.RowDataPacket[]>('SELECT id, slug, is_cms FROM pages');
-  const known = new Set(rows.map((r) => String(r.slug)));
+  const [rows] = await pool.query<mysql.RowDataPacket[]>('SELECT id, rel_path, is_cms, file_path FROM vx_page_seo');
+  const known = new Set(rows.map((r) => String(r.rel_path)));
 
   let added = 0;
   for (const p of pages) {
     if (known.has(p.slug)) continue;
     await pool.query(
-      `INSERT INTO pages
-          (title, slug, file_path, meta_title, meta_description, canonical_url, meta_keywords,
-           robots_meta, og_title, og_description, priority, changefreq, status, in_sitemap, is_cms)
-       VALUES (?, ?, ?, ?, '', '', '', ?, '', '', ?, ?, 'published', 1, 0)`,
-      [p.name, p.slug, sitePageSource(p), storedTitle(p), p.robots, p.priority, p.changefreq],
+      `INSERT INTO vx_page_seo
+          (rel_path, title, file_path, meta_title, robots, priority, changefreq, status, in_sitemap, is_cms, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, 'published', 1, 0, NOW())`,
+      [p.slug, p.name, sitePageSource(p), storedTitle(p), p.robots, p.priority, p.changefreq],
     );
     added++;
   }
 
   let removed = 0;
   for (const r of rows) {
-    if (Number(r.is_cms) === 1 || sitePageBySlug(String(r.slug))) continue;
-    await pool.query('DELETE FROM pages WHERE id = ?', [r.id]);
+    if (!syncManaged(r as { file_path?: unknown; is_cms?: unknown }) || sitePageBySlug(String(r.rel_path))) continue;
+    await pool.query('DELETE FROM vx_page_seo WHERE id = ?', [r.id]);
     removed++;
   }
 
@@ -152,7 +179,25 @@ export async function syncSitePages(
 
 /* ---- 2. The SEO map ------------------------------------------------------ */
 
-/** Import src/data/seo-map.json into `pages` unless the panel wrote this exact file. */
+/** The optional map fields, as [map key, column, value from the row]. */
+function extendedFields(row: MapRow): Array<[string, unknown]> {
+  const out: Array<[string, unknown]> = [];
+  if ('og_image' in row) out.push(['og_image', nul(str(row.og_image))]);
+  if ('twitter_title' in row) out.push(['tw_title', nul(str(row.twitter_title))]);
+  if ('twitter_description' in row) out.push(['tw_desc', nul(str(row.twitter_description))]);
+  if ('twitter_image' in row) out.push(['tw_image', nul(str(row.twitter_image))]);
+  if ('schema' in row) {
+    const blocks = Array.isArray(row.schema) ? row.schema.map(String).filter((b) => b.trim() !== '') : [];
+    out.push(['schema_jsonld', blocks.length ? JSON.stringify(blocks) : null]);
+  }
+  if ('faq' in row) {
+    const faq = Array.isArray(row.faq) ? row.faq.filter((f) => f && str(f.q) && str(f.a)) : [];
+    out.push(['faq_json', faq.length ? JSON.stringify(faq.map((f) => ({ q: str(f.q), a: str(f.a) }))) : null]);
+  }
+  return out;
+}
+
+/** Import src/data/seo-map.json into `vx_page_seo` unless the panel wrote this exact file. */
 export async function importSeoMap(pool: mysql.Pool): Promise<{ updated: number; added: number } | null> {
   let text: string;
   let map: Record<string, MapRow>;
@@ -175,34 +220,35 @@ export async function importSeoMap(pool: mysql.Pool): Promise<{ updated: number;
     const ogTitle = str(row.og_title);
     const ogDesc = str(row.og_description);
     const robots = str(row.robots);
-    const fields = {
-      meta_title: title,
-      meta_description: description,
-      canonical_url: str(row.canonical),
-      meta_keywords: str(row.keywords),
+    const fields: Array<[string, unknown]> = [
+      ['meta_title', nul(title)],
+      ['meta_desc', nul(description)],
+      ['canonical', nul(str(row.canonical))],
+      ['keywords', nul(str(row.keywords))],
       // The map spells out the Open Graph fallbacks; store them only when they differ,
       // so a later meta title or description edit still flows through to them.
-      og_title: ogTitle === title ? '' : ogTitle,
-      og_description: ogDesc === description ? '' : ogDesc,
-    };
+      ['og_title', ogTitle === title ? null : nul(ogTitle)],
+      ['og_desc', ogDesc === description ? null : nul(ogDesc)],
+      ...extendedFields(row),
+    ];
 
     const [found] = await pool.query<mysql.RowDataPacket[]>(
-      'SELECT id, status FROM pages WHERE slug = ? LIMIT 1',
+      'SELECT id, status FROM vx_page_seo WHERE rel_path = ? LIMIT 1',
       [slug],
     );
 
     if (found[0]) {
-      const sets = Object.keys(fields).map((k) => `${k} = ?`);
-      const args: unknown[] = Object.values(fields);
+      const sets = fields.map(([col]) => `${col} = ?`);
+      const args: unknown[] = fields.map(([, v]) => v);
       // A draft is written to the map as "noindex, nofollow" whatever its own
       // directive is, so only a published row's value is its robots setting.
       if (found[0].status === 'published' && ROBOTS.includes(robots)) {
-        sets.push('robots_meta = ?');
+        sets.push('robots = ?');
         args.push(robots);
       }
       args.push(found[0].id);
       const [res] = await pool.query<mysql.ResultSetHeader>(
-        `UPDATE pages SET ${sets.join(', ')} WHERE id = ?`,
+        `UPDATE vx_page_seo SET ${sets.join(', ')} WHERE id = ?`,
         args,
       );
       if (res.changedRows) updated++;
@@ -211,24 +257,30 @@ export async function importSeoMap(pool: mysql.Pool): Promise<{ updated: number;
 
     const site = sitePageBySlug(slug);
     if (!site) continue; // a key for a page the site no longer publishes
+    const cols = [
+      'rel_path',
+      'title',
+      'file_path',
+      'robots',
+      'priority',
+      'changefreq',
+      'status',
+      'in_sitemap',
+      'is_cms',
+      'created_at',
+      ...fields.map(([col]) => col),
+    ];
     await pool.query(
-      `INSERT INTO pages
-          (title, slug, file_path, meta_title, meta_description, canonical_url, meta_keywords,
-           robots_meta, og_title, og_description, priority, changefreq, status, in_sitemap, is_cms)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'published', 1, 0)`,
+      `INSERT INTO vx_page_seo (${cols.join(', ')})
+       VALUES (?, ?, ?, ?, ?, ?, 'published', 1, 0, NOW(), ${fields.map(() => '?').join(', ')})`,
       [
-        site.name,
         slug,
+        site.name,
         sitePageSource(site),
-        fields.meta_title,
-        fields.meta_description,
-        fields.canonical_url,
-        fields.meta_keywords,
         ROBOTS.includes(robots) ? robots : site.robots,
-        fields.og_title,
-        fields.og_description,
         site.priority,
         site.changefreq,
+        ...fields.map(([, v]) => v),
       ],
     );
     added++;

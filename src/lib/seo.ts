@@ -4,15 +4,24 @@
  * Reads the SEO metadata the admin panel manages and merges it over whatever
  * the page declared in its PageConfig. The values come from
  * src/data/seo-map.json, a plain JSON file the admin panel rewrites on every
- * save — so a page view never opens a database connection and the site keeps
- * rendering normally if the CMS or MySQL is unavailable.
+ * save from `vx_page_seo` — so a page view never opens a database connection
+ * and the site keeps rendering normally if MySQL is unavailable.
  *
- * Port of includes/seo.php.
+ * The file is read at request time (checked for changes at most every two
+ * seconds), not only bundled at build time, so an SEO edit made in the panel
+ * reaches the live site as soon as it is saved. The copy bundled into the
+ * build is the fallback when the file cannot be read.
+ *
+ * Port of includes/seo.php, extended (20260916) with the fields the imported
+ * www.valunxt.com panel managed: an Open Graph image, X (Twitter) title,
+ * description and image, JSON-LD blocks and FAQ structured data.
  */
 
+import fs from 'node:fs';
+import path from 'node:path';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
-import rawSeoMap from '@/data/seo-map.json';
+import bundledSeoMap from '@/data/seo-map.json';
 import { BASE, vxnRegionExists, vxnRegionList, vxnRegionData, rswap } from './region';
 import { pageConfig } from './pages';
 import type { PageConfig } from './page-config';
@@ -25,13 +34,36 @@ export interface SeoRow {
   keywords?: string;
   og_title?: string;
   og_description?: string;
+  og_image?: string;
+  twitter_title?: string;
+  twitter_description?: string;
+  twitter_image?: string;
+  /** JSON-LD documents, each as JSON text. */
+  schema?: string[];
+  faq?: Array<{ q: string; a: string }>;
 }
 
-const SEO_MAP = rawSeoMap as Record<string, SeoRow>;
+let mapCache: { map: Record<string, SeoRow>; mtime: number; checkedAt: number } = {
+  map: bundledSeoMap as Record<string, SeoRow>,
+  mtime: 0,
+  checkedAt: 0,
+};
 
-/** The generated SEO map. */
+/** The generated SEO map — the file on disk when it can be read, else the bundled copy. */
 export function vxnSeoMap(): Record<string, SeoRow> {
-  return SEO_MAP;
+  const now = Date.now();
+  if (now - mapCache.checkedAt < 2000) return mapCache.map;
+  mapCache.checkedAt = now;
+  try {
+    const file = path.join(process.cwd(), 'src', 'data', 'seo-map.json');
+    const mtime = fs.statSync(file).mtimeMs;
+    if (mtime !== mapCache.mtime) {
+      mapCache = { map: JSON.parse(fs.readFileSync(file, 'utf8')) as Record<string, SeoRow>, mtime, checkedAt: now };
+    }
+  } catch {
+    /* keep the map already held: the bundled one, or the last good read */
+  }
+  return mapCache.map;
 }
 
 /** Normalise "/about/careers/" to the "about/careers" key used in the map. */
@@ -55,14 +87,15 @@ export function vxnSeoKey(p: string): string {
  * is given an "en-ae" row.
  */
 export function vxnSeoResolveRow(p: string): SeoRow {
+  const map = vxnSeoMap();
   const key = vxnSeoKey(p);
-  if (Object.prototype.hasOwnProperty.call(SEO_MAP, key)) return SEO_MAP[key];
+  if (Object.prototype.hasOwnProperty.call(map, key)) return map[key];
 
   const first = key.split('/')[0];
   if (vxnRegionExists(first)) {
     const rest = key.slice(first.length + 1);
-    if (rest !== '') return SEO_MAP[rest] ?? {};
-    if (first === 'en-in') return SEO_MAP[''] ?? {};
+    if (rest !== '') return map[rest] ?? {};
+    if (first === 'en-in') return map[''] ?? {};
   }
   return {};
 }
@@ -116,6 +149,22 @@ export interface ResolvedSeo {
   keywords: string;
   og_title: string;
   og_description: string;
+  og_image: string;
+  twitter_title: string;
+  twitter_description: string;
+  twitter_image: string;
+}
+
+/** A market-prefixed path for a page reached through a country edition. */
+function marketPathFor(page: PageConfig, region: string): string {
+  let p = String(page.path ?? '/');
+  // A shared page still declares its unprefixed path ("/services/"), but when
+  // it was reached through a country edition the canonical URL — and the row
+  // the CMS may have for that market — is the prefixed one.
+  if (region !== '' && !p.startsWith('/' + region)) {
+    p = '/' + region + (p === '' ? '/' : p);
+  }
+  return p;
 }
 
 /**
@@ -125,15 +174,7 @@ export interface ResolvedSeo {
  * a sensible site-wide default.
  */
 export function vxnSeo(page: PageConfig, region: string, origin = vxnSeoOrigin()): ResolvedSeo {
-  let p = String(page.path ?? '/');
-
-  // A shared page still declares its unprefixed path ("/services/"), but when
-  // it was reached through a country edition the canonical URL — and the row
-  // the CMS may have for that market — is the prefixed one.
-  if (region !== '' && !p.startsWith('/' + region)) {
-    p = '/' + region + (p === '' ? '/' : p);
-  }
-
+  const p = marketPathFor(page, region);
   const seo = vxnSeoResolveRow(p);
   const fallbackCanonical = origin + BASE + (p !== '' ? p : '/');
 
@@ -155,6 +196,7 @@ export function vxnSeo(page: PageConfig, region: string, origin = vxnSeoOrigin()
 
   const ogTitle = (seo.og_title ?? '').trim() || title;
   const ogDesc = (seo.og_description ?? '').trim() || desc;
+  const ogImage = (seo.og_image ?? '').trim() || (page.og_image ? BASE + page.og_image : '');
 
   return {
     title,
@@ -164,7 +206,48 @@ export function vxnSeo(page: PageConfig, region: string, origin = vxnSeoOrigin()
     keywords: (seo.keywords ?? '').trim(),
     og_title: ogTitle,
     og_description: ogDesc,
+    og_image: ogImage,
+    twitter_title: (seo.twitter_title ?? '').trim() || ogTitle,
+    twitter_description: (seo.twitter_description ?? '').trim() || ogDesc,
+    twitter_image: (seo.twitter_image ?? '').trim() || ogImage,
   };
+}
+
+/** Structured data for a page: the admin-managed JSON-LD blocks and FAQ. */
+export function vxnSeoStructuredData(page: PageConfig, region: string): { schema: string[]; faq: SeoRow['faq'] } {
+  const row = vxnSeoResolveRow(marketPathFor(page, region));
+  return {
+    schema: Array.isArray(row.schema) ? row.schema.filter((b) => typeof b === 'string' && b.trim() !== '') : [],
+    faq: Array.isArray(row.faq) ? row.faq.filter((f) => f && f.q && f.a) : [],
+  };
+}
+
+/**
+ * What a caller can set over the page's resolved values — a blog post, whose
+ * SEO lives on its own row rather than in the page map.
+ */
+export interface SeoOverrides {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  robots?: string;
+  keywords?: string;
+  og_title?: string;
+  og_description?: string;
+  og_image?: string;
+  og_type?: 'website' | 'article';
+  twitter_card?: 'summary' | 'summary_large_image';
+  twitter_title?: string;
+  twitter_description?: string;
+  twitter_image?: string;
+  published_time?: string;
+  modified_time?: string;
+}
+
+/** An absolute URL for an image path, on the request's own origin. */
+function absolute(origin: string, src: string): string {
+  if (!src) return '';
+  return /^https?:\/\//i.test(src) ? src : origin + (src.startsWith('/') ? src : '/' + src);
 }
 
 /**
@@ -172,9 +255,30 @@ export function vxnSeo(page: PageConfig, region: string, origin = vxnSeoOrigin()
  * includes/head.php emitted: title, description, keywords, robots, canonical,
  * the per-market hreflang alternates, Open Graph and Twitter.
  */
-export async function buildMetadata(page: PageConfig, region: string): Promise<Metadata> {
+export async function buildMetadata(page: PageConfig, region: string, over: SeoOverrides = {}): Promise<Metadata> {
   const origin = await vxnRequestOrigin();
-  const seo = vxnSeo(page, region, origin);
+  const base = vxnSeo(page, region, origin);
+  const pick = (v: string | undefined, fallback: string) => (v !== undefined && v.trim() !== '' ? v.trim() : fallback);
+
+  const title = pick(over.title, base.title);
+  const description = pick(over.description, base.description);
+  const robots = over.robots && vxnSeoRobotsOk(over.robots.trim()) ? over.robots.trim() : base.robots;
+  const ogTitle = pick(over.og_title, over.title ? title : base.og_title);
+  const ogDesc = pick(over.og_description, over.description ? description : base.og_description);
+  const ogImage = absolute(origin, pick(over.og_image, base.og_image));
+  const seo = {
+    ...base,
+    title,
+    description,
+    canonical: pick(over.canonical, base.canonical),
+    robots,
+    keywords: pick(over.keywords, base.keywords),
+    og_title: ogTitle,
+    og_description: ogDesc,
+    twitter_title: pick(over.twitter_title, over.og_title || over.title ? ogTitle : base.twitter_title),
+    twitter_description: pick(over.twitter_description, over.og_description || over.description ? ogDesc : base.twitter_description),
+    twitter_image: absolute(origin, pick(over.twitter_image, pick(over.og_image, base.twitter_image))),
+  };
 
   // Country editions: tell search engines that this page exists once per
   // market, and which one this URL is. x-default points at the gateway, which
@@ -210,17 +314,20 @@ export async function buildMetadata(page: PageConfig, region: string): Promise<M
     },
     openGraph: {
       locale: vxnRegionData(region).lang.replace('-', '_'),
-      type: 'website',
+      type: over.og_type ?? 'website',
       title: seo.og_title,
       ...(seo.og_description !== '' ? { description: seo.og_description } : {}),
       url: seo.canonical,
       siteName: 'Valunxt',
-      ...(page.og_image ? { images: [{ url: BASE + page.og_image }] } : {}),
+      ...(ogImage ? { images: [{ url: ogImage }] } : {}),
+      ...(over.og_type === 'article' && over.published_time ? { publishedTime: over.published_time } : {}),
+      ...(over.og_type === 'article' && over.modified_time ? { modifiedTime: over.modified_time } : {}),
     },
     twitter: {
-      card: 'summary_large_image',
-      title: seo.og_title,
-      ...(seo.og_description !== '' ? { description: seo.og_description } : {}),
+      card: over.twitter_card ?? 'summary_large_image',
+      title: seo.twitter_title,
+      ...(seo.twitter_description !== '' ? { description: seo.twitter_description } : {}),
+      ...(seo.twitter_image ? { images: [seo.twitter_image] } : {}),
     },
   };
 

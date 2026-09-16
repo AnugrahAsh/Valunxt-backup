@@ -19,6 +19,7 @@ import type { ReactNode } from 'react';
 import type { PageConfig } from '@/lib/page-config';
 import { vxnRegion } from '@/lib/region';
 import { uaePageImageCss } from '@/lib/uae-page-images';
+import { PageStructuredData } from '@/components/seo/JsonLd';
 
 import Preloader from './Preloader';
 import Header139 from './Header139';
@@ -72,6 +73,9 @@ export default function PageShell({
   return (
     <>
       {pageImageCss ? <style id="uae-page-images" dangerouslySetInnerHTML={{ __html: pageImageCss }} /> : null}
+      {/* JSON-LD and FAQ structured data set on the page in the admin panel
+          (Page SEO). Renders nothing for a page without any. */}
+      <PageStructuredData page={page} region={region} />
       <Preloader />
       <SiteHeader which={page.header} region={region} />
       <div id="page" className="main-container">

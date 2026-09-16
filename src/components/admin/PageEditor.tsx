@@ -19,6 +19,8 @@ import { useFormStatus } from 'react-dom';
 
 import Icon from './Icon';
 import MarketChips from './MarketChips';
+import { FaqRepeater, SchemaRepeater } from './StructuredDataFields';
+import { useSubmitRound } from './useSubmitRound';
 import { savePageAction, type PageFormState } from '@/lib/admin/actions';
 import { ADMIN_MARK, adminUrl } from '@/lib/admin/config';
 import type { MarketLink } from '@/lib/admin/seo-lib';
@@ -38,6 +40,17 @@ export interface EditorForm {
   priority: string;
   changefreq: string;
   hero_image: string;
+  /* The fields the imported www.valunxt.com panel managed per page. */
+  og_image: string;
+  tw_title: string;
+  tw_desc: string;
+  tw_image: string;
+  focus_kw: string;
+  h1: string;
+  /** JSON array of JSON-LD documents. */
+  schema_jsonld: string;
+  /** JSON array of { q, a }. */
+  faq_json: string;
 }
 
 const ROBOTS = ['index, follow', 'noindex, follow', 'index, nofollow', 'noindex, nofollow'];
@@ -97,6 +110,8 @@ export default function PageEditor({
   const [state, action] = useActionState<PageFormState | null, FormData>(savePageAction, null);
   const errors = state?.errors ?? {};
   const v = { ...initial, ...(state?.values ?? {}) } as EditorForm;
+  // Remounts the uncontrolled selects after a rejected save (see useSubmitRound).
+  const round = useSubmitRound(state);
 
   const [title, setTitle] = useState(String(v.title));
   const [slug, setSlug] = useState(String(v.slug));
@@ -272,7 +287,7 @@ export default function PageEditor({
                 {!builtIn && heroes.length ? (
                   <div className="fld full">
                     <label htmlFor="hero_image">Hero Banner Image</label>
-                    <select id="hero_image" name="hero_image" defaultValue={String(v.hero_image)}>
+                    <select key={round} id="hero_image" name="hero_image" defaultValue={String(v.hero_image)}>
                       {heroes.map((img) => (
                         <option value={img} key={img}>
                           {img.split('/').pop()}
@@ -377,7 +392,7 @@ export default function PageEditor({
 
                 <div className="fld">
                   <label htmlFor="robots_meta">Robots Meta</label>
-                  <select id="robots_meta" name="robots_meta" defaultValue={String(v.robots_meta)}>
+                  <select key={round} id="robots_meta" name="robots_meta" defaultValue={String(v.robots_meta)}>
                     {ROBOTS.map((opt) => (
                       <option value={opt} key={opt}>
                         {opt}
@@ -391,7 +406,7 @@ export default function PageEditor({
 
                 <div className="fld">
                   <label htmlFor="status">Status</label>
-                  <select id="status" name="status" defaultValue={String(v.status)}>
+                  <select key={round} id="status" name="status" defaultValue={String(v.status)}>
                     <option value="published">Published</option>
                     <option value="draft">Draft (no-index, excluded from sitemap)</option>
                   </select>
@@ -425,6 +440,82 @@ export default function PageEditor({
                     Comma-separated. Most search engines ignore this tag, so it is safe to leave
                     empty.
                   </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="panel" style={{ marginTop: 20 }}>
+            <div className="panel-head">
+              <h3>Social Image, X Card &amp; Structured Data</h3>
+            </div>
+            <div className="panel-body">
+              <div className="form-grid">
+                <div className="fld full">
+                  <label htmlFor="og_image">
+                    Social share image (OG){' '}
+                    <span style={{ fontWeight: 400, color: 'var(--muted)' }}>(optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="og_image"
+                    name="og_image"
+                    className={errors.og_image ? 'is-invalid' : undefined}
+                    defaultValue={String(v.og_image ?? '')}
+                    maxLength={255}
+                    placeholder="Defaults to the page’s own share image"
+                  />
+                  {errors.og_image ? (
+                    <div className="hint" style={{ color: 'var(--danger)' }}>
+                      {errors.og_image}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="fld">
+                  <label htmlFor="tw_title">X (Twitter) title</label>
+                  <input type="text" id="tw_title" name="tw_title" defaultValue={String(v.tw_title ?? '')} maxLength={255} placeholder="Defaults to the Open Graph title" />
+                </div>
+                <div className="fld">
+                  <label htmlFor="tw_image">X (Twitter) image</label>
+                  <input
+                    type="text"
+                    id="tw_image"
+                    name="tw_image"
+                    className={errors.tw_image ? 'is-invalid' : undefined}
+                    defaultValue={String(v.tw_image ?? '')}
+                    maxLength={255}
+                    placeholder="Defaults to the social share image"
+                  />
+                  {errors.tw_image ? (
+                    <div className="hint" style={{ color: 'var(--danger)' }}>
+                      {errors.tw_image}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="fld full">
+                  <label htmlFor="tw_desc">X (Twitter) description</label>
+                  <textarea id="tw_desc" name="tw_desc" rows={2} maxLength={320} defaultValue={String(v.tw_desc ?? '')} placeholder="Defaults to the Open Graph description" />
+                </div>
+                <div className="fld">
+                  <label htmlFor="focus_kw">Focus keyword</label>
+                  <input type="text" id="focus_kw" name="focus_kw" defaultValue={String(v.focus_kw ?? '')} maxLength={190} placeholder="accounting services dubai" />
+                  <div className="hint">For your own tracking; not published.</div>
+                </div>
+                <div className="fld">
+                  <label htmlFor="h1">H1</label>
+                  <input type="text" id="h1" name="h1" defaultValue={String(v.h1 ?? '')} maxLength={255} placeholder="The page’s main heading" />
+                  <div className="hint">Recorded for reference. The page&rsquo;s design sets its visible heading.</div>
+                </div>
+                <div className="fld full">
+                  <label>FAQ (rich result)</label>
+                  <div className="hint" style={{ marginBottom: 10 }}>
+                    Published as <code>FAQPage</code> structured data. Use it only for questions the page itself answers.
+                  </div>
+                  <FaqRepeater initial={String(v.faq_json ?? '')} resetToken={state} />
+                </div>
+                <div className="fld full">
+                  <label>Custom schema (JSON-LD)</label>
+                  <SchemaRepeater initial={String(v.schema_jsonld ?? '')} resetToken={state} invalid={errors.schema} />
                 </div>
               </div>
             </div>
@@ -467,7 +558,7 @@ export default function PageEditor({
 
                 <div className="fld">
                   <label htmlFor="priority">Sitemap Priority</label>
-                  <select id="priority" name="priority" defaultValue={String(v.priority)}>
+                  <select key={round} id="priority" name="priority" defaultValue={String(v.priority)}>
                     {PRIORITIES.map((p) => (
                       <option value={p} key={p}>
                         {p}
@@ -477,7 +568,7 @@ export default function PageEditor({
                 </div>
                 <div className="fld">
                   <label htmlFor="changefreq">Change Frequency</label>
-                  <select id="changefreq" name="changefreq" defaultValue={String(v.changefreq)}>
+                  <select key={round} id="changefreq" name="changefreq" defaultValue={String(v.changefreq)}>
                     {CHANGEFREQ.map((cf) => (
                       <option value={cf} key={cf}>
                         {cf.charAt(0).toUpperCase() + cf.slice(1)}

@@ -16,11 +16,14 @@ import { FlashErr, FlashOk } from '@/components/admin/Flash';
 import Icon from '@/components/admin/Icon';
 import MarketChips from '@/components/admin/MarketChips';
 import { adminUrl, siteUrl } from '@/lib/admin/config';
-import { formatDate, formatDateTime, localStamp, utcStamp } from '@/lib/admin/format';
+import { query } from '@/lib/admin/db';
+import { dbStamp, formatDate, formatDateTime, localStamp, utcStamp } from '@/lib/admin/format';
 import { csrfToken, currentUser, takeFlash } from '@/lib/admin/session';
 import { sitemapOpAction } from '@/lib/admin/actions';
 import { sectionLabel } from '@/lib/site-pages';
 import {
+  SITEMAP_COUNT_KEY,
+  SITEMAP_GENERATED_KEY,
   seoDetectSiteUrl,
   seoMarketLinks,
   seoPlacement,
@@ -70,7 +73,7 @@ export default async function SitemapPage() {
     exists = false;
   }
 
-  let stats: SeoStats = { total: 0, published: 0, draft: 0, sitemap: 0, noindex: 0 };
+  let stats: SeoStats = { total: 0, published: 0, draft: 0, sitemap: 0, noindex: 0, legacy: 0 };
   let rows: PageRow[] = [];
   let generatedAt = '';
   let urlCount = 0;
@@ -80,8 +83,8 @@ export default async function SitemapPage() {
   try {
     stats = await seoStats();
     rows = await seoSitemapRows();
-    generatedAt = await seoSetting('sitemap_generated_at', '');
-    urlCount = Number(await seoSetting('sitemap_url_count', '0'));
+    generatedAt = await seoSetting(SITEMAP_GENERATED_KEY, '');
+    urlCount = Number(await seoSetting(SITEMAP_COUNT_KEY, '0'));
     configured = await seoSetting('site_url', '');
     site = await seoSiteUrl();
     stale = await seoSitemapStale();
@@ -90,6 +93,17 @@ export default async function SitemapPage() {
   }
   const detected = seoDetectSiteUrl();
   const listed = rows.reduce((n, r) => n + seoSitemapUrls(r, site || detected).length, 0);
+
+  /* Every generation is recorded in vx_sitemap_runs, as the imported panel did;
+     the latest few are shown here, the full history under Sitemap Runs. */
+  let runs: Array<{ id: number; ts: string; status: string; total_urls: number; added: number; removed: number; modified: number; duration_ms: number }> = [];
+  let runCount = 0;
+  try {
+    runs = await query('SELECT id, ts, status, total_urls, added, removed, modified, duration_ms FROM vx_sitemap_runs ORDER BY ts DESC, id DESC LIMIT 6');
+    runCount = Number((await query<{ n: number }>('SELECT COUNT(*) AS n FROM vx_sitemap_runs'))[0]?.n ?? 0);
+  } catch {
+    /* shown as none */
+  }
 
   return (
     <AdminShell active="sitemap" user={user}>
@@ -284,6 +298,56 @@ export default async function SitemapPage() {
                   })}
                 </tbody>
               </table>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="panel" style={{ marginTop: 20 }}>
+        <div className="panel-head">
+          <h3>
+            Generation history <span className="count-chip">{runCount}</span>
+          </h3>
+          <a href={adminUrl('sitemap-runs')} className="link">
+            All runs
+            <Icon name="arrowRight" size={14} stroke={2.4} />
+          </a>
+        </div>
+        <div className="panel-body flush">
+          {runs.length ? (
+            <div className="table-wrap">
+              <table className="data">
+                <thead>
+                  <tr>
+                    <th>Run at</th>
+                    <th>Status</th>
+                    <th>URLs</th>
+                    <th>Added</th>
+                    <th>Removed</th>
+                    <th>Modified</th>
+                    <th>Took</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {runs.map((r) => (
+                    <tr key={r.id}>
+                      <td className="nowrap">{formatDateTime(dbStamp(r.ts))}</td>
+                      <td>
+                        <span className={`pill ${r.status === 'success' ? 'ok' : 'warnp'}`}>{r.status}</span>
+                      </td>
+                      <td>{r.total_urls}</td>
+                      <td>{r.added}</td>
+                      <td>{r.removed}</td>
+                      <td>{r.modified}</td>
+                      <td className="nowrap">{r.duration_ms} ms</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="empty-state compact">
+              <p>No generations recorded yet.</p>
             </div>
           )}
         </div>

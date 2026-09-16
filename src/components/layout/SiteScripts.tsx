@@ -86,6 +86,13 @@ const SCROLL_AND_NAV = `
      nothing. Scroll ourselves, honouring prefers-reduced-motion, and answer
      Enter/Space too since the element is a <div> with a button role. */
   function toTop(){
+    /* With the smooth scroll running (components/motion/SmoothScroll.tsx),
+       go back up on its curve, so the trip up glides the way the trip down
+       did. It honours reduced motion itself. */
+    if (typeof window.vxnScrollTo === 'function'){
+      window.vxnScrollTo(0);
+      return;
+    }
     var reduce = false;
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
     /* Feature-test rather than try/catch: a browser without the options form
@@ -204,10 +211,15 @@ const KLAY_ACCORDION = `
    Desktop pointer: hovering (or keyboard-focusing) a collapsed strip moves the
    expansion to it. Desktop TOUCH (no hover): the first tap expands the panel
    instead of navigating; a second tap follows the link. Below 1025px the CSS
-   stacks the panels as full cards, so taps navigate directly. */
+   stacks the panels as full cards, so taps navigate directly.
+
+   A row marked data-vxn-klay="motion" is NOT bound here: Framer Motion drives
+   it (components/motion/UaeKlayMotion.tsx), with the same touch rules, a
+   spring for the widths and a short hover intent. The marker is in the server
+   markup, so the two are never both bound to one row. */
 (function(){
   function init(){
-    var rows = document.querySelectorAll('.vxn-klay');
+    var rows = document.querySelectorAll('.vxn-klay:not([data-vxn-klay])');
     if (!rows.length) return;
     var mqDesktop = window.matchMedia('(min-width: 1025px)');
     var mqHover = window.matchMedia('(hover: hover)');

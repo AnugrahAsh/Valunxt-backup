@@ -19,12 +19,19 @@
  * nearly identical call sites. The UAE cards are the client's home-page
  * document (20260911); the middle card is the one it left unchanged.
  *
+ * MOTION (20260917): the three cards come up TOGETHER, as one movement, on
+ * Framer Motion — the row itself rises, one transform on .vxn-trio, rather than
+ * three cards on three timers, which read as ragged. The row is in the page
+ * walk's SKIP list (components/motion/reveal-scan.ts), so wherever the trio is
+ * rendered this is the one thing that moves it.
+ *
  * Styles: assets/css/valunxt-landing.css (.vxn-trio).
  */
 import { rurl } from '@/lib/region';
 import { rimg, rimgFirst } from '@/lib/region-assets';
 import { LogoXWindow } from '@/components/brand/LogoX';
 import { brandCase } from '@/components/ui/BrandName';
+import Reveal from '@/components/motion/Reveal';
 
 /** A path, or candidates in preference order: the first file that exists wins. */
 type ImgSrc = string | readonly string[];
@@ -144,7 +151,7 @@ export default function WhoWeAreTrio({ region }: { region: string }) {
   const c = CONTENT[region] ?? CONTENT['en-in']!;
 
   return (
-    <div className="vxn-trio">
+    <Reveal className="vxn-trio" amount={0.2}>
       <PlainCard region={region} card={c.left} />
 
       <a className="vxn-trio__card vxn-trio__card--brand" href={rurl(region, c.brand.href)}>
@@ -176,6 +183,6 @@ export default function WhoWeAreTrio({ region }: { region: string }) {
       </a>
 
       <PlainCard region={region} card={c.right} />
-    </div>
+    </Reveal>
   );
 }

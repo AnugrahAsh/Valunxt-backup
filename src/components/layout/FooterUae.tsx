@@ -26,11 +26,27 @@
  * were captured without hrefs — so they render here as unlinked marks rather
  * than pointing visitors at profiles that may not be the company's.
  *
+ * MOTION (20260917). The footer had no entrance, and the reason is worth
+ * recording: the site's general engine does cover #main-footer, but almost
+ * nothing in here is something it recognises. The practice row and the
+ * services row are <nav>s, which it never enters; the wordmark is 190x38,
+ * under the 80px floor it uses to tell a picture from an icon; the legal links
+ * are plain anchors rather than buttons. Only the copyright line qualified.
+ *
+ * So the rows say so themselves, on Framer Motion: the panel is a Reveal and
+ * each row a RevealItem, arriving in reading order, 120ms apart — logo and
+ * practices, the rule, the services row with the social marks, the legal line,
+ * the copyright. The footer is in the general engine's SKIP list
+ * (components/motion/reveal-scan.ts) so the two cannot both claim it. One
+ * footer, one behaviour, every page.
+ *
  * Styles: assets/css/valunxt-landing.css (.vxn-foot).
  */
 import { BASE, rurl, vxnRegion, vxnServiceName, vxnServices } from '@/lib/region';
 import Html from '@/components/Html';
 import { vxnEmail, vxnYear } from '@/lib/site-data';
+import Reveal, { RevealItem } from '@/components/motion/Reveal';
+import { STAGGER } from '@/components/motion/motion-tokens';
 import SocialIcons, { type SocialItem } from './SocialIcons';
 
 const SOCIAL: readonly SocialItem[] = [
@@ -64,8 +80,8 @@ export default function FooterUae({ region }: { region: string }) {
     <div data-wpr-lazyrender="1" className="footer-wrapper">
       <footer id="main-footer" className="main-footer">
         <footer className="vxn-foot" aria-label="Site footer">
-          <div className="vxn-foot__inner">
-            <div className="vxn-foot__top">
+          <Reveal className="vxn-foot__inner" variant="fade" stagger={STAGGER.row} amount={0.05}>
+            <RevealItem className="vxn-foot__top" variant="rise-sm" order={0}>
               <a className="vxn-foot__logo" href={rurl(region, '/')} aria-label="Valunxt — home">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -82,11 +98,11 @@ export default function FooterUae({ region }: { region: string }) {
                   </a>
                 ))}
               </nav>
-            </div>
+            </RevealItem>
 
-            <hr className="vxn-foot__rule" />
+            <RevealItem as="hr" className="vxn-foot__rule" variant="fade" order={1} />
 
-            <div className="vxn-foot__mid">
+            <RevealItem className="vxn-foot__mid" variant="rise-sm" order={2}>
               {services.length ? (
                 <nav className="vxn-foot__services" aria-labelledby="vxn-foot-services-title">
                   <span id="vxn-foot-services-title" className="vxn-foot__servicesTitle">
@@ -105,21 +121,21 @@ export default function FooterUae({ region }: { region: string }) {
               <div className="vxn-foot__social">
                 <SocialIcons items={SOCIAL} />
               </div>
-            </div>
+            </RevealItem>
 
-            <div className="vxn-foot__legal">
+            <RevealItem className="vxn-foot__legal" variant="rise-sm" order={3}>
               {LEGAL.map(([href, label]) => (
                 <a key={href} href={rurl(region, href)}>
                   {label}
                 </a>
               ))}
               <a href={`mailto:${vxnEmail()}`}>{vxnEmail()}</a>
-            </div>
+            </RevealItem>
 
-            <p className="vxn-foot__copy">
+            <RevealItem as="p" className="vxn-foot__copy" variant="rise-sm" order={4}>
               &copy; {vxnYear()} Valunxt. All rights reserved.
-            </p>
-          </div>
+            </RevealItem>
+          </Reveal>
         </footer>
       </footer>
     </div>

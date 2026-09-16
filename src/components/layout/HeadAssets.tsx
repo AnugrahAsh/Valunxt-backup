@@ -672,7 +672,7 @@ export default function HeadAssets({ page }: { page: PageConfig }) {
 
       <InlineCss css={page.inline_css} />
 
-      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-brand.css?v=164`} media="all" />
+      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-brand.css?v=166`} media="all" />
       {/* Landing-page feature blocks. Purely additive — after the brand sheet so
           it can build on its tokens without overriding any of its rules. */}
       <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-landing.css?v=65`} media="all" />
@@ -680,7 +680,7 @@ export default function HeadAssets({ page }: { page: PageConfig }) {
           because the header renders on every page in that market — and it is
           entirely under `.vxn-umega`, a class only that component emits, so it
           is inert everywhere else. */}
-      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-uae-mega.css?v=18`} media="all" />
+      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-uae-mega.css?v=19`} media="all" />
       {/* The burger drawer, the menu on phones, tablets and small laptops
           (20260914). Global for the same reason: every page has the header.
           Every rule in it sits inside a max-width: 1399px query, so the

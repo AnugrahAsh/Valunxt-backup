@@ -1319,6 +1319,165 @@ html:not(.vxn-js) .vxn-klay__content {
   }
 }
 
+/* ==========================================================================
+   THE SERVICES ROW FRAMER MOTION DRIVES (20260917) —
+   components/motion/UaeKlayMotion.tsx, which has the full account of why the
+   band felt "chonky" and what each of the rules below is for.
+
+   Scoped to [data-vxn-klay="motion"], which is the UAE home page's row of six
+   and nothing else: the India home's four-panel accordion keeps the script and
+   the timings it has always had. Every state the band can be in looks exactly
+   as it did; only the movement between states is different.
+   ========================================================================== */
+
+.vxn-klay[data-vxn-klay="motion"] {
+  --vxn-klay-paint: .7s;
+  --vxn-klay-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* The widths are written inline by a spring, frame by frame; a CSS transition
+   on flex-grow would ease values that are already being eased, one frame
+   behind. The background-color transition valunxt-landing.css adds stays.
+
+   `isolation: isolate` makes each panel the root its frost samples from, so a
+   panel that only slides along the row while another opens keeps the blur it
+   already has instead of recomputing it on every frame. The panels never
+   overlap, so the stacking order between them is unchanged. */
+.vxn-klay[data-vxn-klay="motion"] .vxn-klay__panel {
+  transition: background-color .6s ease;
+  isolation: isolate;
+}
+
+/* THE FROST, CROSS-FADED. valunxt-landing.css draws the sheet with
+   `.vxn-klay--six .vxn-klay__panel:not(.is-active)::after`, so it is created
+   the instant a panel closes and destroyed the instant one opens — a pop on
+   both panels on the first frame of every hover. Here it exists on every
+   panel, as the same sheet, and fades: fully on over a closed panel, fully off
+   over the open one, which is exactly what the two resting states were.
+   Written at (0,4,1) so it clears that rule's (0,3,1) whichever sheet loads
+   last; the hover rule there that thins the frost still applies, and now
+   eases. */
+.vxn-klay.vxn-klay--six[data-vxn-klay="motion"] .vxn-klay__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: blur(7px) saturate(105%);
+  backdrop-filter: blur(7px) saturate(105%);
+  background: linear-gradient(to top,
+      rgba(16, 20, 28, .88) 0%,
+      rgba(16, 20, 28, .84) 20%,
+      rgba(17, 22, 31, .78) 40%,
+      rgba(18, 24, 34, .45) 62%,
+      rgba(20, 27, 38, .24) 100%);
+  border-left: 1px solid rgba(255, 255, 255, .10);
+  pointer-events: none;
+  opacity: 1;
+  transition:
+    opacity var(--vxn-klay-paint) var(--vxn-klay-ease),
+    -webkit-backdrop-filter .6s var(--vxn-klay-ease),
+    backdrop-filter .6s var(--vxn-klay-ease);
+}
+
+.vxn-klay.vxn-klay--six[data-vxn-klay="motion"] .vxn-klay__panel.is-active::after {
+  opacity: 0;
+}
+
+/* THE FROST, BAKED. The live `backdrop-filter` above is what made this band
+   stall: it is recomputed on every frame anything behind it changes, which
+   while the band moves is every frame, on five sheets at once — measured at
+   300 to 940ms a frame on an integrated GPU. components/motion/klay-frost.ts
+   draws the same result once, as a picture (the closed panel's photograph,
+   zoomed, filtered and 92% opaque over the ground, blurred 7px and saturated
+   5%), and sets it on the panel as --vxn-frost with data-vxn-frost="baked".
+   From then on the sheet is that picture under the same gradient, sized by
+   `cover` exactly as the photograph beneath it is, and nothing is blurred
+   while anything moves.
+
+   Written at (0,5,1), so it also clears the hover rule in valunxt-landing.css
+   that thinned the live blur under the pointer. That state lasted for the
+   70ms before a hovered panel opens and could not be seen.
+
+   A panel whose picture is not ready yet, or a browser whose canvas cannot
+   filter, keeps the live frost above. */
+.vxn-klay.vxn-klay--six[data-vxn-klay="motion"] .vxn-klay__panel[data-vxn-frost="baked"]::after {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background:
+    linear-gradient(to top,
+      rgba(16, 20, 28, .88) 0%,
+      rgba(16, 20, 28, .84) 20%,
+      rgba(17, 22, 31, .78) 40%,
+      rgba(18, 24, 34, .45) 62%,
+      rgba(20, 27, 38, .24) 100%),
+    var(--vxn-frost) center / cover no-repeat;
+  transition: opacity var(--vxn-klay-paint) var(--vxn-klay-ease);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .vxn-klay.vxn-klay--six[data-vxn-klay="motion"] .vxn-klay__panel::after {
+    background: linear-gradient(to top,
+        rgba(16, 20, 28, .92) 0%,
+        rgba(16, 20, 28, .89) 20%,
+        rgba(17, 22, 31, .84) 40%,
+        rgba(18, 24, 34, .62) 62%,
+        rgba(20, 27, 38, .48) 100%);
+  }
+}
+
+/* The photograph, its scrim and its slow settle, all on the one curve.
+
+   THE PHOTOGRAPHS KEEP THEIR OWN LAYERS, as the base rule above has always
+   given them (`will-change` on .vxn-klay__bg img). For a day this row dropped
+   the hint and raised it only while the band moved, to save GPU memory, and
+   measured that was the worst of both: every raise re-rasterised six
+   full-bleed pictures and every drop merged them back, a stall at each end of
+   every hover. Nothing here overrides the hint now. */
+.vxn-klay[data-vxn-klay="motion"] .vxn-klay__bg img {
+  transition:
+    opacity var(--vxn-klay-paint) var(--vxn-klay-ease),
+    filter var(--vxn-klay-paint) var(--vxn-klay-ease),
+    transform 1.1s var(--vxn-klay-ease);
+}
+
+.vxn-klay[data-vxn-klay="motion"] .vxn-klay__bg::after {
+  transition: opacity var(--vxn-klay-paint) var(--vxn-klay-ease);
+}
+
+/* The vertical name. It waits for a closing panel to narrow before it comes
+   back, rather than appearing across a panel that is still wide, and leaves an
+   opening one at once. Both halves are named: valunxt-landing.css transitions
+   its transform too, for the 6px nudge under the pointer. */
+.vxn-klay[data-vxn-klay="motion"] .vxn-klay__label {
+  transition:
+    opacity .5s var(--vxn-klay-ease) .22s,
+    transform .55s var(--vxn-klay-ease);
+}
+
+.vxn-klay[data-vxn-klay="motion"] .vxn-klay__panel.is-active .vxn-klay__label {
+  transition:
+    opacity .25s ease 0s,
+    transform .55s var(--vxn-klay-ease);
+}
+
+/* The open panel's copy box. It only has to clear quickly and come back
+   quickly: the heading, the sentence and "Learn more" inside it are brought
+   in one after another by the engine. */
+.vxn-klay[data-vxn-klay="motion"] .vxn-klay__content {
+  transition: opacity .22s ease, transform .22s ease;
+}
+
+.vxn-klay[data-vxn-klay="motion"] .vxn-klay__panel.is-active .vxn-klay__content {
+  transition:
+    opacity .35s var(--vxn-klay-ease) .1s,
+    transform .6s var(--vxn-klay-ease) .1s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vxn-klay[data-vxn-klay="motion"] .vxn-klay__panel::after {
+    transition: none !important;
+  }
+}
+
 .elementor-element.elementor-element-682a6a8.e-con {
   --margin-top: 90px;
   --margin-bottom: 90px;

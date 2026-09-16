@@ -21,10 +21,17 @@
  * WHY THIS IS A CLIENT COMPONENT
  *
  * The panel OPENS on hover in CSS (`li:hover > .panel`), so it works before
- * hydration and stays consistent with the About panel. React owns two pieces
- * of state hover cannot express: which tab is selected, and the close button
- * the reference puts in the tab row. The close logic (the ✕, Escape, and the
- * re-arm) is shared with AboutMega through useMegaDismiss (mega-dismiss.ts).
+ * hydration and stays consistent with the About panel. React owns three pieces
+ * of state hover cannot express: which tab is selected, the close button the
+ * reference puts in the tab row, and, since 20260917, the sheet's movement.
+ * The close logic (the ✕, Escape, and the re-arm) is shared with AboutMega
+ * through useMegaDismiss (mega-dismiss.ts).
+ *
+ * THE MOVEMENT is Framer Motion's and is shared with AboutMega too:
+ * components/motion/MegaSheet.tsx has the sheet, the variants its parts arrive
+ * on and how the two live alongside the stylesheet. The stylesheet opens the
+ * sheet until this bundle has run and whenever reduced motion is asked for;
+ * after that the inline styles Framer writes take precedence.
  *
  * `dismissed` clears when the pointer enters the trigger or focus arrives on
  * it, and nowhere else. It also cleared on the item's pointer leave until
@@ -44,9 +51,19 @@
  */
 
 import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
 import { rurl } from '@/lib/region';
 import CtaArrow from '@/components/ui/CtaArrow';
+import {
+  MEGA_BEAT,
+  MEGA_LEAD,
+  MEGA_LINK,
+  MegaSheet,
+  megaPiece,
+  useMegaSheet,
+  type MegaKind,
+} from '@/components/motion/MegaSheet';
 import { useMegaDismiss } from './mega-dismiss';
 import type { MegaGroup, MegaPreset } from './mega-presets';
 
@@ -73,6 +90,12 @@ export default function UaeServicesMega({
   const [active, setActive] = useState(0);
   /* The ✕, Escape from anywhere inside, and the re-arm: see mega-dismiss.ts. */
   const { itemRef, dismissed, close, rearm } = useMegaDismiss();
+  /* The sheet's open and close, and the run its contents arrive on: the blue
+     column, then the tab row, then the pane, the tabs and links one by one. */
+  const { state, itemProps } = useMegaSheet(dismissed);
+  const part = (kind: MegaKind, delay: number) => megaPiece(state, kind, delay);
+  const tabsAt = MEGA_LEAD + MEGA_BEAT;
+  const paneAt = MEGA_LEAD + MEGA_BEAT * 2;
   /* The tab a touch went down on, and whether its pane was already showing at
      that moment. See the note on the tab row. */
   const tap = useRef<{ index: number; shown: boolean } | null>(null);
@@ -86,6 +109,7 @@ export default function UaeServicesMega({
       className={`menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children vxn-umega${
         dismissed ? ' is-dismissed' : ''
       }`}
+      {...itemProps}
     >
       {/* ---- WHY THE RE-ARM IS ON THE TRIGGER --------------------------------
           The panel is a DOM child of this <li>, so while the pointer is over
@@ -107,19 +131,20 @@ export default function UaeServicesMega({
         {preset.label}
       </a>
 
-      <div className="vxn-umega__panel">
+      <MegaSheet state={state}>
         <div className="vxn-umega__inner">
           <div className="vxn-umega__body">
             {/* The blue column. A heading, a sentence and one link out — the
-                reference gives it no navigation of its own. */}
-            <aside className="vxn-umega__aside">
+                reference gives it no navigation of its own. The first thing in
+                after the box, from the sheet's own edge. */}
+            <motion.aside className="vxn-umega__aside" {...part('aside', MEGA_LEAD)}>
               <span className="vxn-umega__asidetitle">{preset.aside.title}</span>
               <p className="vxn-umega__asidelede">{preset.aside.lede}</p>
               <a className="vxn-umega__asidelink" href={rurl(region, preset.aside.linkHref)} {...tab}>
                 {preset.aside.linkLabel}
                 <CtaArrow />
               </a>
-            </aside>
+            </motion.aside>
 
             <div className="vxn-umega__main">
               {/* ---- A TAP IS NOT A HOVER -----------------------------------
@@ -140,10 +165,11 @@ export default function UaeServicesMega({
                   click time every tab would already look shown. `e.detail` is
                   0 for a keyboard activation, which focus has already
                   previewed, so Enter always follows the link. */}
-              <div className="vxn-umega__tabs">
+              <motion.div className="vxn-umega__tabs" {...part('part', tabsAt)}>
                 {groups.map((g, i) => (
-                  <a
+                  <motion.a
                     key={g.key}
+                    {...part('item', tabsAt + i * MEGA_LINK)}
                     href={rurl(region, g.href)}
                     className={`vxn-umega__tab${i === active ? ' is-active' : ''}`}
                     onPointerDown={(e) => {
@@ -165,10 +191,11 @@ export default function UaeServicesMega({
                     {...tab}
                   >
                     {g.label}
-                  </a>
+                  </motion.a>
                 ))}
 
-                <button
+                <motion.button
+                  {...part('item', tabsAt + groups.length * MEGA_LINK)}
                   type="button"
                   className="vxn-umega__close"
                   aria-label={preset.closeLabel}
@@ -178,30 +205,43 @@ export default function UaeServicesMega({
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
                     <path d="m3 3 10 10M13 3 3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
 
+              {/* The grid is KEYED ON THE SELECTED TAB, so picking another group
+                  replays its run and the new pages arrive rather than cutting.
+                  The pane box itself is not keyed, so the sheet's height does not
+                  jump between groups. */}
               <div className="vxn-umega__pane" role="group" aria-label={current?.label}>
                 {/* NOT A <ul> — see THE GRID IS NOT A <ul> in the stylesheet.
                     As one it crashed Elementor's SmartMenus on every UAE page
                     and cut the nav widget's init short. role="list" keeps what
                     the <ul> said. */}
-                <div className="vxn-umega__grid" role="list">
-                  {(current?.links ?? []).map((link) => (
-                    <div key={link.href + link.name} role="listitem">
+                <motion.div key={active} className="vxn-umega__grid" role="list" {...part('part', paneAt)}>
+                  {(current?.links ?? []).map((link, i) => (
+                    <motion.div
+                      key={link.href + link.name}
+                      role="listitem"
+                      {...part('item', paneAt + i * MEGA_LINK)}
+                    >
                       <a href={rurl(region, link.href)} className="vxn-umega__link" {...tab}>
                         {link.name}
                         <Chev />
                       </a>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
 
                 {current ? (
-                  <a className="vxn-umega__viewall" href={rurl(region, current.viewAll.href)} {...tab}>
+                  <motion.a
+                    {...part('item', paneAt + (current.links?.length ?? 0) * MEGA_LINK)}
+                    className="vxn-umega__viewall"
+                    href={rurl(region, current.viewAll.href)}
+                    {...tab}
+                  >
                     {current.viewAll.label}
                     <Chev />
-                  </a>
+                  </motion.a>
                 ) : null}
               </div>
             </div>
@@ -209,7 +249,7 @@ export default function UaeServicesMega({
 
           <span className="vxn-umega__rule" aria-hidden="true" />
         </div>
-      </div>
+      </MegaSheet>
     </li>
   );
 }

@@ -18,9 +18,10 @@ import WhoWeAreTrio from '@/components/sections/WhoWeAreTrio';
 import UaeFigureBand from '@/components/sections/UaeFigureBand';
 import UaeAnswerBand from '@/components/sections/UaeAnswerBand';
 import UaeImpactBands from '@/components/sections/UaeImpactBands';
-import UaeBandMotion from '@/components/sections/UaeBandMotion';
 import UaeReadyBand from '@/components/sections/UaeReadyBand';
 import UaeSubscribeBand from '@/components/sections/UaeSubscribeBand';
+import UaeHomeMotion from '@/components/motion/UaeHomeMotion';
+import UaeKlayMotion from '@/components/motion/UaeKlayMotion';
 
 /** The small entity set the hero's aria-labels and alt text need decoded. */
 function decodeEntities(v: string): string {
@@ -95,8 +96,15 @@ export default function HomeAeBody({
       {/* .vxn-ae-home scopes this page's section rhythm. The services wrapper,
           the insights containers and the Elementor post id are all shared with
           the India home, so the padding rules have to hang off a class only
-          this page carries. */}
-      <div id="main-content" className="vxn-ae-home">
+          this page carries.
+
+          data-vxn-motion="framer" HANDS THE PAGE'S ARRIVALS TO FRAMER MOTION
+          (components/motion/UaeHomeMotion.tsx, mounted at the foot of this
+          component) and stands the site's CSS engine down on this page alone:
+          layout/SiteMotion.tsx looks for exactly this attribute. It is in the
+          markup rather than set from script, so there is no window in which both
+          engines are marking the same element. Every other page is untouched. */}
+      <div id="main-content" className="vxn-ae-home" data-vxn-motion="framer">
 
       	<div id="sub-header" className="layout-full elementor-page-title">
       		<div className="meta-header">
@@ -541,7 +549,12 @@ export default function HomeAeBody({
       							</div>
       							{/* One list, three consumers: this accordion, the hero above it and the
       							    Services menu in the header all read vxnServices(). */}
-      							<nav className="vxn-klay vxn-klay--six" aria-label="Our services">
+      							{/* data-vxn-klay="motion": the band's widths, frost, copy and
+      							    entrance are Framer Motion's (components/motion/
+      							    UaeKlayMotion.tsx). The marker also takes this row out of the
+      							    legacy accordion script in SiteScripts, so the two are never
+      							    both bound to it. */}
+      							<nav className="vxn-klay vxn-klay--six" data-vxn-klay="motion" aria-label="Our services">
       								{services.map((sv, i) => (
       									<a className={`vxn-klay__panel${i === 0 ? ' is-active' : ''}`} href={rurl(region, sv.href)} key={sv.title}>
       										{/* eslint-disable-next-line @next/next/no-img-element */}
@@ -576,9 +589,11 @@ export default function HomeAeBody({
       						{/* The bento (.vxn-post, UaePosterTrio.tsx) came off the page on
       						    20260915, client instruction. The component and its styles
       						    stay, unrendered. */}
-      						{/* One motion layer for both of the day's bands: the figure roll
-      						    and the staggered arrival. Renders nothing. */}
-      						<UaeBandMotion />
+      						{/* The figures band and the mosaic used to arrive on
+      						    sections/UaeBandMotion.tsx's CSS transitions. Since 20260917
+      						    both arrive on Framer Motion, with the rest of the page, in
+      						    UaeHomeMotion (mounted below). That component and its styles
+      						    stay, unrendered. */}
       						<div className="elementor-element elementor-element-c50d7c9 e-flex e-con-boxed e-con e-parent" data-id="c50d7c9" data-element_type="container" data-e-type="container">
       							<div className="e-con-inner">
       								<div className="elementor-element elementor-element-9317f8a e-con-full e-flex e-con e-child" data-id="9317f8a" data-element_type="container" data-e-type="container">
@@ -798,6 +813,12 @@ export default function HomeAeBody({
       						    off site-wide on 20260914 and is back by client instruction. */}
       						<UaeReadyBand region={region} />
       						<UaeSubscribeBand region={region} />
+      						{/* THE PAGE'S OWN MOTION LAYERS. Both render nothing.
+      						    UaeHomeMotion is this page's scroll engine, in the CSS
+      						    engine's place (see data-vxn-motion on #main-content);
+      						    UaeKlayMotion drives the six services. */}
+      						<UaeHomeMotion />
+      						<UaeKlayMotion />
       					</div>
       				</div>
       			</article>

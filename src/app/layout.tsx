@@ -25,6 +25,7 @@ import { publishedPostExists } from '@/lib/blog/db';
 import { UAE_FACE_CLASS, UAE_FACE_CSS, withUaeFace } from '@/lib/uae-typography';
 import HeadAssets, { SiteFavicons } from '@/components/layout/HeadAssets';
 import { PRELOADER_GATE_SCRIPT } from '@/components/layout/Preloader';
+import SmoothScroll from '@/components/motion/SmoothScroll';
 import { realEstateRequest } from '@/real-estate/lib/routes';
 import type { PageConfig } from '@/lib/page-config';
 
@@ -147,6 +148,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </head>
         <body className={UAE_FACE_CLASS}>
           {children}
+          {/* Smooth inertia scrolling, as on the rest of the site. */}
+          <SmoothScroll />
           {/* Google tag (gtag.js) — the same one the rest of the site runs. */}
           <Script src="https://www.googletagmanager.com/gtag/js?id=G-3LN0QDVS2F" strategy="afterInteractive" />
           <Script id="gtag-init" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: GTAG_INLINE }} />
@@ -203,6 +206,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
         <div id="top" />
         {children}
+        {/* Smooth inertia scrolling (Lenis) on every public page. The admin
+            branch above returns before this, so the panel keeps the browser's
+            own scroll: see components/motion/SmoothScroll.tsx. */}
+        <SmoothScroll />
         {/* Google tag (gtag.js) — after hydration, like every other script. */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-3LN0QDVS2F" strategy="afterInteractive" />
         <Script id="gtag-init" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: GTAG_INLINE }} />

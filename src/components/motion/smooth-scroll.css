@@ -1,0 +1,37 @@
+/*
+ * LENIS (components/motion/SmoothScroll.tsx).
+ *
+ * The rules lenis/dist/lenis.css ships, less one. Every selector is behind the
+ * `lenis` class Lenis puts on <html> while it runs, so with the script blocked
+ * or with reduced motion none of this applies to anything.
+ *
+ * LEFT OUT: `.lenis.lenis-stopped { overflow: clip }`. Lenis is stopped here
+ * whenever the PAGE locks its own scroll (the burger drawer, the cookie
+ * preferences, the real estate drawer), and the engine decides that by reading
+ * the computed overflow of <html> and <body>. Had Lenis clipped <html> itself
+ * when stopped, the engine would read its own lock back as the page's, and the
+ * scroll would never come back. The page's own locks already stop native
+ * scrolling; a stopped Lenis stops the wheel.
+ */
+
+/* Lenis measures the document, which a 100%-tall html/body would cap. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+/* A container Lenis hands the wheel back to keeps that scroll to itself. */
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch],
+.lenis [data-lenis-prevent-vertical],
+.lenis [data-lenis-prevent-horizontal] {
+  overscroll-behavior: contain;
+}
+
+/* Only while a smooth scroll is actually running: an iframe under the pointer
+   would otherwise swallow the wheel events mid-glide. At rest a map or a video
+   is as interactive as ever. */
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}

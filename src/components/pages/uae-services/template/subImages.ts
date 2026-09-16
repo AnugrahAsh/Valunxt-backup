@@ -314,21 +314,26 @@ export const SUB_PAGE_IMAGES: Record<string, SubPageImages> = {
     ],
     talk: 'services/sub/valuation-and-advisory/business-valuation-talk.webp',
   },
-  'valuation-and-advisory/company-valuation': {
-    hero: 'services/sub/valuation-and-advisory/company-valuation-hero.webp',
-    panel: 'services/sub/valuation-and-advisory/company-valuation-panel.webp',
-    why: 'services/sub/valuation-and-advisory/company-valuation-why.webp',
-    story: 'services/sub/valuation-and-advisory/company-valuation-story.webp',
-    band: 'services/sub/valuation-and-advisory/company-valuation-band.webp',
+  /* Property Valuation replaced Company Valuation here (20260916) and kept that
+     page's files where the photograph suits property, renamed and with the strip
+     re-ordered to the new list. Two did not: the hero (a bank district) is now
+     the unused Abu Dhabi skyline, and strip 5 (a jet turbine) an unused farmland
+     shot, both named where they already sit rather than copied. */
+  'valuation-and-advisory/property-valuation': {
+    hero: 'uae/home/answer-skyline.webp',
+    panel: 'services/sub/valuation-and-advisory/property-valuation-panel.webp',
+    why: 'services/sub/valuation-and-advisory/property-valuation-why.webp',
+    story: 'services/sub/valuation-and-advisory/property-valuation-story.webp',
+    band: 'services/sub/valuation-and-advisory/property-valuation-band.webp',
     strip: [
-      'services/sub/valuation-and-advisory/company-valuation-strip-1.webp',
-      'services/sub/valuation-and-advisory/company-valuation-strip-2.webp',
-      'services/sub/valuation-and-advisory/company-valuation-strip-3.webp',
-      'services/sub/valuation-and-advisory/company-valuation-strip-4.webp',
-      'services/sub/valuation-and-advisory/company-valuation-strip-5.webp',
-      'services/sub/valuation-and-advisory/company-valuation-strip-6.webp',
+      'services/sub/valuation-and-advisory/property-valuation-strip-1.webp',
+      'services/sub/valuation-and-advisory/property-valuation-strip-2.webp',
+      'services/sub/valuation-and-advisory/property-valuation-strip-3.webp',
+      'services/sub/valuation-and-advisory/property-valuation-strip-4.webp',
+      '2025/04/pexels-googledeepmind-17483910-copy-1124x1536.jpg',
+      'services/sub/valuation-and-advisory/property-valuation-strip-6.webp',
     ],
-    talk: 'services/sub/valuation-and-advisory/company-valuation-talk.webp',
+    talk: 'services/sub/valuation-and-advisory/property-valuation-talk.webp',
   },
   'valuation-and-advisory/plant-machinery-valuation': {
     hero: 'services/sub/valuation-and-advisory/plant-machinery-valuation-hero.webp',

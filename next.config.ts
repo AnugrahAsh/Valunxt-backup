@@ -55,6 +55,12 @@ const nextConfig: NextConfig = {
       // ---- Real Estate service page: slug now matches its H1 --------------
       r('/services/real-estate-wealth-advisory/:path*', '/services/real-estate-investment-advisory/'),
 
+      // ---- UAE Company Valuation became Property Valuation 2026-09-16 ----
+      r(
+        '/en-ae/services/valuation-and-advisory/company-valuation/:path*',
+        '/en-ae/services/valuation-and-advisory/property-valuation/',
+      ),
+
       // ---- Content restructure -------------------------------------------
       r('/accounting-tax-audit-cpa/:path*', '/about/'),
       r('/services/business-consulting/:path*', '/services/real-estate-investment-advisory/'),

@@ -7,13 +7,19 @@
  * See ../template/subTypes.ts for the shape, the length rules and the note on
  * the success story being a placeholder.
  *
- * ALL FIVE PAGES ARE THE CLIENT'S page documents (20260914), word for word,
- * under the same two rules as the rest of the UAE pages: nothing added to the
- * documents or dropped from them, and no em dashes. Each document writes every
- * practice-level section for its page, so each page carries them in
+ * FOUR OF THE FIVE PAGES ARE THE CLIENT'S page documents (20260914), word for
+ * word, under the same two rules as the rest of the UAE pages: nothing added to
+ * the documents or dropped from them, and no em dashes. Each document writes
+ * every practice-level section for its page, so each page carries them in
  * `override`; the PARENT below is the shape they override and shows nowhere.
  * The same slot calls as the real-estate and mortgage pages apply, and the
  * ones particular to a page are marked at the line.
+ *
+ * PROPERTY VALUATION (20260916) replaced Company Valuation, slug and all; the
+ * old address 301s to it (next.config.ts). No client document stands behind
+ * its copy: it was written to the same slots at the same lengths, under the
+ * same rules, and its success story is a placeholder like the others (see
+ * subTypes.ts). Replace it word for word when the document arrives.
  *
  * THE FIGURE IN THE STORY PANEL. These documents write the panel's figure
  * inside its headline ("Trusted Across 11K+ Client Relationships."). The panel
@@ -225,95 +231,102 @@ const SPECS: SubSpec[] = [
     },
   },
   {
-    slug: 'company-valuation',
-    title: 'Company Valuation',
-    lede: 'RICS-aligned company and equity valuations supported by financial analysis, market evidence, forecasts and recognised valuation approaches.',
+    /* Written for the page, not from a client document (20260916); see the
+       note at the top of this file. */
+    slug: 'property-valuation',
+    title: 'Property Valuation',
+    lede: 'RICS-aligned valuation of residential, commercial and industrial property and land, supported by inspection, market evidence and recognised methods.',
+    /* The parent's alt describes the parent's banner; this page's hero is its own skyline. */
+    hero: { alt: 'Residential and office towers on the Abu Dhabi waterfront' },
     brief: {
       lede: [
-        'A company’s value is shaped by both what it has achieved and what its financial outlook suggests lies ahead. Historical performance provides part of the picture; earnings expectations, cash flows, market conditions and the economics of ownership can materially influence the conclusion.',
-        'ValuNxt brings these elements together to determine a well-supported value of the company or equity interest, applying the valuation approach most relevant to the purpose and circumstances of the assignment.',
+        'A property’s value rests on more than its size or its last sale price. Location, specification, condition, tenure and the income it can earn all play a part, alongside supply, demand and the transaction evidence in its market.',
+        'Valunxt brings these factors together through inspection, market analysis and the valuation method best suited to the property and the purpose, whether lending, a sale or purchase, financial reporting, an inheritance or a dispute.',
       ],
-      whatIntro: 'What Informs Company Value',
+      whatIntro: 'What Informs Property Value',
       what: [
-        { lead: 'Financial Performance.', text: 'Examine historical earnings, profitability and cash generation to understand the company’s underlying financial position.' },
-        { lead: 'Forecast Performance.', text: 'Assess projected earnings and cash flows alongside the assumptions supporting future expectations.' },
-        { lead: 'Market Evidence.', text: 'Consider relevant market information and comparable evidence when assessing how the company may be valued.' },
-        { lead: 'Capital & Ownership.', text: 'Understand how the company’s financing and ownership structure can influence the value attributable to equity holders.' },
+        { lead: 'Location & Accessibility.', text: 'Consider the community, connectivity and surrounding amenities, and the demand they create for the property.' },
+        { lead: 'Specification & Condition.', text: 'Assess size, layout, build quality, age and state of repair through inspection of the property itself.' },
+        { lead: 'Income & Tenancy.', text: 'Examine rental income, lease terms, occupancy and service charges where the property is let.' },
+        { lead: 'Market Evidence.', text: 'Review comparable transactions, rental evidence and current supply to place the property in its market context.' },
       ],
-      howIntro: 'What May Need to Be Valued',
+      howIntro: 'Property Types We Value',
       how: [
-        { lead: 'The Company.', text: 'Determine the value of the company as a whole based on its financial and economic characteristics.' },
-        { lead: 'Equity Interests.', text: 'Assess the value attributable to a particular ownership interest in the company.' },
-        { lead: 'Shares & Shareholdings.', text: 'Establish value where shares are being issued, transferred, acquired or otherwise assessed.' },
-        { lead: 'Investor Interests.', text: 'Provide an independent valuation perspective where new or existing investors need clarity around value.' },
+        { lead: 'Residential Property.', text: 'Value villas, townhouses and apartments, whether owner-occupied, let or held within a wider portfolio.' },
+        { lead: 'Commercial Property.', text: 'Assess offices, retail units, hotels and mixed-use buildings, with close attention to income and lease terms.' },
+        { lead: 'Industrial Property.', text: 'Establish the value of warehouses, logistics facilities and factories, reflecting their specification and site.' },
+        { lead: 'Land & Development Sites.', text: 'Assess plots and sites by reference to permitted use, development potential and comparable land evidence.' },
       ],
       panel: {
-        title: 'Value the Company. Understand the Equity.',
-        sub: 'A clearer view of company value and the financial interests behind its ownership.',
+        title: 'Know the Property. Trust the Value.',
+        sub: 'An independent view of property value, grounded in inspection, market evidence and a clearly stated method.',
       },
     },
     override: {
       why: {
         pill: 'Why Valunxt?',
-        titleTop: 'Valuation Expertise.',
-        titleMid: 'Built Over',
-        titleMark: 'Decades.',
-        note: '48+ years of valuation expertise bring analytical depth, market perspective and seasoned professional judgement to every assignment.',
+        titleTop: 'RICS Standards.',
+        titleMid: 'Applied to Every',
+        titleMark: 'Property.',
+        note: '48+ years of valuation expertise bring market knowledge, inspection discipline and professional judgement to every property we value.',
         cta: { label: 'Speak With an Expert', href: '/free-consultation/' },
         ...WHY_PHOTO,
+        /* WHY_PHOTO's alt describes its stand-in; this page's own plate is shown. */
+        alt: 'The glass facade of an office tower',
       },
       approach: {
         eyebrow: 'Our valuation approach',
         columns: [
-          { title: 'Examine the Fundamentals', body: 'We assess financial performance, earnings quality, cash generation and capital structure to establish the basis for valuation.' },
-          { title: 'Evaluate What Lies Ahead', body: 'Forecasts, growth expectations and key assumptions are considered alongside market evidence and relevant risks.' },
-          { title: 'Conclude on Value', body: 'Appropriate valuation approaches are applied and reconciled through professional judgement to reach a considered conclusion of value.' },
+          { title: 'Inspect the Property', body: 'We confirm the purpose and basis of value, review title and tenancy details, and inspect the property and its setting.' },
+          { title: 'Analyse the Market', body: 'Comparable sales, rental evidence, supply and demand are examined alongside the property’s own characteristics and risks.' },
+          { title: 'Apply the Right Method', body: 'The comparison, income, cost or residual method is applied as the property requires to reach a supported conclusion of value.' },
         ],
       },
       insights: {
-        title: 'What Sits Behind Company Value?',
-        lede: 'Explore the financial, market and ownership factors that influence how companies and equity interests are valued.',
+        title: 'What Moves Property Value?',
+        lede: 'Explore the location, income and market factors that influence how residential, commercial and industrial property and land are valued.',
         all: { label: 'Explore Valuation Insights', href: '/blogs/' },
         cards: [
-          /* The comma after "value" stands where the document's dash was. */
-          { title: 'Enterprise Value or Equity Value?', excerpt: 'Understanding two important measures of company value, and why the distinction matters.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
-          { title: 'How Much Weight Should Forecasts Carry?', excerpt: 'Why future expectations need to be considered alongside the assumptions supporting them.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
-          { title: 'What Can Comparable Companies Tell You?', excerpt: 'How market evidence can provide perspective when assessing company value.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
-          { title: 'What Is a Shareholding Really Worth?', excerpt: 'Why the value of an ownership interest may require a closer look at the economics behind it.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
+          { title: 'Market Value or Asking Price?', excerpt: 'Why an independent valuation and an agent’s price opinion answer different questions.', href: '/blogs/', image: 'blogs/blog-1.webp', alt: '' },
+          { title: 'How Is Rental Property Valued?', excerpt: 'The part rent, lease terms and yields play in the value of an income-producing property.', href: '/blogs/', image: 'blogs/blog-2.webp', alt: '' },
+          { title: 'What Makes a Comparable Reliable?', excerpt: 'How recent, relevant transactions support a conclusion of value that holds up to scrutiny.', href: '/blogs/', image: 'blogs/blog-3.webp', alt: '' },
+          { title: 'What Is Development Land Worth?', excerpt: 'Why permitted use and development economics shape the value of a site.', href: '/blogs/', image: 'blogs/blog-4.webp', alt: '' },
         ],
       },
       story: {
         ...STORY_PHOTO,
-        alt: 'A valuer reviewing an asset file',
-        quote: 'We needed an independent view of the company’s value before progressing an ownership transaction. ValuNxt gave us a clear understanding of the financial analysis, assumptions and market evidence behind the conclusion.',
-        pill: 'Built on Trust',
-        title: 'Trusted Across',
-        stat: '11K+',
-        note: 'Clients. A valuation legacy shaped over 48+ years, bringing established professional standards and deep valuation experience to the ValuNxt platform.',
+        alt: 'A professional working through a report at a desk',
+        /* A placeholder quote, unattributed, until a real one is approved. */
+        quote: 'We needed an independent valuation of our property before refinancing. Valunxt gave us a clear understanding of the market evidence, assumptions and method behind the figure.',
+        pill: 'Valuation at Scale',
+        /* The figure is the client's own, from the parent page's proof points. */
+        title: 'Property Market Value Assessed.',
+        stat: '200Bn+ USD',
+        note: 'Extensive valuation experience across residential, commercial, industrial and land assets, built over 48+ years.',
         cta: { label: 'Discover Our Expertise', href: '/services/valuation-and-advisory/' },
         arrow: { href: '/services/valuation-and-advisory/', label: 'More about Valuation & Advisory' },
       },
       band: {
         ...BAND_PHOTO,
-        title: 'Valunxt Valuation Intelligence',
-        body: 'From Financial Performance to Equity Value. Understanding company value means connecting what the company has delivered with what it may generate ahead and what that ultimately means for its owners.',
+        title: 'Valunxt Property Intelligence',
+        body: 'From Location to Conclusion of Value. Understanding what a property is worth means reading its setting, condition, income and market evidence together, rather than any one of them alone.',
         cta: { label: 'Discover More', href: '/blogs/' },
       },
       vision: {
         steps: [
-          { title: 'Performance', body: 'Establish the foundation. Look at the earnings, cash flows and financial characteristics supporting the company today.' },
-          { title: 'Forecasts', body: 'Consider what lies ahead. Examine future expectations and the assumptions that underpin projected performance.' },
-          { title: 'Equity', body: 'Understand the ownership value. Bring the company’s financial position and capital structure together to consider the value attributable to its owners.' },
+          { title: 'Location', body: 'Read the setting. Consider the community, access and demand that shape what the property can command.' },
+          { title: 'Condition', body: 'See the property as it stands. Assess its specification, state of repair and remaining useful life through inspection.' },
+          { title: 'Evidence', body: 'Test the conclusion. Weigh comparable transactions, rents and current market conditions before settling on a value.' },
         ],
         pill: 'Our Vision',
-        quote: 'To bring greater clarity to company and equity value through analysis that looks beyond a single financial measure.',
+        quote: 'To bring greater clarity to property value through inspection, market evidence and a method every reader can follow.',
       },
-      /* "Company Valuation For" heads the strip in the document; hidden slot. */
-      strip: stripOf('valuation-and-advisory', ['Whole Company', 'Equity Interests', 'Shareholdings', 'Investor Entry', 'Share Transfers', 'Ownership Transactions']),
+      /* What a property valuation is instructed for; the strip has no visible heading. */
+      strip: stripOf('valuation-and-advisory', ['Mortgage & Lending', 'Sale & Purchase', 'Financial Reporting', 'Investment Portfolios', 'Development Appraisal', 'Disputes & Litigation']),
       talk: {
-        head: 'Know the Company. Understand the Value.',
-        lede: 'Get an independent view of company or equity value grounded in financial performance, forecasts and relevant market evidence.',
-        cta: { label: 'Speak to a Valuer', href: '/free-consultation/' },
+        head: 'Before You Buy, Sell or Borrow, Know the Value.',
+        lede: 'Get an independent property valuation grounded in inspection, market evidence and the method your purpose requires.',
+        cta: { label: 'Request a Valuation', href: '/contact/' },
         image: VALUATION_TEMPLATE.close.image,
       },
     },

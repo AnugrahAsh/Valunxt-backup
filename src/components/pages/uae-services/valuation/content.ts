@@ -16,6 +16,11 @@
  *
  * SUB-SERVICE SLUGS resolve through vxnServices('en-ae'), so every slug below
  * exists in that registry and the strip cannot point at a 404.
+ *
+ * PROPERTY VALUATION REPLACED COMPANY VALUATION (20260916). Its strip card and
+ * its item in the first tab are not from the document, and the words that
+ * named Company Valuation around them now name property: "businesses and
+ * property" in the strip's lede, the first tab's label and its heading.
  */
 import type { ServiceTemplateContent } from '../template/types';
 
@@ -46,7 +51,7 @@ export const VALUATION_TEMPLATE: ServiceTemplateContent = {
   strip: {
     kicker: 'Explore Services',
     head: 'Valuation for Every Business Need.',
-    lede: 'From businesses and companies to machinery, assets and financial interests, access credible valuation expertise built around the purpose of your decision.',
+    lede: 'From businesses and property to machinery, assets and financial interests, access credible valuation expertise built around the purpose of your decision.',
     cta: 'Speak to an Expert',
     subs: [
       {
@@ -56,10 +61,11 @@ export const VALUATION_TEMPLATE: ServiceTemplateContent = {
         figure: ['services/va-explore-business-valuation.webp', 'new-folder/services-1.webp'],
       },
       {
-        name: 'Company Valuation',
-        slug: 'company-valuation',
-        cardText: 'Determine company or equity value using financial performance, market evidence, forecasts and relevant valuation approaches.',
-        figure: ['services/va-explore-company-valuation.webp', 'new-folder/who-we-are-1.webp'],
+        name: 'Property Valuation',
+        slug: 'property-valuation',
+        cardText: 'Value residential, commercial and industrial property and land for lending, transactions, reporting and legal matters.',
+        /* Stand-in: an unused townhouse photograph, until the purpose shot is supplied. */
+        figure: ['services/va-explore-property-valuation.webp', '2025/03/GettyImages-2061789423-1500x2048.jpg'],
       },
       {
         name: 'Plant & Machinery Valuation',
@@ -91,12 +97,12 @@ export const VALUATION_TEMPLATE: ServiceTemplateContent = {
        consultation. */
     tabs: [
       {
-        tab: 'Business & Company',
-        title: 'What Is the Business Really Worth?',
+        tab: 'Business & Property',
+        title: 'What Is the Business or Property Really Worth?',
         intro: 'Whether you are preparing for a transaction, restructuring, planning ahead or evaluating an ownership interest, get a clear and supportable view of value.',
         items: [
           { name: 'Business Valuation', text: 'Assess the economic value of a business around the purpose of the valuation.' },
-          { name: 'Company Valuation', text: 'Determine company or equity value using financial performance, forecasts and market evidence.' },
+          { name: 'Property Valuation', text: 'Value residential, commercial and industrial property and land using inspection and market evidence.' },
           { name: 'Right Approach, Right Purpose', text: 'Apply the valuation approach best suited to the requirement and intended use.' },
         ],
         cta: { label: 'Discuss Your Requirement', href: '/free-consultation/' },

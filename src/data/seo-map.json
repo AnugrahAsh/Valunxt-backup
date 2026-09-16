@@ -404,15 +404,6 @@
     "og_title": "Business Valuation | Valunxt",
     "og_description": ""
   },
-  "en-ae/services/valuation-and-advisory/company-valuation": {
-    "title": "Company Valuation | Valunxt",
-    "description": "",
-    "canonical": "",
-    "robots": "index, follow",
-    "keywords": "",
-    "og_title": "Company Valuation | Valunxt",
-    "og_description": ""
-  },
   "en-ae/services/valuation-and-advisory/financial-valuation": {
     "title": "Financial Valuation | Valunxt",
     "description": "",
@@ -430,6 +421,15 @@
     "keywords": "",
     "og_title": "Plant & Machinery Valuation | Valunxt",
     "og_description": ""
+  },
+  "en-ae/services/valuation-and-advisory/property-valuation": {
+    "title": "Property Valuation | Valunxt",
+    "description": "Independent, RICS-aligned valuation of residential, commercial and industrial property and land in the UAE, for lending, transactions, reporting and disputes.",
+    "canonical": "",
+    "robots": "index, follow",
+    "keywords": "",
+    "og_title": "Property Valuation | Valunxt",
+    "og_description": "Independent, RICS-aligned valuation of residential, commercial and industrial property and land in the UAE, for lending, transactions, reporting and disputes."
   },
   "faq": {
     "title": "FAQ | Valunxt",

@@ -336,9 +336,11 @@ export function vxnServices(slug?: string | null): Service[] {
         banner: ['banners/uae-slider-6.webp', 'banners/uae-slider-4.webp'],
         headline: 'Independent Valuations. Defensible Decisions.',
         lede: 'RICS-regulated property, business and plant valuation through group firm Reliant Surveyors &mdash; method documented to withstand scrutiny, not just review.',
+        /* Property Valuation replaced Company Valuation (20260916), slug and
+           all; the old address 301s to it (next.config.ts). */
         subs: [
           { name: 'Business Valuation', slug: 'business-valuation' },
-          { name: 'Company Valuation', slug: 'company-valuation' },
+          { name: 'Property Valuation', slug: 'property-valuation' },
           { name: 'Plant & Machinery Valuation', slug: 'plant-machinery-valuation' },
           { name: 'Asset Valuation', slug: 'asset-valuation' },
           { name: 'Financial Valuation', slug: 'financial-valuation' },

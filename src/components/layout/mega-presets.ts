@@ -172,8 +172,9 @@ export interface AboutPreset {
  * list leadership, news and awards pages; this site has none to link (its
  * /about/leadership/ and /track-record/ 404 until their data files are filled),
  * so the columns carry the About family instead: Who We Are, Careers and FAQ,
- * which the old dropdown listed, and the three pages that say who Valunxt works
- * with and how to reach it.
+ * which the old dropdown listed, plus Clients — who Valunxt works with. Contact
+ * Us was dropped (client instruction 20260917): it is its own bar item already,
+ * so listing it a second time here was redundant.
  *
  * THE WORDS. The card is the client's own copy from the home document (the
  * Expertise band's title, sentence and link, and its "Years of Expertise"
@@ -182,6 +183,10 @@ export interface AboutPreset {
  * "Our Legacy" are drafted too. Who We Are reads the UAE home's positioning on
  * /en-ae/ and the About page's own on /en-in/. The markets and the office
  * cities come from site-data.ts, as everything that states them must.
+ *
+ * EVERY LINE RUNS 80-90 CHARACTERS (client instruction 20260917: "content
+ * count should be same for all"), so the four rows sit at the same height
+ * rather than however long that page's own lede happened to be.
  */
 export function aboutPreset(region: string): AboutPreset {
   return {
@@ -198,12 +203,12 @@ export function aboutPreset(region: string): AboutPreset {
             text:
               region === 'en-ae'
                 ? 'One accountable partner for business, property and investment advisory in the UAE.'
-                : `A real estate wealth, capital, intelligence and technology group across ${vxnMarkets('short')}.`,
+                : `A real estate, capital and technology group serving clients across ${vxnMarkets('short')}.`,
           },
           {
             name: 'Clients',
             href: '/clients/',
-            text: 'The investors, families, developers and institutions we advise.',
+            text: 'The investors, families, developers and institutions our advisers serve every day.',
           },
         ],
       },
@@ -214,17 +219,12 @@ export function aboutPreset(region: string): AboutPreset {
           {
             name: 'Careers',
             href: '/about/careers/',
-            text: `Build a career with purpose across ${vxnMarkets('short')}.`,
+            text: `Build a career with real purpose across ${vxnMarkets('short')}, wherever you join us.`,
           },
           {
             name: 'FAQ',
             href: '/faq/',
-            text: 'Common questions on mandates, valuation, the group and how we are paid.',
-          },
-          {
-            name: 'Contact Us',
-            href: '/contact/',
-            text: `Speak to our advisory team in ${vxnMarkets('cities')}.`,
+            text: 'Common questions on mandates, valuation, the group structure and how our fees are set.',
           },
         ],
       },

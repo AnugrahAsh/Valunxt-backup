@@ -3,11 +3,13 @@
  *
  * The vision rail is a statement about the firm, so it is the same on all
  * thirty-three pages. The insights rail on the five practices other than
- * Accounting & Tax shows the four articles the site actually publishes — the
- * same four the UAE home page's carousel lists — rather than the placeholder
- * cards the bookkeeping page was built with; the bookkeeping page keeps its
- * own because the client has seen them. The strip's stand-in photographs are
- * the home page's six, in the home page's order.
+ * Accounting & Tax shows four of the site's real published articles (the
+ * launch-seed posts these used to point to were unpublished 20260917 on
+ * client instruction, so this rail now names four of the imported vx_posts
+ * articles instead) rather than the placeholder cards the bookkeeping page
+ * was built with; the bookkeeping page keeps its own because the client has
+ * seen them. The strip's stand-in photographs are the home page's six, in
+ * the home page's order.
  */
 import type { Industry } from '@/components/sections/HomeIndustriesRow';
 
@@ -41,54 +43,54 @@ export const SHARED_VISION: SubVision = {
     'first, thinking independently, and advising with conviction.',
 };
 
-/** The four articles the site publishes, as the home carousel lists them. */
+/** Four of the site's real published articles (vx_posts), newest first. */
 export const SITE_ARTICLES: SubInsight[] = [
   {
-    category: 'Real Estate',
+    category: 'Corporate Tax',
     kind: 'Article',
-    date: 'July 11, 2026',
-    title: 'How High-Net-Worth Investors Build Wealth Through Real Estate',
+    date: 'September 15, 2026',
+    title: 'Tax Planning Strategies for UAE Business Owners: How to Save Money Legally',
     excerpt:
-      'For affluent investors, real estate is a disciplined, multi-decade strategy for compounding ' +
-      'capital, generating income, and preserving wealth across cycles.',
-    href: '/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/',
-    image: 'blogs/blog-1.webp',
+      'Legal UAE tax planning strategies, including Corporate Tax deductions, Small Business ' +
+      'Relief, Free Zone rules, tax losses and compliance tips.',
+    href: '/blogs/tax-planning-uae-business-owners/',
+    image: 'blogs/tax-planning-uae-business-owners.webp',
     alt: '',
   },
   {
-    category: 'Capital',
+    category: 'Accounting',
     kind: 'Article',
-    date: 'July 11, 2026',
-    title: 'Capital Planning for Large Property Developments',
+    date: 'September 15, 2026',
+    title: 'E-Commerce Accounting UAE: Bookkeeping, Inventory & Profit',
     excerpt:
-      'Large developments rarely fail for lack of a good idea — they fail for lack of a capital ' +
-      'plan mapped across the full lifecycle.',
-    href: '/blogs/capital-planning-for-large-property-developments/',
-    image: 'blogs/blog-2.webp',
+      'Generic bookkeeping can hide marketplace fees, returns, inventory costs and weak margins ' +
+      '— what growing UAE e-commerce businesses need from accounting.',
+    href: '/blogs/ecommerce-accounting-uae/',
+    image: 'blogs/ecommerce-accounting-uae.webp',
     alt: '',
   },
   {
-    category: 'Research',
+    category: 'VAT',
     kind: 'Article',
-    date: 'July 11, 2026',
-    title: 'Why Market Intelligence Matters Before Every Property Investment',
+    date: 'September 11, 2026',
+    title: 'UAE VAT Compliance Checklist: Stay Ahead of Deadlines and Reduce Penalty Risk',
     excerpt:
-      'The best investment decisions are made before the deal, not during it — independent ' +
-      'intelligence turns conviction into evidence.',
-    href: '/blogs/why-market-intelligence-matters-before-every-property-investment/',
-    image: 'blogs/blog-3.webp',
+      'Manage filing deadlines, reconciliations, supporting records, review, payment and audit ' +
+      'readiness every Tax Period.',
+    href: '/blogs/uae-vat-compliance-checklist/',
+    image: 'blogs/uae-vat-compliance-checklist.png',
     alt: '',
   },
   {
-    category: 'Valuation',
+    category: 'Corporate Tax',
     kind: 'Article',
-    date: 'July 11, 2026',
-    title: 'The Future of Automated Valuation Models (AVMs)',
+    date: 'September 3, 2026',
+    title: 'Why UAE Startups Struggle With Financial Due Diligence',
     excerpt:
-      'Automated valuation models are reshaping how quickly property can be valued — knowing ' +
-      'their strengths and limits is essential.',
-    href: '/blogs/the-future-of-automated-valuation-models-avms/',
-    image: 'blogs/blog-4.webp',
+      'Disorganised financial records, revenue documentation and reporting are what trip up a ' +
+      'pre-investment financial review — and how to close those gaps early.',
+    href: '/blogs/financial-due-diligence-uae-startups/',
+    image: 'blogs/financial-due-diligence-uae-startups.webp',
     alt: '',
   },
 ];

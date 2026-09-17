@@ -9,24 +9,24 @@
  * THE MAP (20260917) is the one deliberate exception. The captured page had a
  * single Google Maps embed centred on the Mumbai office alone; it is now
  * ContactWorldMap, which plots all four — see that file for why and how.
+ *
+ * THE ADDRESS AND NUMBER CARDS (20260917) are region-aware: the page used to
+ * pair a Mumbai street address with the UAE telephone number under a bare
+ * "Call us at:", which read as one contactable location whichever edition
+ * showed it. It now reads the visitor's own edition's lead office —
+ * vxnRegionData(region).offices[0] is Dubai on en-ae, Mumbai on en-in — so the
+ * address and the number on the card are always the same country's.
  */
-import { rurl } from '@/lib/region';
+import { rurl, vxnRegionData } from '@/lib/region';
 import { vxnEmail, vxnOffice } from '@/lib/site-data';
 import type { PageConfig } from '@/lib/page-config';
 import ContactWorldMap from '@/components/sections/ContactWorldMap';
 
 export default function ContactBody({ page, region }: { page: PageConfig; region: string }) {
-  /* Each card names the office it belongs to. The page used to pair a Mumbai
-     street address with a UAE telephone number under a bare "Call us at:",
-     which read as one contactable location. It now leads with the Mumbai
-     office, and the line beside it is the India line — one country, one
-     contactable location. The full office list, Dubai and Abu Dhabi included,
-     lives in vxnOffices(). */
-  const mumbai = vxnOffice('mumbai')!;
-  /* One number published here — the India line. The whole card is the tel:
-     link, so the number itself is plain description text and keeps the card's
-     black type rather than the accent link colour. */
-  const noida = vxnOffice('noida')!;
+  /* The whole card is the tel:/map link, so the address and number themselves
+     are plain description text and keep the card's black type rather than the
+     accent link colour. */
+  const office = vxnOffice(vxnRegionData(region).offices[0])!;
 
   return (
     <>
@@ -85,7 +85,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       							<div data-elementor-type="wp-page" data-elementor-id="264" className="elementor elementor-264" data-elementor-post-type="page">
       								<div className="elementor-element elementor-element-3f29e6b e-flex e-con-boxed e-con e-parent" data-id="3f29e6b" data-element_type="container" data-e-type="container">
       									<div className="e-con-inner">
-      										      										<a className="elementor-element elementor-element-4ed884b elementor-invisible e-con-full animated-fast e-flex e-con e-child" data-id="4ed884b" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\",\"animation\":\"fadeIn\",\"animation_delay\":0}"} href={mumbai.map} target="_blank" rel="noopener">
+      										      										<a className="elementor-element elementor-element-4ed884b elementor-invisible e-con-full animated-fast e-flex e-con e-child" data-id="4ed884b" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\",\"animation\":\"fadeIn\",\"animation_delay\":0}"} href={office.map} target="_blank" rel="noopener">
       											<div className="elementor-element elementor-element-299dffd elementor-view-stacked elementor-shape-rounded elementor-position-left elementor-mobile-position-left elementor-widget-mobile__width-initial elementor-widget elementor-widget-icon-box" data-id="299dffd" data-element_type="widget" data-e-type="widget" data-widget_type="icon-box.default">
       												<div className="elementor-widget-container">
       													<div className="elementor-icon-box-wrapper">
@@ -99,11 +99,11 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
 
       															<h6 className="elementor-icon-box-title">
       																<span>
-      																	Visit us &#8212; Mumbai: </span>
+      																	Visit us &#8212; {office.city}: </span>
       															</h6>
 
       															<p className="elementor-icon-box-description">
-      																{mumbai.address} </p>
+      																{office.address} </p>
 
       														</div>
 
@@ -120,7 +120,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       												</div>
       											</div>
       										</a>
-      										      										<a className="elementor-element elementor-element-03ad117 elementor-invisible e-con-full animated-fast e-flex e-con e-child" data-id="03ad117" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\",\"animation\":\"fadeIn\",\"animation_delay\":50}"} href={`tel:${noida.tel}`}>
+      										      										<a className="elementor-element elementor-element-03ad117 elementor-invisible e-con-full animated-fast e-flex e-con e-child" data-id="03ad117" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\",\"animation\":\"fadeIn\",\"animation_delay\":50}"} href={`tel:${office.tel}`}>
       											<div className="elementor-element elementor-element-1d8511d elementor-view-stacked elementor-shape-rounded elementor-position-left elementor-mobile-position-left elementor-widget-mobile__width-initial elementor-widget elementor-widget-icon-box" data-id="1d8511d" data-element_type="widget" data-e-type="widget" data-widget_type="icon-box.default">
       												<div className="elementor-widget-container">
       													<div className="elementor-icon-box-wrapper">
@@ -138,7 +138,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       															</h6>
 
       															<p className="elementor-icon-box-description">
-      																{noida.phone} </p>
+      																{office.phone} </p>
 
       														</div>
 

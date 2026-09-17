@@ -12,14 +12,20 @@
  *   Savills' "Why Savills" sheet         a sentence under each entry, so a
  *                                        link says what is behind it
  *
+ * EVERY DESCRIPTION IS THE SAME LENGTH (client instruction 20260917: "content
+ * count should be same for all"), so the four rows read as one deliberate
+ * grid rather than whichever line each page's own copy happened to run to.
+ * Contact Us was dropped from Work With Us the same instruction (it already
+ * sits in the top bar as its own item).
+ *
  *   ┌──────────────────────┬──────────────────────┬───────────────────────┐
  *   │ Our Firm             │ Work With Us         │ Our Legacy        (x) │
  *   │ Who We Are         › │ Careers            › │ ┌───────────────────┐ │
  *   │ one line             │ one line             │ │ artwork     [48+] │ │
  *   │──────────────────────│──────────────────────│ └───────────────────┘ │
- *   │ Our Network        › │ FAQ                › │ Expertise Measured... │
+ *   │ Clients            › │ FAQ                › │ Expertise Measured... │
  *   │ one line             │ one line             │ the sentence          │
- *   │──────────────────────│──────────────────────│ About Valunxt  →      │
+ *   │                      │                      │ About Valunxt  →      │
  *   └──────────────────────────── accent rule ─────────────────────────────┘
  *
  * THE SHEET IS THE SERVICES SHEET. The <li> carries `vxn-umega`, so the panel

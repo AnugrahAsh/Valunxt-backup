@@ -1,28 +1,44 @@
 /**
  * /blogs/ — page body.
  *
- * Port of blogs/index.php. The captured Elementor markup is unchanged: the only
- * edits are the ones JSX requires (className, self-closed voids, style
- * objects) and internal links going through rurl() so they stay in the
- * visitor's market.
+ * Port of blogs/index.php. The header (breadcrumb, H1, excerpt) is the
+ * captured Elementor markup, unchanged. The grid itself is not (20260918):
+ * client instruction replaced the Elementor loop-grid's plain date+title
+ * card with the tile the article page's "More Insights" grid already used —
+ * a category eyebrow, a serif title and a circular arrow — so both surfaces
+ * share one card, `BlogCardTile`.
  */
 import { rurl } from '@/lib/region';
-import BlogLoopCard from './BlogLoopCard';
+import BlogCardTile, { BLOG_TILE_CSS } from './BlogCardTile';
+import BlogPager from './BlogPager';
 import type { BlogCard } from '@/lib/blog/types';
 import type { PageConfig } from '@/lib/page-config';
+
+const CSS = `
+.vxn-tile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;}
+@media(max-width:1100px){.vxn-tile-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:768px){.vxn-tile-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.vxn-tile-grid{grid-template-columns:1fr;}}
+${BLOG_TILE_CSS}
+`;
 
 export default function BlogsBody({
   page,
   region,
   posts,
+  currentPage,
+  totalPages,
 }: {
   page: PageConfig;
   region: string;
-  /** Every published post, newest first — read from the database by the route. */
+  /** This page's 8 cards, in display order — the route already sliced them. */
   posts: BlogCard[];
+  currentPage: number;
+  totalPages: number;
 }) {
   return (
     <>
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
       <div id="main-content">
 
@@ -84,187 +100,12 @@ export default function BlogsBody({
       									<div className="e-con-inner">
       										<div className="elementor-element elementor-element-5fec592 elementor-grid-4 elementor-grid-tablet-3 elementor-grid-mobile-1 elementor-widget elementor-widget-loop-grid" data-id="5fec592" data-element_type="widget" data-e-type="widget" data-settings={"{\"template_id\":\"1961\",\"columns\":4,\"pagination_type\":\"load_more_on_click\",\"row_gap\":{\"unit\":\"px\",\"size\":45,\"sizes\":[]},\"columns_tablet\":3,\"row_gap_tablet\":{\"unit\":\"px\",\"size\":30,\"sizes\":[]},\"_skin\":\"post\",\"columns_mobile\":\"1\",\"edit_handle_selector\":\"[data-elementor-type=\\\"loop-item\\\"]\",\"load_more_spinner\":{\"value\":\"fas fa-spinner\",\"library\":\"fa-solid\"},\"row_gap_mobile\":{\"unit\":\"px\",\"size\":\"\",\"sizes\":[]}}"} data-widget_type="loop-grid.post">
       											<div className="elementor-widget-container">
-      												<div className="elementor-loop-container elementor-grid" role="list">
-      													<style id="loop-1961" dangerouslySetInnerHTML={{ __html: `
-      														.elementor-1961 .elementor-element.elementor-element-8b3458c {
-      															--display: flex;
-      															--gap: 15px 15px;
-      															--row-gap: 15px;
-      															--column-gap: 15px;
-      															--padding-top: 0px;
-      															--padding-bottom: 0px;
-      															--padding-left: 0px;
-      															--padding-right: 0px;
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-e4b59e9 {
-      															--display: flex;
-      															--flex-direction: row;
-      															--container-widget-width: calc((1 - var(--container-widget-flex-grow)) * 100%);
-      															--container-widget-height: 100%;
-      															--container-widget-flex-grow: 1;
-      															--container-widget-align-self: stretch;
-      															--flex-wrap-mobile: wrap;
-      															--align-items: center;
-      															--gap: 10px 10px;
-      															--row-gap: 10px;
-      															--column-gap: 10px;
-      															--padding-top: 0px;
-      															--padding-bottom: 0px;
-      															--padding-left: 0px;
-      															--padding-right: 0px;
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd>.elementor-widget-container {
-      															background-color: var(--e-global-color-vamtam_accent_3);
-      															padding: 8px 8px 8px 8px;
-      															border-radius: 4px 4px 4px 4px;
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd:hover .elementor-widget-container {
-      															background-color: var(--e-global-color-vamtam_accent_4);
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-items:not(.elementor-inline-items) .elementor-icon-list-item:not(:last-child) {
-      															padding-bottom: calc(10px/2);
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-items:not(.elementor-inline-items) .elementor-icon-list-item:not(:first-child) {
-      															margin-top: calc(10px/2);
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-items.elementor-inline-items .elementor-icon-list-item {
-      															margin-right: calc(10px/2);
-      															margin-left: calc(10px/2);
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-items.elementor-inline-items {
-      															margin-right: calc(-10px/2);
-      															margin-left: calc(-10px/2);
-      														}
-
-      														body.rtl .elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-items.elementor-inline-items .elementor-icon-list-item:after {
-      															left: calc(-10px/2);
-      														}
-
-      														body:not(.rtl) .elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-items.elementor-inline-items .elementor-icon-list-item:after {
-      															right: calc(-10px/2);
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-icon {
-      															width: 14px;
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-icon i {
-      															font-size: 14px;
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-icon svg {
-      															--e-icon-list-icon-size: 14px;
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-text,
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-text a {
-      															color: var(--e-global-color-597ed21);
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-item {
-      															font-family: var(--e-global-typography-798d94d-font-family), Sans-serif;
-      															font-size: var(--e-global-typography-798d94d-font-size);
-      															font-weight: var(--e-global-typography-798d94d-font-weight);
-      															line-height: var(--e-global-typography-798d94d-line-height);
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-923a9ab .elementor-icon-list-icon {
-      															width: 14px;
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-923a9ab .elementor-icon-list-icon i {
-      															font-size: 14px;
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-923a9ab .elementor-icon-list-icon svg {
-      															--e-icon-list-icon-size: 14px;
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-923a9ab .elementor-icon-list-item {
-      															font-family: var(--e-global-typography-798d94d-font-family), Sans-serif;
-      															font-size: var(--e-global-typography-798d94d-font-size);
-      															font-weight: var(--e-global-typography-798d94d-font-weight);
-      															line-height: var(--e-global-typography-798d94d-line-height);
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-74fce07 .elementor-heading-title {
-      															color: var(--e-global-color-vamtam_accent_6);
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-74fce07 .elementor-heading-title a:hover,
-      														.elementor-1961 .elementor-element.elementor-element-74fce07 .elementor-heading-title a:focus {
-      															color: var(--e-global-color-vamtam_accent_1);
-      														}
-
-      														.elementor-1961 .elementor-element.elementor-element-abced80 .elementor-widget-container {
-      															font-size: var(--e-global-typography-d778ca5-font-size);
-      															line-height: var(--e-global-typography-d778ca5-line-height);
-      															color: var(--e-global-color-vamtam_accent_8);
-      														}
-
-      														@media(max-width:1024px) {
-      															.elementor-1961 .elementor-element.elementor-element-8b3458c {
-      																--gap: 10px 10px;
-      																--row-gap: 10px;
-      																--column-gap: 10px;
-      															}
-
-      															.elementor-1961 .elementor-element.elementor-element-e4b59e9 {
-      																--margin-top: 4px;
-      																--margin-bottom: 0px;
-      																--margin-left: 0px;
-      																--margin-right: 0px;
-      															}
-
-      															.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-item {
-      																font-size: var(--e-global-typography-798d94d-font-size);
-      																line-height: var(--e-global-typography-798d94d-line-height);
-      															}
-
-      															.elementor-1961 .elementor-element.elementor-element-923a9ab .elementor-icon-list-item {
-      																font-size: var(--e-global-typography-798d94d-font-size);
-      																line-height: var(--e-global-typography-798d94d-line-height);
-      															}
-
-      															.elementor-1961 .elementor-element.elementor-element-abced80>.elementor-widget-container {
-      																margin: -0.3em 0em 0em 0em;
-      															}
-
-      															.elementor-1961 .elementor-element.elementor-element-abced80 .elementor-widget-container {
-      																font-size: var(--e-global-typography-d778ca5-font-size);
-      																line-height: var(--e-global-typography-d778ca5-line-height);
-      															}
-      														}
-
-      														@media(max-width:767px) {
-      															.elementor-1961 .elementor-element.elementor-element-4e1ffcd .elementor-icon-list-item {
-      																font-size: var(--e-global-typography-798d94d-font-size);
-      																line-height: var(--e-global-typography-798d94d-line-height);
-      															}
-
-      															.elementor-1961 .elementor-element.elementor-element-923a9ab .elementor-icon-list-item {
-      																font-size: var(--e-global-typography-798d94d-font-size);
-      																line-height: var(--e-global-typography-798d94d-line-height);
-      															}
-
-      															.elementor-1961 .elementor-element.elementor-element-abced80 .elementor-widget-container {
-      																font-size: var(--e-global-typography-d778ca5-font-size);
-      																line-height: var(--e-global-typography-d778ca5-line-height);
-      															}
-      														}
-      													` }} />
-      													{posts.map((post, i) => (
-      														<BlogLoopCard key={post.slug} post={post} index={i} region={region} />
+      												<div className="vxn-tile-grid" role="list">
+      													{posts.map((post) => (
+      														<BlogCardTile key={post.slug} post={post} region={region} />
       													))}
       												</div>
-
+      												<BlogPager region={region} currentPage={currentPage} totalPages={totalPages} />
       											</div>
       										</div>
       									</div>

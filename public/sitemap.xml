@@ -184,24 +184,6 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://valunxt.com/en-in/network/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/network/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/network/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/network/" />
-        <lastmod>2026-09-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://valunxt.com/en-ae/network/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/network/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/network/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/network/" />
-        <lastmod>2026-09-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://valunxt.com/en-in/partnership/</loc>
         <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/partnership/" />
         <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/partnership/" />
@@ -934,24 +916,6 @@
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://valunxt.com/en-in/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/" />
-        <lastmod>2026-09-16</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxt.com/en-ae/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/blogs/how-high-net-worth-investors-build-wealth-through-real-estate/" />
-        <lastmod>2026-09-16</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
         <loc>https://valunxt.com/en-in/blogs/corporate-tax-uae-deadlines/</loc>
         <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/blogs/corporate-tax-uae-deadlines/" />
         <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/blogs/corporate-tax-uae-deadlines/" />
@@ -966,60 +930,6 @@
         <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/blogs/corporate-tax-uae-deadlines/" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/blogs/corporate-tax-uae-deadlines/" />
         <lastmod>2026-08-24</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxt.com/en-in/blogs/capital-planning-for-large-property-developments/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/blogs/capital-planning-for-large-property-developments/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/blogs/capital-planning-for-large-property-developments/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/blogs/capital-planning-for-large-property-developments/" />
-        <lastmod>2026-09-16</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxt.com/en-ae/blogs/capital-planning-for-large-property-developments/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/blogs/capital-planning-for-large-property-developments/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/blogs/capital-planning-for-large-property-developments/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/blogs/capital-planning-for-large-property-developments/" />
-        <lastmod>2026-09-16</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxt.com/en-in/blogs/why-market-intelligence-matters-before-every-property-investment/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/blogs/why-market-intelligence-matters-before-every-property-investment/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/blogs/why-market-intelligence-matters-before-every-property-investment/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/blogs/why-market-intelligence-matters-before-every-property-investment/" />
-        <lastmod>2026-09-16</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxt.com/en-ae/blogs/why-market-intelligence-matters-before-every-property-investment/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/blogs/why-market-intelligence-matters-before-every-property-investment/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/blogs/why-market-intelligence-matters-before-every-property-investment/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/blogs/why-market-intelligence-matters-before-every-property-investment/" />
-        <lastmod>2026-09-16</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxt.com/en-in/blogs/the-future-of-automated-valuation-models-avms/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/blogs/the-future-of-automated-valuation-models-avms/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/blogs/the-future-of-automated-valuation-models-avms/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/blogs/the-future-of-automated-valuation-models-avms/" />
-        <lastmod>2026-09-16</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://valunxt.com/en-ae/blogs/the-future-of-automated-valuation-models-avms/</loc>
-        <xhtml:link rel="alternate" hreflang="en-IN" href="https://valunxt.com/en-in/blogs/the-future-of-automated-valuation-models-avms/" />
-        <xhtml:link rel="alternate" hreflang="en-AE" href="https://valunxt.com/en-ae/blogs/the-future-of-automated-valuation-models-avms/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://valunxt.com/blogs/the-future-of-automated-valuation-models-avms/" />
-        <lastmod>2026-09-16</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>

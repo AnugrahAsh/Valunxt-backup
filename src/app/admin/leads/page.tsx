@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow',
 };
 
-const PER_PAGE = 25;
+const PER_PAGE = 10;
 
 function scorePill(n: number): string {
   return n >= 80 ? 'ok' : n >= 60 ? 'wait' : 'off';

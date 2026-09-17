@@ -54,7 +54,7 @@ function faqData(region: string): FaqGroup[] {
         },
         {
           q: 'Do you use automated valuation models (AVMs)?',
-          a: `<p>Yes, as one input rather than the answer. AVMs are fast and consistent for liquid, data-rich segments and are well suited to screening, monitoring and portfolio-level views. Unique assets, thin comparable data and fast-moving markets are where they break down, and those are exactly the situations clients bring to us.</p><p>Our position is set out at more length in <a href="${u('/blogs/the-future-of-automated-valuation-models-avms/')}">The Future of Automated Valuation Models</a>.</p>`,
+          a: `<p>Yes, as one input rather than the answer. AVMs are fast and consistent for liquid, data-rich segments and are well suited to screening, monitoring and portfolio-level views. Unique assets, thin comparable data and fast-moving markets are where they break down, and those are exactly the situations clients bring to us.</p>`,
         },
         {
           q: 'Is your research independent of your transaction business?',
@@ -96,7 +96,7 @@ function faqData(region: string): FaqGroup[] {
 
 const CSS = `
 /* ===== Valunxt FAQ ========================================================= */
-.vxn-faq{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 72px;}
+.vxn-faq{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#0E355F;--body:#4d5863;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 72px;}
 .vxn-faq *{box-sizing:border-box;}
 .vxn-faq__wrap{max-width:900px;margin:0 auto;padding:0 24px;}
 .vxn-faq__intro{margin:0 0 48px;font-size:17px;line-height:1.8;max-width:72ch;}

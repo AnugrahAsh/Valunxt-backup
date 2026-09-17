@@ -121,6 +121,7 @@ export interface BlogCard {
   /** '2026-07-28' */
   date_iso: string;
   featured: number;
+  read_mins: number;
 }
 
 export interface FaqItem {
@@ -173,6 +174,14 @@ export function blogDateLong(iso: string): string {
   if (!m) return '';
   const month = MONTHS[Number(m[2]) - 1];
   return month ? `${month} ${Number(m[3])}, ${m[1]}` : '';
+}
+
+/** '2026-09-15…' → '15 Sep 2026', the compact stamp the card tiles show. */
+export function blogDateShort(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso ?? ''));
+  if (!m) return '';
+  const month = MONTHS[Number(m[2]) - 1];
+  return month ? `${Number(m[3])} ${month.slice(0, 3)} ${m[1]}` : '';
 }
 
 /** Today as 'YYYY-MM-DD' in UTC — the default publish date of a new post. */

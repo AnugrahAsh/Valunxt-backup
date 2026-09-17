@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow',
 };
 
-const PER_PAGE = 20;
+const PER_PAGE = 10;
 
 /** The first market's address for a post — where "View" opens it. */
 const FIRST_REGION = vxnRegionList()[0]?.slug ?? 'en-in';

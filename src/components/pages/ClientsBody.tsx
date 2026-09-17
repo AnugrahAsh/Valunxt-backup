@@ -6,9 +6,8 @@
  * objects) and internal links going through rurl() so they stay in the
  * visitor's market.
  */
-import { BASE, rurl } from '@/lib/region';
+import { rurl } from '@/lib/region';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import ClientScript from '@/components/ClientScript';
 import type { PageConfig } from '@/lib/page-config';
 
 export default function ClientsBody({ page, region }: { page: PageConfig; region: string }) {
@@ -410,100 +409,6 @@ export default function ClientsBody({ page, region }: { page: PageConfig; region
       												</div>
       											</div>
       										</div>
-      									</div>
-      								</div>
-      								<div className="elementor-element elementor-element-5063cff e-flex e-con-boxed e-con e-parent" data-id="5063cff" data-element_type="container" data-e-type="container">
-      									<div className="e-con-inner">
-      										<div className="elementor-element elementor-element-1c54dae elementor-invisible animated-fast elementor-widget elementor-widget-heading" data-id="1c54dae" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\"}"} data-widget_type="heading.default">
-      											<div className="elementor-widget-container">
-      												<span className="elementor-heading-title elementor-size-default">Our Commitment</span>
-      											</div>
-      										</div>
-      										<div className="elementor-element elementor-element-ce4b290 elementor-invisible elementor-widget__width-initial animated-fast elementor-widget elementor-widget-heading" data-id="ce4b290" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":50}"} data-widget_type="heading.default">
-      											<div className="elementor-widget-container">
-      												<h2 className="elementor-heading-title elementor-size-default">The Promises We Make to Every Client</h2>
-      											</div>
-      										</div>
-      									</div>
-      								</div>
-      								<div className="elementor-element elementor-element-77ec866 e-flex e-con-boxed e-con e-parent" data-id="77ec866" data-element_type="container" data-e-type="container">
-      									<div className="e-con-inner">
-      										<div className="elementor-element elementor-element-4d30c84 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="4d30c84" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
-      											<div className="elementor-widget-container">
-      												<div className="elementor-divider">
-      													<span className="elementor-divider-separator">
-      													</span>
-      												</div>
-      											</div>
-      										</div>
-      										<div className="elementor-element elementor-element-e9382fa elementor-widget elementor-widget-heading" data-id="e9382fa" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
-      											<div className="elementor-widget-container">
-      												<span className="elementor-heading-title elementor-size-default">Backed by a Trusted Group of Companies.</span>
-      											</div>
-      										</div>
-      										<div className="elementor-element elementor-element-bf09863 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="bf09863" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
-      											<div className="elementor-widget-container">
-      												<div className="elementor-divider">
-      													<span className="elementor-divider-separator">
-      													</span>
-      												</div>
-      											</div>
-      										</div>
-      									</div>
-      								</div>
-      								<div className="elementor-element elementor-element-494e5da e-flex e-con-boxed e-con e-parent" data-id="494e5da" data-element_type="container" data-e-type="container">
-      									<div className="e-con-inner">
-      										<div className="vxn-logo-slider" data-vxn-logo-slider="">
-      											<div className="vxn-logo-slider__viewport">
-      												<div className="vxn-logo-slider__track">
-      													<div className="vxn-logo-slider__slide"><a href="https://reliantsurveyors.com" target="_blank" rel="noopener"><img decoding="async" width={114} height={56} src={`${BASE}/LOGO/reliant-surveyors.svg`} alt="Reliant Surveyors" /></a></div>
-      													<div className="vxn-logo-slider__slide"><a href="https://valunxt.com" target="_blank" rel="noopener"><img decoding="async" width={187} height={56} src={`${BASE}/LOGO/valunxt-corporate.svg`} alt="Valunxt Corporate Services" /></a></div>
-      												</div>
-      											</div>
-      											<div className="vxn-logo-slider__dots" role="group" aria-label="Group company logos"></div>
-      										</div>
-      										<ClientScript code={`
-      										(function(){
-      											var root = document.querySelector('[data-vxn-logo-slider]');
-      											if(!root || root.dataset.vxnInit){ return; }
-      											root.dataset.vxnInit = '1';
-      											var track = root.querySelector('.vxn-logo-slider__track');
-      											var dotsWrap = root.querySelector('.vxn-logo-slider__dots');
-      											var slides = Array.prototype.slice.call(track.children);
-      											var real = slides.length;
-      											if(real < 2){ return; }
-      											var INTERVAL = 2000, DURATION = 600;
-      											for(var c=0;c<real;c++){ var cl=slides[c].cloneNode(true); cl.setAttribute('aria-hidden','true'); track.appendChild(cl); }
-      											var index = 0, timer = null, dots = [], slideW = 0;
-      											function measure(){ slideW = slides[0].getBoundingClientRect().width; }
-      											for(var i=0;i<real;i++){ (function(i){
-      												var b = document.createElement('button');
-      												b.type='button'; b.className='vxn-logo-slider__dot';
-      												b.setAttribute('aria-label','Show group company '+(i+1)+' of '+real);
-      												b.addEventListener('click', function(){ stop(); go(i); start(); });
-      												dotsWrap.appendChild(b); dots.push(b);
-      											})(i); }
-      											function setDots(a){ for(var i=0;i<dots.length;i++){ var on=(i===a); dots[i].classList.toggle('is-active',on); dots[i].setAttribute('aria-current', on?'true':'false'); } }
-      											function apply(anim){ if(!slideW){ measure(); } track.style.transition = anim ? ('transform '+DURATION+'ms cubic-bezier(.22,.61,.36,1)') : 'none'; track.style.transform = 'translate3d(-'+(index*slideW)+'px,0,0)'; }
-      											function go(i){ index=i; apply(true); setDots(index%real); }
-      											function next(){
-      												index++;
-      												apply(true);
-      												setDots(index%real);
-      												if(index===real){ window.setTimeout(function(){ index=0; apply(false); void track.offsetWidth; }, DURATION+60); }
-      											}
-      											function start(){ if(!timer){ timer=setInterval(next, INTERVAL); } }
-      											function stop(){ if(timer){ clearInterval(timer); timer=null; } }
-      											measure(); setDots(0); apply(false); start();
-      											var rt=null;
-      											window.addEventListener('resize', function(){ if(rt){ clearTimeout(rt); } rt=window.setTimeout(function(){ measure(); apply(false); }, 150); });
-      											root.addEventListener('mouseenter', stop);
-      											root.addEventListener('mouseleave', start);
-      											root.addEventListener('focusin', stop);
-      											root.addEventListener('focusout', start);
-      											document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
-      										})();
-      										`} />
       									</div>
       								</div>
       							</div>

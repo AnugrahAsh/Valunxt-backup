@@ -104,10 +104,14 @@ export default function BlogLoopCard({
             </div>
           </div>
           {/* The excerpt is authored copy and carries HTML entities, exactly as
-              the captured markup did; React would print them literally. */}
-          <div className="elementor-element elementor-element-abced80 vamtam-show-on-hover elementor-widget elementor-widget-theme-post-excerpt" data-id="abced80" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-excerpt.default">
-            <div className="elementor-widget-container" dangerouslySetInnerHTML={{ __html: post.excerpt + ' ' }} />
-          </div>
+              the captured markup did; React would print them literally.
+              Slide (carousel) only — client instruction 20260917 dropped the
+              short description from the /blogs/ grid list. */}
+          {slide && (
+            <div className="elementor-element elementor-element-abced80 vamtam-show-on-hover elementor-widget elementor-widget-theme-post-excerpt" data-id="abced80" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-excerpt.default">
+              <div className="elementor-widget-container" dangerouslySetInnerHTML={{ __html: post.excerpt + ' ' }} />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -139,6 +139,7 @@ export function blogCard(post: BlogPost): BlogCard {
     date: blogDateLong(day),
     date_iso: day,
     featured: post.featured,
+    read_mins: post.read_mins,
   };
 }
 

@@ -86,7 +86,7 @@ export default function IndustriesBody({ page, region }: { page: PageConfig; reg
       												font-size: 12px !important;
       												letter-spacing: .2em !important;
       												text-transform: uppercase !important;
-      												color: #9C00DD !important;
+      												color: #0E355F !important;
       												font-weight: 600 !important;
       												margin: 0 0 14px !important;
       											}

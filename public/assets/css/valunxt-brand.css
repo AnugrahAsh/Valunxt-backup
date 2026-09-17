@@ -3213,6 +3213,14 @@ nav.elementor-nav-menu--dropdown .vxn-mega__panel .vxn-mega__circ svg {
 
 }
 
+colgroup {
+
+      width: 100%;
+    max-width: 100%;
+    display: block;
+
+}
+
 .vxn-cookie {
   position: fixed;
   z-index: 99999;

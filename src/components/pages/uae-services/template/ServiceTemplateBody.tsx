@@ -97,7 +97,7 @@ export const RELATED_FIGURE: Record<string, string[]> = {
   ],
   "mortgages-services": [
     "services/at-related-mortgages-services.webp",
-    "new-folder/houzzhunt-mortgage-1.webp",
+    "services/mortgage-services.webp",
   ],
   "valuation-and-advisory": [
     "services/at-related-valuation-and-advisory.webp",

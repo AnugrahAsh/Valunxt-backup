@@ -7,11 +7,12 @@
  * reached from every "Speak to an Advisor" that still looked like the Indian
  * site. Rebuilt 20260911 on client instruction ("according to the UAE page
  * reference") in that language, with the page's own copy kept word for word:
- * the hero title and its line, the ecosystem line and its four names, the
+ * the hero title and its line, the ecosystem line and its names, the
  * kicker, the heading, the lede, the two ways to reach the desk, the four
  * fields and their labels, the privacy line, the "Supporting Investors..."
- * line and the four group logos. Nothing added, nothing dropped, except that
- * the logos no longer slide: they sit in one row, as everything on the UAE
+ * line and the group logos (two, since HouzzHunt and HouzzHunt Mortgage left
+ * the group and came off the site, 20260917). Nothing else added, nothing else
+ * dropped, and the logos still sit in one still row, as everything on the UAE
  * pages sits still. No em dash anywhere on the page.
  *
  * THE TEMPLATE'S SHEET AND ENGINE, NOT COPIES. The page renders inside
@@ -55,16 +56,16 @@ import { CSS as TEMPLATE_CSS } from './uae-services/template/ServiceTemplateBody
  */
 const PLATE = ['uae/pages/free-consultation/hero.webp', 'banners/free-consultation-uae.webp', 'new-folder/who-we-are-1.webp', 'banners/contact.webp'];
 
-/** The four group companies, as the captured page listed and linked them. */
+/** The group companies. HouzzHunt and HouzzHunt Mortgage, both listed here as
+    the captured page had them, left the group and came off the site
+    (20260917); Reliant Surveyors and Valunxt Corporate Services remain. */
 const GROUP = [
   { name: 'Reliant Surveyors', href: 'https://reliantsurveyors.com', logo: 'reliant-surveyors.svg', w: 114 },
-  { name: 'HouzzHunt', href: 'https://houzzhunt.com', logo: 'houzzhunt.svg', w: 56 },
-  { name: 'HouzzHunt Mortgage', href: 'https://houzzhuntmortgage.com', logo: 'houzzhunt-mortgage.svg', w: 218 },
   { name: 'Valunxt Corporate Services', href: 'https://valunxt.com', logo: 'valunxt-corporate.svg', w: 187 },
 ];
 
-/** The ecosystem line's four names, in the captured order. */
-const ECOSYSTEM = ['Valunxt Corporate Services', 'Reliant Surveyors', 'HouzzHunt', 'HouzzHunt Mortgage'];
+/** The ecosystem line's names, in the captured order. */
+const ECOSYSTEM = ['Valunxt Corporate Services', 'Reliant Surveyors'];
 
 /** What reveals on this page beyond the template's own table. */
 const MOTION: MotionGroup[] = [
@@ -115,7 +116,7 @@ const SUBMIT = `
 const CSS = `
 /* ==========================================================================
    THE ECOSYSTEM LINE, a slim tint strip under the hero: the label and the
-   four names as the template's chips, so the group reads as a set of marks
+   group's names as the template's chips, so the group reads as a set of marks
    rather than as a sentence with ticks in it.
    ========================================================================== */
 .fc-eco{background:var(--tint);padding:18px 0!important;border-bottom:1px solid var(--line2);}
@@ -242,7 +243,7 @@ const CSS = `
 .fc-form__legal a{color:var(--ny2)!important;text-decoration:underline!important;text-underline-offset:2px;}
 
 /* ==========================================================================
-   THE GROUP: the line, and the four marks in one still row.
+   THE GROUP: the line, and the group's marks in one still row.
    ========================================================================== */
 .fc-group{background:var(--tint);padding:clamp(36px,4vw,56px) 0!important;}
 .fc-group__in{display:flex;flex-direction:column;align-items:center;text-align:center;}

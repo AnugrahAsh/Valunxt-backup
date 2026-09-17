@@ -49,7 +49,17 @@ export interface MegaPreset {
   /** The bar item's text and target. */
   label: string;
   href: string;
-  aside: { title: string; lede: string; linkLabel: string; linkHref: string };
+  aside: {
+    title: string;
+    lede: string;
+    linkLabel: string;
+    linkHref: string;
+    /** Drop the client photograph and paint the column as a plain brand
+        gradient with the wordmark's "x" instead — see PLAIN, THE OTHER ASIDE
+        in UaeServicesMega.tsx for why Insights carries this and Services
+        does not. */
+    plain?: boolean;
+  };
   groups: MegaGroup[];
   closeLabel: string;
 }
@@ -115,6 +125,9 @@ export function servicesPreset(region: string): MegaPreset {
           : 'Every discipline under one roof, so a decision is advised, financed and executed by the same team.',
       linkLabel: 'Learn More',
       linkHref: '/services/',
+      /* Off the client photograph too (20260917) — see PLAIN, THE OTHER ASIDE
+         in UaeServicesMega.tsx. */
+      plain: true,
     },
     groups,
     closeLabel: 'Close the services menu',
@@ -188,11 +201,6 @@ export function aboutPreset(region: string): AboutPreset {
                 : `A real estate wealth, capital, intelligence and technology group across ${vxnMarkets('short')}.`,
           },
           {
-            name: 'Our Network',
-            href: '/network/',
-            text: 'Group companies, lending partners, accredited valuers and in-house research.',
-          },
-          {
             name: 'Clients',
             href: '/clients/',
             text: 'The investors, families, developers and institutions we advise.',
@@ -241,6 +249,7 @@ export function insightsPreset(): MegaPreset {
       lede: 'Independent research, market commentary and the thinking behind our advice.',
       linkLabel: 'Read the latest',
       linkHref: '/blogs/',
+      plain: true,
     },
     groups: [
       {

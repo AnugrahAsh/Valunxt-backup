@@ -100,28 +100,6 @@ export default function FreeConsultationBody({ page, region }: { page: PageConfi
       						</ul>
       						</div>
       				</div>
-      				<div className="elementor-element elementor-element-7e71402 elementor-icon-list--layout-inline elementor-list-item-link-inline elementor-tablet-align-left elementor-widget elementor-widget-icon-list" data-id="7e71402" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
-      				<div className="elementor-widget-container">
-      							<ul className="elementor-icon-list-items elementor-inline-items">
-      							<li className="elementor-icon-list-item elementor-inline-item">
-      											<span className="elementor-icon-list-icon">
-      							<i aria-hidden="true" className="vamtamtheme- vamtam-theme-chack-circle"></i>						</span>
-      										<span className="elementor-icon-list-text">HouzzHunt</span>
-      									</li>
-      						</ul>
-      						</div>
-      				</div>
-      				<div className="elementor-element elementor-element-f43b170 elementor-icon-list--layout-inline elementor-list-item-link-inline elementor-tablet-align-left elementor-widget elementor-widget-icon-list" data-id="f43b170" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
-      				<div className="elementor-widget-container">
-      							<ul className="elementor-icon-list-items elementor-inline-items">
-      							<li className="elementor-icon-list-item elementor-inline-item">
-      											<span className="elementor-icon-list-icon">
-      							<i aria-hidden="true" className="vamtamtheme- vamtam-theme-chack-circle"></i>						</span>
-      										<span className="elementor-icon-list-text">HouzzHunt Mortgage</span>
-      									</li>
-      						</ul>
-      						</div>
-      				</div>
       				</div>
       					</div>
       				</div>
@@ -312,8 +290,6 @@ export default function FreeConsultationBody({ page, region }: { page: PageConfi
       											<div className="vxn-logo-slider__viewport">
       												<div className="vxn-logo-slider__track">
       													<div className="vxn-logo-slider__slide"><a href="https://reliantsurveyors.com" target="_blank" rel="noopener"><img decoding="async" width={114} height={56} src={`${BASE}/LOGO/reliant-surveyors.svg`} alt="Reliant Surveyors" /></a></div>
-      													<div className="vxn-logo-slider__slide"><a href="https://houzzhunt.com" target="_blank" rel="noopener"><img decoding="async" width={56} height={56} src={`${BASE}/LOGO/houzzhunt.svg`} alt="HouzzHunt" /></a></div>
-      													<div className="vxn-logo-slider__slide"><a href="https://houzzhuntmortgage.com" target="_blank" rel="noopener"><img decoding="async" width={218} height={56} src={`${BASE}/LOGO/houzzhunt-mortgage.svg`} alt="HouzzHunt Mortgage" /></a></div>
       													<div className="vxn-logo-slider__slide"><a href="https://valunxt.com" target="_blank" rel="noopener"><img decoding="async" width={187} height={56} src={`${BASE}/LOGO/valunxt-corporate.svg`} alt="Valunxt Corporate Services" /></a></div>
       												</div>
       											</div>

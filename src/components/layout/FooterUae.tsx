@@ -56,12 +56,12 @@ const SOCIAL: readonly SocialItem[] = [
   { network: 'instagram', repeater: 'elementor-repeater-item-inst0001' },
 ];
 
-/** The practice row along the top, mirroring the header's Services set. */
+/** The practice row along the top, mirroring the header's Services set. The
+    Network page it once listed was removed from the site (20260917). */
 const PRACTICES: readonly (readonly [string, string])[] = [
   ['/services/', 'Services'],
   ['/about/', 'About us'],
   ['/industries/', 'Industries'],
-  ['/network/', 'Network'],
   ['/blogs/', 'Insights'],
 ];
 

@@ -348,31 +348,6 @@
     "inline_css": "<style>body{--vxn-hero-img:url(\"{{BASE}}/assets/content/uploads/banners/industry.webp\") !important}</style>",
     "path": "/industries/"
   },
-  "/network/": {
-    "title": "Network | Valunxt",
-    "desc": "The relationships a Valunxt engagement opens up — lending panels, investor community, accredited valuers and research — across India and the UAE.",
-    "og_image": "/assets/content/uploads/2025/03/valunxt-og.png",
-    "body": "wp-singular page-template-default page page-id-271 page-child parent-pageid-258 wp-custom-logo wp-embed-responsive wp-theme-execor full header-layout-logo-menu has-page-header no-middle-header responsive-layout vamtam-is-elementor elementor-active elementor-pro-active vamtam-wc-cart-empty wc-product-gallery-slider-active vamtam-font-smoothing layout-full elementor-default elementor-kit-5 elementor-page elementor-page-271 elementor-page-3752",
-    "post_css": [
-      "5",
-      "271",
-      "3837",
-      "2094",
-      "3752",
-      "4557"
-    ],
-    "header": "3837",
-    "footer": "2094",
-    "canvas": false,
-    "post_id": 271,
-    "post_title": "Network",
-    "post_excerpt": "Beyond our own four companies, an engagement opens a wider set of relationships: lending panels, an investor community, accredited valuers, and our research desk. This is what you gain access to.",
-    "active_nav": [
-      "/network/"
-    ],
-    "inline_css": "<style>body{--vxn-hero-img:url(\"{{BASE}}/assets/content/uploads/banners/network.webp\") !important}</style>",
-    "path": "/network/"
-  },
   "/partnership/": {
     "title": "Partnership | Valunxt",
     "desc": "",

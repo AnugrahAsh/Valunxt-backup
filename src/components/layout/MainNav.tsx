@@ -126,15 +126,13 @@ export default function MainNav({
       ) : (
         <AboutMega region={region} preset={about} itemClass={`menu-item-${ids.about}`} />
       )}
-      {/* "Our Group" and its pages were removed from the site (20260914). */}
+      {/* "Our Group" and its pages were removed from the site (20260914); the
+          Network page followed it on 20260917 — its content lived under
+          About's "Our Firm" panel anyway, so nothing it said is gone, only
+          this second listing of it. */}
       <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-industries">
         <a href={rurl(region, '/industries/')} className="elementor-item" {...tab}>
           Industries
-        </a>
-      </li>
-      <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-network">
-        <a href={rurl(region, '/network/')} className="elementor-item" {...tab}>
-          Network
         </a>
       </li>
       {order === 'contact-before-insights' ? [contact, insights] : [insights, contact]}

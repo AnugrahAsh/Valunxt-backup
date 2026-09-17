@@ -45,6 +45,11 @@ export interface Office {
   email: string;
   hours: string;
   map: string;
+  /** Degrees, WGS 84 — for plotting the office on ContactWorldMap.tsx. Not
+      precise beyond city level: at world-map scale a few kilometres is a
+      fraction of a pixel, so these need only put the pin in the right city. */
+  lat: number;
+  lng: number;
 }
 
 export type OfficeKey = 'dubai' | 'abudhabi' | 'mumbai' | 'noida';
@@ -74,6 +79,8 @@ const OFFICES: Record<OfficeKey, Office> = {
     email: 'contact@valunxt.com',
     hours: 'Mon – Sat, 9:00 AM – 6:00 PM GST',
     map: 'https://maps.google.com/?q=Capital+Golden+Tower,+Business+Bay,+Dubai,+United+Arab+Emirates',
+    lat: 25.1874,
+    lng: 55.2631,
   },
   abudhabi: {
     city: 'Abu Dhabi',
@@ -86,6 +93,8 @@ const OFFICES: Record<OfficeKey, Office> = {
     email: 'contact@valunxt.com',
     hours: 'Mon – Sat, 9:00 AM – 6:00 PM GST',
     map: 'https://maps.google.com/?q=Dar+Al+Salam+02,+Liwa+Street,+Corniche,+Abu+Dhabi',
+    lat: 24.4764,
+    lng: 54.3705,
   },
   mumbai: {
     city: 'Mumbai',
@@ -99,6 +108,8 @@ const OFFICES: Record<OfficeKey, Office> = {
     email: 'contact@valunxt.com',
     hours: 'Mon – Sat, 9:00 AM – 6:00 PM IST',
     map: 'https://maps.google.com/?q=Platina+Tower,+Bandra+Kurla+Complex+Rd,+G+Block,+Bandra+East,+Mumbai,+Maharashtra+400051',
+    lat: 19.0669,
+    lng: 72.8679,
   },
   noida: {
     city: 'Noida',
@@ -112,6 +123,8 @@ const OFFICES: Record<OfficeKey, Office> = {
     email: 'contact@valunxt.com',
     hours: 'Mon – Sat, 9:00 AM – 6:00 PM IST',
     map: 'https://maps.google.com/?q=Max+Towers,+Sector+16B,+Noida',
+    lat: 28.5729,
+    lng: 77.326,
   },
 };
 

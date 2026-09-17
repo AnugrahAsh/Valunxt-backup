@@ -457,8 +457,6 @@ export default function ClientsBody({ page, region }: { page: PageConfig; region
       											<div className="vxn-logo-slider__viewport">
       												<div className="vxn-logo-slider__track">
       													<div className="vxn-logo-slider__slide"><a href="https://reliantsurveyors.com" target="_blank" rel="noopener"><img decoding="async" width={114} height={56} src={`${BASE}/LOGO/reliant-surveyors.svg`} alt="Reliant Surveyors" /></a></div>
-      													<div className="vxn-logo-slider__slide"><a href="https://houzzhunt.com" target="_blank" rel="noopener"><img decoding="async" width={56} height={56} src={`${BASE}/LOGO/houzzhunt.svg`} alt="HouzzHunt" /></a></div>
-      													<div className="vxn-logo-slider__slide"><a href="https://houzzhuntmortgage.com" target="_blank" rel="noopener"><img decoding="async" width={218} height={56} src={`${BASE}/LOGO/houzzhunt-mortgage.svg`} alt="HouzzHunt Mortgage" /></a></div>
       													<div className="vxn-logo-slider__slide"><a href="https://valunxt.com" target="_blank" rel="noopener"><img decoding="async" width={187} height={56} src={`${BASE}/LOGO/valunxt-corporate.svg`} alt="Valunxt Corporate Services" /></a></div>
       												</div>
       											</div>

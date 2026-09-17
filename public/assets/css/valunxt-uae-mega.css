@@ -310,6 +310,41 @@
   background: linear-gradient(180deg, rgba(11, 45, 190, 0.12) 0%, rgba(8, 28, 120, 0.6) 100%);
 }
 
+/* ---- THE PLAIN ASIDE (20260917), every mega sheet ---------------------------
+   The client photograph the two rules above show through the ramp (client
+   request, 20260911) is switched off here, on every preset, and the ramp —
+   the same gradient the column has always sat on — is left to read on its
+   own, with the wordmark's own "x" (LogoXGlyph, brand/LogoX.tsx — the same
+   mark WhoWeAreTrio and ProofBand use) as its only decoration. The rules
+   above stay, rather than coming out, only because a future preset could set
+   `aside.plain: false` and ask for the photograph back. */
+.vxn-umega .vxn-umega__aside--plain::before,
+.vxn-umega .vxn-umega__aside--plain::after {
+  content: none;
+}
+
+.vxn-umega .vxn-umega__aside--plain .vxn-umega__asidex {
+  position: absolute;
+  right: -34px;
+  bottom: -30px;
+  width: 190px;
+  height: auto;
+  color: rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
+/* The glyph is `position: absolute` with no z-index of its own, which by the
+   ordinary stacking rules paints it OVER static, non-positioned text — the
+   opposite of "decoration behind the copy". ProofBand's card carries the same
+   mark the same way and answers it the same way: lift the copy onto its own
+   stacking level instead of trying to sink the glyph below normal flow. */
+.vxn-umega .vxn-umega__aside--plain .vxn-umega__asidetitle,
+.vxn-umega .vxn-umega__aside--plain .vxn-umega__asidelede,
+.vxn-umega .vxn-umega__aside--plain .vxn-umega__asidelink {
+  position: relative;
+  z-index: 1;
+}
+
 /* No family of its own. It was Forum, the market's display serif; the UAE runs
    one face now, set on <body> by valunxt-uae-face.css, and this inherits it.
    Sizes up on client feedback (20260911): 30px over 26, the lede 15 over 13. */

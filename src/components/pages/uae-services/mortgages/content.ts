@@ -38,7 +38,7 @@ export const MORTGAGES_TEMPLATE: ServiceTemplateContent = {
     chips: ['360° Mortgage Support', 'End-to-End Guidance'],
     primary: { label: 'Speak to a Mortgage Advisor', href: '/free-consultation/' },
     secondary: { label: 'Explore Our Services', href: '#at-services' },
-    image: ['services/mortgages-intro.webp', 'new-folder/houzzhunt-mortgage-2.webp'],
+    image: ['services/mortgages-intro.webp', 'services/mortgages-hero.webp'],
   },
   strip: {
     kicker: 'Explore Services',
@@ -123,7 +123,7 @@ export const MORTGAGES_TEMPLATE: ServiceTemplateContent = {
         ],
       },
     ],
-    images: [['new-folder/houzzhunt-mortgage-1.webp'], ['new-folder/services-2.webp'], ['new-folder/about-us-1.webp']],
+    images: [['services/mo-explore-residential-mortgages.webp'], ['new-folder/services-2.webp'], ['new-folder/about-us-1.webp']],
   },
   banner: {
     head: 'Finance Your Next Move With Clarity',
@@ -141,6 +141,6 @@ export const MORTGAGES_TEMPLATE: ServiceTemplateContent = {
     head: 'Your Property Plans Deserve the Right Financing Strategy.',
     lede: 'Whether you are buying, refinancing or exploring your options, start with a clear understanding of the financing available to you.',
     primary: { label: 'Speak to a Mortgage Advisor', href: '/free-consultation/' },
-    image: ['services/mortgages-talk.webp', 'new-folder/houzzhunt-mortgage-1.webp'],
+    image: ['services/mortgages-talk.webp', 'services/mortgages-services-solution-3.webp'],
   },
 };

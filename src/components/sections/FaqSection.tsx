@@ -33,7 +33,7 @@ function faqData(region: string): FaqGroup[] {
         },
         {
           q: 'How is Valunxt different from a broker or an estate agent?',
-          a: `<p>A broker is paid to complete a transaction. We are engaged to reach a decision, which sometimes means advising against one. Our valuation and research work is delivered independently of whether a deal proceeds.</p><p>Where a transaction is the right answer, execution can be handled inside the group by HouzzHunt — but that is a separate engagement with its own scope, not a condition of the advice.</p>`,
+          a: `<p>A broker is paid to complete a transaction. We are engaged to reach a decision, which sometimes means advising against one. Our valuation and research work is delivered independently of whether a deal proceeds.</p><p>Where a transaction is the right answer, execution can be handled inside the group — but that is a separate engagement with its own scope, not a condition of the advice.</p>`,
         },
         {
           q: 'What size of mandate do you take on?',

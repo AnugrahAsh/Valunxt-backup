@@ -15,8 +15,8 @@
  *
  * A slot only changes when its file exists AND the page is being served for
  * en-ae; otherwise the page renders exactly as before. Branded group-company
- * artwork (Reliant Surveyors, HouzzHunt, HouzzHunt Mortgage, Valunxt Corporate
- * and the Valunxt office banner) is deliberately not listed, so it never changes.
+ * artwork (Reliant Surveyors, Valunxt Corporate and the Valunxt office banner)
+ * is deliberately not listed, so it never changes.
  *
  * Server only: existence checks read the filesystem.
  */

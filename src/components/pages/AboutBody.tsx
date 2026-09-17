@@ -271,7 +271,7 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       												</div>
       												<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-b2c46c3 elementor-invisible elementor-widget-tablet__width-inherit animated-fast elementor-widget elementor-widget-text-editor" data-id="b2c46c3" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":200}"} data-widget_type="text-editor.default">
       													<div className="elementor-widget-container">
-      														<p>Valunxt operates as a connected group of specialist companies delivering expertise across real estate, valuation, mortgage, corporate services, research, and technology. Valunxt Corporate Services provides business setup, accounting, tax, compliance, and business advisory. Reliant Surveyors delivers valuation, advisory, research, and consultancy. HouzzHunt focuses on luxury real estate and investment advisory, while HouzzHunt Mortgage supports mortgage advisory and investment finance. Together they operate as one integrated platform serving clients across India and the UAE.</p>
+      														<p>Valunxt operates as a connected group of specialist companies delivering expertise across real estate, valuation, mortgage, corporate services, research, and technology. Valunxt Corporate Services provides business setup, accounting, tax, compliance, and business advisory. Reliant Surveyors delivers valuation, advisory, research, and consultancy. Together they operate as one integrated platform serving clients across India and the UAE.</p>
       													</div>
       												</div>
       											</div>
@@ -309,10 +309,12 @@ export default function AboutBody({ page, region }: { page: PageConfig; region: 
       													</div>
       												</div>
       											</div>
+      											{/* Led to the since-removed /network/ page (20260917); redirected to the
+      											    service the quote itself is about. */}
       											<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-f0bb761 elementor-invisible vamtam-icon-pos-row-reverse elementor-align-justify space-between vamtam-content-align-space-between elementor-tablet-align-left elementor-mobile-align-justify animated-fast elementor-widget elementor-widget-button" data-id="f0bb761" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"fadeIn\",\"_animation_delay\":100}"} data-widget_type="button.default">
       												<div className="elementor-widget-container">
       													<div className="elementor-button-wrapper">
-      														<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/network/')}>
+      														<a className="elementor-button elementor-button-link elementor-size-sm" href={rurl(region, '/services/real-estate-investment-advisory/')}>
       															<span className="elementor-button-content-wrapper">
       																<span className="elementor-button-icon">
       																	<i aria-hidden="true" className="vamtamtheme- vamtam-theme-arrow-right vxn-cta__arrow"></i> </span>

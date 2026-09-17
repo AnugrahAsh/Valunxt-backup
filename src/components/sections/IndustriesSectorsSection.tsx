@@ -84,7 +84,7 @@ const SEGMENTS = [
 
 const CSS = `
 /* ===== Valunxt Industries — sectors & segments ============================= */
-.vxn-sec{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 8px;}
+.vxn-sec{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 96px;}
 .vxn-sec *{box-sizing:border-box;}
 .vxn-sec__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-sec__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}
@@ -114,7 +114,7 @@ const CSS = `
     .vxn-sec__grid,.vxn-sec__seggrid{grid-template-columns:repeat(2,1fr);}
 }
 @media(max-width:640px){
-    .vxn-sec{padding:46px 0 6px;}
+    .vxn-sec{padding:46px 0 64px;}
     .vxn-sec__grid,.vxn-sec__seggrid{grid-template-columns:1fr;}
     .vxn-sec__seg{margin-top:46px;}
 }

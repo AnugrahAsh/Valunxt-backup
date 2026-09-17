@@ -264,7 +264,7 @@ export default function CapitalAdvisoryBody({ page, region }: { page: PageConfig
       												<div className="elementor-element elementor-element-32cfbaf4 e-con-full e-flex e-con e-child" data-id="32cfbaf4" data-element_type="container" data-e-type="container">
       													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-3b77739 elementor-widget__width-initial animated-fast elementor-widget elementor-widget-text-editor" data-id="3b77739" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\",\"_animation_delay\":100}"} data-widget_type="text-editor.default">
       														<div className="elementor-widget-container">
-      															<p>Our advisory led approach combines capital structuring expertise, independent valuation and research capabilities, and India and the UAE market access. Through our group company HouzzHunt Mortgage, clients can also draw on mortgage advisory and investment finance capabilities within one integrated group.</p>
+      															<p>Our advisory led approach combines capital structuring expertise, independent valuation and research capabilities, and India and the UAE market access. Through our group's mortgage advisory practice, clients can also draw on mortgage and investment finance capabilities within one integrated group.</p>
       														</div>
       													</div>
       												</div>

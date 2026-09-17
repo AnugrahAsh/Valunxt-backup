@@ -264,7 +264,7 @@ export default function RealEstateInvestmentAdvisoryBody({ page, region }: { pag
       												<div className="elementor-element elementor-element-83d077a e-con-full e-flex e-con e-child" data-id="83d077a" data-element_type="container" data-e-type="container">
       													<div className="vamtam-has-theme-widget-styles elementor-element elementor-element-d41d503 elementor-widget__width-initial animated-fast elementor-widget elementor-widget-text-editor" data-id="d41d503" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"none\",\"_animation_delay\":100}"} data-widget_type="text-editor.default">
       														<div className="elementor-widget-container">
-      															<p>Our advisory approach draws on the integrated Valunxt group ecosystem, including HouzzHunt for luxury real estate and investment advisory. Combining independent research, valuation insight, and data driven analysis, we help investors make informed decisions and build long term value through real estate.</p>
+      															<p>Our advisory approach draws on the integrated Valunxt group ecosystem for luxury real estate and investment advisory. Combining independent research, valuation insight, and data driven analysis, we help investors make informed decisions and build long term value through real estate.</p>
       														</div>
       													</div>
       												</div>

@@ -171,20 +171,10 @@ form.elementor-form button[type="submit"]:hover {
 }
 
 img[src*="/group-valunxt-corporate"],
-img[src*="/group-reliant-surveyors"],
-img[src*="/group-houzzhunt-mortgage"] {
+img[src*="/group-reliant-surveyors"] {
   width: 100% !important;
   height: 100% !important;
   max-width: 100% !important;
-  object-fit: contain !important;
-  object-position: center !important;
-}
-
-img[src*="/group-houzzhunt.png"] {
-  width: auto !important;
-  height: 210px !important;
-  max-width: none !important;
-  flex: 0 0 auto !important;
   object-fit: contain !important;
   object-position: center !important;
 }
@@ -1625,14 +1615,6 @@ body.elementor-page-2034 {
 
 .elementor-3752 .elementor-element.elementor-element-c4d353f.vxn-hero--reliant {
   --vxn-hero-img: url("../content/uploads/new-folder/reliant-surveyors-1.webp");
-}
-
-.elementor-3752 .elementor-element.elementor-element-c4d353f.vxn-hero--houzzhunt {
-  --vxn-hero-img: url("../content/uploads/new-folder/houzzhunt-1.webp");
-}
-
-.elementor-3752 .elementor-element.elementor-element-c4d353f.vxn-hero--houzzhunt-mortgage {
-  --vxn-hero-img: url("../content/uploads/new-folder/houzzhunt-mortgage-1.webp");
 }
 
 .elementor-element.elementor-element-d726ecf.e-con.e-parent {

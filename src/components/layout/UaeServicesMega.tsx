@@ -55,6 +55,7 @@ import { motion } from 'framer-motion';
 
 import { rurl } from '@/lib/region';
 import CtaArrow from '@/components/ui/CtaArrow';
+import { LogoXGlyph } from '@/components/brand/LogoX';
 import {
   MEGA_BEAT,
   MEGA_LEAD,
@@ -136,8 +137,23 @@ export default function UaeServicesMega({
           <div className="vxn-umega__body">
             {/* The blue column. A heading, a sentence and one link out — the
                 reference gives it no navigation of its own. The first thing in
-                after the box, from the sheet's own edge. */}
-            <motion.aside className="vxn-umega__aside" {...part('aside', MEGA_LEAD)}>
+                after the box, from the sheet's own edge.
+
+                PLAIN, THE OTHER ASIDE (20260917, client: "I don't like this
+                blue image style"). The reference's photograph-under-a-blue-
+                wash treatment was a stock picture on both Services and
+                Insights — it never actually previewed the service or article
+                the pointer was on, so it read as borrowed art rather than the
+                brand's own. `preset.aside.plain`, set for every preset
+                (mega-presets.ts), swaps it for a flat brand gradient and the
+                wordmark's own "x" — the same mark WhoWeAreTrio and ProofBand
+                carry elsewhere. See .vxn-umega__aside--plain in
+                valunxt-uae-mega.css. */}
+            <motion.aside
+              className={`vxn-umega__aside${preset.aside.plain ? ' vxn-umega__aside--plain' : ''}`}
+              {...part('aside', MEGA_LEAD)}
+            >
+              {preset.aside.plain ? <LogoXGlyph className="vxn-umega__asidex" /> : null}
               <span className="vxn-umega__asidetitle">{preset.aside.title}</span>
               <p className="vxn-umega__asidelede">{preset.aside.lede}</p>
               <a className="vxn-umega__asidelink" href={rurl(region, preset.aside.linkHref)} {...tab}>

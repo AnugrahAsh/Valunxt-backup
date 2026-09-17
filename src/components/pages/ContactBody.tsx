@@ -5,10 +5,15 @@
  * edits are the ones JSX requires (className, self-closed voids, style
  * objects) and internal links going through rurl() so they stay in the
  * visitor's market.
+ *
+ * THE MAP (20260917) is the one deliberate exception. The captured page had a
+ * single Google Maps embed centred on the Mumbai office alone; it is now
+ * ContactWorldMap, which plots all four — see that file for why and how.
  */
 import { rurl } from '@/lib/region';
 import { vxnEmail, vxnOffice } from '@/lib/site-data';
 import type { PageConfig } from '@/lib/page-config';
+import ContactWorldMap from '@/components/sections/ContactWorldMap';
 
 export default function ContactBody({ page, region }: { page: PageConfig; region: string }) {
   /* Each card names the office it belongs to. The page used to pair a Mumbai
@@ -318,13 +323,7 @@ export default function ContactBody({ page, region }: { page: PageConfig; region
       									</div>
       								</div>
       								<div className="elementor-element elementor-element-9a69cb3 e-con-full e-flex e-con e-parent" data-id="9a69cb3" data-element_type="container" data-e-type="container">
-      									<div className="elementor-element elementor-element-0e8d2af elementor-widget elementor-widget-google_maps" data-id="0e8d2af" data-element_type="widget" data-e-type="widget" data-widget_type="google_maps.default">
-      										<div className="elementor-widget-container">
-      											<div className="elementor-custom-embed">
-      												<iframe loading="lazy" src="https://maps.google.com/maps?q=Platina%20Tower%2C%20Bandra%20Kurla%20Complex%20Rd%2C%20G%20Block%2C%20Bandra%20East%2C%20Mumbai%2C%20Maharashtra%20400051&amp;t=m&amp;z=14&amp;output=embed&amp;iwloc=near" title="Platina Tower, Bandra Kurla Complex, Bandra East, Mumbai" aria-label="Platina Tower, Bandra Kurla Complex, Bandra East, Mumbai"></iframe>
-      											</div>
-      										</div>
-      									</div>
+      									<ContactWorldMap />
       								</div>
       							</div>
       						</div>

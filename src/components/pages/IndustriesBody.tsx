@@ -82,7 +82,7 @@ export default function IndustriesBody({ page, region }: { page: PageConfig; reg
       											}
 
       											.elementor-262 .vxn-ind-intro p.vxn-ind-intro__eyebrow {
-      												font-family: "DM Sans", sans-serif !important;
+      												font-family: "Inter", sans-serif !important;
       												font-size: 12px !important;
       												letter-spacing: .2em !important;
       												text-transform: uppercase !important;
@@ -92,7 +92,7 @@ export default function IndustriesBody({ page, region }: { page: PageConfig; reg
       											}
 
       											.elementor-262 .vxn-ind-intro h2.vxn-ind-intro__title {
-      												font-family: "Forum", serif !important;
+      												font-family: "Inter", sans-serif !important;
       												font-weight: 400 !important;
       												color: #0E355F !important;
       												font-size: clamp(28px, 3.4vw, 44px) !important;
@@ -101,7 +101,7 @@ export default function IndustriesBody({ page, region }: { page: PageConfig; reg
       											}
 
       											.elementor-262 .vxn-ind-intro p.vxn-ind-intro__lead {
-      												font-family: "DM Sans", sans-serif !important;
+      												font-family: "Inter", sans-serif !important;
       												font-size: 17px !important;
       												line-height: 1.8 !important;
       												color: #4d5863 !important;

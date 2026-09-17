@@ -202,8 +202,9 @@ export function resolveRequest(path: string): { region: string; page: PageConfig
  * the stylesheet up (its config is derived, and derivedPage runs here) while
  * /en-ae/ and /en-ae/services/capital-advisory/ did not.
  *
- * TWO SCOPES. The FACE — Sanomat Sans — goes on every page in the market, by
- * client instruction (20260910), and since 20260914 on every India page too. The SCALE — the sizes, weights and line
+ * TWO SCOPES. The FACE — Inter, Sanomat Sans until 20260917 — goes on every
+ * page in the market, by client instruction (20260910), and since 20260914 on
+ * every India page too. The SCALE — the sizes, weights and line
  * heights in valunxt-uae-type.css — stays on the market home page and the
  * services section, which is what was asked for when it was built, and the
  * same instruction said to leave every size, weight and line height as it is.

@@ -84,19 +84,19 @@ const SEGMENTS = [
 
 const CSS = `
 /* ===== Valunxt Industries — sectors & segments ============================= */
-.vxn-sec{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#0E355F;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 96px;}
+.vxn-sec{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#0E355F;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f7f6f3;font-family:"Inter",sans-serif;color:var(--body);background:#fff;padding:64px 0 96px;}
 .vxn-sec *{box-sizing:border-box;}
 .vxn-sec__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-sec__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}
-.vxn-sec h2.vxn-sec__h{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.08;font-size:clamp(28px,3.6vw,44px);margin:0 0 18px;}
+.vxn-sec h2.vxn-sec__h{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.08;font-size:clamp(28px,3.6vw,44px);margin:0 0 18px;}
 .vxn-sec__lead{margin:0;max-width:74ch;font-size:16.5px;line-height:1.8;}
 .vxn-sec__head{margin:0 0 42px;}
 
 .vxn-sec__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
 .vxn-sec__card{background:#fff;padding:32px 30px 30px;display:flex;flex-direction:column;transition:background .25s;}
 .vxn-sec__card:hover{background:var(--paper);}
-.vxn-sec__num{font-family:"Forum",serif;font-size:14px;letter-spacing:.14em;color:var(--gd2);margin:0 0 14px;}
-.vxn-sec h3.vxn-sec__title{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;font-size:23px;line-height:1.2;margin:0 0 12px;}
+.vxn-sec__num{font-family:"Inter",sans-serif;font-size:14px;letter-spacing:.14em;color:var(--gd2);margin:0 0 14px;}
+.vxn-sec h3.vxn-sec__title{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;font-size:23px;line-height:1.2;margin:0 0 12px;}
 .vxn-sec__desc{margin:0 0 18px;font-size:15px;line-height:1.72;}
 .vxn-sec__work{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:8px;}
 .vxn-sec__work li{position:relative;padding-left:18px;font-size:14px;line-height:1.55;color:var(--ny2);}
@@ -107,7 +107,7 @@ const CSS = `
 .vxn-sec__seg{margin-top:64px;}
 .vxn-sec__seggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
 .vxn-sec__segitem{border-top:2px solid var(--ny);padding-top:18px;}
-.vxn-sec h3.vxn-sec__segtitle{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;font-size:20px;line-height:1.25;margin:0 0 8px;}
+.vxn-sec h3.vxn-sec__segtitle{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;font-size:20px;line-height:1.25;margin:0 0 8px;}
 .vxn-sec__segdesc{margin:0;font-size:14.5px;line-height:1.7;}
 
 @media(max-width:960px){

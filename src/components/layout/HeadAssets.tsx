@@ -14,13 +14,16 @@ import { siteScriptSources } from './SiteScripts';
 /** The Elementor / theme / plugin stylesheets, in load order. */
 const STYLESHEETS: string[] = [
   '/assets/lib/css/dist/block-library/style.min.css',
+  /* dmsans.css and forum.css stay linked for the same reason asapsharp.css
+     used to: nothing on the site asks either family for a glyph any more
+     (every page runs Inter — declared in valunxt-uae-face.css, a page sheet
+     rather than a global one, plus a direct "Inter" in every component that
+     used to set "DM Sans" or "Forum" itself), so the link sits unused rather
+     than fetching anything. Removing it would save a request but risks
+     nothing rendering if some untouched corner still names the old family. */
   '/assets/content/uploads/elementor/google-fonts/css/dmsans.css',
   '/assets/content/uploads/elementor/google-fonts/css/forum.css',
   '/assets/content/uploads/elementor/google-fonts/css/nothingyoucoulddo.css',
-  /* asapsharp.css was listed here for the UAE market's body face. That market
-     runs Sanomat Sans now — declared in valunxt-uae-face.css, which is a page
-     sheet rather than a global one — so the link is gone; the .woff2 files it
-     pointed at are still under google-fonts/ and unreferenced. */
   '/assets/content/plugins/elementor/assets/css/frontend.min.css',
   '/assets/content/plugins/elementor/assets/css/conditionals/apple-webkit.min.css',
   '/assets/content/plugins/elementor/assets/css/conditionals/e-swiper.min.css',
@@ -634,15 +637,17 @@ export default function HeadAssets({ page }: { page: PageConfig }) {
         <link key={src} rel="preload" as="script" href={src} />
       ))}
 
-      {/* The UAE face's two everyday cuts, fetched from the first byte of the
-          document rather than after the face sheet — the last stylesheet in
-          this head — has been parsed and matched. Font requests are CORS
-          requests even from the same origin, so the preload has to say so or
-          the browser fetches the file twice. Only on pages that carry the face
-          sheet — every page in both markets since 20260914. */}
+      {/* The site face's two script cuts (Latin, Latin Extended — Inter is a
+          variable font, so each already carries every weight), fetched from
+          the first byte of the document rather than after the face sheet —
+          the last stylesheet in this head — has been parsed and matched. Font
+          requests are CORS requests even from the same origin, so the preload
+          has to say so or the browser fetches the file twice. Only on pages
+          that carry the face sheet — every page in both markets since
+          20260914. */}
       {(page.site_css ?? []).includes(UAE_FACE_CSS)
         ? UAE_FACE_PRELOAD.map((href) => (
-            <link key={href} rel="preload" as="font" type="font/otf" href={`${BASE}${href}`} crossOrigin="anonymous" />
+            <link key={href} rel="preload" as="font" type="font/woff2" href={`${BASE}${href}`} crossOrigin="anonymous" />
           ))
         : null}
 
@@ -672,7 +677,7 @@ export default function HeadAssets({ page }: { page: PageConfig }) {
 
       <InlineCss css={page.inline_css} />
 
-      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-brand.css?v=167`} media="all" />
+      <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-brand.css?v=168`} media="all" />
       {/* Landing-page feature blocks. Purely additive — after the brand sheet so
           it can build on its tokens without overriding any of its rules. */}
       <link rel="stylesheet" href={`${BASE}/assets/css/valunxt-landing.css?v=65`} media="all" />

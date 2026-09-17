@@ -64,9 +64,9 @@ const CSS = `
   border:1px solid #E5E1D8;
 }
 .vxn-wmap__head{max-width:640px;margin:0 0 clamp(18px,2.2vw,26px);}
-.vxn-wmap__eyebrow{display:block;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#0B2DBE;margin:0 0 10px;}
-.vxn-wmap__title{font-family:"Forum",serif;font-weight:400;color:#0E355F;font-size:clamp(24px,2.6vw,34px);line-height:1.18;margin:0 0 10px;}
-.vxn-wmap__lede{font-family:"DM Sans",sans-serif;font-size:15px;line-height:1.65;color:#4d5863;margin:0;max-width:56ch;}
+.vxn-wmap__eyebrow{display:block;font-family:"Inter",sans-serif;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#0B2DBE;margin:0 0 10px;}
+.vxn-wmap__title{font-family:"Inter",sans-serif;font-weight:400;color:#0E355F;font-size:clamp(24px,2.6vw,34px);line-height:1.18;margin:0 0 10px;}
+.vxn-wmap__lede{font-family:"Inter",sans-serif;font-size:15px;line-height:1.65;color:#4d5863;margin:0;max-width:56ch;}
 
 .vxn-omap__stage{
   width:100%;
@@ -79,7 +79,7 @@ const CSS = `
 .vxn-omap__stage--loading{display:flex;align-items:center;justify-content:center;}
 .vxn-omap__stage--loading::after{
   content:"Loading map\\2026";
-  font-family:"DM Sans",sans-serif;font-size:13px;color:#8a93a3;
+  font-family:"Inter",sans-serif;font-size:13px;color:#8a93a3;
 }
 
 /* The pin: a white disc holding the brand "x". Leaflet sizes the DivIcon's
@@ -100,8 +100,8 @@ const CSS = `
 }
 .vxn-omap__popwrap .leaflet-popup-content{margin:14px 16px;}
 .vxn-omap__popwrap .leaflet-popup-tip{box-shadow:0 4px 10px rgba(6,14,40,.12);}
-.vxn-omap__pop{display:flex;flex-direction:column;font-family:"DM Sans",sans-serif;color:#0E355F;}
-.vxn-omap__popcity{font-family:"Forum",serif;font-size:16px;line-height:1.2;margin:0 0 3px;}
+.vxn-omap__pop{display:flex;flex-direction:column;font-family:"Inter",sans-serif;color:#0E355F;}
+.vxn-omap__popcity{font-family:"Inter",sans-serif;font-size:16px;line-height:1.2;margin:0 0 3px;}
 .vxn-omap__popnote{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#8a93a3;margin:0 0 7px;}
 .vxn-omap__popaddr{font-size:13px;line-height:1.5;color:#4d5863;margin:0 0 9px;max-width:26ch;}
 .vxn-omap__popgo{font-size:13px;font-weight:600;color:#0B2DBE;text-decoration:none;}
@@ -113,7 +113,7 @@ const CSS = `
 .vxn-wmap__stripitem{
   display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;border-radius:999px;
   background:#fff;border:1px solid #E5E1D8;color:#0E355F!important;text-decoration:none!important;
-  font-family:"DM Sans",sans-serif;font-size:13.5px;font-weight:500;transition:border-color .2s ease,background-color .2s ease;
+  font-family:"Inter",sans-serif;font-size:13.5px;font-weight:500;transition:border-color .2s ease,background-color .2s ease;
 }
 .vxn-wmap__stripitem:hover,.vxn-wmap__stripitem:focus-visible{border-color:#0B2DBE;background:#F0F3FF;}
 .vxn-wmap__stripicon{width:12px;height:12px;color:#0B2DBE;flex:0 0 auto;}

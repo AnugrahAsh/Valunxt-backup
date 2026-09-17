@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
 import { findRedirect } from '@/lib/redirects';
+import { builtPathFor, movedPathFor, publicPathFor } from '@/lib/route-aliases';
 
 /**
  * Three jobs, after one check.
@@ -100,10 +101,24 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const headers = new Headers(req.headers);
-  headers.set('x-vxn-path', pathname);
+  /* 1b. The client's flat public addresses (lib/route-aliases.ts). The pages
+     are built at /<market>/services/<service>/<sub>/ and published at short
+     addresses: the built address is sent, permanently, to its public one, and
+     the public one is rewritten to the page that renders it. x-vxn-path stays
+     the BUILT path, because that is what the page registry, the body class and
+     the SEO rows are all keyed on. */
+  if (req.method === 'GET' || req.method === 'HEAD') {
+    const onward = movedPathFor(pathname) ?? publicPathFor(pathname);
+    if (onward) return NextResponse.redirect(new URL(`${onward}${search}`, req.url), 301);
+  }
+  const built = builtPathFor(pathname);
 
-  const res = NextResponse.next({ request: { headers } });
+  const headers = new Headers(req.headers);
+  headers.set('x-vxn-path', built ?? pathname);
+
+  const res = built
+    ? NextResponse.rewrite(new URL(`${built}${search}`, req.url), { request: { headers } })
+    : NextResponse.next({ request: { headers } });
 
   // Remember the market the visitor is actually browsing, so an unprefixed
   // entry point puts them back where they were rather than in the default

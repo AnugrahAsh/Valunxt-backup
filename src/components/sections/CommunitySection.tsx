@@ -91,11 +91,11 @@ const EVENTS = [
 
 const CSS = `
 /* ===== Valunxt Community ==================================================== */
-.vxn-com{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--ink:#26313b;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f6f4ef;font-family:"DM Sans",sans-serif;color:var(--body);}
+.vxn-com{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--ink:#26313b;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f6f4ef;font-family:"Inter",sans-serif;color:var(--body);}
 .vxn-com *{box-sizing:border-box;}
 .vxn-com__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-com__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 16px;}
-.vxn-com h2.vxn-com__h,.vxn-com h3.vxn-com__h{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.08;margin:0;}
+.vxn-com h2.vxn-com__h,.vxn-com h3.vxn-com__h{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.08;margin:0;}
 
 /* ---- Intro / lead --------------------------------------------------------- */
 .vxn-com__intro{background:#fff;padding:56px 0 10px;}
@@ -106,12 +106,12 @@ const CSS = `
 
 /* ---- Stats ---------------------------------------------------------------- */
 .vxn-com__stats{background:#fff;padding:44px 0 16px;}
-.vxn-com__stats-head{font-family:"Forum",serif;font-weight:400;color:var(--ny);font-size:clamp(24px,3vw,36px);margin:0 0 30px;}
+.vxn-com__stats-head{font-family:"Inter",sans-serif;font-weight:400;color:var(--ny);font-size:clamp(24px,3vw,36px);margin:0 0 30px;}
 .vxn-com__stats-note{margin:26px 0 0;font-size:13px;line-height:1.7;color:var(--muted,#6b757e);max-width:70ch;}
 .vxn-com__stats-note a{color:var(--ny);text-decoration:underline;text-underline-offset:2px;}
 .vxn-com__stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;}
 .vxn-com__stat{border-top:2px solid var(--ny);padding-top:20px;}
-.vxn-com__stat b{display:block;font-family:"Forum",serif;font-weight:400;color:var(--ny);font-size:clamp(38px,4.4vw,54px);line-height:1;letter-spacing:-.01em;}
+.vxn-com__stat b{display:block;font-family:"Inter",sans-serif;font-weight:400;color:var(--ny);font-size:clamp(38px,4.4vw,54px);line-height:1;letter-spacing:-.01em;}
 .vxn-com__stat span{display:block;margin-top:12px;font-size:14px;line-height:1.55;color:var(--muted);}
 
 /* ---- Support card (vertical tabs) ----------------------------------------- */
@@ -122,7 +122,7 @@ const CSS = `
 .vxn-com__card-head > .vxn-com__h{font-size:clamp(25px,3vw,38px);}
 .vxn-com__card-body{display:grid;grid-template-columns:264px 1fr;gap:clamp(24px,3vw,44px);padding:clamp(24px,3vw,38px) clamp(26px,3.4vw,46px) clamp(28px,3.4vw,44px);}
 .vxn-com__tabs{display:flex;flex-direction:column;gap:4px;margin:0;border:0;}
-.vxn-com__tab{position:relative;display:block;width:100%;text-align:left;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;line-height:1.35;transition:.2s;
+.vxn-com__tab{position:relative;display:block;width:100%;text-align:left;cursor:pointer;font-family:"Inter",sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;line-height:1.35;transition:.2s;
     appearance:none!important;background:transparent!important;background-image:none!important;box-shadow:none!important;border:0!important;border-radius:10px!important;padding:15px 16px 15px 20px!important;color:var(--muted)!important;}
 .vxn-com__tab:hover{color:var(--ny)!important;background:rgba(14,53,95,.045)!important;}
 .vxn-com__tab[aria-selected="true"]{color:var(--ny)!important;background:rgba(0,83,183,.07)!important;}
@@ -172,7 +172,7 @@ const CSS = `
 .vxn-com__events-intro p{margin:0;font-size:16px;line-height:1.85;color:var(--body);}
 .vxn-com__acc{border-top:1px solid var(--line);}
 .vxn-com__acc details{border-bottom:1px solid var(--line);}
-.vxn-com__acc summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 4px;font-family:"Forum",serif;font-size:clamp(18px,1.7vw,22px);color:var(--ny);transition:color .2s;}
+.vxn-com__acc summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 4px;font-family:"Inter",sans-serif;font-size:clamp(18px,1.7vw,22px);color:var(--ny);transition:color .2s;}
 .vxn-com__acc summary::-webkit-details-marker{display:none;}
 .vxn-com__acc summary:hover{color:var(--gd2);}
 .vxn-com__acc-ico{position:relative;flex:0 0 auto;width:20px;height:20px;}
@@ -184,7 +184,7 @@ const CSS = `
 
 /* ---- CTA band ------------------------------------------------------------- */
 .vxn-com__cta{background:linear-gradient(90deg,#0B2DBE 0%,#0E355F 100%);text-align:center;padding:56px 24px 60px;}
-.vxn-com__cta h2{font-family:"Forum",serif;font-weight:400;color:#fff;font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin:0 0 14px;}
+.vxn-com__cta h2{font-family:"Inter",sans-serif;font-weight:400;color:#fff;font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin:0 0 14px;}
 .vxn-com__cta p{max-width:600px;margin:0 auto 26px;color:#cdd6de;font-size:16px;line-height:1.7;}
 /* On the blue band the pill is the inverse finish: white with the ink, so it does not vanish into its own colour. */
 .vxn-com__cta .vxn-com__btn--solid{background-image:none;background-color:#fff;color:var(--vxn-cta-ink,#0B2DBE)!important;--vxn-cta-sweep:var(--vxn-cta-sweep-light,#EAF0FF);}

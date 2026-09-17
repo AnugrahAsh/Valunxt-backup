@@ -18,6 +18,7 @@
  */
 
 import fs from 'node:fs';
+import { publicPathFor } from './route-aliases';
 import path from 'node:path';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
@@ -176,7 +177,10 @@ function marketPathFor(page: PageConfig, region: string): string {
 export function vxnSeo(page: PageConfig, region: string, origin = vxnSeoOrigin()): ResolvedSeo {
   const p = marketPathFor(page, region);
   const seo = vxnSeoResolveRow(p);
-  const fallbackCanonical = origin + BASE + (p !== '' ? p : '/');
+  /* The address the page is PUBLISHED at, where the client's sheet gives it a
+     flat one (lib/route-aliases.ts); the SEO row above is still looked up by
+     the built path, which is what the CMS keys on. */
+  const fallbackCanonical = origin + BASE + (publicPathFor(p) ?? (p !== '' ? p : '/'));
 
   let title = (seo.title ?? '').trim();
   if (title === '') title = (page.title ?? '').trim();

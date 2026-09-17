@@ -161,7 +161,11 @@ export function rurl(region: string, p = '/'): string {
   if (base.includes('.')) return out;
 
   const slug = vxnRegionExists(region) ? region : vxnRegionDefault();
-  return `${BASE}/${slug}${pathPart}${suffix}`;
+  /* The client's flat public addresses (lib/route-aliases.ts): content keeps
+     naming the built path, and the link that reaches the page is the public
+     one, so nothing on the site points at an address that only redirects. */
+  const shown = publicPathIn(slug, pathPart) ?? pathPart;
+  return `${BASE}/${slug}${shown}${suffix}`;
 }
 
 /** The current page as it is addressed in another market. */
@@ -175,6 +179,7 @@ export function rswap(slug: string, currentRegionPath: string): string {
 
 import { vxnOffices, type Office } from './site-data';
 
+import { publicPathIn } from './route-aliases';
 /** The offices in this market, in canonical order. */
 export function vxnRegionOffices(slug?: string | null): Record<string, Office> {
   const r = vxnRegionData(slug);

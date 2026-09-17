@@ -22,7 +22,7 @@ export const BLOG_TILE_CSS = `
 .vxn-tile:hover .vxn-tile__photo img{transform:scale(1.05);}
 .vxn-tile__body{position:relative;padding:18px 64px 22px 20px;display:flex;flex-direction:column;gap:8px;flex:1;}
 .vxn-tile__cat{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#0B2DBE;}
-.vxn-tile__title{font-family:"Forum",serif;font-weight:400;font-size:18px;line-height:1.35;color:#0E355F;}
+.vxn-tile__title{font-family:"Inter",sans-serif;font-weight:400;font-size:18px;line-height:1.35;color:#0E355F;}
 .vxn-tile__meta{font-size:12.5px;color:#9aa1a9;margin-top:auto;}
 .vxn-tile__arrow{position:absolute;right:16px;bottom:16px;width:40px;height:40px;flex:0 0 auto;border-radius:50%;background:rgba(11,44,86,.06);display:flex;align-items:center;justify-content:center;color:#0E355F;transition:transform .35s ease,background .3s,color .3s;}
 .vxn-tile__arrow svg{width:16px;height:16px;transition:transform .35s ease;}

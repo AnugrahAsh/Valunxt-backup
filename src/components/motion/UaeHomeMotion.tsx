@@ -76,13 +76,20 @@ const COUNT = '[data-vxn-count]';
     engine's own, so a split heading reads the same under either player. */
 const CLIP = 'inset(-.2em -.08em -.25em -.08em)';
 
-/** Where each kind starts from. */
-const FROM: Record<Exclude<Kind, 'lines'>, { y: number; blur?: number }> = {
-  rise: { y: 56 },
-  'rise-sm': { y: 18 },
-  blur: { y: 14, blur: 10 },
+/** Where each kind starts from. Raised on client feedback (20260917, "does not
+    look that much animated"): more travel, and a rising block now also grows
+    into place, so an arrival reads from across the room rather than only when
+    looked at. Pictures add a wipe — see WIPE below. */
+const FROM: Record<Exclude<Kind, 'lines'>, { y: number; blur?: number; scale?: number }> = {
+  rise: { y: 96, scale: 0.94 },
+  'rise-sm': { y: 30, scale: 0.9 },
+  blur: { y: 30, blur: 14 },
   fade: { y: 0 },
 };
+
+/** A picture that rises is also unveiled from its foot upward. */
+const WIPE = { from: 'inset(100% 0% 0% 0%)', to: 'inset(0% 0% 0% 0%)' };
+const isPicture = (el: Element) => el.matches('img, picture, figure, video');
 
 /** Seconds a kind waits after its place in the batch, so copy follows its
     heading and a button follows its copy. */
@@ -154,8 +161,9 @@ export default function UaeHomeMotion() {
          opacity and transform, or they would ease values already being eased. */
       m.el.style.transition = 'none';
       m.el.style.opacity = '0';
-      if (f.y) m.el.style.transform = `translateY(${f.y}px)`;
+      if (f.y || f.scale) m.el.style.transform = `translateY(${f.y}px) scale(${f.scale ?? 1})`;
       if (f.blur) m.el.style.filter = `blur(${f.blur}px)`;
+      if (m.kind === 'rise' && isPicture(m.el)) m.el.style.clipPath = WIPE.from;
     };
 
     const clear = (m: Mark) => {
@@ -192,9 +200,11 @@ export default function UaeHomeMotion() {
       const f = FROM[m.kind];
       const keyframes: Record<string, unknown> = { opacity: [0, 1] };
       if (f.y) keyframes.y = [f.y, 0];
+      if (f.scale) keyframes.scale = [f.scale, 1];
       if (f.blur) keyframes.filter = [`blur(${f.blur}px)`, 'blur(0px)'];
+      if (m.kind === 'rise' && isPicture(m.el)) keyframes.clipPath = [WIPE.from, WIPE.to];
       const duration =
-        m.kind === 'rise' ? DUR.rise : m.kind === 'rise-sm' ? DUR.small : m.kind === 'blur' ? DUR.copy : DUR.fade;
+        m.kind === 'rise' ? DUR.rise * 1.15 : m.kind === 'rise-sm' ? DUR.small : m.kind === 'blur' ? DUR.copy : DUR.fade;
       animate(m.el, keyframes, { duration, ease: EASE.out, delay }).then(() => clear(m), () => clear(m));
     };
 
@@ -230,13 +240,13 @@ export default function UaeHomeMotion() {
       run.items.forEach((it) => {
         it.style.transition = 'none';
         it.style.opacity = '0';
-        it.style.transform = 'translateY(48px)';
+        it.style.transform = 'translateY(90px) scale(0.92)';
       });
       const go = () =>
         animate(
           run.items,
-          { opacity: [0, 1], y: [48, 0] },
-          { duration: DUR.rise, ease: EASE.out, delay: stagger(run.gap) },
+          { opacity: [0, 1], y: [90, 0], scale: [0.92, 1] },
+          { duration: DUR.rise * 1.1, ease: EASE.out, delay: stagger(run.gap * 1.25) },
         ).then(
           () => run.items.forEach(strip),
           () => run.items.forEach(strip),

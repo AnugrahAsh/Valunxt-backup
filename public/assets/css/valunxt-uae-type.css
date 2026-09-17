@@ -10,9 +10,10 @@
    THE FAMILY IS NOT SET HERE
 
    It used to be — Forum on h1/h2, Asap Sharp on everything else — and both
-   went on client instruction (20260910). The market now runs one face, Sanomat
-   Sans, and it is declared in valunxt-uae-face.css, which is applied to EVERY
-   /en-ae/ page, not only the ones on this scale. The split is deliberate: the
+   went on client instruction (20260910). The market now runs one face, Inter
+   (Sanomat Sans until 20260917), and it is declared in valunxt-uae-face.css,
+   which is applied to EVERY /en-ae/ page, not only the ones on this scale.
+   The split is deliberate: the
    About, Contact, Blogs and Industries pages were to change face and nothing
    else, so the sheet that changes sizes must not travel with the one that
    changes the family. withUaeType() loads both; withUaeFace() loads only that

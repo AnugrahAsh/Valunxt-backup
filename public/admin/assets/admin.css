@@ -1,45 +1,36 @@
 /* ==========================================================================
    Valunxt — Admin Panel
    On the site's identity (20260915): the brand blue family and its 150deg
-   gradient from valunxt-brand.css, Sanomat Sans, pill CTAs, white cards on a
-   pale blue-grey ground. It replaced the navy #122836 / gold #E3AC67 theme the
-   PHP panel shipped with, when the site itself had already left it.
+   gradient from valunxt-brand.css, pill CTAs, white cards on a pale blue-grey
+   ground. It replaced the navy #122836 / gold #E3AC67 theme the PHP panel
+   shipped with, when the site itself had already left it.
 
-   Weights: Sanomat Sans has no 600 cut (see valunxt-uae-face.css), so nothing
-   here asks for one — 400 for headings and CTAs as on the site, 500 for UI
-   emphasis.
+   The face was Sanomat Sans, self-hosted from the same /sanomat-sans/ files
+   as the public site; it is Inter since 20260917, on the same client
+   instruction that moved the public site — see valunxt-uae-face.css for the
+   full account. Weights: 400 for headings and CTAs as on the site, 500 for UI
+   emphasis; Inter's variable weight axis draws both as real cuts, same as
+   before.
    ========================================================================== */
 
 @font-face {
-    font-family: "Sanomat Sans";
+    font-family: "Inter";
     font-style: normal;
-    font-weight: 300;
+    font-weight: 100 900;
     font-display: swap;
-    src: url("/sanomat-sans/Sanomat%20SansLight.otf") format("opentype");
+    src: url("/inter/inter-latin-wght-normal.woff2") format("woff2-variations");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+        U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-    font-family: "Sanomat Sans";
+    font-family: "Inter";
     font-style: normal;
-    font-weight: 400;
+    font-weight: 100 900;
     font-display: swap;
-    src: url("/sanomat-sans/Sanomat%20SansRegular.otf") format("opentype");
-}
-
-@font-face {
-    font-family: "Sanomat Sans";
-    font-style: normal;
-    font-weight: 500;
-    font-display: swap;
-    src: url("/sanomat-sans/Sanomat%20SansMedium.otf") format("opentype");
-}
-
-@font-face {
-    font-family: "Sanomat Sans";
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url("/sanomat-sans/Sanomat%20SansBold.otf") format("opentype");
+    src: url("/inter/inter-latin-ext-wght-normal.woff2") format("woff2-variations");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+        U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 :root {
@@ -92,7 +83,7 @@
     --sidebar-w: 268px;
     --topbar-h: 72px;
 
-    --font: "Sanomat Sans", "Helvetica Neue", Arial, sans-serif;
+    --font: "Inter", "Helvetica Neue", Arial, sans-serif;
     --mono: ui-monospace, "Cascadia Mono", SFMono-Regular, Menlo, Consolas, monospace;
 }
 

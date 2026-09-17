@@ -9,11 +9,11 @@ import LEADERSHIP from '@/data/leadership';
 
 const CSS = `
 /* ===== Valunxt leadership ================================================= */
-.vxn-team{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 72px;}
+.vxn-team{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"Inter",sans-serif;color:var(--body);background:#fff;padding:64px 0 72px;}
 .vxn-team *{box-sizing:border-box;}
 .vxn-team__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-team__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}
-.vxn-team h2.vxn-team__h{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.1;font-size:clamp(27px,3.4vw,42px);margin:0 0 18px;}
+.vxn-team h2.vxn-team__h{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.1;font-size:clamp(27px,3.4vw,42px);margin:0 0 18px;}
 .vxn-team__lead{margin:0;max-width:74ch;font-size:16.5px;line-height:1.8;}
 .vxn-team__head{margin:0 0 46px;}
 
@@ -22,9 +22,9 @@ const CSS = `
 .vxn-team__card:hover{box-shadow:0 24px 56px -34px rgba(14,53,95,.42);transform:translateY(-3px);}
 .vxn-team__photo{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--paper);}
 .vxn-team__initials{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/5;background:linear-gradient(150deg,#0B2DBE,#0E355F);}
-.vxn-team__initials span{font-family:"Forum",serif;font-size:52px;color:var(--gd);line-height:1;}
+.vxn-team__initials span{font-family:"Inter",sans-serif;font-size:52px;color:var(--gd);line-height:1;}
 .vxn-team__body{padding:26px 26px 24px;display:flex;flex-direction:column;flex:1;}
-.vxn-team h3.vxn-team__name{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;font-size:23px;line-height:1.2;margin:0 0 6px;}
+.vxn-team h3.vxn-team__name{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;font-size:23px;line-height:1.2;margin:0 0 6px;}
 .vxn-team__role{margin:0 0 4px;font-size:14.5px;color:var(--ny2);font-weight:600;}
 .vxn-team__meta{margin:0 0 16px;font-size:13px;color:var(--muted);}
 .vxn-team__creds{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px;padding:0;list-style:none;}

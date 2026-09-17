@@ -108,7 +108,7 @@ const CSS = `
         display: inline-block;
         background: #f1f0ec;
         color: #5b6670;
-        font-family: "DM Sans", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 13px;
         letter-spacing: .01em;
         padding: 8px 16px;
@@ -117,7 +117,7 @@ const CSS = `
     }
 
     .vxn-adv .vxn-adv__title {
-        font-family: "Forum", serif !important;
+        font-family: "Inter", sans-serif !important;
         font-weight: 400 !important;
         color: #0E355F;
         font-size: clamp(30px, 3.4vw, 46px);
@@ -126,7 +126,7 @@ const CSS = `
     }
 
     .vxn-adv__text {
-        font-family: "DM Sans", sans-serif;
+        font-family: "Inter", sans-serif;
         color: #4d5863;
         font-size: 16.5px;
         line-height: 1.78;
@@ -146,7 +146,7 @@ const CSS = `
         display: flex;
         align-items: center;
         gap: 13px;
-        font-family: "DM Sans", sans-serif;
+        font-family: "Inter", sans-serif;
         color: #26313b;
         font-size: 16px;
     }

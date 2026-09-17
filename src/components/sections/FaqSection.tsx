@@ -96,17 +96,17 @@ function faqData(region: string): FaqGroup[] {
 
 const CSS = `
 /* ===== Valunxt FAQ ========================================================= */
-.vxn-faq{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#0E355F;--body:#4d5863;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:64px 0 72px;}
+.vxn-faq{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#0E355F;--body:#4d5863;--line:#e5e1d8;--paper:#f7f6f3;font-family:"Inter",sans-serif;color:var(--body);background:#fff;padding:64px 0 72px;}
 .vxn-faq *{box-sizing:border-box;}
 .vxn-faq__wrap{max-width:900px;margin:0 auto;padding:0 24px;}
 .vxn-faq__intro{margin:0 0 48px;font-size:17px;line-height:1.8;max-width:72ch;}
 .vxn-faq__group{margin:0 0 46px;}
-.vxn-faq h2.vxn-faq__gh{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;font-size:clamp(23px,2.4vw,30px);line-height:1.15;margin:0 0 8px;}
+.vxn-faq h2.vxn-faq__gh{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;font-size:clamp(23px,2.4vw,30px);line-height:1.15;margin:0 0 8px;}
 .vxn-faq__grule{height:2px;width:56px;background:linear-gradient(90deg,var(--gd),var(--gd2));margin:0 0 22px;}
 
 .vxn-faq__item{border-bottom:1px solid var(--line);}
 .vxn-faq__item[open]{background:var(--paper);}
-.vxn-faq__q{list-style:none;cursor:pointer;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 18px;font-family:"Forum",serif;font-size:19px;line-height:1.4;color:var(--ny);transition:color .2s;}
+.vxn-faq__q{list-style:none;cursor:pointer;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 18px;font-family:"Inter",sans-serif;font-size:19px;line-height:1.4;color:var(--ny);transition:color .2s;}
 .vxn-faq__q::-webkit-details-marker{display:none;}
 .vxn-faq__q:hover{color:var(--gd2);}
 .vxn-faq__item:focus-within .vxn-faq__q{outline:2px solid var(--ny2);outline-offset:-2px;}
@@ -122,7 +122,7 @@ const CSS = `
 .vxn-faq__a a:hover{color:var(--gd2);}
 
 .vxn-faq__cta{margin:8px 0 0;padding:30px 32px;background:linear-gradient(90deg,#0B2DBE 0%,#0E355F 100%);border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;}
-.vxn-faq h2.vxn-faq__ctah{font-family:"Forum",serif!important;font-weight:400!important;color:#fff!important;font-size:25px;line-height:1.2;margin:0 0 6px;}
+.vxn-faq h2.vxn-faq__ctah{font-family:"Inter",sans-serif!important;font-weight:400!important;color:#fff!important;font-size:25px;line-height:1.2;margin:0 0 6px;}
 .vxn-faq__ctap{margin:0;color:rgba(255,255,255,.82);font-size:15px;line-height:1.7;}
 /* Sweeps to white on hover, keeping its navy label — mechanism in
    valunxt-brand.css, this only names the colour it sweeps. */

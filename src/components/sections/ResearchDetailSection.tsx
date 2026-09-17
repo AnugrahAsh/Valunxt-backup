@@ -19,7 +19,7 @@ import type { ReportPageConfig } from '@/lib/pages';
 
 const CSS = `
 /* ===== Valunxt Research report — detail ==================================== */
-.vxn-rd{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--ink:#26313b;--body:#42505c;--muted:#5b6670;--line:#e5e1d8;font-family:"DM Sans",sans-serif;color:var(--body);}
+.vxn-rd{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--ink:#26313b;--body:#42505c;--muted:#5b6670;--line:#e5e1d8;font-family:"Inter",sans-serif;color:var(--body);}
 .vxn-rd *{box-sizing:border-box;}
 
 /* ---- Hero ----------------------------------------------------------------- */
@@ -29,7 +29,7 @@ const CSS = `
 .vxn-rd__badge{display:inline-flex;align-items:center;gap:9px;color:#fff;font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;}
 .vxn-rd__badge svg{width:20px;height:20px;stroke:var(--gd);}
 .vxn-rd__read{color:#dfe6ec;font-size:12px;letter-spacing:.06em;padding:7px 14px;border:1px solid rgba(255,255,255,.34);border-radius:4px;white-space:nowrap;}
-.vxn-rd h1.vxn-rd__title{font-family:"Forum",serif!important;font-weight:400!important;color:#fff!important;font-size:clamp(30px,4vw,52px);line-height:1.1;margin:0 0 30px;}
+.vxn-rd h1.vxn-rd__title{font-family:"Inter",sans-serif!important;font-weight:400!important;color:#fff!important;font-size:clamp(30px,4vw,52px);line-height:1.1;margin:0 0 30px;}
 .vxn-rd__crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.66);}
 .vxn-rd__crumbs a{color:rgba(255,255,255,.66);text-decoration:none;transition:color .2s;}
 .vxn-rd__crumbs a:hover{color:#fff;}
@@ -41,7 +41,7 @@ const CSS = `
 .vxn-rd__body{background:#fff;padding:clamp(48px,5vw,80px) 0 clamp(56px,6vw,96px);}
 .vxn-rd__grid{max-width:1180px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:clamp(40px,5vw,80px);align-items:start;}
 .vxn-rd__intro{margin:0 0 34px;font-size:clamp(17px,1.5vw,19px);line-height:1.75;color:var(--ink);}
-.vxn-rd h2.vxn-rd__h{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;font-size:clamp(22px,2.2vw,29px);line-height:1.15;margin:0 0 20px;}
+.vxn-rd h2.vxn-rd__h{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;font-size:clamp(22px,2.2vw,29px);line-height:1.15;margin:0 0 20px;}
 .vxn-rd__list{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-direction:column;gap:16px;}
 .vxn-rd__list li{position:relative;padding-left:26px;font-size:16.5px;line-height:1.7;color:var(--ink);}
 .vxn-rd__list li::before{content:"";position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--gd),var(--gd2));}

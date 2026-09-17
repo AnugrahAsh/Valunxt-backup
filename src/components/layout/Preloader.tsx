@@ -39,6 +39,31 @@ export const PRELOADER_GATE_SCRIPT = `
 }catch(e){d.className+=' vx-intro-play';}})();
 `;
 
+/**
+ * Puts the logo-shaped hole over the solid logo BEFORE THE FIRST PAINT.
+ *
+ * The hole's position used to be set only by the effect below, which runs after
+ * hydration. Until then the paths sat where SVG puts untransformed geometry —
+ * the top-left corner, at 410px — so every first visit opened with a logo-shaped
+ * window onto the video in the corner of the panel, which then vanished as the
+ * effect moved it to the centre: the "logo appears top left, disappears" glitch.
+ * This runs inline, straight after the markup, so the hole is in place on the
+ * frame the panel first paints. The markup also ships the hole off-screen, so
+ * even with this script blocked it can never be seen in the corner. The effect
+ * still runs the same placement, for resizes.
+ */
+const PRELOADER_PLACE_SCRIPT = `
+(function(){try{
+  var el=document.getElementById('vx-preloader');if(!el)return;
+  var fit=el.querySelector('.vx-hole-fit'),zoom=el.querySelector('.vx-hole-zoom'),img=el.querySelector('.vx-solid-logo');
+  if(!fit||!zoom||!img)return;
+  var r=img.getBoundingClientRect();if(!r.width)return;
+  var k=r.width/410,h=r.height||r.width/5;
+  fit.setAttribute('transform','translate('+r.left+','+r.top+') scale('+k+')');
+  zoom.style.transformOrigin=(r.left+r.width/2)+'px '+(r.top+h/2)+'px';
+}catch(e){}})();
+`;
+
 const PRELOADER_CSS = `
 #vx-preloader{position:fixed;inset:0;z-index:2147483000;display:none;overflow:hidden;background:#0E355F;will-change:opacity}
 html.vx-intro-play #vx-preloader{display:block;animation:vxOverlayOut .55s ease 2.75s forwards}
@@ -110,7 +135,8 @@ export default function Preloader() {
 
     const place = () => {
       const r = img.getBoundingClientRect();
-      const size = r.width || 410;
+      if (!r.width) return;
+      const size = r.width;
       const k = size / 410;
       fit.setAttribute('transform', 'translate(' + r.left + ',' + r.top + ') scale(' + k + ')');
       zoom.style.transformOrigin =
@@ -118,7 +144,15 @@ export default function Preloader() {
     };
     place();
     window.addEventListener('resize', place);
-    return () => window.removeEventListener('resize', place);
+    /* A scrollbar arriving once the page below has laid out changes the
+       viewport without a resize event, and moves the centred logo by half the
+       bar's width — enough to show the hole's edge beside the solid logo. */
+    const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(place) : null;
+    ro?.observe(el);
+    return () => {
+      window.removeEventListener('resize', place);
+      ro?.disconnect();
+    };
   }, []);
 
   /* Take the panel down when its exit animation ends — or after a timeout, so a
@@ -170,9 +204,16 @@ export default function Preloader() {
             <mask id="vxHoleMask">
               {/* white = panel is painted; the black logo punches the hole */}
               <rect width="100%" height="100%" fill="#fff" />
-              <g className="vx-hole-zoom">
-                {/* JS sets this transform to place/size the logo exactly over .vx-solid-logo */}
-                <g className="vx-hole-fit" fill="#000" shapeRendering="geometricPrecision">
+              <g className="vx-hole-zoom" suppressHydrationWarning>
+                {/* Shipped off-screen; PRELOADER_PLACE_SCRIPT (and the effect,
+                    on resize) moves it exactly over .vx-solid-logo. */}
+                <g
+                  className="vx-hole-fit"
+                  fill="#000"
+                  shapeRendering="geometricPrecision"
+                  transform="translate(-99999,-99999)"
+                  suppressHydrationWarning
+                >
                   {LOGO_PATHS.map((d, i) => (
                     <path key={i} d={d} />
                   ))}
@@ -190,6 +231,7 @@ export default function Preloader() {
           width={410}
           height={82}
         />
+        <script dangerouslySetInnerHTML={{ __html: PRELOADER_PLACE_SCRIPT }} />
       </div>
     </>
   );

@@ -9,15 +9,15 @@ import TESTIMONIALS from '@/data/testimonials';
 
 const CSS = `
 /* ===== Valunxt testimonials =============================================== */
-.vxn-quotes{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:var(--paper);padding:66px 0 72px;}
+.vxn-quotes{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"Inter",sans-serif;color:var(--body);background:var(--paper);padding:66px 0 72px;}
 .vxn-quotes *{box-sizing:border-box;}
 .vxn-quotes__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-quotes__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}
-.vxn-quotes h2.vxn-quotes__h{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.1;font-size:clamp(27px,3.4vw,42px);margin:0 0 18px;}
+.vxn-quotes h2.vxn-quotes__h{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.1;font-size:clamp(27px,3.4vw,42px);margin:0 0 18px;}
 .vxn-quotes__lead{margin:0 0 42px;max-width:72ch;font-size:16.5px;line-height:1.8;}
 .vxn-quotes__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
 .vxn-quotes__item{background:#fff;border:1px solid var(--line);border-radius:12px;padding:32px 30px 28px;display:flex;flex-direction:column;margin:0;}
-.vxn-quotes__mark{font-family:"Forum",serif;font-size:46px;line-height:.7;color:var(--gd);margin:0 0 16px;}
+.vxn-quotes__mark{font-family:"Inter",sans-serif;font-size:46px;line-height:.7;color:var(--gd);margin:0 0 16px;}
 .vxn-quotes__text{margin:0 0 24px;padding:0;border:0;font-size:16px;line-height:1.8;color:var(--ny);}
 .vxn-quotes__attr{margin-top:auto;padding-top:18px;border-top:1px solid var(--line);}
 .vxn-quotes__name{margin:0;font-size:14.5px;font-weight:600;color:var(--ny);}

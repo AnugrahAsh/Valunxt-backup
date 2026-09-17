@@ -131,12 +131,14 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
      to the branch below and 404s in the site's own chrome, styled. */
   const realEstate = realEstateRequest(path);
   if (realEstate) {
-    /* The one thing from the host that does reach in: the UAE face. The module
-       declares Forum and DM Sans for itself, which is right for /en-in/ and
-       wrong under /en-ae/, where the whole market runs Sanomat Sans on client
-       instruction. The face sheet is scoped to a body class, so the India
-       edition of the module is untouched, and it names a family and nothing
-       else, so the module's own sizes and weights stand. */
+    /* The one thing from the host that does reach in: the UAE face, linked here
+       for both markets. Until 20260917 that mattered — the module declared
+       Forum and DM Sans for itself, right for /en-in/ and wrong under
+       /en-ae/, where the whole site ran Sanomat Sans on client instruction.
+       Both now say Inter (see the fonts note atop real-estate.css for the
+       module's own copy), so the link is a belt-and-braces agreement rather
+       than a correction. It names a family and nothing else, so the module's
+       own sizes and weights stand either way. */
     return (
       <html lang={vxnRegionData(realEstate.region).lang}>
         <head>

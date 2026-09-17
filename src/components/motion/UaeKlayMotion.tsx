@@ -1,61 +1,55 @@
 'use client';
 
 /**
- * THE SIX-SERVICE BAND ON /en-ae/ (.vxn-klay--six), on Framer Motion (20260917).
+ * THE SIX-SERVICE BAND ON /en-ae/ (.vxn-klay--six), on Framer Motion.
  *
- * Six full-bleed panels share one flex row. The one under the pointer takes six
+ * Six full-bleed panels share one row. The one under the pointer takes six
  * parts of the row and the other five take one each; the five closed panels
- * wear a frosted sheet with their name set vertically on it. It was reported as
- * "too chonky, not at all smooth", and on inspection five different things were
- * each contributing. All five are addressed; the band looks exactly as it did
- * at rest and in every state, only the movement between states has changed.
+ * wear a frosted sheet with their name set vertically on it.
  *
- *   1. THE WIDTHS STALLED ON EVERY CHANGE OF MIND. A CSS transition restarts
- *      from rest whenever it is retargeted, so a pointer moving across the row
- *      made the band lurch towards each panel in turn. The widths now move on a
- *      spring (KLAY_SPRING in motion-tokens.ts): retargeted mid-flight it keeps
- *      the speed it already has and bends towards the new panel, never
- *      overshooting.
+ * WHY IT WAS STILL LAGGY (20260917, second pass). The first pass put the
+ * widths on a spring and baked the frost, and the band was still reported as
+ * "not smooth and way too laggy". The spring was animating `flex-grow`, and
+ * that is a LAYOUT property: every frame of every move re-laid-out the row,
+ * resized six `object-fit: cover` photographs (each a fresh raster at a new
+ * size), resized six `background-size: cover` frost pictures, and cross-faded
+ * `filter` and `opacity` on two full-bleed images. No curve makes that smooth;
+ * the work per frame was the problem, not the timing of it.
  *
- *   2. EVERY PANEL THE POINTER CROSSED OPENED. Sweeping from the first panel to
- *      the last set four panels moving on the way. A panel now opens once the
- *      pointer has rested on it for 70ms — too short to notice when pointing on
- *      purpose, long enough that passing over a panel does nothing. Keyboard
- *      focus opens at once.
+ * WHAT IT IS NOW: NOTHING BUT TRANSFORM AND OPACITY MOVES. On a desktop the
+ * engine lifts the row out of flex (`.is-stacked`, valunxt-brand.css) and makes
+ * every panel the full OPEN width, absolutely placed, each one layered above
+ * the panel to its left. A panel's visible width is simply how far the next
+ * panel's left edge is from its own — so opening and closing is six
+ * `translate3d` values per frame and nothing else. No panel, photograph or
+ * frost picture ever changes size, so nothing is laid out or rasterised while
+ * the band moves; the compositor slides layers it already has.
  *
- *   3. THE FROST POPPED. The sheet over a closed panel was created and
- *      destroyed by `:not(.is-active)::after`, so it vanished from the opening
- *      panel and appeared, fully frosted, over the closing one on the first
- *      frame of every hover. It now exists on every panel of this row and
- *      cross-fades (valunxt-brand.css, THE SERVICES ROW FRAMER MOTION DRIVES).
+ *   - The photograph stays at full strength under every panel. The closed look
+ *     (dimmed, blurred, under the dark ramp) is one opaque sheet above it — the
+ *     baked frost picture (klay-frost.ts) — and opening a panel is that sheet's
+ *     opacity going to nothing. The `filter`/`opacity` cross-fade on the
+ *     photographs is gone with the need for it.
+ *   - The widths still move on KLAY_SPRING, retargeted mid-flight without
+ *     losing speed; a sweep across the row is one continuous movement.
+ *   - A panel still opens after the pointer has rested on it for 70ms, the
+ *     copy still rises in three beats, the band still arrives panel by panel.
  *
- *   4. EVERY FROST WAS REDRAWN ON EVERY FRAME. A backdrop blur samples whatever
- *      is painted behind it, and while any panel moved, all five sheets had to
- *      be recomputed. Each panel is now its own isolation root, so a panel that
- *      only slides along the row — four of the six on any change — keeps the
- *      blur it already has, and the layer hint on the photographs is raised
- *      only while the row is moving.
- *
- *   5. THE COPY ARRIVED AS ONE BLOCK, while the panel was still widening under
- *      it. The heading, the sentence and "Learn more" now rise one after
- *      another, a beat after the panel has started to open.
- *
- * The band also gets an entrance: its panels rise into place one after another
- * as it is scrolled to.
+ * Below 1025px (stacked cards) and under reduced motion the row is left in the
+ * stylesheet's own layout, exactly as before.
  *
  * WHAT IT REPLACES: the KLAY_ACCORDION block in layout/SiteScripts.tsx, which
- * still runs every other `.vxn-klay` on the site (the India home page's four).
- * It skips any row marked `data-vxn-klay="motion"`, and the marker is in the
- * server markup, so the two are never both bound to one row. The rules for
- * touch are that script's, unchanged.
+ * still runs every other `.vxn-klay` on the site. It skips any row marked
+ * `data-vxn-klay="motion"`, and the marker is in the server markup, so the two
+ * are never both bound to one row.
  *
  * THE SAFETY RULE: the markup ships with the first panel open and the
- * stylesheet draws every state, so with this bundle blocked the row still
- * shows — and the width change simply stops being animated.
+ * stylesheet draws every state in flex, so with this bundle blocked the row
+ * still shows and still works — it just does not glide.
  */
 
 import { useEffect } from 'react';
-import { animate, stagger } from 'framer-motion';
+import { animate, motionValue, stagger, type MotionValue } from 'framer-motion';
 
 import { bakeFrost, canBakeFrost } from './klay-frost';
 import { DUR, EASE, KLAY_SPRING, STAGGER, prefersReducedMotion } from './motion-tokens';
@@ -72,11 +66,21 @@ const INTENT_MS = 70;
 
 /** The widths the stylesheet gives this row (valunxt-brand.css,
     `.vxn-klay--six .vxn-klay__panel.is-active`), used only when they cannot be
-    read — the stacked layout below 1025px zeroes both. */
+    read — the stacked-cards layout below 1025px zeroes both. */
 const FALLBACK = { open: 6, shut: 1 };
 
 function stripMotion(el: HTMLElement) {
   ['opacity', 'transform', 'will-change', 'transition'].forEach((p) => el.style.removeProperty(p));
+}
+
+interface PanelState {
+  el: HTMLElement;
+  frost: HTMLElement | null;
+  /** 0 closed, 1 open. */
+  open: MotionValue<number>;
+  /** The entrance: pixels still to rise, and how visible. */
+  rise: MotionValue<number>;
+  alpha: MotionValue<number>;
 }
 
 export default function UaeKlayMotion() {
@@ -89,16 +93,16 @@ export default function UaeKlayMotion() {
     const undo: Array<() => void> = [];
 
     rows.forEach((row) => {
-      const panels = Array.from(row.querySelectorAll<HTMLElement>(PANEL));
-      if (panels.length < 2) return;
+      const els = Array.from(row.querySelectorAll<HTMLElement>(PANEL));
+      if (els.length < 2) return;
 
-      let active = Math.max(0, panels.findIndex((p) => p.classList.contains('is-active')));
+      let active = Math.max(0, els.findIndex((p) => p.classList.contains('is-active')));
 
       /* ---- The two widths, read rather than restated ------------------- */
       const grows = { ...FALLBACK };
       const readGrows = () => {
-        const open = parseFloat(getComputedStyle(panels[active]!).flexGrow);
-        const other = panels.find((_, i) => i !== active)!;
+        const open = parseFloat(getComputedStyle(els[active]!).flexGrow);
+        const other = els.find((_, i) => i !== active)!;
         const shut = parseFloat(getComputedStyle(other).flexGrow);
         if (open > shut && shut > 0) {
           grows.open = open;
@@ -107,15 +111,106 @@ export default function UaeKlayMotion() {
       };
       readGrows();
 
-      /* The widths are inline from here on — the stylesheet's own flex-grow
-         transition stands down on this row — so every move starts from a
-         value this file wrote. Below 1025px the stacked layout's
-         `flex: 0 0 auto !important` beats these, so phones are untouched. */
-      const place = () =>
+      const panels: PanelState[] = els.map((el, i) => ({
+        el,
+        frost: null,
+        open: motionValue(i === active ? 1 : 0),
+        rise: motionValue(0),
+        alpha: motionValue(1),
+      }));
+
+      /* ---- The stack ---------------------------------------------------- */
+      let stacked = false;
+      let rowW = 0;
+      let openW = 0;
+
+      const measure = () => {
+        rowW = row.clientWidth;
+        const ratio = grows.open / grows.shut;
+        const shutW = rowW / (els.length - 1 + ratio);
+        openW = shutW * ratio;
+        row.style.setProperty('--klay-open', `${openW.toFixed(2)}px`);
+        row.style.setProperty('--klay-shut', `${shutW.toFixed(2)}px`);
+      };
+
+      /* One write per frame, however many springs ticked in it. */
+      let queued = 0;
+      const render = () => {
+        queued = 0;
+        if (!stacked) return;
+        const ratio = grows.open / grows.shut;
+        let total = 0;
+        const weights = panels.map((p) => {
+          const o = Math.min(1, Math.max(0, p.open.get()));
+          const w = 1 + (ratio - 1) * o;
+          total += w;
+          return w;
+        });
+        let x = 0;
         panels.forEach((p, i) => {
+          p.el.style.transform = `translate3d(${x.toFixed(2)}px, ${p.rise.get().toFixed(2)}px, 0)`;
+          const a = p.alpha.get();
+          p.el.style.opacity = a >= 0.999 ? '' : a.toFixed(3);
+          if (p.frost) {
+            const o = Math.min(1, Math.max(0, p.open.get()));
+            p.frost.style.opacity = (1 - o).toFixed(3);
+          }
+          x += (rowW * weights[i]!) / total;
+        });
+      };
+      const schedule = () => {
+        if (!queued) queued = requestAnimationFrame(render);
+      };
+      const unsub: Array<() => void> = [];
+      panels.forEach((p) => {
+        unsub.push(p.open.on('change', schedule), p.rise.on('change', schedule), p.alpha.on('change', schedule));
+      });
+
+      const stack = () => {
+        if (stacked) return;
+        stacked = true;
+        readGrows();
+        panels.forEach((p, i) => {
+          p.el.style.removeProperty('flex-grow');
+          p.el.style.zIndex = String(i + 1);
+          if (!p.frost) {
+            const frost = document.createElement('span');
+            frost.className = 'vxn-klay__frost';
+            frost.setAttribute('aria-hidden', 'true');
+            (p.el.querySelector('.vxn-klay__bg') ?? p.el).appendChild(frost);
+            p.frost = frost;
+          }
+        });
+        measure();
+        row.classList.add('is-stacked');
+        render();
+      };
+
+      const unstack = () => {
+        if (!stacked) return;
+        stacked = false;
+        row.classList.remove('is-stacked');
+        panels.forEach((p) => {
+          p.el.style.removeProperty('transform');
+          p.el.style.removeProperty('opacity');
+          p.el.style.removeProperty('z-index');
+        });
+      };
+
+      /* The flex path: phones' stacked cards, and reduced motion. */
+      const place = () =>
+        els.forEach((p, i) => {
           p.style.flexGrow = String(i === active ? grows.open : grows.shut);
         });
-      place();
+
+      const layout = () => {
+        if (mqDesktop.matches && !reduce) stack();
+        else {
+          unstack();
+          place();
+        }
+      };
+      layout();
 
       /* ---- Opening a panel -------------------------------------------- */
       const playCopy = (panel: HTMLElement) => {
@@ -124,12 +219,12 @@ export default function UaeKlayMotion() {
         parts.forEach((p) => {
           p.style.transition = 'none';
           p.style.opacity = '0';
-          p.style.transform = 'translateY(18px)';
+          p.style.transform = 'translateY(22px)';
         });
         animate(
           parts,
-          { opacity: [0, 1], y: [18, 0] },
-          { duration: 0.65, ease: EASE.out, delay: stagger(0.08, { startDelay: 0.2 }) },
+          { opacity: [0, 1], y: [22, 0] },
+          { duration: 0.7, ease: EASE.out, delay: stagger(0.09, { startDelay: 0.18 }) },
         ).then(
           () => parts.forEach(stripMotion),
           () => parts.forEach(stripMotion),
@@ -139,34 +234,25 @@ export default function UaeKlayMotion() {
       const activate = (i: number) => {
         if (i === active) return;
         active = i;
-        panels.forEach((p, j) => p.classList.toggle('is-active', j === i));
+        els.forEach((p, j) => p.classList.toggle('is-active', j === i));
 
-        if (reduce || !mqDesktop.matches) {
+        if (!stacked) {
           place();
           return;
         }
-
-        /* Target only, never [from, to]: a spring handed its target alone
-           starts from where the width is AND how fast it is already moving,
-           which is the whole of fix 1.
-
-           NOTHING ELSE IS TOUCHED AT THE START OR END OF A MOVE. This used to
-           raise a layer hint on the row's six photographs for the length of
-           each move and drop it after. Measured, that was the opposite of an
-           optimisation: every raise re-rasterised six full-bleed pictures onto
-           new layers and every drop merged them back, which put a stall at
-           both ends of every hover. The photographs keep their layers
-           (valunxt-brand.css) and the move is just the widths. */
+        /* Target only: a spring handed its target alone starts from where the
+           value is AND how fast it is already moving, so a change of mind
+           mid-flight bends rather than restarts. */
         panels.forEach((p, j) => {
-          animate(p, { flexGrow: j === i ? grows.open : grows.shut }, KLAY_SPRING);
+          animate(p.open, j === i ? 1 : 0, KLAY_SPRING);
         });
-        playCopy(panels[i]!);
+        playCopy(els[i]!);
       };
 
       /* ---- The interaction rules -------------------------------------- */
       let intent = 0;
-      panels.forEach((panel, i) => {
-        /* A mouse opens a panel it has rested on (fix 2). */
+      els.forEach((panel, i) => {
+        /* A mouse opens a panel it has rested on. */
         const onEnter = (e: PointerEvent) => {
           if (e.pointerType !== 'mouse' || !mqDesktop.matches) return;
           window.clearTimeout(intent);
@@ -199,33 +285,28 @@ export default function UaeKlayMotion() {
         });
       });
 
-      /* ---- The frost, baked (fix 4) --------------------------------------
-         The sheet over a closed panel is drawn once as a picture instead of
-         being blurred live on every frame: components/motion/klay-frost.ts has
-         the measurements and the method. It is made when the band comes within
-         a screen of the viewport, one panel at a time so no single task is
-         long, and made again if the panels change shape enough for the blur to
-         read differently. Until a panel's bitmap is ready it keeps the live
-         frost, so there is never a moment without one. */
+      /* ---- The frost, baked ----------------------------------------------
+         The closed look is drawn once as a picture (klay-frost.ts) when the
+         band comes within a screen of the viewport, one panel at a time so no
+         single task is long. Until a panel's picture is ready its sheet is the
+         plain dark ramp, which is already legible. */
       const baked = new Map<HTMLElement, string>();
       let bakedFor = '';
       let baking = false;
       let bakeIo: IntersectionObserver | null = null;
       let near = false;
 
-      /* The box a closed panel occupies: shared by every closed panel in the
-         row; each card's own box when they are stacked. */
-      const closedBox = (panel: HTMLElement) => {
-        const ref = mqDesktop.matches ? panels.find((_, j) => j !== active) ?? panel : panel;
-        const r = ref.getBoundingClientRect();
+      /* The box the frost picture covers: the whole open-width panel when the
+         row is stacked, each card's own box on a phone. */
+      const frostBox = (panel: HTMLElement) => {
+        if (stacked) return { w: openW, h: row.clientHeight };
+        const r = panel.getBoundingClientRect();
         return { w: r.width, h: r.height };
       };
-      /* A key that changes when the frost would read differently: the layout,
-         and the closed box to the nearest 8%. */
       const shapeKey = () => {
-        const b = closedBox(panels[active === 0 ? 1 : 0]!);
+        const b = frostBox(els[0]!);
         const q = (v: number) => Math.round(Math.log(Math.max(1, v)) / Math.log(1.08));
-        return `${mqDesktop.matches ? 'row' : 'stack'}:${q(b.w)}:${q(b.h)}`;
+        return `${stacked ? 'row' : 'stack'}:${q(b.w)}:${q(b.h)}`;
       };
 
       const bakeAll = async () => {
@@ -233,10 +314,10 @@ export default function UaeKlayMotion() {
         const key = shapeKey();
         if (key === bakedFor) return;
         baking = true;
-        for (const panel of panels) {
+        for (const panel of els) {
           const img = panel.querySelector<HTMLImageElement>('.vxn-klay__bg img');
           if (!img) continue;
-          const url = await bakeFrost(img, closedBox(panel));
+          const url = await bakeFrost(img, frostBox(panel));
           if (url) {
             const old = baked.get(panel);
             panel.style.setProperty('--vxn-frost', `url("${url}")`);
@@ -249,7 +330,6 @@ export default function UaeKlayMotion() {
         }
         bakedFor = key;
         baking = false;
-        /* The shape may have changed again while this ran. */
         if (shapeKey() !== bakedFor) void bakeAll();
       };
 
@@ -268,17 +348,17 @@ export default function UaeKlayMotion() {
 
       let resizeTimer = 0;
       const onResize = () => {
+        if (stacked) {
+          measure();
+          render();
+        }
         window.clearTimeout(resizeTimer);
         resizeTimer = window.setTimeout(() => void bakeAll(), 300);
       };
       window.addEventListener('resize', onResize, { passive: true });
 
-      /* The widths come back when a phone-width window is widened. */
       const onBreakpoint = () => {
-        if (mqDesktop.matches) {
-          readGrows();
-          place();
-        }
+        layout();
         void bakeAll();
       };
       mqDesktop.addEventListener('change', onBreakpoint);
@@ -288,25 +368,42 @@ export default function UaeKlayMotion() {
       const rowTop = row.getBoundingClientRect().top;
       const alreadyRead = rowTop < (window.innerHeight || 0) * 0.9 && !freshPaint();
       if (!reduce && !alreadyRead && typeof IntersectionObserver === 'function') {
-        panels.forEach((p) => {
+        const hideFlex = (p: HTMLElement) => {
           p.style.transition = 'none';
           p.style.opacity = '0';
           p.style.transform = 'translateY(64px)';
-        });
+        };
+        if (stacked) {
+          panels.forEach((p) => {
+            p.rise.set(72);
+            p.alpha.set(0);
+          });
+          render();
+        } else els.forEach(hideFlex);
+
         /* One observer per panel, batched: on a desktop the six arrive
            together, left to right; stacked on a phone, each as it is reached. */
-        const waiting = new Set(panels);
+        const waiting = new Set(els);
         entryIo = new IntersectionObserver(
           (entries) => {
             const due = entries
               .filter((e) => e.isIntersecting && waiting.has(e.target as HTMLElement))
               .map((e) => e.target as HTMLElement)
-              .sort((a, b) => panels.indexOf(a) - panels.indexOf(b));
+              .sort((a, b) => els.indexOf(a) - els.indexOf(b));
             if (!due.length) return;
             due.forEach((p) => {
               waiting.delete(p);
               entryIo?.unobserve(p);
             });
+            if (stacked) {
+              due.forEach((el, n) => {
+                const p = panels[els.indexOf(el)]!;
+                const delay = n * STAGGER.beat;
+                animate(p.rise, 0, { duration: DUR.rise, ease: EASE.out, delay });
+                animate(p.alpha, 1, { duration: DUR.rise * 0.8, ease: EASE.out, delay });
+              });
+              return;
+            }
             animate(
               due,
               { opacity: [0, 1], y: [64, 0] },
@@ -318,21 +415,30 @@ export default function UaeKlayMotion() {
           },
           { rootMargin: '0px 0px -10% 0px', threshold: 0.01 },
         );
-        panels.forEach((p) => entryIo!.observe(p));
+        els.forEach((p) => entryIo!.observe(p));
       }
 
       undo.push(() => {
         window.clearTimeout(intent);
         window.clearTimeout(resizeTimer);
+        cancelAnimationFrame(queued);
+        unsub.forEach((fn) => fn());
         entryIo?.disconnect();
         bakeIo?.disconnect();
         window.removeEventListener('resize', onResize);
         mqDesktop.removeEventListener('change', onBreakpoint);
+        unstack();
+        row.style.removeProperty('--klay-open');
+        row.style.removeProperty('--klay-shut');
         panels.forEach((p) => {
-          p.style.removeProperty('flex-grow');
-          p.style.removeProperty('--vxn-frost');
-          delete p.dataset.vxnFrost;
-          stripMotion(p);
+          p.open.stop();
+          p.rise.stop();
+          p.alpha.stop();
+          p.frost?.remove();
+          p.el.style.removeProperty('flex-grow');
+          p.el.style.removeProperty('--vxn-frost');
+          delete p.el.dataset.vxnFrost;
+          stripMotion(p.el);
         });
         baked.forEach((url) => URL.revokeObjectURL(url));
       });

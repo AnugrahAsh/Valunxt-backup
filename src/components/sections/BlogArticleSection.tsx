@@ -57,7 +57,7 @@ export interface Article {
 
 const CSS = `
 /* ===== Valunxt blog article (editorial) ===== */
-.vxn-article{background:#fff;color:#1a2733;font-family:"DM Sans",sans-serif;}
+.vxn-article{background:#fff;color:#1a2733;font-family:"Inter",sans-serif;}
 
 /* --- hero: the photo is the full width of the band; the gradient veil sits
    solid only behind the text and clears to nothing over the rest of the
@@ -75,7 +75,7 @@ const CSS = `
 .vxn-art-crumbs a:hover{color:#fff;text-decoration:underline;}
 .vxn-art-crumbs span{color:rgba(255,255,255,.4);}
 .vxn-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(11,45,190,.22);color:#8FB7FF;border:1px solid rgba(143,183,255,.4);padding:5px 12px;border-radius:3px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;}
-.vxn-article .vxn-art-hero__title{font-family:"Forum",serif!important;font-weight:400!important;font-size:clamp(28px,4vw,46px);line-height:1.1;margin:0 0 14px;color:#fff!important;}
+.vxn-article .vxn-art-hero__title{font-family:"Inter",sans-serif!important;font-weight:400!important;font-size:clamp(28px,4vw,46px);line-height:1.1;margin:0 0 14px;color:#fff!important;}
 .vxn-art-hero__lede{margin:0;font-size:15.5px;line-height:1.7;color:rgba(255,255,255,.8);max-width:52ch;}
 .vxn-art-hero__meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:26px;}
 .vxn-art-hero__meta .vxn-vr{width:1px;height:26px;background:rgba(255,255,255,.18);}
@@ -86,10 +86,10 @@ const CSS = `
 .vxn-art-wrap{max-width:90%;margin:0 auto;padding:58px 32px 0;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,3fr);gap:60px;}
 .vxn-art-content{color:#3d4a56;font-size:17px;line-height:1.85;max-width:none;}
 .vxn-art-content p{margin:0 0 22px;}
-.vxn-art-content>p:first-of-type::first-letter{float:left;font-family:"Forum",serif;font-weight:400;font-size:3.3em;line-height:.82;padding:6px 10px 0 0;color:#0E355F;}
-.vxn-art-content h2{font-family:"Forum",serif;font-weight:400;color:#0E355F;font-size:clamp(23px,2.6vw,29px);line-height:1.22;margin:48px 0 16px;scroll-margin-top:110px;}
+.vxn-art-content>p:first-of-type::first-letter{float:left;font-family:"Inter",sans-serif;font-weight:400;font-size:3.3em;line-height:.82;padding:6px 10px 0 0;color:#0E355F;}
+.vxn-art-content h2{font-family:"Inter",sans-serif;font-weight:400;color:#0E355F;font-size:clamp(23px,2.6vw,29px);line-height:1.22;margin:48px 0 16px;scroll-margin-top:110px;}
 .vxn-art-content h2::before{content:"";display:block;width:36px;height:3px;border-radius:3px;background:linear-gradient(115deg,#0B2DBE 0%,#0E355F 100%);margin-bottom:16px;}
-.vxn-art-content h3{font-family:"Forum",serif;font-weight:400;color:#0E355F;font-size:22px;line-height:1.25;margin:34px 0 12px;scroll-margin-top:110px;}
+.vxn-art-content h3{font-family:"Inter",sans-serif;font-weight:400;color:#0E355F;font-size:22px;line-height:1.25;margin:34px 0 12px;scroll-margin-top:110px;}
 .vxn-art-content a{color:#0B2DBE;text-decoration:underline;text-underline-offset:2px;}
 .vxn-art-content img{max-width:100%;height:auto;border-radius:6px;margin:8px 0 26px;}
 .vxn-art-content ul,.vxn-art-content ol{margin:0 0 22px;padding-left:22px;}
@@ -97,7 +97,7 @@ const CSS = `
 .vxn-art-content table{width:100%;display:block;overflow-x:auto;border-collapse:collapse;margin:12px 0 28px;font-size:15px;}
 .vxn-art-content th,.vxn-art-content td{border:1px solid #e7e2d9;padding:10px 14px;text-align:left;}
 .vxn-art-content th{background:#f7f6f3;color:#0E355F;font-weight:600;}
-.vxn-art-content blockquote{margin:36px 0;padding:2px 0 2px 24px;border-left:3px solid #0B2DBE;font-family:"Forum",serif;font-weight:400;font-size:clamp(19px,2vw,22px);line-height:1.5;color:#16233B;}
+.vxn-art-content blockquote{margin:36px 0;padding:2px 0 2px 24px;border-left:3px solid #0B2DBE;font-family:"Inter",sans-serif;font-weight:400;font-size:clamp(19px,2vw,22px);line-height:1.5;color:#16233B;}
 
 .vxn-art-side{align-self:start;position:sticky;top:110px;display:flex;flex-direction:column;gap:0;}
 .vxn-art-toc{padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid #e7e2d9;}
@@ -120,13 +120,13 @@ const CSS = `
 .vxn-art-author{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:12px 0 0;padding:28px;max-width:760px;background:#f7f6f3;border:1px solid #e7e2d9;border-radius:16px;}
 .vxn-art-author__bio{flex:1;min-width:220px;}
 .vxn-art-author small{display:block;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#9aa1a9;margin-bottom:4px;}
-.vxn-art-author h3{font-family:"Forum",serif;font-weight:400;font-size:19px;color:#0E355F;margin:0 0 6px;}
+.vxn-art-author h3{font-family:"Inter",sans-serif;font-weight:400;font-size:19px;color:#0E355F;margin:0 0 6px;}
 .vxn-art-author p{font-size:14px;line-height:1.65;color:#6A7590;margin:0;}
 .vxn-art-author .btn-ghost{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;padding:0 22px;height:44px;border-radius:999px;border:1.5px solid #d9d3c8;color:#0E355F;font-size:14px;font-weight:600;text-decoration:none;transition:.2s;}
 .vxn-art-author .btn-ghost:hover{border-color:#0B2DBE;color:#0B2DBE;}
 
 .vxn-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#0B2DBE,#0E355F);display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:inset 0 0 0 2px #0B2DBE;}
-.vxn-avatar span{font-family:"Forum",serif;color:#fff;font-size:24px;line-height:1;}
+.vxn-avatar span{font-family:"Inter",sans-serif;color:#fff;font-size:24px;line-height:1;}
 .vxn-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;}
 .vxn-avatar.lg{width:56px;height:56px;}
 
@@ -144,7 +144,7 @@ const CSS = `
 .vxn-art-cta__panel{position:relative;overflow:hidden;border-radius:20px;padding:clamp(28px,3.6vw,54px);display:flex;flex-direction:column;gap:18px;align-items:flex-start;color:#fff;
   background:radial-gradient(900px 560px at 88% 118%,rgba(11,45,190,.55) 0%,transparent 62%),radial-gradient(820px 560px at 2% -30%,rgba(11,93,222,.5) 0%,transparent 64%),radial-gradient(600px 480px at 58% 46%,rgba(143,183,255,.16) 0%,transparent 68%),linear-gradient(155deg,#03081C 0%,#05173F 46%,#0B2DBE 100%);
   border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.14);}
-.vxn-art-cta__panel h2{font-family:"Forum",serif;font-weight:400;color:#fff;font-size:clamp(24px,3vw,34px);margin:0;max-width:22ch;}
+.vxn-art-cta__panel h2{font-family:"Inter",sans-serif;font-weight:400;color:#fff;font-size:clamp(24px,3vw,34px);margin:0;max-width:22ch;}
 .vxn-art-cta__panel p{color:rgba(255,255,255,.8);margin:0;max-width:52ch;font-size:15.5px;line-height:1.7;}
 .vxn-art-cta__btn{display:inline-flex;align-items:center;gap:10px;padding:0 28px;height:48px;border-radius:999px;background:#fff;color:#0B2DBE!important;font-weight:600;font-size:14.5px;text-decoration:none;transition:transform .3s;}
 .vxn-art-cta__btn:hover{transform:translateY(-2px);}
@@ -153,7 +153,7 @@ const CSS = `
    appended below), in a 3-up grid rather than the listing's 4-up. --- */
 .vxn-art-more{max-width:1200px;margin:64px auto 0;padding:0 32px 80px;}
 .vxn-art-more__head{text-align:center;margin-bottom:38px;}
-.vxn-art-more h2{font-family:"Forum",serif;font-weight:400;color:#0E355F;font-size:clamp(24px,3vw,32px);margin:0;}
+.vxn-art-more h2{font-family:"Inter",sans-serif;font-weight:400;color:#0E355F;font-size:clamp(24px,3vw,32px);margin:0;}
 .vxn-art-more__eyebrow{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#0B2DBE;margin-bottom:12px;}
 .vxn-art-more__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
 ${BLOG_TILE_CSS}

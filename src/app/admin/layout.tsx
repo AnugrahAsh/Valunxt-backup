@@ -4,7 +4,7 @@
  * A separate root layout from the public site: the panel has its own
  * stylesheet and is never indexed. Nothing from the site's Elementor cascade is
  * loaded here. It does share the site's identity — the wordmark, the tab icon,
- * the brand blue and Sanomat Sans, which admin.css declares from /sanomat-sans.
+ * the brand blue and Inter, which admin.css declares from /inter.
  */
 import type { ReactNode } from 'react';
 import type { Metadata, Viewport } from 'next';

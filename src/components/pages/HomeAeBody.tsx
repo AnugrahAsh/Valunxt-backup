@@ -10,6 +10,7 @@ import { BASE, rurl, vxnServices, type Service } from '@/lib/region';
 import CtaArrow from '@/components/ui/CtaArrow';
 import Html from '@/components/Html';
 import ClientScript from '@/components/ClientScript';
+import HeroSlideMedia from '@/components/sections/HeroSlideMedia';
 import BlogLoopCard from './BlogLoopCard';
 import type { BlogCard } from '@/lib/blog/types';
 import type { PageConfig } from '@/lib/page-config';
@@ -22,6 +23,7 @@ import UaeReadyBand from '@/components/sections/UaeReadyBand';
 import UaeSubscribeBand from '@/components/sections/UaeSubscribeBand';
 import UaeHomeMotion from '@/components/motion/UaeHomeMotion';
 import UaeKlayMotion from '@/components/motion/UaeKlayMotion';
+import UaeHomeFx from '@/components/motion/UaeHomeFx';
 
 /** The small entity set the hero's aria-labels and alt text need decoded. */
 function decodeEntities(v: string): string {
@@ -175,6 +177,27 @@ export default function HomeAeBody({
       	@keyframes vxae-drift {
       		from { transform: scale(1.02); }
       		to   { transform: scale(1.09); }
+      	}
+
+      	/* The live scene (HeroSlideMedia.tsx), where one exists for this slide's
+      	   banner — an absolutely-positioned layer over the same image, invisible
+      	   until its first frame has actually drawn (.is-ready), so a slide never
+      	   shows a blank or half-built canvas. Not rendered at all on
+      	   prefers-reduced-motion, without WebGL, or if Three.js fails to acquire
+      	   a context — the plain image above is then the whole slide, as it
+      	   always was. */
+      	.vxae-hero__threewrap {
+      		position: absolute;
+      		inset: 0;
+      		opacity: 0;
+      		transition: opacity 1s ease;
+      		pointer-events: none;
+      	}
+      	.vxae-hero__threewrap.is-ready { opacity: 1; }
+      	.vxae-hero__three { width: 100%; height: 100%; display: block; }
+
+      	@media (prefers-reduced-motion: reduce) {
+      		.vxae-hero__threewrap { display: none; }
       	}
 
       	/* Left-weighted scrim, deliberately light: every one of the four
@@ -394,14 +417,7 @@ export default function HomeAeBody({
       	<div className="vxae-hero__stage" aria-hidden="true">
       		{hero.map((s, i) => (
       			<div className={`vxae-hero__slide${i === 0 ? ' is-active' : ''}`} data-vxae-slide={String(i)} key={s.title}>
-      				{/* eslint-disable-next-line @next/next/no-img-element */}
-      				<img
-      					src={rimgFirst(region, s.banner ?? [])}
-      					alt=""
-      					width={1685}
-      					height={950}
-      					{...(i === 0 ? { fetchPriority: 'high' as const } : { loading: 'lazy' as const })}
-      				/>
+      				<HeroSlideMedia src={rimgFirst(region, s.banner ?? [])} priority={i === 0} />
       			</div>
       		))}
       		<span className="vxae-hero__scrim"></span>
@@ -818,6 +834,9 @@ export default function HomeAeBody({
       						    engine's place (see data-vxn-motion on #main-content);
       						    UaeKlayMotion drives the six services. */}
       						<UaeHomeMotion />
+      						{/* The continuous layer: scroll progress, the hero's slide
+      						    choreography, tilt, magnetic CTAs, scroll-tied scale and drift. */}
+      						<UaeHomeFx />
       						<UaeKlayMotion />
       					</div>
       				</div>

@@ -72,11 +72,11 @@ const DEMO_ROWS: Array<[string, string, string, string, string, string, number]>
 
 const CSS = `
 /* ===== Valunxt Intelligence Platform ====================================== */
-.vxn-plat{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;}
+.vxn-plat{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"Inter",sans-serif;color:var(--body);background:#fff;}
 .vxn-plat *{box-sizing:border-box;}
 .vxn-plat__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-plat__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}
-.vxn-plat h2.vxn-plat__h{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.1;font-size:clamp(27px,3.4vw,42px);margin:0 0 18px;}
+.vxn-plat h2.vxn-plat__h{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.1;font-size:clamp(27px,3.4vw,42px);margin:0 0 18px;}
 .vxn-plat__lead{margin:0;max-width:74ch;font-size:16.5px;line-height:1.8;}
 
 /* ---- Intro --------------------------------------------------------------- */
@@ -94,7 +94,7 @@ const CSS = `
 .vxn-plat__kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 18px;}
 .vxn-plat__kpi{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 18px;}
 .vxn-plat__kpilabel{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;}
-.vxn-plat__kpival{font-family:"Forum",serif;font-size:26px;line-height:1;color:var(--ny);}
+.vxn-plat__kpival{font-family:"Inter",sans-serif;font-size:26px;line-height:1;color:var(--ny);}
 .vxn-plat__kpinote{font-size:12px;color:var(--muted);margin:8px 0 0;}
 .vxn-plat__tablewrap{background:#fff;border:1px solid var(--line);border-radius:8px;overflow-x:auto;}
 .vxn-plat table{width:100%;min-width:660px;border-collapse:collapse;font-size:13.5px;}
@@ -115,8 +115,8 @@ const CSS = `
 .vxn-plat__modgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:38px;}
 .vxn-plat__mod{border:1px solid var(--line);border-radius:12px;padding:30px 30px 26px;background:#fff;transition:box-shadow .25s,transform .25s;}
 .vxn-plat__mod:hover{box-shadow:0 22px 52px -34px rgba(14,53,95,.4);transform:translateY(-3px);}
-.vxn-plat__modn{font-family:"Forum",serif;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gd2);margin:0 0 12px;}
-.vxn-plat h3.vxn-plat__modt{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;font-size:24px;line-height:1.2;margin:0 0 12px;}
+.vxn-plat__modn{font-family:"Inter",sans-serif;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gd2);margin:0 0 12px;}
+.vxn-plat h3.vxn-plat__modt{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;font-size:24px;line-height:1.2;margin:0 0 12px;}
 .vxn-plat__modlede{margin:0 0 20px;font-size:15px;line-height:1.72;}
 .vxn-plat__spec{border-top:1px solid var(--line);padding-top:16px;margin:0;display:grid;grid-template-columns:88px 1fr;gap:9px 16px;font-size:13.5px;line-height:1.6;}
 .vxn-plat__spec dt{color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-size:10.5px;font-weight:600;padding-top:2px;}
@@ -130,7 +130,7 @@ const CSS = `
 .vxn-plat__limits .vxn-plat__lead{color:rgba(255,255,255,.84);}
 .vxn-plat__limitgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:36px;}
 .vxn-plat__limit{border-top:2px solid var(--gd);padding-top:18px;}
-.vxn-plat h3.vxn-plat__limitt{font-family:"Forum",serif!important;font-weight:400!important;color:#fff!important;font-size:19px;line-height:1.25;margin:0 0 8px;}
+.vxn-plat h3.vxn-plat__limitt{font-family:"Inter",sans-serif!important;font-weight:400!important;color:#fff!important;font-size:19px;line-height:1.25;margin:0 0 8px;}
 .vxn-plat__limitd{margin:0;font-size:14.5px;line-height:1.7;color:rgba(255,255,255,.8);}
 
 /* ---- CTA ----------------------------------------------------------------- */

@@ -542,9 +542,10 @@ export const CSS = `
   border-radius:1px;background:#0b2dbe;
 }
 /* The title. The reference sets its own in a serif; the UAE market runs one
-   face, Sanomat Sans, on client instruction (20260910, valunxt-uae-face.css),
-   so the size and the weight carry the reference's emphasis instead. Two
-   classes, over the h3 scale (27px). */
+   face, Inter since 20260917 (Sanomat Sans before it, on the 20260910
+   instruction that started this — see valunxt-uae-face.css), so the size and
+   the weight carry the reference's emphasis instead. Two classes, over the h3
+   scale (27px). */
 .at-root .at-intro__label{
   font-weight:400!important;
   color:#1F2933!important;font-size:21px!important;line-height:1.3!important;

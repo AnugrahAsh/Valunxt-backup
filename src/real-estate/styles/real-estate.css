@@ -1,41 +1,33 @@
 /* --------------------------------------------------------------------------
    Fonts — self-hosted, so the module carries Valunxt's type wherever it lands
 
-   Forum for display and DM Sans for text are the group's faces. The module
-   previously named them in a stack but never loaded them: on this host they
-   happened to be present because the parent site serves them, and anywhere else
-   the headings silently fell back to Georgia. These are the same woff2 files the
-   parent site uses, copied into public/real-estate/fonts/. Latin subset only —
-   the Cyrillic and Vietnamese ranges the parent loads are not needed here.
+   Inter is the group's face (Forum for display and DM Sans for text, until
+   20260917 — the client instruction that moved the parent site to one family
+   moved this module too, so a page landing here still matches the parent
+   brand). The module previously named its old faces in a stack but never
+   loaded them: on this host they happened to be present because the parent
+   site served them, and anywhere else the headings silently fell back to
+   Georgia. These are the same woff2 files the parent site now uses, copied
+   into public/real-estate/fonts/. Latin subset only — the Cyrillic, Greek and
+   Vietnamese ranges the parent also carries are not needed here.
    -------------------------------------------------------------------------- */
 @font-face {
-  font-family: 'Forum';
+  font-family: 'Inter';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/real-estate/fonts/forum-6aey4ky-vb8ew8iropi.woff2') format('woff2');
+  src: url('/real-estate/fonts/inter-latin-wght-normal.woff2') format('woff2-variations');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'DM Sans';
+  font-family: 'Inter';
   font-style: normal;
-  font-weight: 100 1000;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/real-estate/fonts/dmsans-rp2yp2ywxg089urii5-g4vlh9vod8cmcqbu0-k4.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'DM Sans';
-  font-style: normal;
-  font-weight: 100 1000;
-  font-display: swap;
-  src: url('/real-estate/fonts/dmsans-rp2wp2ywxg089uriczasexd86j3t9jz86mvyyky58q.woff2') format('woff2');
+  src: url('/real-estate/fonts/inter-latin-ext-wght-normal.woff2') format('woff2-variations');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
     U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
@@ -56,9 +48,9 @@
    Colour is the Valunxt blue, not the green of the old site. One accent, used
    consistently: --re-blue for anything actionable, --re-navy for dark ground.
 
-   Fonts degrade rather than depend: if the host loads Forum and DM Sans the
-   type matches the parent brand, and if it does not the stack falls back to
-   Georgia and the system UI face without any layout shift.
+   Fonts degrade rather than depend: if the host loads Inter the type matches
+   the parent brand, and if it does not the stack falls back to the system UI
+   face without any layout shift.
    ========================================================================== */
 
 .re-root {
@@ -108,8 +100,13 @@
   --re-ease: cubic-bezier(.22, .61, .36, 1);
 
   /* ---- Type ---- */
-  --re-serif: 'Forum', 'Georgia', 'Times New Roman', serif;
-  --re-sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* One family site-wide since 20260917 (see the fonts note at the top of this
+     file): both variables now point at Inter. They stay two variables rather
+     than collapsing to one — every call site below still names the one it
+     always did, --re-serif for display and --re-sans for text, so a future
+     divergence needs no hunting through the module to reintroduce. */
+  --re-serif: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --re-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   font-family: var(--re-sans);
   color: var(--re-text);

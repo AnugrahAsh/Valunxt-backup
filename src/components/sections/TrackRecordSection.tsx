@@ -12,18 +12,18 @@ import TRACK_RECORD from '@/data/track-record';
 
 const CSS = `
 /* ===== Valunxt track record =============================================== */
-.vxn-tr{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;}
+.vxn-tr{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#6b757e;--line:#e5e1d8;--paper:#f7f6f3;font-family:"Inter",sans-serif;color:var(--body);background:#fff;}
 .vxn-tr *{box-sizing:border-box;}
 .vxn-tr__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-tr__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}
-.vxn-tr h2.vxn-tr__h{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.1;font-size:clamp(27px,3.4vw,42px);margin:0 0 18px;}
+.vxn-tr h2.vxn-tr__h{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.1;font-size:clamp(27px,3.4vw,42px);margin:0 0 18px;}
 .vxn-tr__lead{margin:0;max-width:74ch;font-size:16.5px;line-height:1.8;}
 
 /* ---- Metrics ------------------------------------------------------------- */
 .vxn-tr__metrics{padding:64px 0 60px;}
 .vxn-tr__mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:40px;}
 .vxn-tr__m{border:1px solid var(--line);border-radius:12px;padding:30px 28px 26px;background:#fff;}
-.vxn-tr__mval{font-family:"Forum",serif;font-size:clamp(38px,4.4vw,54px);line-height:1;color:var(--ny);margin:0 0 10px;}
+.vxn-tr__mval{font-family:"Inter",sans-serif;font-size:clamp(38px,4.4vw,54px);line-height:1;color:var(--ny);margin:0 0 10px;}
 .vxn-tr__mlabel{font-size:15px;font-weight:600;color:var(--ny2);margin:0 0 16px;}
 .vxn-tr__mbasis{margin:0;padding-top:16px;border-top:1px solid var(--line);font-size:13px;line-height:1.7;color:var(--muted);}
 .vxn-tr__mbasis strong{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gd2);margin-bottom:6px;}
@@ -35,7 +35,7 @@ const CSS = `
 .vxn-tr__ctop{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 18px;}
 .vxn-tr__pill{background:var(--paper);color:var(--ny2);font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:6px 11px;border-radius:3px;}
 .vxn-tr__pill--year{background:transparent;color:var(--muted);padding-left:0;}
-.vxn-tr h3.vxn-tr__cclient{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;font-size:25px;line-height:1.2;margin:0 0 22px;}
+.vxn-tr h3.vxn-tr__cclient{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;font-size:25px;line-height:1.2;margin:0 0 22px;}
 .vxn-tr__cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
 .vxn-tr__cblock h4{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 9px;}
 .vxn-tr__cblock p{margin:0;font-size:14.5px;line-height:1.75;}

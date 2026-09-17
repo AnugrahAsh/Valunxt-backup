@@ -15,8 +15,8 @@
  *
  * THE TWO SHEETS, and why they are two:
  *
- *   withUaeFace   valunxt-uae-face.css   Sanomat Sans, and only the family.
- *                                        EVERY page under /en-ae/, including the
+ *   withUaeFace   valunxt-uae-face.css   Inter, and only the family. EVERY
+ *                                        page under /en-ae/, including the
  *                                        404 fallback and the real estate module.
  *   withUaeType   valunxt-uae-type.css   The type scale — sizes, weights, line
  *                                        heights. The market home page and the
@@ -39,7 +39,7 @@
 import type { PageConfig } from './page-config';
 
 /** Bump the query when a sheet changes; they are served with a long cache. */
-export const UAE_FACE_CSS = '/assets/css/valunxt-uae-face.css?v=2';
+export const UAE_FACE_CSS = '/assets/css/valunxt-uae-face.css?v=3';
 export const UAE_TYPE_CSS = '/assets/css/valunxt-uae-type.css?v=6';
 
 /** The classes every selector in those stylesheets is scoped to. */
@@ -47,16 +47,16 @@ export const UAE_FACE_CLASS = 'vxn-uae-face';
 export const UAE_TYPE_CLASS = 'vxn-uae-type';
 
 /**
- * The two cuts every UAE page draws before anything else — the body and all
- * six heading levels — preloaded by HeadAssets so the first paint is not a
- * flash of the theme's face. The other seven cuts load when first asked for.
- * The paths mirror the @font-face block in valunxt-uae-face.css; a CSS file
- * cannot import this constant, so a rename has to land in both places.
+ * The two script cuts every page draws before anything else — Latin and Latin
+ * Extended, between them every weight this site's English and accented copy
+ * asks for — preloaded by HeadAssets so the first paint is not a flash of the
+ * theme's face. Inter's is a variable font, so each of these two files alone
+ * already carries every weight 100–900; the other five script cuts load if a
+ * page ever needs that range. The paths mirror the @font-face block in
+ * valunxt-uae-face.css; a CSS file cannot import this constant, so a rename
+ * has to land in both places.
  */
-export const UAE_FACE_PRELOAD = [
-  '/sanomat-sans/Sanomat%20SansRegular.otf',
-  '/sanomat-sans/Sanomat%20SansMedium.otf',
-];
+export const UAE_FACE_PRELOAD = ['/inter/inter-latin-wght-normal.woff2', '/inter/inter-latin-ext-wght-normal.woff2'];
 
 /**
  * A page with one sheet and its class applied. Idempotent: calling it twice on
@@ -79,10 +79,10 @@ function decorate(page: PageConfig, sheet: string, cls: string): PageConfig {
 
 /**
  * The page in the face. THE FACE IS SITE-WIDE since 20260914, on client
- * instruction: Sanomat Sans on every page in both markets, the services and
- * sub-services included. The region argument stays so every caller reads as
- * before; it no longer gates anything here. The SCALE below is still the
- * UAE's alone.
+ * instruction: one family on every page in both markets, the services and
+ * sub-services included — Sanomat Sans then, Inter since 20260917. The region
+ * argument stays so every caller reads as before; it no longer gates anything
+ * here. The SCALE below is still the UAE's alone.
  */
 export function withUaeFace(page: PageConfig, region: string): PageConfig {
   void region;

@@ -41,6 +41,7 @@ import {
 } from './seo-import';
 import { publishedSlugs } from '@/lib/blog/db';
 import { publicFilesIn } from '@/lib/public-files';
+import { publicPathFor } from '@/lib/route-aliases';
 import { vxnRegionData, vxnRegionList, type RegionSlug } from '@/lib/region';
 import {
   marketPath,
@@ -453,6 +454,13 @@ export interface SitemapUrl {
   alternates: Array<[string, string]>;
 }
 
+/** A page's address as the sitemap should list it: the client's flat public
+    address where there is one (lib/route-aliases.ts), the built one otherwise. */
+function publishedPath(region: string, p: string): string {
+  const built = marketPath(region, p);
+  return publicPathFor(built) ?? built;
+}
+
 /**
  * The sitemap entries for one page.
  *
@@ -475,9 +483,9 @@ export function seoSitemapUrls(row: PageRow, site: string): SitemapUrl[] {
   const twins = new Map<RegionSlug, string>();
   for (const p of sitePages()) {
     if (p.path !== place.path) continue;
-    for (const r of p.regions) twins.set(r, site + marketPath(r, p.path));
+    for (const r of p.regions) twins.set(r, site + publishedPath(r, p.path));
   }
-  for (const r of place.regions) twins.set(r, site + marketPath(r, place.path));
+  for (const r of place.regions) twins.set(r, site + publishedPath(r, place.path));
 
   const alternates: Array<[string, string]> =
     twins.size > 1
@@ -489,7 +497,7 @@ export function seoSitemapUrls(row: PageRow, site: string): SitemapUrl[] {
         ]
       : [];
 
-  return place.regions.map((region) => ({ loc: site + marketPath(region, place.path), region, alternates }));
+  return place.regions.map((region) => ({ loc: site + publishedPath(region, place.path), region, alternates }));
 }
 
 /** One URL of the generated sitemap, as vx_sitemap_urls records it. */

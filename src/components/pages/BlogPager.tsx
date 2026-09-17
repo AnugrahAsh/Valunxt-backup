@@ -10,7 +10,7 @@ import { rurl } from '@/lib/region';
    `.elementor-kit-5 a { color:#fff }` outranks a single-class selector, which
    left the numbered links invisible (white on white). */
 const CSS = `
-.vxn-pager{display:flex;align-items:center;justify-content:center;gap:8px;margin:48px 0 0;flex-wrap:wrap;font-family:"DM Sans",sans-serif;}
+.vxn-pager{display:flex;align-items:center;justify-content:center;gap:8px;margin:48px 0 0;flex-wrap:wrap;font-family:"Inter",sans-serif;}
 .vxn-pager__link,.vxn-pager__current,.vxn-pager__gap{display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:38px;padding:0 12px;border-radius:8px;font-size:14px;line-height:1;}
 .vxn-pager .vxn-pager__link{color:#0E355F;text-decoration:none;border:1px solid #e5e1d8;transition:border-color .2s,color .2s,background .2s;}
 .vxn-pager .vxn-pager__link:hover{border-color:#0B2DBE;color:#0B2DBE;background:#f7f6f3;}

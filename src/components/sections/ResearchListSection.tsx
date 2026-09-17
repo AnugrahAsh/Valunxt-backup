@@ -39,12 +39,12 @@ const REPORTS = [
 
 const CSS = `
 /* ===== Valunxt Research & Reports — native case-study card look ============= */
-.vxn-rr{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f1f0ec;font-family:"DM Sans",sans-serif;color:var(--body);background:#fff;padding:60px 0 68px;}
+.vxn-rr{--ny:#0E355F;--ny2:#0B2DBE;--gd:#0B2DBE;--gd2:#9C00DD;--body:#4d5863;--muted:#5b6670;--line:#e5e1d8;--paper:#f1f0ec;font-family:"Inter",sans-serif;color:var(--body);background:#fff;padding:60px 0 68px;}
 .vxn-rr *{box-sizing:border-box;}
 .vxn-rr__wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 .vxn-rr__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gd2);font-weight:600;margin:0 0 14px;}
 .vxn-rr__head{max-width:720px;margin:0 0 40px;}
-.vxn-rr h2.vxn-rr__h{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.08;font-size:clamp(30px,4vw,48px);margin:0 0 18px;}
+.vxn-rr h2.vxn-rr__h{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.08;font-size:clamp(30px,4vw,48px);margin:0 0 18px;}
 .vxn-rr__lead{margin:0;font-size:16.5px;line-height:1.8;color:var(--body);}
 
 /* ---- Grid & cards --------------------------------------------------------- */
@@ -58,7 +58,7 @@ const CSS = `
 .vxn-rr__meta{display:flex;align-items:center;gap:14px;margin:0 0 15px;}
 .vxn-rr__pill{background:var(--paper);color:var(--ny2);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:7px 12px;border-radius:4px;}
 .vxn-rr__date{font-size:12.5px;color:var(--muted);letter-spacing:.02em;}
-.vxn-rr h3.vxn-rr__title{font-family:"Forum",serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.18;font-size:clamp(20px,2.1vw,26px);margin:0 0 12px;}
+.vxn-rr h3.vxn-rr__title{font-family:"Inter",sans-serif!important;font-weight:400!important;color:var(--ny)!important;line-height:1.18;font-size:clamp(20px,2.1vw,26px);margin:0 0 12px;}
 .vxn-rr__desc{margin:0;font-size:15px;line-height:1.72;color:var(--body);}
 .vxn-rr__note{margin:34px 0 0;font-size:13px;line-height:1.7;color:#8a929a;}
 .vxn-rr__note a{color:var(--gd2);text-decoration:none;}

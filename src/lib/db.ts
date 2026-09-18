@@ -37,9 +37,9 @@ export function dbConfig(): DbConfig {
     return {
       host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT ?? 3306),
-      database: process.env.DB_NAME ?? '',
-      user: process.env.DB_USER ?? '',
-      password: process.env.DB_PASS ?? '',
+      database: process.env.DB_NAME ?? 'u431421769_nextjs',
+      user: process.env.DB_USER ?? 'u431421769_nextjs',
+      password: process.env.DB_PASS ?? 'ValunxtJS@1977',
     };
   }
   if (process.env.NODE_ENV === 'production') {
@@ -50,7 +50,7 @@ export function dbConfig(): DbConfig {
   return {
     host: '127.0.0.1',
     port: 3306,
-    database: process.env.DB_NAME ?? 'valunxt_capital_admin',
+    database: 'valunxt_capital_admin',
     user: 'root',
     password: '',
   };

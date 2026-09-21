@@ -83,7 +83,7 @@ export const NAV: NavGroup[] = [
     ],
   },
   { label: 'Our Process', href: '/#process' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Contact', href: '/#enquire' },
 ];
 
 export const FOOTER_COLUMNS: { title: string; links: Link[] }[] = [
@@ -108,18 +108,18 @@ export const FOOTER_COLUMNS: { title: string; links: Link[] }[] = [
   {
     title: 'The Group',
     links: [
-      { label: 'About Valunxt', href: '/#about' },
+      { label: 'Why Dubai', href: '/#why-dubai' },
+      { label: 'Dubai Areas', href: '/#areas' },
       { label: 'Our Process', href: '/#process' },
-      { label: 'Client Reviews', href: '/#reviews' },
       { label: 'Market Insights', href: '/#insights' },
     ],
   },
   {
     title: 'Get in Touch',
     links: [
-      { label: 'Speak to an Advisor', href: '/#contact' },
-      { label: 'Request a Valuation', href: '/#contact' },
-      { label: 'FAQs', href: '/#faqs' },
+      { label: 'Speak to an Advisor', href: '/#enquire' },
+      { label: 'Run the Numbers', href: '/#calculators' },
+      { label: 'FAQs', href: '/#faq' },
     ],
   },
 ];

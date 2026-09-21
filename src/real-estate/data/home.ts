@@ -162,7 +162,7 @@ export const PROCESS_HEAD = {
   img: '/real-estate/img/process.webp',
   cardTitle: 'Ready to Find Your Perfect Property?',
   cardCta: 'Speak to an Advisor',
-  cardHref: '/#contact',
+  cardHref: '/#enquire',
 };
 
 export const PROCESS: ProcessStep[] = [
@@ -218,7 +218,7 @@ export const INSIGHTS = {
     title: 'Insights That Shape Smarter Investments',
     body: "Expert research, investment trends, and data-driven insights across Dubai's evolving market.",
     cta: 'Explore Market Reports',
-    href: '/#contact',
+    href: '/#enquire',
   },
   img: '/real-estate/img/insights.webp',
   right: {
@@ -310,7 +310,7 @@ export const FAQ_HEAD = {
   lede: 'Everything you need to know about buying, selling, renting and investing in Dubai — answered by our experts.',
   footNote: 'Still have questions?',
   footCta: 'Talk to our advisors',
-  footHref: '/#contact',
+  footHref: '/#enquire',
 };
 
 export const FAQS: Faq[] = [

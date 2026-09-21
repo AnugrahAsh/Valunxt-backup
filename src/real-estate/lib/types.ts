@@ -101,21 +101,35 @@ export interface ServicePage {
    without three different templates.
    -------------------------------------------------------------------------- */
 
-/** A featured property. Prices are indicative and labelled as such on screen. */
+/**
+ * A featured property. Prices are indicative and labelled as such on screen.
+ * Photos live in public/real-estate/listings/ — every one of them a photo of
+ * a property (exterior, interior or the building), cover first.
+ */
 export interface Listing {
+  /** Short, stable, shown in the quick view as the reference. */
+  id: string;
   title: string;
   community: string;
-  /** Formatted for display, e.g. 'AED 2.4M'. Not a number — these carry units. */
+  type: 'Apartment' | 'Villa' | 'Townhouse' | 'Penthouse' | 'Office' | 'Retail' | 'Warehouse';
+  /** Formatted for display, e.g. 'AED 2.4M'. */
   price: string;
-  /** 'from' for off-plan launches, 'guide' for resale, 'per year' for rentals. */
+  /** The same price in AED, for sorting. */
+  value: number;
+  /** 'guide price' for resale, 'per year' for rentals, 'from' for launches. */
   priceNote: string;
   beds: string;
   baths: string;
   area: string;
   /** e.g. 'Ready', 'Q4 2027', 'Available now'. */
   status: string;
-  img: string;
+  /** Cover first, then the rest of the gallery. */
+  images: string[];
   tags: string[];
+  summary: string;
+  features: string[];
+  /** Extra facts for the quick view, e.g. handover, plan, service charge. */
+  facts?: { label: string; value: string }[];
 }
 
 /** A developer payment plan. */

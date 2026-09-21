@@ -409,13 +409,21 @@
   transition: color .4s ease, border-color .4s ease;
 }
 
-/* ---- Over the expanded video only: invert to light ---- */
-.re-head--onVideo {
+/* ---- Over the hero picture only: invert to light ---- */
+/* Both classes named: `.re-head.is-solid` (0,2,0) otherwise outranks this
+   (0,1,0) the moment the page scrolls, and the light logo lands on a white
+   bar. Scrolled within the hero, a soft dark gradient keeps the nav legible
+   against whatever part of the photograph is behind it. */
+.re-head--onVideo,
+.re-head.is-solid.re-head--onVideo {
   background: transparent;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   border-bottom-color: transparent;
   box-shadow: none;
+}
+.re-head.is-solid.re-head--onVideo {
+  background: linear-gradient(180deg, rgba(8, 28, 56, .5), rgba(8, 28, 56, 0));
 }
 
 .re-head--onVideo .re-head__practice { color: rgba(255, 255, 255, .82); border-color: rgba(255, 255, 255, .36); }
@@ -1562,6 +1570,9 @@
 }
 
 @media (max-width: 640px) {
+/* The header's Enquire pill pushed the burger off a phone screen; the drawer
+   carries its own Enquire button, so the pill stands down here. */
+.re-root .re-head .re-btn--sm { display: none; }
 .re-grid-4 { grid-template-columns: 1fr; }
 .re-rev__grid { grid-template-columns: 1fr; }
 .re-ins { grid-template-columns: 1fr; }

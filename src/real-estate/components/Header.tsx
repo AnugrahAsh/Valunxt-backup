@@ -132,7 +132,7 @@ export default function Header({ locale }: { locale: Locale }) {
             {BRAND.phone}
           </a>
 
-          <a className="re-btn re-btn--sm" href={url(locale, '/#contact')}>
+          <a className="re-btn re-btn--sm" href={url(locale, '/#enquire')}>
             {t(locale, 'Enquire Now')}
             <ArrowUpRight />
           </a>
@@ -179,7 +179,7 @@ export default function Header({ locale }: { locale: Locale }) {
           </nav>
 
           <div className="re-drawer__foot">
-            <a className="re-btn" href={url(locale, '/#contact')} onClick={() => setDrawer(false)}>
+            <a className="re-btn" href={url(locale, '/#enquire')} onClick={() => setDrawer(false)}>
               {t(locale, 'Enquire Now')}
               <ArrowUpRight />
             </a>

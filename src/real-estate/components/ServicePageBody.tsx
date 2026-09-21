@@ -1,24 +1,23 @@
 /**
- * The template behind all three L2 pages.
+ * The template behind all eight service pages, in the landing page's design
+ * (20260921). One component driven by a `ServicePage` record from
+ * data/pages.ts and data/service-pages-2.ts, so a ninth page is still a data
+ * entry and a slug, not a new component.
  *
- * buy-property, sell-rent-lease-property and off-plan-properties are the same
- * page with different content, so they are one component driven by a
- * `ServicePage` record from data/pages.ts. A fourth service page costs a data
- * entry and a route file — no new component, no new CSS.
- *
- * Shape: dark hero with three highlight tiles → "what's included" grid → the
- * numbered steps → page-specific FAQs → CTA. The reviews and partner bands are
- * reused from the pillar page so every entry point carries the same proof.
+ * Shape: photograph hero with the page's highlights → what the service
+ * includes → the steps → page-specific stock, prices, costs or plans → the
+ * call to action on a live abstract → reviews → the page's FAQs → developer
+ * marquee → the enquiry form, preset to what this page is about.
  */
 import type { Locale, ServicePage } from '../lib/types';
-import { url } from '../lib/routes';
-import Accordion from './Accordion';
-import Faqs from './sections/Faqs';
-import Reviews from './sections/Reviews';
-import Partners from './sections/Partners';
-import Contact from './sections/Contact';
-import { ArrowRight } from './icons';
-import { Costs, Listings, PaymentPlans, PriceTable } from './sections/MarketDetail';
+import type { EstateVariant } from './three/estateScenes';
+import type { Interest } from './landing/LeadForm';
+import PageRoot from './landing/PageRoot';
+import PageHero from './landing/PageHero';
+import Process from './landing/Process';
+import Faq from './landing/Faq';
+import Enquire from './landing/Enquire';
+import { Band, Costs, Developers, Offer, Plans, Prices, Stock, Voices } from './landing/PageSections';
 import {
   BUY_COSTS,
   BUY_LISTINGS,
@@ -30,168 +29,97 @@ import {
   SELL_COSTS,
 } from '../data/market';
 
-/**
- * Which detail blocks each page carries. Buying wants stock, prices and the
- * cost of transacting; letting wants rental stock, rent bands and the seller's
- * costs; off-plan wants launches and payment plans. Keyed by slug so a new
- * page opts in by adding a row, not by editing the template below.
- */
+/** Which detail blocks each page carries, keyed by slug. */
 const DETAIL: Record<string, React.ReactNode> = {
   'buy-property': (
     <>
-      <Listings
+      <Stock
         title="Properties on the Market Now"
-        lede="A sample of current stock across Dubai's freehold communities — residential and commercial."
-        items={BUY_LISTINGS}
+        lede="Current stock across Dubai's freehold communities — apartments, villas, townhouses, penthouses and offices. Swipe a card for more photos, or open it for the full details."
+        groups={[{ key: 'sale', label: 'For sale', items: BUY_LISTINGS }]}
       />
-      <PriceTable
+      <Prices
         title="What Property Costs, by Community"
         lede="Indicative sale prices per square foot and the gross yields those prices imply."
         rows={SALE_PRICES}
         columns={['Apartments', 'Villas & townhouses', 'Gross yield']}
       />
-      <Costs
-        title="The Full Cost of a Purchase"
-        lede="Everything payable beyond the price itself, set out before you make an offer rather than after."
-        rows={BUY_COSTS}
-      />
+      <Costs title="The Full Cost of a Purchase" lede="Everything payable beyond the price itself, set out before you make an offer rather than after." rows={BUY_COSTS} />
     </>
   ),
   'sell-rent-lease-property': (
     <>
-      <Listings
-        title="Rentals Available Now"
-        lede="A sample of current rental stock — apartments, family homes and commercial units."
-        items={RENT_LISTINGS}
+      <Stock
+        title="Properties We Are Letting and Selling"
+        lede="Homes and commercial space our clients have instructed us on — to rent now, or to buy. Swipe a card for more photos, or open it for the full details."
+        groups={[
+          { key: 'rent', label: 'For rent', items: RENT_LISTINGS },
+          { key: 'sale', label: 'For sale', items: BUY_LISTINGS },
+        ]}
       />
-      <PriceTable
+      <Prices
         title="What Rents Achieve, by Community"
         lede="Indicative annual rents and the cheque structures landlords in each community typically accept."
         rows={RENT_PRICES}
         columns={['Apartments', 'Villas & townhouses', 'Payment terms']}
       />
-      <Costs
-        title="What Selling Costs You"
-        lede="The deductions between the achieved price and what reaches your account."
-        rows={SELL_COSTS}
-      />
+      <Costs title="What Selling Costs You" lede="The deductions between the achieved price and what reaches your account." rows={SELL_COSTS} />
     </>
   ),
   'off-plan-properties': (
     <>
-      <Listings
+      <Stock
         title="Launches Worth Considering"
-        lede="Registered projects with escrow in place, current payment plans and expected handover."
-        items={OFFPLAN_LISTINGS}
+        lede="Registered projects with escrow in place, their current payment plans and expected handover. Open a launch for the plan, the unit mix and the photos."
+        groups={[{ key: 'launch', label: 'Launches', items: OFFPLAN_LISTINGS }]}
       />
-      <PaymentPlans items={PAYMENT_PLANS} />
+      <Plans items={PAYMENT_PLANS} />
     </>
   ),
 };
 
-export default function ServicePageBody({
-  locale,
-  page,
-  formAction,
-}: {
-  locale: Locale;
-  page: ServicePage;
-  formAction?: string;
-}) {
+/** The abstract behind each page's call to action. The lattice is the
+    enquiry panel's, so it is not used here. */
+const BAND: Record<string, EstateVariant> = {
+  'buy-property': 'skyline',
+  'sell-rent-lease-property': 'dunes',
+  'off-plan-properties': 'arches',
+  residential: 'arches',
+  commercial: 'skyline',
+  'mortgage-services': 'globe',
+  'investment-advisory': 'globe',
+  'valuations-advisory': 'dunes',
+};
+
+/** What the enquiry form starts on, for each page. */
+const INTEREST: Record<string, Interest> = {
+  'buy-property': 'Buying',
+  'sell-rent-lease-property': 'Selling or letting',
+  'off-plan-properties': 'Off-plan',
+  residential: 'Buying',
+  commercial: 'Buying',
+  'mortgage-services': 'Mortgage',
+  'investment-advisory': 'Buying',
+  'valuations-advisory': 'Valuation',
+};
+
+export default function ServicePageBody({ page }: { locale: Locale; page: ServicePage }) {
   return (
-    <>
-      <section className="re-phero">
-        <div className="re-phero__bg" aria-hidden="true">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={page.heroImg} alt="" />
-        </div>
-        <div className="re-wrap re-phero__inner">
-          <span className="re-eyebrow re-eyebrow--ghost">{page.eyebrow}</span>
-          <h1 className="re-h1">
-            <span>{page.title}</span>
-            <span>{page.titleAccent}</span>
-          </h1>
-          <p className="re-lede">{page.lede}</p>
-
-          <div className="re-phigh">
-            {page.highlights.map((h) => (
-              <div className="re-phigh__item" key={h.label}>
-                <p className="re-phigh__value">{h.value}</p>
-                <p className="re-phigh__label">{h.label}</p>
-                {h.detail ? <p className="re-phigh__detail">{h.detail}</p> : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="re-section">
-        <div className="re-wrap">
-          <div className="re-sec-head">
-            <h2 className="re-h2">{page.offerTitle}</h2>
-            <p className="re-lede">{page.offerLede}</p>
-          </div>
-
-          <div className="re-grid-3">
-            {page.offer.map((o) => (
-              <div className="re-offer-card" key={o.title}>
-                <h3 className="re-h3">{o.title}</h3>
-                <p>{o.summary}</p>
-                <ul className="re-svc__list">
-                  {o.bullets.map((b) => (
-                    <li key={b}>{b}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="re-proc">
-        <div className="re-wrap">
-          <div className="re-proc__grid">
-            <figure className="re-proc__figure">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={page.heroImg} alt="" loading="lazy" />
-            </figure>
-            <div className="re-proc__panel">
-              <span className="re-eyebrow re-eyebrow--ghost">Process</span>
-              <h2 className="re-h2" style={{ margin: '16px 0 22px' }}>
-                {page.stepsTitle}
-              </h2>
-              <Accordion variant="steps" items={page.steps} initial={0} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Page-specific detail: stock, prices, plans and costs. */}
-      {DETAIL[page.slug] ?? null}
-
-      <Faqs
-        locale={locale}
-        items={page.faqs}
-        title={`${page.eyebrow} — Common Questions`}
-        lede="The questions we are asked most often at this stage, answered plainly."
+    <PageRoot>
+      <PageHero eyebrow={page.eyebrow} title={page.title} accent={page.titleAccent} lede={page.lede} image={page.heroImg} highlights={page.highlights} />
+      <Offer title={page.offerTitle} lede={page.offerLede} items={page.offer} />
+      <Process
+        eyebrow="How it works"
+        title={page.stepsTitle}
+        steps={page.steps.map((s) => ({ n: s.number, title: s.title, body: s.body }))}
+        cta={{ label: 'Speak to an advisor', href: '#enquire' }}
       />
-
-      <section className="re-section re-section--tight">
-        <div className="re-wrap">
-          <div className="re-pcta">
-            <h2 className="re-h2">{page.ctaTitle}</h2>
-            <p>{page.ctaBody}</p>
-            <a className="re-btn re-btn--light" href={url(locale, '/#contact')}>
-              Speak to an Advisor
-              <ArrowRight />
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <Reviews />
-      <Partners />
-      <Contact locale={locale} action={formAction} />
-    </>
+      {DETAIL[page.slug] ?? null}
+      <Band variant={BAND[page.slug] ?? 'skyline'} eyebrow={page.eyebrow} title={page.ctaTitle} body={page.ctaBody} />
+      <Voices />
+      <Faq items={page.faqs} eyebrow="Questions" title={`${page.eyebrow}: What People Ask`} />
+      <Developers />
+      <Enquire interest={INTEREST[page.slug] ?? 'Buying'} />
+    </PageRoot>
   );
 }

@@ -29,7 +29,7 @@ function Footer({ locale }: { locale: Locale }) {
               Real estate advisory from {BRAND.full} — one accountable partner across acquisition,
               disposal, letting and valuation.
             </p>
-            <a className="re-btn re-btn--ghost" href={url(locale, '/#contact')}>
+            <a className="re-btn re-btn--ghost" href={url(locale, '/#enquire')}>
               {t(locale, 'Speak to an Advisor')}
               <ArrowUpRight />
             </a>

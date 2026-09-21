@@ -18,7 +18,7 @@ const BUY: ServicePage = {
   title: 'Find the Right Property,',
   titleAccent: 'Backed by Real Evidence.',
   lede: 'A curated selection of residential and commercial property across Dubai — matched to your requirements, budget and lifestyle, with independent advice at every step.',
-  heroImg: '/real-estate/img/buy.webp',
+  heroImg: '/assets/content/uploads/services/mortgages-hero.webp',
   highlights: [
     { value: '50K+', label: 'Verified listings', detail: 'Across Dubai’s prime and emerging communities.' },
     { value: 'RICS', label: 'Aligned valuations', detail: 'So the price you pay is the price it is worth.' },
@@ -82,7 +82,7 @@ const SELL: ServicePage = {
   title: 'Sell or Let With',
   titleAccent: 'Full Visibility.',
   lede: "From understanding your property's true value to connecting with the right buyer or tenant, we run a transparent process and keep you informed at every stage.",
-  heroImg: '/real-estate/img/sell.webp',
+  heroImg: '/assets/content/uploads/services/sub/real-estate-transactions/sell-rent-lease-property-hero.webp',
   highlights: [
     { value: 'Ejari', label: 'Registration handled', detail: 'Contracts and registration managed end to end.' },
     { value: 'Remote', label: 'Landlords welcome', detail: 'Let and manage from overseas without travelling.' },
@@ -146,7 +146,7 @@ const OFFPLAN: ServicePage = {
   title: 'Off-Plan, Assessed',
   titleAccent: 'Before You Commit.',
   lede: 'Launch access to Dubai’s most anticipated developments — with the developer track record, payment plan and handover risk examined before you sign anything.',
-  heroImg: '/real-estate/img/offplan.webp',
+  heroImg: '/assets/content/uploads/services/re-explore-off-plan.webp',
   highlights: [
     { value: 'Launch', label: 'Day access', detail: 'Allocation at launch pricing with leading developers.' },
     { value: 'Escrow', label: 'Verified', detail: 'Project registration and escrow status checked.' },

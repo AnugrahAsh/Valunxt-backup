@@ -1,8 +1,10 @@
 /**
  * The Real Estate section.
  *
- * This layout exists to do one thing: load the module's stylesheet once for
- * every page beneath it, rather than importing it from each route file.
+ * This layout exists to do one thing: load the module's stylesheets once for
+ * every page beneath it, rather than importing them from each route file.
+ * landing.css is the Dubai landing page's own; it is scoped to `.re-land` and
+ * reaches nothing on the service pages.
  *
  * There is no chrome here. The module renders its own header and footer inside
  * `.re-root` (see src/real-estate/components/Shell.tsx), so these pages do not
@@ -12,6 +14,7 @@
  */
 import type { ReactNode } from 'react';
 import '@/real-estate/styles/real-estate.css';
+import '@/real-estate/styles/landing.css';
 
 export default function RealEstateLayout({ children }: { children: ReactNode }) {
   return <>{children}</>;

@@ -31,6 +31,7 @@
  */
 import { rimgFirst } from '@/lib/region-assets';
 import { rurl } from '@/lib/region';
+import LiveImage from '@/components/three/live/LiveImage';
 
 /** One point: a short heading and the line under it. */
 interface Point {
@@ -60,8 +61,9 @@ export default function UaeFigureBand({ region }: { region: string }) {
       <div className="vxn-figs__card" data-vxn-figs="">
         {/* The client's plate for this band (20260913), with the ribbons it
             replaced behind it in case the file is ever missing. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        {/* Live since 20260922 (components/three/live): the plate's threads of
+            light, drawn, with the file under them for anyone without WebGL. */}
+        <LiveImage
           className="vxn-figs__texture"
           src={rimgFirst(region, ['uae/home/connected-practices.webp', 'homepage/abstract-2.webp'])}
           alt=""

@@ -68,6 +68,7 @@ import Html from '@/components/Html';
 import { rurl, vxnRegionData, vxnServiceName, vxnServices } from '@/lib/region';
 import CtaArrow from '@/components/ui/CtaArrow';
 import { rimgFirst } from '@/lib/region-assets';
+import LiveImage from '@/components/three/live/LiveImage';
 import type { PageConfig } from '@/lib/page-config';
 import ServiceTemplateMotion, { type MotionGroup } from './uae-services/template/Motion';
 import { CSS as TEMPLATE_CSS, RELATED_FIGURE } from './uae-services/template/ServiceTemplateBody';
@@ -193,8 +194,11 @@ const CSS = `
 
 .sx-card:hover .sx-card__body,
 .sx-card:focus-visible .sx-card__body{top:0;}
+.sx-card__shot .vxn-live{transition:opacity .5s;}
 .sx-card:hover .sx-card__shot img,
-.sx-card:focus-visible .sx-card__shot img{opacity:0;}
+.sx-card:hover .sx-card__shot .vxn-live,
+.sx-card:focus-visible .sx-card__shot img,
+.sx-card:focus-visible .sx-card__shot .vxn-live{opacity:0;}
 .sx-card:hover .sx-card__inner,
 .sx-card:focus-visible .sx-card__inner{opacity:1;}
 .sx-card:focus-visible{outline:2px solid var(--ny2);outline-offset:3px;}
@@ -413,8 +417,9 @@ export default function UaeServicesBody({
                           related-card file is the fallback if it is ever
                           missing. */}
                       <span className="sx-card__shot">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        {/* Live where the shot is the practice's abstract
+                            (components/three/live), the file under it. */}
+                        <LiveImage
                           src={rimgFirst(region, [
                             /* Its own card shot first (20260913), so the
                                index does not repeat the home page's

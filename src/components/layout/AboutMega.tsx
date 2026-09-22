@@ -50,6 +50,7 @@ import { motion } from 'framer-motion';
 
 import { rurl } from '@/lib/region';
 import CtaArrow from '@/components/ui/CtaArrow';
+import LiveBackdrop from '@/components/three/live/LiveBackdrop';
 import {
   MEGA_BEAT,
   MEGA_LEAD,
@@ -145,6 +146,9 @@ export default function AboutMega({
                   decoration: the sentence under it says the same, in words. */}
               <a className="vxn-amega__card" href={rurl(region, feature.link.href)}>
                 <span className="vxn-amega__art" aria-hidden="true">
+                  {/* The artwork, live (components/three/live): over the
+                      sheet's ::before plate, under its ::after wash. */}
+                  <LiveBackdrop live="about-mega" z={-1} />
                   <span className="vxn-amega__stamp">
                     {/* Counts up from zero as the sheet opens. */}
                     <SheetCount className="vxn-amega__num" value={feature.stat.value} state={state} />

@@ -21,6 +21,7 @@
  */
 import { rurl } from "@/lib/region";
 import { rimgFirst } from "@/lib/region-assets";
+import LiveImage from "@/components/three/live/LiveImage";
 import { MegaIcon } from "@/components/layout/MegaIcons";
 import type { ServicePageContent } from "./content";
 
@@ -549,9 +550,9 @@ export default function ServicePageBody({
       </section>
 
       <section className="vxn-glass" aria-labelledby="vxn-glass-head">
-        {/* Decorative: the panel over it carries the message. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        {/* Decorative: the panel over it carries the message. Live where the
+            plate is the practice's abstract (components/three/live). */}
+        <LiveImage
           className="vxn-glass__bg"
           src={rimgFirst(region, content.glass.img)}
           alt=""

@@ -1,139 +1,168 @@
 /**
- * /industries/ — page body.
+ * /industries/ — page body (redesigned 20260922, client instruction).
  *
- * Port of industries/index.php. The captured Elementor markup is unchanged: the only
- * edits are the ones JSX requires (className, self-closed voids, style
- * objects) and internal links going through rurl() so they stay in the
- * visitor's market.
+ * Rebuilt on the UAE service template's system (see company/parts.tsx and
+ * company/styles.ts): the template's hero, the six sectors as an explorer,
+ * the six client segments, the template's blue banner and its closing band.
+ *
+ * WHAT THIS PAGE ANSWERS is unchanged: /industries/ is WHAT the group covers
+ * (asset classes and the clients in each); /clients/ is how it works with
+ * each kind of client.
+ *
+ * COPY is the page's own, from the sectors section it replaces
+ * (IndustriesSectorsSection): the sector descriptions, the engagement lists,
+ * the segments and the leads. Sector photographs are photographs of the
+ * asset class, from the site's own image set.
  */
-import { rurl } from '@/lib/region';
-import IndustriesSectorsSection from '@/components/sections/IndustriesSectorsSection';
+import { MegaIcon } from '@/components/layout/MegaIcons';
+import { BASE, rurl } from '@/lib/region';
+import { vxnMarkets } from '@/lib/site-data';
 import type { PageConfig } from '@/lib/page-config';
+import { Arrow, Banner, CompanyHero, CompanyPage, Lead, Talk } from './company/parts';
+import SectorExplorer, { type Sector } from './company/SectorExplorer';
 
-export default function IndustriesBody({ page, region }: { page: PageConfig; region: string }) {
+const SECTORS: Sector[] = [
+  {
+    n: '01',
+    title: 'Residential',
+    desc: 'Primary and secondary residential across metros and emerging corridors, from single-unit acquisition for private owners to bulk and floor-level deals for funds. Valuation, pricing benchmarks, and exit planning.',
+    work: ['Acquisition & exit advisory', 'Portfolio valuation', 'Rental yield benchmarking'],
+    href: '/services/real-estate-investment-advisory/',
+    img: `${BASE}/real-estate/listings/marina-towers-pool.webp`,
+    alt: 'Residential towers around a marina',
+  },
+  {
+    n: '02',
+    title: 'Grade-A Office',
+    desc: 'Institutional office assets and business parks. We advise on entry pricing, tenant covenant quality, lease structuring, and the gap between headline and effective rents that drives real returns.',
+    work: ['Asset valuation', 'Covenant & lease review', 'Cap-rate analysis'],
+    href: '/services/research-intelligence/',
+    img: `${BASE}/real-estate/listings/office-glass.webp`,
+    alt: 'A glass office building',
+  },
+  {
+    n: '03',
+    title: 'Retail & Mixed-Use',
+    desc: 'High-street, mall, and mixed-use schemes where trade-area strength and tenant mix decide value. Feasibility, catchment analysis, and repositioning strategy for underperforming assets.',
+    work: ['Catchment & footfall analysis', 'Highest & best use', 'Repositioning strategy'],
+    href: '/services/research-intelligence/',
+    img: `${BASE}/assets/content/uploads/regions/en-in/homepage/industry-retail-fnb.webp`,
+    alt: 'Shoppers in a mall atrium',
+  },
+  {
+    n: '04',
+    title: 'Warehousing & Logistics',
+    desc: 'Grade-A warehousing, fulfilment, and cold chain, one of the fastest-repricing sectors in both our markets. Site selection, build-to-suit structuring, and yield benchmarking against comparable stock.',
+    work: ['Site selection', 'Build-to-suit structuring', 'Yield benchmarking'],
+    href: '/services/capital-advisory/',
+    img: `${BASE}/assets/content/uploads/regions/en-in/homepage/industry-manufacturing-logistics.webp`,
+    alt: 'Racking inside a large warehouse',
+  },
+  {
+    n: '05',
+    title: 'Land & Development',
+    desc: 'Raw land, joint development agreements, and phased schemes. We work with developers on capital stack design, phasing, and the funding runway a project needs before the first sale is booked.',
+    work: ['Feasibility & residual valuation', 'JV & JDA structuring', 'Development finance'],
+    href: '/services/capital-advisory/',
+    img: `${BASE}/real-estate/listings/offplan-rising.webp`,
+    alt: 'Towers under construction on open land',
+  },
+  {
+    n: '06',
+    title: 'Hospitality',
+    desc: 'Hotels, serviced apartments, and branded residences. Operator selection, management-agreement review, and trading-based valuation where the asset and the business are inseparable.',
+    work: ['Trading-based valuation', 'Operator & brand selection', 'Feasibility studies'],
+    href: '/services/research-intelligence/',
+    img: `${BASE}/real-estate/listings/lounge-city-view.webp`,
+    alt: 'A lounge overlooking the city',
+  },
+];
+
+const SEGMENTS = [
+  { icon: 'users', t: 'Private investors & HNIs', d: 'Individuals building or consolidating a real estate allocation alongside other assets.' },
+  { icon: 'shield', t: 'Family offices', d: 'Multi-generational structures needing governance, valuation discipline, and succession-ready holding vehicles.' },
+  { icon: 'globe', t: 'NRIs & cross-border buyers', d: 'Non-resident buyers allocating between India and the UAE, with structuring and repatriation in scope.' },
+  { icon: 'building', t: 'Developers', d: 'Sponsors raising project capital, structuring JVs, and pricing phased releases.' },
+  { icon: 'scales', t: 'Banks & lenders', d: 'Institutions requiring independent, standards-aligned valuation for credit and provisioning.' },
+  { icon: 'chart', t: 'Funds & institutions', d: 'Allocators underwriting portfolios and needing independent research before committee.' },
+];
+
+export default function IndustriesBody({ region }: { page: PageConfig; region: string }) {
   return (
-    <>
+    <CompanyPage className="co-industries">
+      <CompanyHero
+        region={region}
+        crumb="Industries"
+        title="Industries & Sectors"
+        sub="Residential, office, retail, warehousing, land and hospitality: the sectors we value, research and fund, and the clients we act for in each."
+        plate="banners/industry.webp"
+        alt="City lights at dusk"
+      />
 
-      <div id="main-content">
+      {/* ---- 1. THE SECTORS ---- */}
+      <section className="co-sectors" aria-labelledby="co-sectors-head">
+        <div className="at-in">
+          <Lead
+            id="co-sectors-head"
+            kicker="Sectors We Cover"
+            head="Six Asset Classes."
+            accent="One Valuation Discipline."
+            lede={`These are the sectors our valuers, researchers and capital team cover across ${vxnMarkets('short')}, and what an engagement in each typically involves. Choose a sector to see it.`}
+          />
+          <SectorExplorer sectors={SECTORS.map((s) => ({ ...s, link: rurl(region, s.href) }))} />
+        </div>
+      </section>
 
-      	<div id="main" role="main" className="vamtam-main layout-full">
+      {/* ---- 2. WHO WE ACT FOR ---- */}
+      <section className="co-segs" aria-labelledby="co-segs-head">
+        <div className="at-in">
+          <Lead
+            id="co-segs-head"
+            kicker="Who We Act For"
+            head="Six Client Segments"
+            lede="The sector sets the analysis; the client sets the mandate. Most engagements sit at the intersection of one of the sectors above and one of the segments below."
+          />
+          <div className="co-tiles">
+            {SEGMENTS.map((g) => (
+              <article className="co-tile" key={g.t}>
+                <span className="co-tile__icon" aria-hidden="true">
+                  <MegaIcon token={g.icon} />
+                </span>
+                <h3 className="co-tile__t">{g.t}</h3>
+                <p className="co-tile__d">{g.d}</p>
+              </article>
+            ))}
+          </div>
+          <div className="co-segs__foot">
+            <p>How we work with investors, families, NRIs, developers and institutions, segment by segment.</p>
+            <a className="at-btn at-btn--line" href={rurl(region, '/clients/')}>
+              Our clients
+              <Arrow />
+            </a>
+          </div>
+        </div>
+      </section>
 
+      {/* ---- 3. THE BANNER ---- */}
+      <Banner
+        region={region}
+        id="co-banner-head"
+        head="Real estate is not a single market."
+        body="A warehouse in a logistics corridor, a Grade-A floor let to a listed tenant, and a phased residential scheme are priced by different drivers and fail for different reasons."
+        cta={{ label: 'Explore our services', href: '/services/' }}
+        plate="uae/home/connected-practices.webp"
+        live="ind-banner"
+      />
 
-
-
-
-      		<article id="post-262" className="full post-262 page type-page status-publish hentry">
-      			<div data-elementor-type="single-page" data-elementor-id="3752" className="elementor elementor-3752 elementor-location-single post-262 page type-page status-publish hentry" data-elementor-post-type="elementor_library">
-      				<div className="elementor-element elementor-element-c4d353f e-flex e-con-boxed e-con e-parent" data-id="c4d353f" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\"}"}>
-      					<div className="e-con-inner">
-      						<div className="elementor-element elementor-element-6200b41 e-con-full e-flex e-con e-child" data-id="6200b41" data-element_type="container" data-e-type="container">
-      							<div className="elementor-element elementor-element-7b36cfb e-con-full e-flex e-con e-child" data-id="7b36cfb" data-element_type="container" data-e-type="container">
-      								<div className="elementor-element elementor-element-c739b5b elementor-widget elementor-widget-heading" data-id="c739b5b" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
-      									<div className="elementor-widget-container">
-      										<span className="elementor-heading-title elementor-size-default"><a href={rurl(region, '/')}>Home</a></span>
-      									</div>
-      								</div>
-      								<div className="elementor-element elementor-element-1707a75 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="1707a75" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
-      									<div className="elementor-widget-container">
-      										<span className="elementor-heading-title elementor-size-default">&gt; Industries</span>
-      									</div>
-      								</div>
-      							</div>
-      							<div className="elementor-element elementor-element-3f5733d elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="3f5733d" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
-      								<div className="elementor-widget-container">
-      									<div className="elementor-divider">
-      										<span className="elementor-divider-separator">
-      										</span>
-      									</div>
-      								</div>
-      							</div>
-      							<div className="elementor-element elementor-element-8c0b074 e-con-full e-flex e-con e-child" data-id="8c0b074" data-element_type="container" data-e-type="container">
-      								<div className="elementor-element elementor-element-16f0cb0 elementor-invisible animated-fast elementor-widget elementor-widget-heading" data-id="16f0cb0" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\"}"} data-widget_type="heading.default">
-      									<div className="elementor-widget-container">
-      										<h1 className="elementor-heading-title elementor-size-default">Industries &amp; Sectors</h1>
-      									</div>
-      								</div>
-      								<div className="elementor-element elementor-element-44a505e elementor-invisible animated-fast elementor-hidden-desktop elementor-hidden-tablet elementor-hidden-mobile elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="44a505e" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\"}"} data-widget_type="theme-post-title.default">
-      									<div className="elementor-widget-container">
-      										<h2 className="elementor-heading-title elementor-size-default">Industries</h2>
-      									</div>
-      								</div>
-      								<div className="elementor-element elementor-element-44a2511 elementor-invisible animated-fast elementor-widget__width-initial elementor-widget-mobile__width-inherit elementor-widget elementor-widget-theme-post-excerpt" data-id="44a2511" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\",\"_animation_delay\":50}"} data-widget_type="theme-post-excerpt.default">
-      									<div className="elementor-widget-container">
-      										Residential, office, retail, warehousing, land and hospitality &mdash; the sectors we value, research and fund, and the clients we act for in each. </div>
-      								</div>
-      							</div>
-      						</div>
-      					</div>
-      				</div>
-      				<div className="elementor-element elementor-element-afe1311 e-con-full e-flex e-con e-parent" data-id="afe1311" data-element_type="container" data-e-type="container">
-      					<div className="elementor-element elementor-element-9851ed0 elementor-widget elementor-widget-theme-post-content" data-id="9851ed0" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-content.default">
-      						<div className="elementor-widget-container">
-      							<div data-elementor-type="wp-page" data-elementor-id="262" className="elementor elementor-262" data-elementor-post-type="page">
-      								<div className="elementor-element elementor-element-3828824 e-flex e-con-boxed e-con e-parent" data-id="3828824" data-element_type="container" data-e-type="container">
-      									<div className="e-con-inner">
-      										<style id="vxn-ind-intro-css" dangerouslySetInnerHTML={{ __html: `
-      											.elementor-262 .vxn-ind-intro {
-      												display: grid;
-      												grid-template-columns: 1fr 1fr;
-      												gap: 22px 64px;
-      												align-items: start;
-      												margin: 0 0 52px;
-      											}
-
-      											.elementor-262 .vxn-ind-intro p.vxn-ind-intro__eyebrow {
-      												font-family: "Inter", sans-serif !important;
-      												font-size: 12px !important;
-      												letter-spacing: .2em !important;
-      												text-transform: uppercase !important;
-      												color: #0E355F !important;
-      												font-weight: 600 !important;
-      												margin: 0 0 14px !important;
-      											}
-
-      											.elementor-262 .vxn-ind-intro h2.vxn-ind-intro__title {
-      												font-family: "Inter", sans-serif !important;
-      												font-weight: 400 !important;
-      												color: #0E355F !important;
-      												font-size: clamp(28px, 3.4vw, 44px) !important;
-      												line-height: 1.12 !important;
-      												margin: 0 !important;
-      											}
-
-      											.elementor-262 .vxn-ind-intro p.vxn-ind-intro__lead {
-      												font-family: "Inter", sans-serif !important;
-      												font-size: 17px !important;
-      												line-height: 1.8 !important;
-      												color: #4d5863 !important;
-      												margin: 0 !important;
-      											}
-
-      											@media(max-width:900px) {
-      												.elementor-262 .vxn-ind-intro {
-      													grid-template-columns: 1fr;
-      													gap: 14px;
-      													margin-bottom: 36px;
-      												}
-      											}
-      										` }} />
-      										<IndustriesSectorsSection region={region} />
-      									</div>
-      								</div>
-      							</div>
-      						</div>
-      					</div>
-      				</div>
-      			</div>
-      		</article>
-
-
-
-
-
-
-      	</div>{/* #main */}
-
-      </div>
-    </>
+      {/* ---- 4. THE CLOSE ---- */}
+      <Talk
+        region={region}
+        head="Discuss a Sector, an Asset or a Portfolio"
+        lede="Tell us what you are valuing, researching or funding, and we will connect you with the team that covers it."
+        cta={{ label: 'Get in Touch', href: '/contact/' }}
+        photo="uae/home/expertise-inset.webp"
+        alt="A Valunxt team meeting"
+      />
+    </CompanyPage>
   );
 }

@@ -32,6 +32,7 @@ import { rimg, rimgFirst } from '@/lib/region-assets';
 import { LogoXWindow } from '@/components/brand/LogoX';
 import { brandCase } from '@/components/ui/BrandName';
 import Reveal from '@/components/motion/Reveal';
+import LiveImage from '@/components/three/live/LiveImage';
 
 /** A path, or candidates in preference order: the first file that exists wins. */
 type ImgSrc = string | readonly string[];
@@ -161,8 +162,8 @@ export default function WhoWeAreTrio({ region }: { region: string }) {
             card's whole message. */}
         {c.brand.texture ? (
           <div className="vxn-trio__tex" aria-hidden="true">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={srcOf(region, c.brand.texture)} alt="" loading="lazy" />
+            {/* Live (components/three/live): the plate's own moving scene, the file under it. */}
+            <LiveImage src={srcOf(region, c.brand.texture)} alt="" loading="lazy" />
           </div>
         ) : null}
 

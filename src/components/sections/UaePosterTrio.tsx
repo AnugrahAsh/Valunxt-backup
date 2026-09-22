@@ -40,6 +40,7 @@ import { rurl } from '@/lib/region';
 import { brandCase } from '@/components/ui/BrandName';
 import CtaArrow from '@/components/ui/CtaArrow';
 import { rimgFirst } from '@/lib/region-assets';
+import LiveImage from '@/components/three/live/LiveImage';
 
 export default function UaePosterTrio({ region }: { region: string }) {
   return (
@@ -53,12 +54,15 @@ export default function UaePosterTrio({ region }: { region: string }) {
             <span className="vxn-post__by">Founders, businesses, investors and developers across the UAE</span>
           </span>
           <span className="vxn-post__figure" aria-hidden="true">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            {/* Live since 20260922 (components/three/live). The hero already
+                moves this file's own scene, so the card gets the paper strata;
+                the file stays under it for anyone without WebGL. */}
+            <LiveImage
               className="vxn-post__media"
               src={rimgFirst(region, ['banners/uae-slider-4.webp', 'homepage/abstract-1.webp'])}
               alt=""
               loading="lazy"
+              live="home-story"
             />
           </span>
         </a>
@@ -79,12 +83,13 @@ export default function UaePosterTrio({ region }: { region: string }) {
             <h3 className="vxn-post__title">Advice that protects what you are building.</h3>
           </span>
           <span className="vxn-post__band" aria-hidden="true">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            {/* Live: the ribbons, for the same reason as the story card. */}
+            <LiveImage
               className="vxn-post__media"
               src={rimgFirst(region, ['banners/uae-slider-2.webp', 'homepage/abstract-3.webp'])}
               alt=""
               loading="lazy"
+              live="home-about"
             />
           </span>
         </a>

@@ -14,6 +14,7 @@
  */
 import { rurl } from '@/lib/region';
 import { rimgFirst } from '@/lib/region-assets';
+import LiveImage from '@/components/three/live/LiveImage';
 
 interface BannerContent {
   /** The clause before the highlighted block. */
@@ -24,6 +25,9 @@ interface BannerContent {
   /** Candidates in preference order; the first that exists wins. */
   images: string[];
   alt: string;
+  /** The live scene where the picture is one of the brand's abstracts
+   *  (components/three/live/registry); a photograph names none. */
+  live?: string;
 }
 
 const CONTENT: Record<string, BannerContent> = {
@@ -40,6 +44,9 @@ const CONTENT: Record<string, BannerContent> = {
     copy: 'We are transparent like that. Fixed fees agreed upfront, senior people on every mandate, no surprises on the invoice.',
     images: ['banners/uae-slider-2.webp', 'banners/partnership.webp'],
     alt: 'Advisory team in discussion with a client',
+    /* The glass loop, anchored right of the frosted panel; the hero already
+       moves this file's own scene. */
+    live: 'home-whyus',
   },
 };
 
@@ -49,12 +56,12 @@ export default function WhyUsBanner({ region }: { region: string }) {
   return (
     <section className="vxn-whyus" aria-labelledby="vxn-whyus-title">
       <div className="vxn-whyus__frame">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <LiveImage
           className="vxn-whyus__media"
           src={rimgFirst(region, c.images)}
           alt={c.alt}
           loading="lazy"
+          live={c.live}
         />
         <div className="vxn-whyus__panel">
           <span className="vxn-whyus__spark" aria-hidden="true">

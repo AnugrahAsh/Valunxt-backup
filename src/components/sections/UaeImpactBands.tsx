@@ -28,6 +28,7 @@ import { rimg, rimgFirst } from '@/lib/region-assets';
 import { LogoXGlyph } from '@/components/brand/LogoX';
 import { brandCase } from '@/components/ui/BrandName';
 import CtaArrow from '@/components/ui/CtaArrow';
+import LiveImage from '@/components/three/live/LiveImage';
 
 /** The client's artwork for these bands (20260913). Each leads its slot's
  *  candidate list, so the stand-in it replaced still shows if a file goes. */
@@ -67,8 +68,8 @@ export function ImpactBand({ region }: { region: string }) {
   return (
     <section className="vxn-impact" aria-labelledby="vxn-impact-title">
       <div className="vxn-impact__card">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        {/* Live since 20260922 (components/three/live), the file under it. */}
+        <LiveImage
           className="vxn-impact__texture"
           src={rimgFirst(region, [UAE_HOME.impact, 'homepage/abstract-3.webp'])}
           alt=""
@@ -118,8 +119,7 @@ export function SpotlightBand({ region }: { region: string }) {
           />
         </div>
         <figure className="vxn-spotlight__media">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <LiveImage
             src={rimg(region, 'homepage/abstract-2.webp')}
             alt="Abstract rendering of layered data surfaces"
             loading="lazy"
@@ -147,6 +147,9 @@ interface MosaicCard {
   href: string;
   /** Candidates in preference order; the first that exists wins. */
   images: string[];
+  /** The live scene for a plate (components/three/live/registry), where the
+   *  file's default would repeat one already on the page. */
+  live?: string;
   /** Empty for the texture, which is decoration. */
   alt: string;
   /** object-position, so the crop keeps the faces at every tile shape. */
@@ -184,6 +187,8 @@ const MOSAIC: MosaicCard[] = [
     cta: 'Read the Research',
     href: '/research/',
     images: ['banners/uae-slider-3.webp', 'homepage/abstract-1.webp'],
+    /* The hero already moves this file's scene; the tile gets the mesh. */
+    live: 'home-mosaic',
     alt: '',
   },
   {
@@ -221,13 +226,13 @@ export function MosaicBand({ region }: { region: string }) {
             key={card.href}
           >
             <div className="vxn-mosaic__shot">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <LiveImage
                 className="vxn-mosaic__media"
                 src={rimgFirst(region, card.images)}
                 alt={card.alt}
                 loading="lazy"
                 style={card.focus ? { objectPosition: card.focus } : undefined}
+                live={card.live}
               />
             </div>
             <div className="vxn-mosaic__body">
@@ -278,8 +283,7 @@ export function CareersBand({ region }: { region: string }) {
         </div>
       </div>
       <div className="vxn-careers__media">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <LiveImage
           className="vxn-careers__texture"
           src={rimgFirst(region, [UAE_HOME.careersTexture, 'banners/texture-2.webp'])}
           alt=""

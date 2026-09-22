@@ -65,6 +65,8 @@ import type React from "react";
 import Html from "@/components/Html";
 import { rurl, vxnServiceName, vxnServices } from "@/lib/region";
 import { rimgFirst } from "@/lib/region-assets";
+import LiveBackdrop from "@/components/three/live/LiveBackdrop";
+import LiveImage from "@/components/three/live/LiveImage";
 import ExploreDeck from "./ExploreDeck";
 import ServiceTemplateMotion from "./Motion";
 import SolutionSatin from "./SolutionSatin";
@@ -1342,6 +1344,9 @@ export default function ServiceTemplateBody({
      not a sub-service but a step; they take the same two slots. Its heading
      line and its button are the tab's where it has them, and the intro's
      primary call where it does not. */
+  /** The picture behind the k-th solution tab: this page's own shot first. */
+  const solutionImage = (k: number) =>
+    rimgFirst(region, [`services/${content.slug}-solution-${k + 1}.webp`, ...(solution.images[k] ?? solution.images[0] ?? [])]);
   const SOL = solution.tabs.slice(0, SOLUTION_IDS.length).map((g) => ({
     tab: g.tab,
     title: g.title,
@@ -1368,8 +1373,9 @@ export default function ServiceTemplateBody({
           {/* ---- 1. HERO — the photograph, the crumb, the title, one line ---- */}
           <section className="at-hero" aria-labelledby="at-hero-head">
             <div className="at-hero__media">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="at-zoom" src={rimgFirst(region, hero.image)} alt={hero.alt} fetchPriority="high" />
+              {/* Live where the plate is the practices' banner abstract
+                  (components/three/live), the file under it. */}
+              <LiveImage className="at-zoom" src={rimgFirst(region, hero.image)} alt={hero.alt} fetchPriority="high" />
             </div>
             <div className="at-hero__scrim" aria-hidden="true" />
             {/* No blur stack and no white wash under the copy (client, 20260914):
@@ -1546,7 +1552,7 @@ export default function ServiceTemplateBody({
                 (t, k) => `
 .elementor-17 .elementor-element.elementor-element-${t.pane}:not(.elementor-motion-effects-element-type-background),
 .elementor-17 .elementor-element.elementor-element-${t.pane} > .elementor-motion-effects-container > .elementor-motion-effects-layer{
-  background-image:url("${rimgFirst(region, [`services/${content.slug}-solution-${k + 1}.webp`, ...(solution.images[k] ?? solution.images[0] ?? [])])}")!important;
+  background-image:url("${solutionImage(k)}")!important;
   background-position:center center!important;
   background-size:cover!important;
 }
@@ -1649,6 +1655,10 @@ export default function ServiceTemplateBody({
                                       })}
                                     </Con>
                                     <Con id={t.pane} extra="e-con-full" settings={"{\"background_background\":\"classic\"}"}>
+                                      {/* Live where the tab's picture is an abstract (the
+                                          technology page's first and third); nothing for a
+                                          photograph. */}
+                                      <LiveBackdrop src={solutionImage(k)} />
                                       <Con id={t.abs} extra="e-con-full" settings={"{\"position\":\"absolute\"}"}>
                                         {t.blur ? (
                                           <BlurLayers ids={t.blur} />
@@ -1718,8 +1728,8 @@ export default function ServiceTemplateBody({
 
                 {/* Decorative: the copy beside it is the whole of the section. */}
                 <div className="at-prob__art" aria-hidden="true">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="at-plate at-zoom" src={rimgFirst(region, banner.image)} alt="" loading="lazy" />
+                  {/* Live: the practice's own scene (components/three/live). */}
+                  <LiveImage className="at-plate at-zoom" src={rimgFirst(region, banner.image)} alt="" loading="lazy" />
                 </div>
               </div>
             </div>

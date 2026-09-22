@@ -7,6 +7,7 @@
  * visitor's market.
  */
 import { rurl } from '@/lib/region';
+import LiveBackdrop from '@/components/three/live/LiveBackdrop';
 import type { PageConfig } from '@/lib/page-config';
 
 export default function CareersBody({ page, region }: { page: PageConfig; region: string }) {
@@ -70,7 +71,7 @@ export default function CareersBody({ page, region }: { page: PageConfig; region
       		<div className="elementor-element elementor-element-c3aac4e e-con-full e-flex e-con e-child" data-id="c3aac4e" data-element_type="container" data-e-type="container">
       		<div className="elementor-element elementor-element-cd90497 e-con-full e-flex e-con e-child" data-id="cd90497" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\",\"animation\":\"none\"}"}>
       				</div>
-      		<div className="elementor-element elementor-element-7d7674e e-con-full e-flex e-con e-child" data-id="7d7674e" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\",\"animation\":\"none\"}"}>
+      		<div className="elementor-element elementor-element-7d7674e e-con-full e-flex e-con e-child" data-id="7d7674e" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\",\"animation\":\"none\"}"}>{/* The card's silk, live (components/three/live), under the scrim valunxt-brand.css gives the plate. */}<LiveBackdrop live="careers-card" overlay="linear-gradient(180deg, rgba(6,28,64,.42) 0%, rgba(6,28,64,.16) 30%, rgba(6,28,64,.34) 64%, rgba(6,28,64,.74) 100%)" />
       		<div className="elementor-element elementor-element-e8b9dab e-con-full e-flex e-con e-child" data-id="e8b9dab" data-element_type="container" data-e-type="container">
       				<div className="elementor-element elementor-element-ba294bb elementor-widget elementor-widget-heading" data-id="ba294bb" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
       				<div className="elementor-widget-container">

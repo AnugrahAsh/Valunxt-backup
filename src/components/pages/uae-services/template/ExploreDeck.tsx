@@ -48,6 +48,7 @@ import type { ReactNode } from 'react';
 import CtaArrow from '@/components/ui/CtaArrow';
 import { rurl } from '@/lib/region';
 import { rimgFirst } from '@/lib/region-assets';
+import LiveImage from '@/components/three/live/LiveImage';
 
 import type { ServiceTemplateContent } from './types';
 
@@ -351,13 +352,16 @@ export default function ExploreDeck({
                 <span className="at-acc__inner">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img className="at-acc__img" src={rimgFirst(region, sv.figure)} alt="" loading="lazy" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  {/* Live since 20260922 (components/three/live): each card's
+                      silk is its own scene, `deck:<practice>:<n>`, so no two
+                      cards of a deck move alike; the file stays under it. */}
+                  <LiveImage
                     className="at-deck__silk"
                     src={rimgFirst(region, strip.silks?.[i] ?? strip.silks?.[0] ?? ['banners/uae-slider-2.webp'])}
                     alt=""
                     loading="lazy"
                     aria-hidden="true"
+                    live={`deck:${content.slug}:${i}`}
                   />
                   {/* The closed card's name. It repeats the heading in the open
                       layer, so it is hidden from assistive technology. */}

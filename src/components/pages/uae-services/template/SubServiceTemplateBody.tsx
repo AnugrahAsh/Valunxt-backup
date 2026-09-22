@@ -63,6 +63,7 @@ import { rurl } from '@/lib/region';
 import { brandCase } from '@/components/ui/BrandName';
 import CtaArrow from '@/components/ui/CtaArrow';
 import { rimg, rimgFirst } from '@/lib/region-assets';
+import LiveImage from '@/components/three/live/LiveImage';
 
 import SubServiceTemplateMotion from './SubMotion';
 import { subImageList, type SubPoint, type SubServiceTemplateContent } from './subTypes';
@@ -216,7 +217,9 @@ export default function SubServiceTemplateBody({
 
             <figure className="abk-panel">
               <div className="abk-panel__media abk-zoom">
-                <img src={rimgFirst(region, subImageList(brief.panel.image))} alt={brief.panel.alt} loading="lazy" />
+                {/* Live (components/three/live): this page's own scene for
+                    its practice's panel family; the file stays under it. */}
+                <LiveImage src={rimgFirst(region, subImageList(brief.panel.image))} alt={brief.panel.alt} loading="lazy" />
               </div>
               <div className="abk-panel__glow" aria-hidden="true" />
 
@@ -422,7 +425,8 @@ export default function SubServiceTemplateBody({
         <div className="abk-in">
           <div className="abk-band__box">
             <span className="abk-band__media abk-zoom">
-              <img src={rimgFirst(region, subImageList(band.image))} alt={band.alt} loading="lazy" />
+              {/* Live, as the panel above: the band family of this practice. */}
+              <LiveImage src={rimgFirst(region, subImageList(band.image))} alt={band.alt} loading="lazy" />
             </span>
             <span className="abk-band__tint" aria-hidden="true" />
 

@@ -33,6 +33,7 @@ import { useId, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 
 import CtaArrow from '@/components/ui/CtaArrow';
+import LiveImage from '@/components/three/live/LiveImage';
 
 export interface SatinTab {
   tab: string;
@@ -192,8 +193,8 @@ export default function SolutionSatin({
       <div className="at-in">
         <div className="at-sat__wrap">
           <div className="at-sat__card">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="at-sat__texture" src={texture} alt="" loading="lazy" aria-hidden="true" />
+            {/* Live since 20260922: the teal silk, folding (components/three/live). */}
+            <LiveImage className="at-sat__texture" src={texture} alt="" loading="lazy" aria-hidden="true" live="re-satin" />
             <span className="at-sat__scrim" aria-hidden="true" />
 
             <div className="at-sat__tabs" role="tablist" aria-labelledby={`${uid}-head`}>

@@ -21,6 +21,7 @@
  * and a per-market override under uploads/regions/<slug>/ wins over both.
  */
 import { rimgFirst } from '@/lib/region-assets';
+import LiveImage from '@/components/three/live/LiveImage';
 
 export interface Industry {
   /** Plain text — this is a heading, not markup. */
@@ -157,8 +158,9 @@ export default function HomeIndustriesRow({
             {items.map((industry) => (
               <div className="vxn-svc-card" key={industry.name}>
                 <div className="vxn-svc-card__media">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  {/* Live where the stand-in is one of the abstracts
+                      (components/three/live); a photograph stays as it is. */}
+                  <LiveImage
                     src={rimgFirst(region, industry.img)}
                     alt={industry.name}
                     loading="lazy"

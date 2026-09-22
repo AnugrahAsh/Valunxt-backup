@@ -5,6 +5,7 @@
    Port of includes/partials/page-hero.php. */
 import { BASE, rurl } from '@/lib/region';
 import { uaePageImage, uaePageKey } from '@/lib/uae-page-images';
+import LiveBackdrop from '@/components/three/live/LiveBackdrop';
 import type { PageConfig } from '@/lib/page-config';
 
 const HERO_CSS = `
@@ -93,6 +94,12 @@ export default function PageHeroSection({
                 data-settings='{"background_background":"classic"}'
                 style={{ backgroundImage }}
               >
+                {/* The brand banner, live (components/three/live), under the
+                    same scrim the background carries; the background stays
+                    for anyone without WebGL. */}
+                {brand ? (
+                  <LiveBackdrop live="brand-hero" overlay="linear-gradient(160deg,rgba(8,32,68,.30) 0%,rgba(8,32,68,.48) 100%)" />
+                ) : null}
                 <div className="e-con-inner">
                   <div
                     className="elementor-element elementor-element-6200b41 e-con-full e-flex e-con e-child"

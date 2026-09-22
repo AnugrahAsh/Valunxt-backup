@@ -22,8 +22,10 @@
  * `clip-path` with a fixed viewBox, needs the element's aspect ratio baked in.
  */
 
-/** Untransformed glyph outlines, in the wordmark's own 0 0 420 82 space. */
-const X_PATHS = [
+/** Untransformed glyph outlines, in the wordmark's own 0 0 420 82 space.
+    Exported for the about page's particle hero (pages/about/XField.tsx),
+    which samples the real mark rather than drawing an X of its own. */
+export const X_PATHS = [
   'M327.307 59.7037L314.388 76.9454L314.275 77.0762L314.181 77.2678C314.027 77.5434 312.142 80.6778 307.232 80.6778C307.138 80.6778 307.044 80.6778 306.951 80.6731C302.993 80.5797 297.76 80.561 293.905 80.5563L320.324 45.7926L327.307 59.7037Z',
   'M329.619 56.7187L324.517 63.4127C323.593 55.4061 318.88 50.0061 318.106 49.17L293.792 17.8864C296.118 17.8957 307.251 17.891 308.428 17.8677H308.512C311.044 17.8677 313.29 19.881 313.722 20.2921L326.228 36.7537C335.396 47.8013 330.238 55.6163 329.619 56.7187Z',
   'M364.099 20.1987C364.099 20.1987 357.018 28.8592 351.728 35.6466L351.705 35.6793L346.476 42.7516C346.397 42.8918 346.312 43.0319 346.209 43.1627C346.111 43.2982 346.003 43.429 345.886 43.5457C345.712 43.7279 345.515 43.9007 345.304 44.0455C344.652 44.508 343.855 44.7789 342.997 44.7789C341.918 44.7789 340.938 44.3539 340.221 43.6625L339.213 42.0649L333.759 33.395L340.559 24.1692L343.499 20.2547C345.234 17.8723 346.716 17.9191 346.716 17.9191L363.658 17.849C366.598 17.564 364.089 20.208 364.089 20.208L364.099 20.1987Z',
@@ -48,7 +50,7 @@ const X_PATHS_UNIT = [
 ];
 
 /* Tight bounding box of those four paths, measured off the outlines. */
-const BOX = { x: 293.79, y: 17.85, w: 70.52, h: 62.83 };
+export const BOX = { x: 293.79, y: 17.85, w: 70.52, h: 62.83 };
 
 /** viewBox that frames the glyph with no padding — for the flat-artwork form. */
 export const X_VIEWBOX = `${BOX.x} ${BOX.y} ${BOX.w} ${BOX.h}`;

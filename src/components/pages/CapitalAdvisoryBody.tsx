@@ -7,6 +7,7 @@
  * visitor's market.
  */
 import { BASE, rurl } from '@/lib/region';
+import LiveBackdrop from '@/components/three/live/LiveBackdrop';
 import type React from 'react';
 import type { PageConfig } from '@/lib/page-config';
 
@@ -24,7 +25,7 @@ export default function CapitalAdvisoryBody({ page, region }: { page: PageConfig
 
       		<article id="post-252" className="full post-252 page type-page status-publish has-post-thumbnail hentry">
       			<div data-elementor-type="single-page" data-elementor-id="3947" className="elementor elementor-3947 elementor-location-single post-252 page type-page status-publish has-post-thumbnail hentry" data-elementor-post-type="elementor_library">
-      				<div className="elementor-element elementor-element-d726ecf e-flex e-con-boxed e-con e-parent" data-id="d726ecf" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\"}"}>
+      				<div className="elementor-element elementor-element-d726ecf e-flex e-con-boxed e-con e-parent" data-id="d726ecf" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\"}"}>{/* The hero's light trails, live (components/three/live), under the page's own scrim. */}<LiveBackdrop live="in-capital-hero" overlay="var(--vxn-hero-overlay)" />
       					<div className="e-con-inner">
       						<div className="elementor-element elementor-element-4e6911fc e-con-full e-flex e-con e-child" data-id="4e6911fc" data-element_type="container" data-e-type="container">
       							<div className="elementor-element elementor-element-3b31e9d e-con-full e-flex e-con e-child" data-id="3b31e9d" data-element_type="container" data-e-type="container">

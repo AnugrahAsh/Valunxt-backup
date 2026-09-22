@@ -13,6 +13,7 @@ import type { BlogCard } from '@/lib/blog/types';
 import type { PageConfig } from '@/lib/page-config';
 import { LogoXClipDefs } from '@/components/brand/LogoX';
 import HomeIndustriesRow from '@/components/sections/HomeIndustriesRow';
+import LiveBackdrop from '@/components/three/live/LiveBackdrop';
 import UaeReadyBand from '@/components/sections/UaeReadyBand';
 import UaeSubscribeBand from '@/components/sections/UaeSubscribeBand';
 
@@ -286,6 +287,9 @@ export default function HomeInBody({
       		object-fit: cover;
       		border-radius: 10px;
       	}
+      	/* The CTA band's abstract is live (components/three/live) and carries
+      	   its own scrim, so the captured overlay stays off. */
+      	.elementor-17 .elementor-element.elementor-element-611b40a::before { display: none !important; }
       ` }} />
       <div id="main-content">
 
@@ -668,7 +672,7 @@ export default function HomeInBody({
       								</div>
       							</div>
       						</div>
-      						<div className="elementor-element elementor-element-611b40a e-flex e-con-boxed e-con e-parent" data-id="611b40a" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\"}"}>
+      						<div className="elementor-element elementor-element-611b40a e-flex e-con-boxed e-con e-parent" data-id="611b40a" data-element_type="container" data-e-type="container" data-settings={"{\"background_background\":\"classic\"}"}><LiveBackdrop live="home-in-cta" overlay="linear-gradient(160deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 80%)" />
       							<div className="e-con-inner">
       								<div className="elementor-element elementor-element-6db8f15 e-con-full e-flex e-con e-child" data-id="6db8f15" data-element_type="container" data-e-type="container">
       									<div className="elementor-element elementor-element-636c472 elementor-invisible animated-fast elementor-widget elementor-widget-heading" data-id="636c472" data-element_type="widget" data-e-type="widget" data-settings={"{\"_animation\":\"slideInUp\"}"} data-widget_type="heading.default">

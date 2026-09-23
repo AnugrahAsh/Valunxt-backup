@@ -120,7 +120,7 @@ export default function LandingBody({ locale, posts }: { locale: Locale; posts: 
         <Ticker />
         <Listings />
         <WhyDubai />
-        <Areas />
+        <Areas locale={locale} />
         <Lifestyle />
         <Calculators />
         <Process cta={{ label: 'How we buy', href: url(locale, '/buy-property/') }} />

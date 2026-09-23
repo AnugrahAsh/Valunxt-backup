@@ -72,7 +72,7 @@ function config({
   return {
     title,
     desc,
-    og_image: '/assets/content/uploads/2025/03/valunxt-og.png',
+    og_image: '/assets/content/uploads/logo/valunxt-og.png',
     body: bodyClass(id),
     post_css: [...POST_CSS, ...extraCss],
     site_css: siteCss,

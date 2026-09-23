@@ -46,6 +46,7 @@ import {
   vxnRegionExists,
   vxnRegionList,
 } from '@/lib/region';
+import { AREA_SLUGS, BUILDING_SLUGS } from '../data/locations';
 import type { Locale } from './types';
 
 /** Mount point, relative to the region segment. Change here to relocate. */
@@ -140,9 +141,12 @@ export type ServiceSlug = (typeof SERVICE_SLUGS)[number];
  *
  * The root layout asks, because these pages render their own chrome and must
  * not be served the site's Elementor stylesheet cascade — see src/app/layout.tsx.
- * It answers for the pillar page and the eight published service pages only:
- * an unknown slug under /real-estate/ is a 404, and a 404 renders the site's own
- * NotFoundBody, which needs that cascade.
+ * It answers for the pillar page, the eight published service pages and the
+ * Dubai location pages: an unknown slug under /real-estate/ is a 404, and a
+ * 404 renders the site's own NotFoundBody, which needs that cascade.
+ *
+ * The location slugs are read from the registry rather than restated, so
+ * publishing a new area guide or building is still a data edit alone.
  */
 export function realEstateRequest(path: string): { region: Locale; slug: string | null } | null {
   const parts = String(path ?? '')
@@ -157,6 +161,16 @@ export function realEstateRequest(path: string): { region: Locale; slug: string 
   if (parts.length === 2) return { region: parts[0], slug: null };
   if (parts.length === 3 && (SERVICE_SLUGS as readonly string[]).includes(parts[2])) {
     return { region: parts[0], slug: parts[2] };
+  }
+
+  /* /real-estate/dubai/area-guides/ and /real-estate/dubai/buildings/, with or
+     without a location slug. */
+  if (parts[2] === 'dubai' && (parts[3] === 'area-guides' || parts[3] === 'buildings')) {
+    if (parts.length === 4) return { region: parts[0], slug: parts[3] };
+    if (parts.length === 5) {
+      const set = parts[3] === 'buildings' ? BUILDING_SLUGS : AREA_SLUGS;
+      if (set.includes(parts[4]!)) return { region: parts[0], slug: parts[4]! };
+    }
   }
   return null;
 }

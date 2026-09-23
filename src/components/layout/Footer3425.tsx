@@ -132,8 +132,12 @@ export default function Footer3425({ region }: { region: string }) {
                         <div className="elementor-icon-wrapper">
                           <div className="elementor-icon">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
+                            {/* The brand's own x. It was LOGO/icon-white.jpg,
+                                the gold "X CAPITAL" mark of the previous
+                                identity; removed with the rest of that set
+                                (20260923). */}
                             <img
-                              src={`${BASE}/LOGO/icon-white.jpg`}
+                              src={`${BASE}/assets/content/uploads/logo/favicon.svg`}
                               alt="Valunxt"
                               className="vamtam-logo-sign-img"
                             />{' '}

@@ -82,6 +82,15 @@ export const NAV: NavGroup[] = [
       { label: 'Valuations & Advisory', href: '/valuations-advisory/', note: 'RICS and RERA-aligned independent valuation' },
     ],
   },
+  {
+    /* The location pages (data/locations). The two directories rather than
+       thirty-eight entries: the directories carry the full list. */
+    label: 'Locations',
+    children: [
+      { label: 'Dubai Area Guides', href: '/dubai/area-guides/', note: 'Every community we work in, district by district' },
+      { label: 'Dubai Buildings', href: '/dubai/buildings/', note: 'Building-level guidance, address by address' },
+    ],
+  },
   { label: 'Our Process', href: '/#process' },
   { label: 'Contact', href: '/#enquire' },
 ];
@@ -106,10 +115,11 @@ export const FOOTER_COLUMNS: { title: string; links: Link[] }[] = [
     ],
   },
   {
-    title: 'The Group',
+    title: 'Locations',
     links: [
+      { label: 'Dubai Area Guides', href: '/dubai/area-guides/' },
+      { label: 'Dubai Buildings', href: '/dubai/buildings/' },
       { label: 'Why Dubai', href: '/#why-dubai' },
-      { label: 'Dubai Areas', href: '/#areas' },
       { label: 'Our Process', href: '/#process' },
       { label: 'Market Insights', href: '/#insights' },
     ],

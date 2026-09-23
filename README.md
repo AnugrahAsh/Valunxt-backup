@@ -1,6 +1,6 @@
-# VALUNXT Capital
+# Valunxt
 
-The VALUNXT Capital website and admin panel, on Next.js 16 (App Router) and
+The Valunxt website and admin panel, on Next.js 16 (App Router) and
 TypeScript.
 
 This is a direct port of the PHP build that preceded it. **The rendered page is

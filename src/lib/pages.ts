@@ -117,7 +117,7 @@ export function blogArticleConfig(slug: string, over: Partial<PageConfig> = {}):
   const id = blogPostId(slug);
   return {
     title: 'Valunxt',
-    og_image: '/assets/content/uploads/2025/03/valunxt-og.png',
+    og_image: '/assets/content/uploads/logo/valunxt-og.png',
     body:
       `wp-singular post-template-default single single-post postid-${id} single-format-standard ` +
       'wp-custom-logo wp-embed-responsive wp-theme-execor full header-layout-logo-menu has-page-header ' +

@@ -12,6 +12,8 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { AREAS, AREAS_HEAD } from '../../data/landing';
+import { url } from '../../lib/routes';
+import type { Locale } from '../../lib/types';
 import { useSearch } from './LandingBody';
 import { IcArrow, SectionHead } from './shared';
 
@@ -20,7 +22,7 @@ const AreasMap = dynamic(() => import('./AreasMap'), {
   loading: () => <div className="re-l-map re-l-map--loading" aria-hidden="true" />,
 });
 
-export default function Areas() {
+export default function Areas({ locale }: { locale: Locale }) {
   const [active, setActive] = useState<string>(AREAS[0]!.key);
   const [hover, setHover] = useState<string | null>(null);
   const { set, goToResults } = useSearch();
@@ -105,6 +107,20 @@ export default function Areas() {
             </AnimatePresence>
           </div>
         </div>
+
+        {/* The ten above are the headline communities. The directory carries
+            every district and building the desk publishes a guide for
+            (data/locations). */}
+        <p className="re-l-areas__more" data-rv="up">
+          <a className="re-l-link" href={url(locale, '/dubai/area-guides/')}>
+            Read the full Dubai area guides
+            <IcArrow />
+          </a>
+          <a className="re-l-link" href={url(locale, '/dubai/buildings/')}>
+            Browse buildings
+            <IcArrow />
+          </a>
+        </p>
 
         <p className="re-l-note">{AREAS_HEAD.note}</p>
       </div>

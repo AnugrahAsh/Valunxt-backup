@@ -1,8 +1,8 @@
 {
-  "name": "valunxt-capital",
+  "name": "valunxt",
   "version": "1.0.0",
   "private": true,
-  "description": "VALUNXT Capital — Next.js + TypeScript edition (migrated from PHP).",
+  "description": "Valunxt \u2014 Next.js + TypeScript edition (migrated from PHP).",
   "scripts": {
     "predev": "node scripts/fix-prerender-manifest.mjs && node scripts/build-public-manifest.mjs",
     "dev": "node scripts/dev.mjs",

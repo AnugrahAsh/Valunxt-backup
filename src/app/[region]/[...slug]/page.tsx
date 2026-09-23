@@ -29,7 +29,7 @@ function configFor(row: PageRow): PageConfig {
   return {
     title: row.meta_title || `${row.title} | Valunxt`,
     desc: String(row.meta_description ?? ''),
-    og_image: '/assets/content/uploads/2025/03/valunxt-og.png',
+    og_image: '/assets/content/uploads/logo/valunxt-og.png',
     body:
       `wp-singular page-template-default page page-id-${postId} wp-custom-logo wp-embed-responsive ` +
       'wp-theme-execor full header-layout-logo-menu has-page-header no-middle-header responsive-layout ' +

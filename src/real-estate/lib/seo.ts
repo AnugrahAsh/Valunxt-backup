@@ -96,6 +96,51 @@ export function pillarMetadata(region: Locale): Promise<Metadata> {
   });
 }
 
+/**
+ * A Dubai location page — an area guide or a building.
+ *
+ * The title carries the location and the city, because that is what the
+ * query looks like; the description is the record's own. The image is the
+ * location's hero photograph, so a shared link shows the place rather than
+ * the group's generic card.
+ */
+export async function locationMetadata(
+  region: Locale,
+  kind: 'area' | 'building',
+  slug: string,
+): Promise<Metadata> {
+  const { locationBySlug, locationPath } = await import('../data/locations');
+  const loc = locationBySlug(kind, slug);
+  if (!loc) return {};
+
+  return build({
+    region,
+    path: locationPath(loc),
+    title:
+      kind === 'building'
+        ? `${loc.name}, ${loc.sector} — Prices, Rents & Guide | Valunxt`
+        : `${loc.name} Area Guide — Prices, Rents & Living | Valunxt`,
+    description: loc.seoDesc,
+    image: loc.image,
+  });
+}
+
+/** One of the two directories. */
+export function locationIndexMetadata(region: Locale, kind: 'area' | 'building'): Promise<Metadata> {
+  const area = kind === 'area';
+  return build({
+    region,
+    path: area ? '/dubai/area-guides/' : '/dubai/buildings/',
+    title: area
+      ? 'Dubai Area Guides — Communities, Prices & Rents | Valunxt'
+      : 'Dubai Buildings — Addresses, Prices & Rents | Valunxt',
+    description: area
+      ? 'Independent guides to the Dubai communities we work in: what each district is like, indicative prices and rents, connectivity, schools and what to check before you commit.'
+      : 'Building-level guidance across Dubai: the address, what is around it, indicative prices and rents, and the tenure and service-charge checks that come before an offer.',
+    image: area ? '/real-estate/listings/downtown-skyline.webp' : '/real-estate/listings/tower-glass.webp',
+  });
+}
+
 export async function serviceMetadata(region: Locale, slug: string): Promise<Metadata> {
   const page = SERVICE_PAGES[slug];
   /* An unknown slug 404s in the route; metadata just declines to guess. */
